@@ -39,8 +39,8 @@
     },
     "integrations": {
       "g4h": {
-        "authMode": "legacy",
-        "origin": "https://app.guestyforhosts.com",
+        "authMode": "okta",
+        "origin": "https://app.guesty.com",
         "appVersion": "6.x",
         "platform": "browser--win32",
         "deviceUuid": "ypa-uuid-lambda"

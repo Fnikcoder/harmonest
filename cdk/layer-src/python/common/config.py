@@ -28,7 +28,7 @@ class ClientConfig:
                 "primary": os.getenv("CLIENT_DOMAIN_PRIMARY", "harmonest.de"),
             },
             "email": {
-                "noreply": os.getenv("CLIENT_EMAIL_NOREPLY", "noreply@example.com"),
+                "noreply": os.getenv("CLIENT_EMAIL_NOREPLY", "noreply@harmonest.de"),
                 "support": os.getenv("CLIENT_EMAIL_SUPPORT", "support@harmonest.de"),
                 "fromName": os.getenv("CLIENT_EMAIL_FROM_NAME", "noreply@harmonest.de"),
             },

@@ -7,7 +7,7 @@ pydantic==2.10.4
 
 # Authentication and security
 PyJWT==2.8.0
-cryptography==41.0.7
+cryptography==43.0.3
 
 # QR code generation (using basic qrcode without PIL to avoid platform issues)
 qrcode==7.4.2

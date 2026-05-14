@@ -21,4 +21,7 @@ if (-not $SkipConfirmation) {
     }
 }
 
+Write-Host "Use Docker Desktop (or Linux) for this deploy so the Lambda layer is built with Linux wheels (cryptography / pydantic). Do not use deploy-all.ps1 -SkipLayerDocker for production." -ForegroundColor Yellow
+Write-Host ""
+
 & "$PSScriptRoot\deploy-all.ps1" -Env prod -Client $Client

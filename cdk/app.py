@@ -116,7 +116,12 @@ access_notification = AccessNotificationStack(
     config=config,
 )
 
-public_listings = PublicListingsStack(app, f"HarmonestPublicListings-{env_name}", env=env, env_name=env_name)
+public_listings = PublicListingsStack(
+    app,
+    helper.get_stack_name(client_name, env_name, "PublicListings"),
+    env=env,
+    config=config,
+)
 user_management = UserManagementStack(app, f"HarmonestUserManagement-{env_name}", env=env, env_name=env_name)
 
 email_verification = EmailVerificationStack(

@@ -3,7 +3,9 @@
 param(
     [ValidateSet("dev", "staging", "prod")]
     [string]$Env = "dev",
-    [string]$Client = "harmonest"
+    [string]$Client = "harmonest",
+    # Use only for local synth without Docker; do NOT use for real deploys (layer wheels must be Linux).
+    [switch]$SkipLayerDocker
 )
 
 $ErrorActionPreference = "Stop"
@@ -17,8 +19,16 @@ if (-not (Test-Path .venv)) {
 $env:Path = "$PWD\.venv\Scripts;" + $env:Path
 
 Write-Host "Deploying client=$Client env=$Env (ensure AWS credentials / profile are set)" -ForegroundColor Cyan
+if ($SkipLayerDocker) {
+    Write-Host "WARNING: skipLayerDocker=true - layer zip may be wrong for Lambda. Use Docker for prod/CI." -ForegroundColor Yellow
+}
 
-npx --yes aws-cdk@2.147.0 deploy --all `
-    --context client=$Client `
-    --context env=$Env `
-    --require-approval never
+$ctxArgs = @(
+    "--context", "client=$Client",
+    "--context", "env=$Env"
+)
+if ($SkipLayerDocker) {
+    $ctxArgs += @("--context", "skipLayerDocker=true")
+}
+
+npx --yes aws-cdk@2.147.0 deploy --all @ctxArgs --require-approval never
