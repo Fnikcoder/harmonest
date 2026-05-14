@@ -1,9 +1,10 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/aws_config.json"
+
 # Ask for environment
 read -p "Deploy to [prod/dev]? " ENV
-
-CONFIG_FILE="$(dirname "$0")/aws_config.json"
 
 # Extract AWS profile from config
 AWS_PROFILE=$(awk '
@@ -66,10 +67,33 @@ fi
 
 echo "Using BUCKET_NAME=$BUCKET_NAME, REGION=$REGION and CONFIG=$CONFIG"
 
-BUILD_DIR="dist/$(ls dist | head -n 1)/browser"
+# Run build from frontend/ so node_modules and angular.json resolve (matches outputPath in angular.json)
+FRONTEND_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$FRONTEND_ROOT" || {
+  echo "❌ Could not cd to $FRONTEND_ROOT"
+  exit 1
+}
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "❌ Node.js is not installed or not in PATH."
+  exit 1
+fi
+
+if [ ! -d node_modules ]; then
+  echo "❌ node_modules not found. From PowerShell: cd frontend; npm ci"
+  exit 1
+fi
+
+# outputPath is dist/app → application builder emits browser bundle under dist/app/browser
+BUILD_DIR="$FRONTEND_ROOT/dist/app/browser"
 
 echo "🚧 Building Angular app for $ENV..."
-ng build --configuration "$CONFIG"
+npx ng build --configuration "$CONFIG"
+
+if [ ! -d "$BUILD_DIR" ]; then
+  echo "❌ Build output not found at $BUILD_DIR (check angular.json outputPath)."
+  exit 1
+fi
 
 echo "📦 Creating S3 bucket ($BUCKET_NAME) if it doesn't exist..."
 aws s3api create-bucket \
@@ -105,7 +129,6 @@ else
 fi
 
 # Read CloudFront distribution ID from aws_config.json based on environment
-CONFIG_FILE="$(dirname "$0")/aws_config.json"
 DISTRIBUTION_ID=$(awk -v env="$ENV" '
   BEGIN {in_env=0}
   {
@@ -113,6 +136,21 @@ DISTRIBUTION_ID=$(awk -v env="$ENV" '
     else if ($0 ~ "}") in_env=0
     if (in_env && /cloudfront_distribution_id/) {
       match($0, /"cloudfront_distribution_id"[[:space:]]*:[[:space:]]*"([^"]+)"/, arr)
+      if (arr[1]) {
+        print arr[1]
+        exit
+      }
+    }
+  }
+' "$CONFIG_FILE")
+
+DOMAIN_NAME=$(awk -v env="$ENV" '
+  BEGIN {in_env=0}
+  {
+    if ($0 ~ "\""env"\"[[:space:]]*:[[:space:]]*{") in_env=1
+    else if ($0 ~ "}") in_env=0
+    if (in_env && /domain/) {
+      match($0, /"domain"[[:space:]]*:[[:space:]]*"([^"]+)"/, arr)
       if (arr[1]) {
         print arr[1]
         exit
@@ -134,6 +172,10 @@ echo "✅ Deployment complete!"
 echo "🌍 Visit for checking S3 bucket: http://$BUCKET_NAME.s3-website-$REGION.amazonaws.com"
 
 # If you have a custom domain for CloudFront in your config:
-echo "🌍 Visit your CloudFront distribution: https://$DOMAIN_NAME"
+if [ -n "$DOMAIN_NAME" ]; then
+  echo "🌍 Visit your CloudFront distribution: https://$DOMAIN_NAME"
+else
+  echo "🌍 Visit your CloudFront distribution (set domain in aws_config.json for a direct link)."
+fi
 echo "If cloudFront is not created please create it with running create_CloudFront.sh"
 

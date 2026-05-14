@@ -1,162 +1,198 @@
-from typing import Dict, Any, List
-from decimal import Decimal
+from typing import Dict, Any, List, Optional
+import os
+import urllib.parse
+
 from common.g4h import get_client, refresh_on_auth_error
-from common.ddb import put_if_changed, now_ms, get, put
+from common.ddb import put_if_changed, now_ms, get
 from common.models import create_reservation_from_g4h, convert_to_decimal
+from common.guesty_adapters import (
+    use_guesty_app_api,
+    app_json_headers,
+    reservations_report_row_to_legacy_flat,
+    merge_legacy_raw_for_update,
+    G4H_APP_BASE,
+)
 
 BASE = "https://api.guestyforhosts.com"
 URL = f"{BASE}/reservations/recent"
 
+_DEFAULT_RES_COLUMNS = (
+    "checkIn+checkOut+confirmationCode+listing+guest+status+source+"
+    "guest.email+guestsCount+money.hostPayout+money.totalPaid"
+)
+_DEFAULT_RES_FILTERS = '{"localTime.checkOutWithPlannedDeparture":{"@in_future":true},"status":{"@in":["confirmed"]}}'
 
 
-"""
-response example of each request:
+def _fetch_legacy(session, user_id, page) -> Dict[str, Any]:
+    def _call():
+        return session.post(URL, json={"userId": user_id, "page": page}, timeout=45)
 
-"""
-
-
-def _fetch(session, user_id, page) -> Dict[str, Any]:
-    def _call(): return session.post(URL, json={"userId": user_id, "page": page}, timeout=45)
-    r = refresh_on_auth_error(_call); r.raise_for_status()
+    r = refresh_on_auth_error(_call)
+    r.raise_for_status()
     js = r.json()
-    if not js.get("success"): raise RuntimeError(f"Reservations API failure: {js}")
+    if not js.get("success"):
+        raise RuntimeError(f"Reservations API failure: {js}")
     return js
 
 
-def _project_reservation(raw: Dict[str, Any]) -> Dict[str, Any]:
-    """Project reservation data into comprehensive format using helper function"""
+def _fetch_app_reservations_page(session, skip: int, limit: int) -> Dict[str, Any]:
+    columns = os.getenv("G4H_RES_REPORTS_COLUMNS", _DEFAULT_RES_COLUMNS)
+    filters = os.getenv("G4H_RES_REPORTS_FILTERS", _DEFAULT_RES_FILTERS)
+    tz = os.getenv("G4H_RES_REPORTS_TIMEZONE", "Europe/Berlin")
+    params = {
+        "smartView": "true",
+        "columns": columns,
+        "filters": filters,
+        "skip": str(skip),
+        "limit": str(limit),
+        "sort": "checkIn",
+        "lang": "en-US",
+        "timezone": tz,
+    }
+    url = f"{G4H_APP_BASE}/api/reservations-reports?{urllib.parse.urlencode(params)}"
 
-    # Get reservation ID to check for existing reservation
+    def _call():
+        h = {**dict(session.headers), **app_json_headers()}
+        return session.get(url, headers=h, timeout=60)
+
+    r = refresh_on_auth_error(_call)
+    r.raise_for_status()
+    return r.json()
+
+
+def _project_reservation(
+    raw: Dict[str, Any],
+    app_source_row: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
     reservation_id = raw.get("reservationId")
     existing_custom_fields = None
     existing_last_custom_update = None
+    existing_reservation = None
     if reservation_id:
         existing_reservation = get(f"RESERVATION#{reservation_id}", "META")
         if existing_reservation:
-            # CRITICAL: Preserve existing customFields - never update from G4H
             existing_custom_fields = existing_reservation.get("customFields", {})
             existing_last_custom_update = existing_reservation.get("lastCustomUpdate")
 
-    # Create reservation using helper function
-    reservation = create_reservation_from_g4h(raw, existing_custom_fields)
+    merged_raw = merge_legacy_raw_for_update(
+        existing_reservation.get("rawData") if existing_reservation else None,
+        raw,
+    )
 
-    # Set the lastCustomUpdate from existing data
+    reservation = create_reservation_from_g4h(merged_raw, existing_custom_fields)
+
     if existing_last_custom_update:
         reservation["lastCustomUpdate"] = existing_last_custom_update
 
+    if app_source_row is not None:
+        reservation["rawDataGuestyApp"] = app_source_row
+
     return reservation
 
-def _update_reservation_preserving_door_access(reservation_id: str, new_reservation: Dict[str, Any], hash_fields: List[str]) -> bool:
-    """Update reservation while preserving door access data using dictionary"""
 
-    # Use put_if_changed with the dictionary - convert to DynamoDB format
+def _update_reservation_preserving_door_access(
+    reservation_id: str, new_reservation: Dict[str, Any], hash_fields: List[str]
+) -> bool:
     changed = put_if_changed(
         pk=f"RESERVATION#{reservation_id}",
         sk="META",
         body=convert_to_decimal(new_reservation),
-        hash_fields=hash_fields
+        hash_fields=hash_fields,
     )
-
     return changed
 
 
 def handler(event, context):
     s, user_id = get_client()
-    all_rows = []
+    all_rows: List[Dict[str, Any]] = []
+    app_rows: List[Dict[str, Any]] = []
     page = 0
     last_response = None
-    seven_days_ago_ms = (now_ms() - (7 * 24 * 60 * 60 * 1000))  # 7 days ago in milliseconds
+    seven_days_ago_ms = now_ms() - (7 * 24 * 60 * 60 * 1000)
 
-    while True:
-        js = _fetch(s, user_id, page)
-        if not js:
-            print(f"page {page}: No response from API, stopping")
-            break
-        last_response = js  # Keep track of the last successful response
+    if use_guesty_app_api():
+        skip = 0
+        limit = int(os.getenv("G4H_RES_REPORTS_LIMIT", "50"))
+        total = None
+        while True:
+            js = _fetch_app_reservations_page(s, skip, limit)
+            last_response = js
+            batch = js.get("data") or []
+            if not batch:
+                break
+            for row in batch:
+                flat = reservations_report_row_to_legacy_flat(row)
+                all_rows.append(flat)
+                app_rows.append(row)
+            total = int(js.get("total") or len(all_rows))
+            skip += len(batch)
+            if skip >= total or skip > 10000:
+                break
+        page = skip // max(limit, 1)
+    else:
+        while True:
+            js = _fetch_legacy(s, user_id, page)
+            if not js:
+                break
+            last_response = js
 
-        print(f"page {page}: API response keys: {list(js.keys())}")
-        print(f"page {page}: success = {js.get('success')}")
+            reservations = js.get("reservationList", [])
+            if not reservations:
+                break
 
-        reservations = js.get("reservationList", [])
-        if not reservations:  # No more reservations
-            print(f"page {page}: No reservations in response (reservationList is empty), stopping")
-            break
+            oldest_update = None
+            for reservation in reservations:
+                last_update = reservation.get("lastUpdateDate")
+                if last_update and (oldest_update is None or last_update < oldest_update):
+                    oldest_update = last_update
 
-        # Check if we've reached reservations that haven't been modified recently
-        # The /reservations/recent endpoint returns reservations sorted by lastUpdateDate (most recent first)
-        # So we should stop when we reach reservations with old lastUpdateDate, not old checkInDate
-        oldest_update = None
-        for reservation in reservations:
-            last_update = reservation.get("lastUpdateDate")
-            if last_update and (oldest_update is None or last_update < oldest_update):
-                oldest_update = last_update
+            all_rows.extend(reservations)
 
-        all_rows.extend(reservations)
-        print(f"page {page}: +{len(reservations)} reservations (total {len(all_rows)})")
+            if oldest_update and oldest_update < seven_days_ago_ms:
+                break
 
-        # Stop if the oldest lastUpdateDate in this page is older than 7 days
-        # This means we've reached reservations that haven't been modified in the last 7 days
-        if oldest_update and oldest_update < seven_days_ago_ms:
-            print(f"page {page}: Reached reservations not modified in last 7 days (oldest update: {oldest_update}), stopping")
-            break
+            page += 1
+            if page >= 20:
+                break
 
-        page += 1
-        # Safety limit to prevent infinite loops
-        if page >= 20:
-            print(f"page {page}: Reached safety limit of 20 pages, stopping")
-            break
-        # time.sleep(sleep_s)  # be polite
-
-    # Store API response metadata
     api_metadata = {
         "type": "api_response",
-        "success": last_response.get("success") if last_response else False,
+        "apiTier": "guesty_app" if use_guesty_app_api() else "legacy",
+        "success": last_response.get("success") if last_response and not use_guesty_app_api() else True,
         "errorCode": last_response.get("errorCode") if last_response else -1,
         "errorMessage": last_response.get("errorMessage") if last_response else "",
         "message": last_response.get("message") if last_response else "",
         "totalReservations": len(all_rows),
         "pagesProcessed": page,
         "sourceUpdatedAt": now_ms(),
-        "updatedAt": now_ms()
+        "updatedAt": now_ms(),
     }
 
     put_if_changed(
-        pk="API_RESPONSE#SYNC_RESERVATION", sk="METADATA", body=api_metadata,
-        hash_fields=["success", "totalReservations", "pagesProcessed"]
+        pk="API_RESPONSE#SYNC_RESERVATION",
+        sk="METADATA",
+        body=api_metadata,
+        hash_fields=["success", "totalReservations", "pagesProcessed"],
     )
 
-    # Store individual reservations
     reservations_written = 0
-    print(f"Processing {len(all_rows)} total reservations for storage...")
+    hash_fields = ["rawDataHash"]
 
     for i, raw in enumerate(all_rows):
-        reservation_model = _project_reservation(raw)
+        app_row = app_rows[i] if use_guesty_app_api() and i < len(app_rows) else None
+        reservation_model = _project_reservation(raw, app_source_row=app_row)
         rid = reservation_model["reservationId"]
         if not rid:
-            print(f"Reservation {i}: Skipping - no reservationId")
             continue
 
-        print(f"Reservation {i}: Processing {rid}")
-
-        # Use key fields that would indicate a reservation has changed
-        # NOTE: Removed lastUpdateDate because Guesty API sometimes returns stale values
-        # even when status/isDeleted changes. Using rawDataHash instead for comprehensive change detection.
-        hash_fields = ["rawDataHash"]
-
-        # Check if reservation needs updating and preserve door access data
         changed = _update_reservation_preserving_door_access(rid, reservation_model, hash_fields)
         if changed:
             reservations_written += 1
-            print(f"Reservation {i}: Written to DB (new/changed)")
-        else:
-            print(f"Reservation {i}: Skipped (no changes)")
 
-    result = {
+    return {
         "success": True,
+        "apiTier": "guesty_app" if use_guesty_app_api() else "legacy",
         "totalReservations": len(all_rows),
         "reservationsWritten": reservations_written,
-        "pagesProcessed": page
+        "pagesProcessed": page,
     }
-
-    print(f"Final result: {result}")
-    return result

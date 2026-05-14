@@ -239,9 +239,9 @@ interface DoorAccessInfo {
 export class AccessDoorsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-  // URL Parameters
+  // URL Parameters (name hint: substring of booking guest full name; legacy param guestFirstName)
   reservationCode: string | null = null;
-  guestFirstName: string | null = null;
+  guestNameHint: string | null = null;
   qrCode: string | null = null;
 
   // Data
@@ -276,20 +276,42 @@ export class AccessDoorsComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
+  private normalizeGuestNamePart(s: string | null | undefined): string {
+    return (s || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  }
+
+  private bookingGuestHaystack(first?: string | null, last?: string | null): string {
+    return this.normalizeGuestNamePart(`${first || ''} ${last || ''}`.trim());
+  }
+
+  private guestUrlHintMatchesReservation(r: ReservationData, hint: string | null): boolean {
+    const needle = this.normalizeGuestNamePart(hint);
+    if (needle.length < 2) {
+      return false;
+    }
+    const fromBooking = this.bookingGuestHaystack(r.guestName, r.guestSurname);
+    if (fromBooking.length > 0 && fromBooking.includes(needle)) {
+      return true;
+    }
+    const c = r.customFields?.checkin;
+    const fromCheckin = this.bookingGuestHaystack(c?.mainGuestFirstname, c?.mainGuestLastname);
+    return fromCheckin.length > 0 && fromCheckin.includes(needle);
+  }
+
   private extractUrlParameters(): void {
     this.route.queryParams.subscribe(params => {
       this.reservationCode = params['reservationCode'];
-      this.guestFirstName = params['guestFirstName'];
+      this.guestNameHint = params['guestName'] || params['guestFirstName'] || null;
       this.qrCode = params['qrCode'];
 
-      if (!this.reservationCode || !this.guestFirstName) {
+      if (!this.reservationCode || !this.guestNameHint) {
         this.error = 'Missing required parameters. Please use the link provided in your email.';
       }
     });
   }
 
   private loadReservationData(): void {
-    if (!this.reservationCode || !this.guestFirstName) return;
+    if (!this.reservationCode || !this.guestNameHint) return;
 
     this.loading = true;
     this.error = null;
@@ -300,8 +322,7 @@ export class AccessDoorsComponent implements OnInit, OnDestroy {
         next: (reservations) => {
           const foundReservation = reservations.find(r =>
             r.reservationCode === this.reservationCode &&
-            (r.guestName.toLowerCase() === this.guestFirstName?.toLowerCase() ||
-             r.customFields?.checkin?.mainGuestFirstname?.toLowerCase() === this.guestFirstName?.toLowerCase())
+            this.guestUrlHintMatchesReservation(r, this.guestNameHint)
           );
 
           if (foundReservation) {
@@ -405,7 +426,7 @@ export class AccessDoorsComponent implements OnInit, OnDestroy {
     const timestamp = Date.now();
     const data = {
       reservationCode: this.reservation?.reservationCode,
-      guestName: this.guestFirstName,
+      guestName: this.guestNameHint,
       timestamp: timestamp,
       type: 'door_access'
     };

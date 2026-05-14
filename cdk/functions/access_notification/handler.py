@@ -10,9 +10,17 @@ Complete door access notification system following the 6-step task flow:
 """
 import json
 import os
+import urllib.parse
 from typing import Dict, Any, Optional, List
 from common.ddb import get, put, now_ms
 from common.g4h import get_client, refresh_on_auth_error
+from common.guesty_adapters import (
+    use_guesty_app_api,
+    normalize_fegw_detail_response,
+    G4H_APP_BASE,
+    app_json_headers,
+    merge_legacy_raw_for_update,
+)
 from common.config import get_client_config
 from common.models import convert_to_decimal, get_booking_source_display_name, create_reservation_from_g4h
 from door_access_manager import generate_qr_code, generate_pin_code
@@ -110,12 +118,24 @@ def _create_response(status_code: int, success: bool, message: str, data: Option
 
 
 def _fetch_latest_reservation_status(session, user_id: str, reservation_id: str) -> Dict[str, Any]:
-    """Fetch latest reservation status from Guesty API"""
+    """Fetch latest reservation status from Guesty (legacy POST or app GET fegw)."""
+    if use_guesty_app_api():
+        rid = urllib.parse.quote(reservation_id, safe="")
+        url = f"{G4H_APP_BASE}/api/reservations-fegw/reservations/{rid}?newResponse=true"
+
+        def _call():
+            h = {**dict(session.headers), **app_json_headers()}
+            return session.get(url, headers=h, timeout=45)
+
+        r = refresh_on_auth_error(_call)
+        r.raise_for_status()
+        return normalize_fegw_detail_response(r.json())
+
     payload = {
         "guestyId": False,
         "reservationId": reservation_id,
         "userId": user_id,
-        "version": 3
+        "version": 3,
     }
 
     def _call():
@@ -144,47 +164,53 @@ def _step1_sync_reservation_from_guesty(reservation_id: str) -> Dict[str, Any]:
         # Fetch latest data from Guesty
         latest_data = _fetch_latest_reservation_status(session, user_id, reservation_id)
         reservation_detail = latest_data.get("reservation", {}).get("reservation", {})
+        app_raw = latest_data.get("_guestyApp")
         status = reservation_detail.get("status")
         is_deleted = reservation_detail.get("isDeleted", 0)
 
-        # Get existing reservation from our DB
         existing_reservation = get(f"RESERVATION#{reservation_id}", "META")
         if not existing_reservation:
             return {
                 "success": False,
                 "response": _create_response(
-                    404, False,
+                    404,
+                    False,
                     f"Reservation not found in local database: {reservation_id}",
-                    error_code=ERROR_RESERVATION_NOT_FOUND
-                )
+                    error_code=ERROR_RESERVATION_NOT_FOUND,
+                ),
             }
 
-        # CRITICAL: Preserve existing customFields - never update from G4H
         existing_custom_fields = existing_reservation.get("customFields", {})
 
-        # Use centralized model to safely update reservation while preserving customFields
-        updated_reservation = create_reservation_from_g4h(reservation_detail, existing_custom_fields)
+        merged = merge_legacy_raw_for_update(
+            existing_reservation.get("rawData"),
+            reservation_detail,
+        )
+        updated_reservation = create_reservation_from_g4h(merged, existing_custom_fields)
 
-        # Preserve additional metadata from existing reservation
+        if app_raw is not None:
+            updated_reservation["rawDataGuestyApp"] = app_raw
+
         updated_reservation["lastCustomUpdate"] = existing_reservation.get("lastCustomUpdate")
         updated_reservation["guestyStatus"] = status
         updated_reservation["lastGuestySync"] = now_ms()
 
-        # ALWAYS update the reservation in DB to keep status in sync
         put(convert_to_decimal(updated_reservation))
 
-        print(f"Reservation {reservation_id} synced from Guesty (status: {status}, isDeleted: {is_deleted}) - customFields preserved")
+        print(
+            f"Reservation {reservation_id} synced from Guesty (status: {status}, isDeleted: {is_deleted}) - customFields preserved"
+        )
 
-        # Check if reservation is canceled/deleted AFTER updating DB
-        if status == 0 or is_deleted == 1:  # Canceled or deleted
+        if status == 0 or is_deleted == 1:
             return {
                 "success": False,
-                "reservation": updated_reservation,  # Return the updated reservation
+                "reservation": updated_reservation,
                 "response": _create_response(
-                    400, False,
+                    400,
+                    False,
                     "Cannot generate door access: reservation has been canceled in Guesty",
-                    error_code=ERROR_RESERVATION_CANCELED
-                )
+                    error_code=ERROR_RESERVATION_CANCELED,
+                ),
             }
 
         return {"success": True, "reservation": updated_reservation}

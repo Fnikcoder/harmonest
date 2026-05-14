@@ -39,6 +39,7 @@
     },
     "integrations": {
       "g4h": {
+        "authMode": "legacy",
         "origin": "https://app.guestyforhosts.com",
         "appVersion": "6.x",
         "platform": "browser--win32",

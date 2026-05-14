@@ -113,7 +113,7 @@ access_notification = AccessNotificationStack(
     app,
     helper.get_stack_name(client_name, env_name, "AccessNotification"),
     env=env,
-    env_name=env_name
+    config=config,
 )
 
 public_listings = PublicListingsStack(app, f"HarmonestPublicListings-{env_name}", env=env, env_name=env_name)
@@ -150,6 +150,7 @@ checkin.add_dependency(api)
 
 access_notification.add_dependency(core)
 access_notification.add_dependency(layer)
+access_notification.add_dependency(secrets)
 
 public_listings.add_dependency(core)
 public_listings.add_dependency(layer)

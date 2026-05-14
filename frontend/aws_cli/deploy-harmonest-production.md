@@ -14,6 +14,19 @@
 
 ## Deployment Commands (Run in Order)
 
+### Step 0: Backend (CDK) — APIs, Lambdas, Guesty layer, secrets
+
+Deploy **production** stacks from the `cdk` folder (uses `config/clients/<client>/config.json` and `--context env=prod`).
+
+```powershell
+cd c:\Users\Farhad\Desktop\work\harmonest\cdk
+$env:AWS_PROFILE = "harmonestadmin"   # same profile name as in client JSON aws.profile, or your SSO profile
+.\deploy-production.ps1               # prompts: type PRODUCTION to confirm
+# Non-interactive (CI only): .\deploy-production.ps1 -SkipConfirmation
+```
+
+This runs `cdk deploy --all` for stacks such as `HarmonestLayer-Prod`, `HarmonestSecrets-Prod`, `HarmonestListings-Prod`, `HarmonestReservations-Prod`, `HarmonestCheckin-Prod`, `HarmonestAccessNotification-Prod`, and dependencies. Deploy **Layer before or with** function stacks when `layer-src` changed (single `deploy --all` respects stack dependencies).
+
 ### Step 1: Verify Current Setup
 ```powershell
 & "C:\Program Files\Git\bin\bash.exe" aws_cli/verify-production-setup.sh

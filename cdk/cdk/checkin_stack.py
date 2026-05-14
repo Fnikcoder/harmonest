@@ -9,9 +9,10 @@ from aws_cdk import (
     aws_kms as kms,
     aws_logs as logs,
     aws_iam as iam,
-    aws_iam as iam,
 )
 from constructs import Construct
+
+from config.guesty_lambda_env import guesty_lambda_env_from_client
 
 
 class CheckinStack(Stack):
@@ -298,24 +299,7 @@ class CheckinStack(Stack):
         """Generate Lambda environment variables from configuration"""
         client = config["client"]
         env_vars = {}
-
-        # G4H integration settings
-        if "integrations" in client and "g4h" in client["integrations"]:
-            g4h = client["integrations"]["g4h"]
-            env_vars.update({
-                "G4H_ORIGIN": g4h.get("origin", "https://app.guestyforhosts.com"),
-                "G4H_APP_VERSION": g4h.get("appVersion", "6.x"),
-                "G4H_PLATFORM": g4h.get("platform", "browser--win32"),
-                "G4H_DEVICE_UUID": g4h.get("deviceUuid", f"ypa-uuid-{client['name']}")
-            })
-        else:
-            # Default values if not configured
-            env_vars.update({
-                "G4H_ORIGIN": "https://app.guestyforhosts.com",
-                "G4H_APP_VERSION": "6.x",
-                "G4H_PLATFORM": "browser--win32",
-                "G4H_DEVICE_UUID": f"ypa-uuid-{client['name']}"
-            })
+        env_vars.update(guesty_lambda_env_from_client(client))
 
         # Feature flags
         features = client.get("features", {})

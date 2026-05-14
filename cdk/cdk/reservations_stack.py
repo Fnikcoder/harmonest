@@ -11,6 +11,9 @@ from aws_cdk import (
 )
 from constructs import Construct
 
+from config.guesty_lambda_env import guesty_lambda_env_from_client
+
+
 class ReservationsStack(Stack):
     def __init__(self, scope: Construct, cid: str, *, config: dict, **kw):
         super().__init__(scope, cid, **kw)
@@ -23,18 +26,21 @@ class ReservationsStack(Stack):
             self, f"/{client_name}/{env_name}/table/name"
         )
         layer_arn = ssm.StringParameter.value_for_string_parameter(
-            self, f"/harmonest/{env_name}/layers/commonArn"
+            self, f"/{client_name}/{env_name}/layers/commonArn"
         )
 
-        # --- KMS Key for Secrets ---
-        secrets_key = kms.Key.from_key_arn(
-            self, "SecretsKey",
-            key_arn="arn:aws:kms:eu-central-1:669597026882:key/fba5ed5b-43a6-40cf-9545-7828da6bfcdb"
-        )
+        kms_key_id = config["client"]["aws"].get("kmsKeyId")
+        if kms_key_id:
+            secrets_key = kms.Key.from_key_arn(
+                self, "SecretsKey",
+                key_arn=f"arn:aws:kms:{self.region}:{self.account}:key/{kms_key_id}",
+            )
+        else:
+            secrets_key = None
 
         # --- Credentials Secret ---
         creds_arn = ssm.StringParameter.value_for_string_parameter(
-            self, f"/harmonest/{env_name}/secrets/guestyforhosts/creds/arn"
+            self, f"/{client_name}/{env_name}/secrets/guestyforhosts/creds/arn"
         )
         creds_secret = secrets.Secret.from_secret_complete_arn(
             self, "G4HCreds", creds_arn
@@ -42,7 +48,7 @@ class ReservationsStack(Stack):
 
         # --- Session Secret ---
         sess_arn = ssm.StringParameter.value_for_string_parameter(
-            self, f"/harmonest/{env_name}/secrets/guestyforhosts/webSession/arn"
+            self, f"/{client_name}/{env_name}/secrets/guestyforhosts/webSession/arn"
         )
         sess_secret = secrets.Secret.from_secret_complete_arn(
             self, "G4HSess", sess_arn
@@ -84,8 +90,8 @@ class ReservationsStack(Stack):
         creds_secret.grant_read(fn)
         sess_secret.grant_read(fn)
         sess_secret.grant_write(fn)
-        # Grant comprehensive KMS permissions for secret encryption/decryption
-        secrets_key.grant(fn, "kms:Encrypt", "kms:Decrypt", "kms:ReEncrypt*", "kms:GenerateDataKey*")
+        if secrets_key:
+            secrets_key.grant(fn, "kms:Encrypt", "kms:Decrypt", "kms:ReEncrypt*", "kms:GenerateDataKey*")
 
         # --- Scheduler ---
         # Get sync interval from configuration
@@ -106,24 +112,7 @@ class ReservationsStack(Stack):
         """Generate Lambda environment variables from configuration"""
         client = config["client"]
         env_vars = {}
-
-        # G4H integration settings
-        if "integrations" in client and "g4h" in client["integrations"]:
-            g4h = client["integrations"]["g4h"]
-            env_vars.update({
-                "G4H_ORIGIN": g4h.get("origin", "https://app.guestyforhosts.com"),
-                "G4H_APP_VERSION": g4h.get("appVersion", "6.x"),
-                "G4H_PLATFORM": g4h.get("platform", "browser--win32"),
-                "G4H_DEVICE_UUID": g4h.get("deviceUuid", f"ypa-uuid-{client['name']}")
-            })
-        else:
-            # Default values if not configured
-            env_vars.update({
-                "G4H_ORIGIN": "https://app.guestyforhosts.com",
-                "G4H_APP_VERSION": "6.x",
-                "G4H_PLATFORM": "browser--win32",
-                "G4H_DEVICE_UUID": f"ypa-uuid-{client['name']}"
-            })
+        env_vars.update(guesty_lambda_env_from_client(client))
 
         # Feature flags
         features = client.get("features", {})

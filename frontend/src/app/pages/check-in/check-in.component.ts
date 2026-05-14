@@ -93,10 +93,10 @@ export class CheckInComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private emailVerificationService: EmailVerificationService
   ) {
-    // Step 1: Validation form
+    // Step 1: Validation form (name must match part of booking guest full name on server)
     this.validationForm = this.fb.group({
       reservationCode: ['', [Validators.required, Validators.minLength(5)]],
-      firstName: ['', [Validators.required, Validators.minLength(2)]]
+      guestNameHint: ['', [Validators.required, Validators.minLength(2)]]
     });
 
     // Step 2: Complete check-in form
@@ -118,9 +118,11 @@ export class CheckInComponent implements OnInit, OnDestroy, AfterViewInit {
           reservationCode: queryParams['reservationCode']
         });
       }
-      if (queryParams['firstName']) {
+      const namePrefill =
+        queryParams['guestName'] || queryParams['guestFirstName'] || queryParams['firstName'];
+      if (namePrefill) {
         this.validationForm.patchValue({
-          firstName: queryParams['firstName']
+          guestNameHint: namePrefill
         });
       }
     });
@@ -179,11 +181,11 @@ export class CheckInComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    const { reservationCode, firstName } = this.validationForm.value;
+    const { reservationCode, guestNameHint } = this.validationForm.value;
     this.isValidating = true;
     this.validationMessage = '';
 
-    this.checkInService.verifyBooking(reservationCode, firstName)
+    this.checkInService.verifyBooking(reservationCode, guestNameHint)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result) => {

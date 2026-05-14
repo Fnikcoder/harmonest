@@ -2,7 +2,8 @@
 """
 Common utilities for Multi-Tenant Hotel Management System Lambdas.
 Modules:
-- g4h: Guesty for Hosts API client and session management
+- g4h: Guesty session (legacy Guesty-for-hosts or Okta for app.guesty.com; see G4H_AUTH_MODE)
+- guesty_adapters: map Guesty app API payloads to legacy-shaped rawData plus rawDataGuestyApp
 - ddb: DynamoDB single-table helpers
 - log: Logging setup
 - config: Client configuration management

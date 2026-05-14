@@ -1,0 +1,1903 @@
+{
+  "info": {
+    "_postman_id": "6da98909-1fcd-4b84-9c1c-1c1bdccc5f38",
+    "name": "Guesty Full Auto OAuth Collection",
+    "description": "Complete Guesty OAuth PKCE flow with automatic variable storage and authenticated API requests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "34795973"
+  },
+  "item": [
+    {
+      "name": "1 - Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const json = pm.response.json();",
+              "",
+              "pm.environment.set('sessionToken', json.sessionToken);",
+              "pm.environment.set('sessionExpiresAt', json.expiresAt);",
+              "pm.environment.set('userId', json._embedded.user.id);",
+              "pm.environment.set('userLogin', json._embedded.user.profile.login);",
+              "pm.environment.set('firstName', json._embedded.user.profile.firstName);",
+              "pm.environment.set('lastName', json._embedded.user.profile.lastName);",
+              "",
+              "console.log('Session Token Saved');",
+              "console.log(json);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\",\n  \"options\": {\n    \"warnBeforePasswordExpired\": true,\n    \"multiOptionalFactorEnroll\": false\n  }\n}"
+        },
+        "url": {
+          "raw": "https://login.guesty.com/api/v1/authn",
+          "protocol": "https",
+          "host": [
+            "login",
+            "guesty",
+            "com"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "authn"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "1 - Login",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\",\n  \"options\": {\n    \"warnBeforePasswordExpired\": true,\n    \"multiOptionalFactorEnroll\": false\n  }\n}"
+            },
+            "url": {
+              "raw": "https://login.guesty.com/api/v1/authn",
+              "protocol": "https",
+              "host": [
+                "login",
+                "guesty",
+                "com"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "authn"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 14 May 2026 12:52:58 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "nginx"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "x-okta-request-id",
+              "value": "agXFqUkSzRKyToOqUVcLUgAAA9k"
+            },
+            {
+              "key": "accept-ch",
+              "value": "Sec-CH-UA-Platform-Version"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "0"
+            },
+            {
+              "key": "p3p",
+              "value": "CP=\"HONK\""
+            },
+            {
+              "key": "content-security-policy",
+              "value": "default-src 'self' guesty-iam.okta.com login.guesty.com *.oktacdn.com; connect-src 'self' guesty-iam.okta.com guesty-iam-admin.okta.com login.guesty.com *.oktacdn.com *.mixpanel.com *.mapbox.com guesty-iam.kerberos.okta.com guesty-iam.mtls.okta.com *.authenticatorlocalprod.com:8769 http://localhost:8769 http://127.0.0.1:8769 *.authenticatorlocalprod.com:65111 http://localhost:65111 http://127.0.0.1:65111 *.authenticatorlocalprod.com:65121 http://localhost:65121 http://127.0.0.1:65121 *.authenticatorlocalprod.com:65131 http://localhost:65131 http://127.0.0.1:65131 *.authenticatorlocalprod.com:65141 http://localhost:65141 http://127.0.0.1:65141 *.authenticatorlocalprod.com:65151 http://localhost:65151 http://127.0.0.1:65151 https://oinmanager.okta.com data: admin-login.guesty.com *.ingest.sentry.io; script-src 'unsafe-inline' 'self' 'report-sample' guesty-iam.okta.com login.guesty.com *.oktacdn.com; style-src 'unsafe-inline' 'self' 'report-sample' guesty-iam.okta.com login.guesty.com *.oktacdn.com; frame-src 'self' guesty-iam.okta.com guesty-iam-admin.okta.com login.guesty.com login.okta.com *.vidyard.com com-okta-authenticator:; img-src 'self' guesty-iam.okta.com login.guesty.com *.oktacdn.com *.tiles.mapbox.com *.mapbox.com *.vidyard.com data: blob:; font-src 'self' guesty-iam.okta.com login.guesty.com data: *.oktacdn.com fonts.gstatic.com; frame-ancestors 'self'"
+            },
+            {
+              "key": "x-rate-limit-limit",
+              "value": "600"
+            },
+            {
+              "key": "x-rate-limit-remaining",
+              "value": "589"
+            },
+            {
+              "key": "x-rate-limit-reset",
+              "value": "1778763198"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-cache, no-store"
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "expires",
+              "value": "0"
+            },
+            {
+              "key": "referrer-policy",
+              "value": "strict-origin-when-cross-origin"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=315360000; includeSubDomains"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "set-cookie",
+              "value": "JSESSIONID=10313F49CBAC3E66A538E9BDDC9E8533; Path=/; Secure; HttpOnly"
+            },
+            {
+              "key": "X-Cache",
+              "value": "Miss from cloudfront"
+            },
+            {
+              "key": "Via",
+              "value": "1.1 a2ca9c0945475efb53271befc31e9b30.cloudfront.net (CloudFront)"
+            },
+            {
+              "key": "X-Amz-Cf-Pop",
+              "value": "FRA50-P1"
+            },
+            {
+              "key": "X-Amz-Cf-Id",
+              "value": "xX_Mt9Ua567aOrSHy0cDcJS59tVQlo4sqEd3OkVEaBz6PFPHnQgwNw=="
+            },
+            {
+              "key": "Timing-Allow-Origin",
+              "value": "https://app.guesty.com"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"expiresAt\": \"2026-05-14T12:57:58.000Z\",\n    \"status\": \"SUCCESS\",\n    \"sessionToken\": \"20111XZGShP7Ds5FZ430LEyBOs00PyDlvCgeLJGzyIo6j-Q6r57X1Fb\",\n    \"_embedded\": {\n        \"user\": {\n            \"id\": \"00uszczy3eV1f924c5d7\",\n            \"passwordChanged\": \"2026-02-11T11:09:04.000Z\",\n            \"profile\": {\n                \"login\": \"eh.mazlomian@gmail.com\",\n                \"firstName\": \"Ehsan\",\n                \"lastName\": \"Mazlomian\",\n                \"locale\": \"en_US\",\n                \"timeZone\": \"America/Los_Angeles\"\n            }\n        }\n    },\n    \"_links\": {\n        \"cancel\": {\n            \"href\": \"https://login.guesty.com/api/v1/authn/cancel\",\n            \"hints\": {\n                \"allow\": [\n                    \"POST\"\n                ]\n            }\n        }\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "2 - Generate PKCE",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "function randomString(length) {",
+              "  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';",
+              "  let result = '';",
+              "  for (let i = 0; i < length; i++) {",
+              "    result += chars.charAt(Math.floor(Math.random() * chars.length));",
+              "  }",
+              "  return result;",
+              "}",
+              "",
+              "const verifier = randomString(96);",
+              "",
+              "pm.environment.set('codeVerifier', verifier);",
+              "",
+              "const state = randomString(24);",
+              "const nonce = randomString(24);",
+              "",
+              "pm.environment.set('state', state);",
+              "pm.environment.set('nonce', nonce);",
+              "",
+              "const challenge = CryptoJS.enc.Base64.stringify(CryptoJS.SHA256(verifier))",
+              "  .replace(/\\+/g, '-')",
+              "  .replace(/\\//g, '_')",
+              "  .replace(/=+$/, '');",
+              "",
+              "pm.environment.set('codeChallenge', challenge);",
+              "",
+              "console.log('PKCE Generated');"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://postman-echo.com/get",
+          "protocol": "https",
+          "host": [
+            "postman-echo",
+            "com"
+          ],
+          "path": [
+            "get"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "2 - Generate PKCE",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://postman-echo.com/get",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "get"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Thu, 14 May 2026 12:53:09 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "etag",
+              "value": "W/\"fa-yJQmxE8/YFSYEDT3rSLv+dUgcpM\""
+            },
+            {
+              "key": "vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "x-envoy-upstream-service-time",
+              "value": "5"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "Set-Cookie",
+              "value": "sails.sid=s%3AshvhjLYNJopWpxuXrch5wYmXz7sA7Fqh.TODmFcY7LCQs3VeyQL9g20f5mbG7OY7WAfn1DfoQv%2B8; Path=/; HttpOnly"
+            },
+            {
+              "key": "set-cookie",
+              "value": "__cf_bm=FJQMjbyvJ4RG1.Q6viM0_olQqEhxjBbf.RkdrdsYX54-1778763189.8153923-1.0.1.1-nUVZ7wKTQYOAAHFcAGFP0DwLePvZW.feukLlXTKfRCwxLzbDnjwqBDVQVjYG46K_s5QzjtJYYPbixtpyCc1nRh_iAc5zqhZkhicYaLEFxooNhUjZ6uYfvs.ZJdgpYlAk; HttpOnly; SameSite=None; Secure; Path=/; Domain=postman-echo.com; Expires=Thu, 14 May 2026 13:23:09 GMT"
+            },
+            {
+              "key": "set-cookie",
+              "value": "_cfuvid=O30G_r028tCxF_blzh3eEdDl1VllKgT8k3i7pgYMaig-1778763189.8153923-1.0.1.1-1PqE2.qju6eyM0zeRozQshqqUw2nckXbupkU58EE73k; HttpOnly; SameSite=None; Secure; Path=/; Domain=postman-echo.com"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "Server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "CF-RAY",
+              "value": "9fba0b505a9e71b8-FRA"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"args\": {},\n    \"headers\": {\n        \"host\": \"postman-echo.com\",\n        \"x-forwarded-proto\": \"https\",\n        \"accept\": \"*/*\",\n        \"user-agent\": \"PostmanRuntime/7.51.0\",\n        \"accept-encoding\": \"gzip, br\",\n        \"postman-token\": \"3768d6f0-f4bd-4d8a-8a87-59a5c08a35f4\"\n    },\n    \"url\": \"https://postman-echo.com/get\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "3 - OAuth Authorize",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const location = pm.response.headers.get('Location');",
+              "",
+              "console.log('Redirect URL:', location);",
+              "",
+              "if (location) {",
+              "  const match = location.match(/[?&]code=([^&]+)/);",
+              "",
+              "  if (match && match[1]) {",
+              "    pm.environment.set('authCode', decodeURIComponent(match[1]));",
+              "    console.log('Authorization Code Saved');",
+              "  }",
+              "}"
+            ]
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "followRedirects": false
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{issuer}}/v1/authorize?client_id={{clientId}}&response_type=code&response_mode=query&scope=openid profile email&redirect_uri={{redirectUri}}&state={{state}}&nonce={{nonce}}&code_challenge={{codeChallenge}}&code_challenge_method=S256&sessionToken={{sessionToken}}",
+          "host": [
+            "{{issuer}}"
+          ],
+          "path": [
+            "v1",
+            "authorize"
+          ],
+          "query": [
+            {
+              "key": "client_id",
+              "value": "{{clientId}}"
+            },
+            {
+              "key": "response_type",
+              "value": "code"
+            },
+            {
+              "key": "response_mode",
+              "value": "query"
+            },
+            {
+              "key": "scope",
+              "value": "openid profile email"
+            },
+            {
+              "key": "redirect_uri",
+              "value": "{{redirectUri}}"
+            },
+            {
+              "key": "state",
+              "value": "{{state}}"
+            },
+            {
+              "key": "nonce",
+              "value": "{{nonce}}"
+            },
+            {
+              "key": "code_challenge",
+              "value": "{{codeChallenge}}"
+            },
+            {
+              "key": "code_challenge_method",
+              "value": "S256"
+            },
+            {
+              "key": "sessionToken",
+              "value": "{{sessionToken}}"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "3 - OAuth Authorize",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{issuer}}/v1/authorize?client_id={{clientId}}&response_type=code&response_mode=query&scope=openid profile email&redirect_uri={{redirectUri}}&state={{state}}&nonce={{nonce}}&code_challenge={{codeChallenge}}&code_challenge_method=S256&sessionToken={{sessionToken}}",
+              "host": [
+                "{{issuer}}"
+              ],
+              "path": [
+                "v1",
+                "authorize"
+              ],
+              "query": [
+                {
+                  "key": "client_id",
+                  "value": "{{clientId}}"
+                },
+                {
+                  "key": "response_type",
+                  "value": "code"
+                },
+                {
+                  "key": "response_mode",
+                  "value": "query"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid profile email"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "{{redirectUri}}"
+                },
+                {
+                  "key": "state",
+                  "value": "{{state}}"
+                },
+                {
+                  "key": "nonce",
+                  "value": "{{nonce}}"
+                },
+                {
+                  "key": "code_challenge",
+                  "value": "{{codeChallenge}}"
+                },
+                {
+                  "key": "code_challenge_method",
+                  "value": "S256"
+                },
+                {
+                  "key": "sessionToken",
+                  "value": "{{sessionToken}}"
+                }
+              ]
+            }
+          },
+          "status": "Found",
+          "code": 302,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "0"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 14 May 2026 12:53:18 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "nginx"
+            },
+            {
+              "key": "x-okta-request-id",
+              "value": "agXFvu5dGYlE0UHMy0zctgAADys"
+            },
+            {
+              "key": "accept-ch",
+              "value": "Sec-CH-UA-Platform-Version"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "0"
+            },
+            {
+              "key": "p3p",
+              "value": "CP=\"HONK\""
+            },
+            {
+              "key": "content-security-policy-report-only",
+              "value": "default-src 'self' guesty-iam.okta.com login.guesty.com *.oktacdn.com; connect-src 'self' guesty-iam.okta.com guesty-iam-admin.okta.com login.guesty.com *.oktacdn.com *.mixpanel.com *.mapbox.com guesty-iam.kerberos.okta.com guesty-iam.mtls.okta.com *.authenticatorlocalprod.com:8769 http://localhost:8769 http://127.0.0.1:8769 *.authenticatorlocalprod.com:65111 http://localhost:65111 http://127.0.0.1:65111 *.authenticatorlocalprod.com:65121 http://localhost:65121 http://127.0.0.1:65121 *.authenticatorlocalprod.com:65131 http://localhost:65131 http://127.0.0.1:65131 *.authenticatorlocalprod.com:65141 http://localhost:65141 http://127.0.0.1:65141 *.authenticatorlocalprod.com:65151 http://localhost:65151 http://127.0.0.1:65151 https://oinmanager.okta.com data: admin-login.guesty.com *.ingest.sentry.io data.pendo.io pendo-static-5634101834153984.storage.googleapis.com pendo-static-5391521872216064.storage.googleapis.com; script-src 'unsafe-inline' 'nonce-FI1w8kkDB_qUzH2dG133xg' 'self' 'report-sample' guesty-iam.okta.com login.guesty.com *.oktacdn.com pendo-static-5634101834153984.storage.googleapis.com; style-src 'unsafe-inline' 'self' 'report-sample' guesty-iam.okta.com login.guesty.com *.oktacdn.com pendo-static-5634101834153984.storage.googleapis.com; frame-src 'self' guesty-iam.okta.com guesty-iam-admin.okta.com login.guesty.com login.okta.com *.vidyard.com com-okta-authenticator: myvideo.sundaysky.com; img-src 'self' guesty-iam.okta.com login.guesty.com *.oktacdn.com *.tiles.mapbox.com *.mapbox.com *.vidyard.com data: data.pendo.io pendo-static-5634101834153984.storage.googleapis.com pendo-static-5391521872216064.storage.googleapis.com blob:; font-src 'self' guesty-iam.okta.com login.guesty.com data: *.oktacdn.com fonts.gstatic.com; frame-ancestors 'self' https://app.guesty.com https://onboarding.guesty.com https://login.guesty.com https://guesty.rocketlane.com https://hq.guesty.com"
+            },
+            {
+              "key": "x-rate-limit-limit",
+              "value": "60"
+            },
+            {
+              "key": "x-rate-limit-remaining",
+              "value": "59"
+            },
+            {
+              "key": "x-rate-limit-reset",
+              "value": "1778763258"
+            },
+            {
+              "key": "referrer-policy",
+              "value": "no-referrer"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-cache, no-store"
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "expires",
+              "value": "0"
+            },
+            {
+              "key": "location",
+              "value": "https://app.guesty.com/auth/login/callback?code=gco9ujQWZSX75Gh0cIyF2vG6UirT4Tl1G8apEoHl2ns&state=zfM1kMXNGBFeHNJsdbR5bjQx"
+            },
+            {
+              "key": "content-language",
+              "value": "en"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=315360000; includeSubDomains"
+            },
+            {
+              "key": "X-Robots-Tag",
+              "value": "noindex,nofollow"
+            },
+            {
+              "key": "set-cookie",
+              "value": "JSESSIONID=918BA8E46930785995CC7DFCDE56C9DE; Path=/; Secure; HttpOnly"
+            },
+            {
+              "key": "set-cookie",
+              "value": "idx=eyJ6aXAiOiJERUYiLCJ2ZXIiOiIxIiwiYWxpYXMiOiJlbmNyeXB0aW9ua2V5Iiwib2lkIjoiMDBvY3k4NnoydHZXeEJMa1M1ZDYiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIiwieHNpZCI6ImlkeGFMSnRIckFJUjhDNXNoVGIzZm1xRHcifQ..n4UxXX_0cDQCyeA5.Ux_t90a953HebM8trvrx-eUPvNXlL-cQY-E77QIUcuumhG9Dp7zBtzrqA9GHs_w85o5ye9jnajIG2kS96pAek0o7MqfEPbS_LjEdmx3GF2YS8fL_gqNaaFbrOn_e4knlGmOFE6OaapDAou5V0URap71J38ehKMCiMbxa4UswYJHcOL0rT5lG_00qqrucVRvzdFpHi6Qf_mT1Dlmj8DWdVsIacy8ZqRCac5a8AvGexBHtLISDdSfJB1UOnMa2ulGdqTztt4LeGnW2VkY2W9cam_4BjSeR09GIPrDIyprYUm2nSYsS1HjJc76QbTbKJSzz4gxdfXxzqVKllSl0I851rnyDkoRJw4igpEFcoN_70rth87mn7Oqd_T2YqSeTngWG0Fjah3TJSP1cdjOrxUubO8KtGqmCN948iBrwSAz35wGrECueNt3lf6pGy-OaHOM5kvbmZxAsQTYxp4NysJUQ0_XCnAtsiu9-f_ap0ZjzKbQx6Y8-oNEpxzliad_2PEek1bkQY99ZKbUVjyeReLxjwmKVkQEDWSNOITkgI7Gs8YTLhRvGnbYey86vzWmffDvuA2wnjRqPbbdEwUEND8OLaf7V86rDtiBwIasU_zY_BWo1O1K0zY3lZvo6uTlcc0NxgrLv6hpSY8niAVTHjjnf_E0dYwBihgBS6wdeJljg0PIVbENEEpWqXwmppbCO0_dYkl9IXQIeOp7y-XFwkZ5gGqBED_Z-SwcKH4vng95q4jy1wJahqkYvyI_188VUYQwt4qHF4uf3ppmL_2vKJuvkwryPOWmAPJ3mHdzDM5_1DoDMaHdhdBp8qdplY1pbFnllFBaFJ66w69dtVNdxRP3TIqxM7jQybeRyBGICu1FLSsLW1RMVm7EtqkRRI1kKq9v3E2-VyZxcgXMKMnqxZ-w7dMWxFkCWrPOdLvlISCWUgK1QQJNpfE-alkE5Haw02skTMg5TUlaRf-BMHcRo3BLO_rFVI3QyQndUg8hbJ65ihgRqlfhP-ZmitBWbdKWXJgayQ4MwWB_wf2ZGeXs.laYRq4QWnJ-80tVdKhWHHg;Version=1;Path=/;Secure;HttpOnly"
+            },
+            {
+              "key": "set-cookie",
+              "value": "t=\"\"; Expires=Thu, 01 Jan 1970 00:00:10 GMT; Path=/"
+            },
+            {
+              "key": "set-cookie",
+              "value": "sid=102y80mtwmETOK_0kBYwXQ-mg;Version=1;Path=/;Max-Age=86399;Secure;Expires=Fri, 15 May 2026 12:53:17 GMT"
+            },
+            {
+              "key": "set-cookie",
+              "value": "xids=102hyn56aI-Q8avHWmr0hNogA;Version=1;Path=/;Max-Age=86399;Secure;Expires=Fri, 15 May 2026 12:53:17 GMT"
+            },
+            {
+              "key": "set-cookie",
+              "value": "proximity_9bafb686eb8286a6635de1b5f80da136=eyJ6aXAiOiJERUYiLCJwMnMiOiJJaGhuQktXbFVlUzFpWFlFWXYxWS1nIiwicDJjIjoxMDAwLCJ2ZXIiOiIxIiwiZW5jIjoiQTI1NkdDTSIsImFsZyI6IlBCRVMyLUhTNTEyK0EyNTZLVyJ9.4zKHvNPYYYmODsK-oeoMcYcIrotd5z8ltADRzCUa_9X8UEVDbKMEVw.sF94GZxkr6RHgMpH.1Z6QSFEU78OigWkUEgmGPfyK8mevnS-eBDE4CcChs33T0J04Z9HXlicav4Gb-tlSZOykPN9j_04jVcAr20sRNKhUQWRU2vWyoKRGDMk14SqNeE8PvdBikc5moSB2h72HQWkdr82n66vxDpRpItH_5HOMLlFu89YBB_cdXuP8pD2iWQ.OuHTqxP1V2IVzf09Q_0PYQ; Expires=Fri, 14 May 2027 12:53:18 GMT; Path=/; Secure"
+            },
+            {
+              "key": "X-Cache",
+              "value": "Miss from cloudfront"
+            },
+            {
+              "key": "Via",
+              "value": "1.1 a2ca9c0945475efb53271befc31e9b30.cloudfront.net (CloudFront)"
+            },
+            {
+              "key": "X-Amz-Cf-Pop",
+              "value": "FRA50-P1"
+            },
+            {
+              "key": "X-Amz-Cf-Id",
+              "value": "laoSt_dt9tUWm9KcLpeyvNhfngVr5_SDz7Rkv7aYeCII3RlchMT7mQ=="
+            },
+            {
+              "key": "Timing-Allow-Origin",
+              "value": "https://app.guesty.com"
+            }
+          ],
+          "cookie": [],
+          "body": null
+        }
+      ]
+    },
+    {
+      "name": "4 - Exchange Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const json = pm.response.json();",
+              "",
+              "pm.environment.set('accessToken', json.access_token);",
+              "pm.environment.set('idToken', json.id_token);",
+              "pm.environment.set('refreshToken', json.refresh_token || '');",
+              "pm.environment.set('tokenType', json.token_type);",
+              "pm.environment.set('expiresIn', json.expires_in);",
+              "",
+              "console.log('Access Token Saved');",
+              "console.log(json);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "client_id",
+              "value": "{{clientId}}"
+            },
+            {
+              "key": "redirect_uri",
+              "value": "{{redirectUri}}"
+            },
+            {
+              "key": "grant_type",
+              "value": "authorization_code"
+            },
+            {
+              "key": "code_verifier",
+              "value": "{{codeVerifier}}"
+            },
+            {
+              "key": "code",
+              "value": "{{authCode}}"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{issuer}}/v1/token",
+          "host": [
+            "{{issuer}}"
+          ],
+          "path": [
+            "v1",
+            "token"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "4 - Exchange Token",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "client_id",
+                  "value": "{{clientId}}"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "{{redirectUri}}"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                },
+                {
+                  "key": "code_verifier",
+                  "value": "{{codeVerifier}}"
+                },
+                {
+                  "key": "code",
+                  "value": "{{authCode}}"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{issuer}}/v1/token",
+              "host": [
+                "{{issuer}}"
+              ],
+              "path": [
+                "v1",
+                "token"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 14 May 2026 12:53:40 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "nginx"
+            },
+            {
+              "key": "x-okta-request-id",
+              "value": "agXF1G1aU1ogRNCV1rpvUAAACc8"
+            },
+            {
+              "key": "accept-ch",
+              "value": "Sec-CH-UA-Platform-Version"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "0"
+            },
+            {
+              "key": "p3p",
+              "value": "CP=\"HONK\""
+            },
+            {
+              "key": "content-security-policy",
+              "value": "default-src 'self' guesty-iam.okta.com login.guesty.com *.oktacdn.com; connect-src 'self' guesty-iam.okta.com guesty-iam-admin.okta.com login.guesty.com *.oktacdn.com *.mixpanel.com *.mapbox.com guesty-iam.kerberos.okta.com guesty-iam.mtls.okta.com *.authenticatorlocalprod.com:8769 http://localhost:8769 http://127.0.0.1:8769 *.authenticatorlocalprod.com:65111 http://localhost:65111 http://127.0.0.1:65111 *.authenticatorlocalprod.com:65121 http://localhost:65121 http://127.0.0.1:65121 *.authenticatorlocalprod.com:65131 http://localhost:65131 http://127.0.0.1:65131 *.authenticatorlocalprod.com:65141 http://localhost:65141 http://127.0.0.1:65141 *.authenticatorlocalprod.com:65151 http://localhost:65151 http://127.0.0.1:65151 https://oinmanager.okta.com data: admin-login.guesty.com *.ingest.sentry.io data.pendo.io pendo-static-5634101834153984.storage.googleapis.com pendo-static-5391521872216064.storage.googleapis.com; script-src 'unsafe-inline' 'self' 'report-sample' guesty-iam.okta.com login.guesty.com *.oktacdn.com pendo-static-5634101834153984.storage.googleapis.com; style-src 'unsafe-inline' 'self' 'report-sample' guesty-iam.okta.com login.guesty.com *.oktacdn.com pendo-static-5634101834153984.storage.googleapis.com; frame-src 'self' guesty-iam.okta.com guesty-iam-admin.okta.com login.guesty.com login.okta.com *.vidyard.com com-okta-authenticator: myvideo.sundaysky.com; img-src 'self' guesty-iam.okta.com login.guesty.com *.oktacdn.com *.tiles.mapbox.com *.mapbox.com *.vidyard.com data: data.pendo.io pendo-static-5634101834153984.storage.googleapis.com pendo-static-5391521872216064.storage.googleapis.com blob:; font-src 'self' guesty-iam.okta.com login.guesty.com data: *.oktacdn.com fonts.gstatic.com; frame-ancestors 'self'"
+            },
+            {
+              "key": "x-rate-limit-limit",
+              "value": "2000"
+            },
+            {
+              "key": "x-rate-limit-remaining",
+              "value": "1999"
+            },
+            {
+              "key": "x-rate-limit-reset",
+              "value": "1778763280"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-cache, no-store"
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "expires",
+              "value": "0"
+            },
+            {
+              "key": "referrer-policy",
+              "value": "strict-origin-when-cross-origin"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=315360000; includeSubDomains"
+            },
+            {
+              "key": "X-Robots-Tag",
+              "value": "noindex,nofollow"
+            },
+            {
+              "key": "set-cookie",
+              "value": "JSESSIONID=0C113493EE18F04C47BD8B8CD307DDA6; Path=/; Secure; HttpOnly"
+            },
+            {
+              "key": "X-Cache",
+              "value": "Miss from cloudfront"
+            },
+            {
+              "key": "Via",
+              "value": "1.1 a2ca9c0945475efb53271befc31e9b30.cloudfront.net (CloudFront)"
+            },
+            {
+              "key": "X-Amz-Cf-Pop",
+              "value": "FRA50-P1"
+            },
+            {
+              "key": "X-Amz-Cf-Id",
+              "value": "mcbEwILOIxTeahKUjqE1aJUJdHY73Rda9csoRn5NrQgnEE7QdnSE9g=="
+            },
+            {
+              "key": "Timing-Allow-Origin",
+              "value": "https://app.guesty.com"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"token_type\": \"Bearer\",\n    \"expires_in\": 86400,\n    \"access_token\": \"eyJraWQiOiJveEZjbHlGMllZRzFaTmxJWVBydjc2WDJnT1pJT3lXMWl6dkFyLWlNNWJvIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULlg1VmI2WHE0cWZWVEVHVXhzd1hUWmZVQ1VSLUtyVEN0NHlhM1Jzd2o5ZzgiLCJpc3MiOiJodHRwczovL2xvZ2luLmd1ZXN0eS5jb20vb2F1dGgyL2F1czJqbHFmdXdBc05OcDNENWQ3IiwiYXVkIjoiaHR0cHM6Ly9hcHAuZ3Vlc3R5LmNvbSIsImlhdCI6MTc3ODc2MzIyMCwiZXhwIjoxNzc4ODQ5NjIwLCJjaWQiOiIwb2EydWw4cmxlUGxObGRpUTVkNyIsInVpZCI6IjAwdXN6Y3p5M2VWMWY5MjRjNWQ3Iiwic2NwIjpbIm9wZW5pZCIsInByb2ZpbGUiLCJlbWFpbCJdLCJhdXRoX3RpbWUiOjE3Nzg3NjI4MzAsInJlcXVlc3RlciI6IkRBU0hCT0FSRCIsInN1YiI6ImVoLm1hemxvbWlhbkBnbWFpbC5jb20iLCJyZXF1ZXN0ZXJJZCI6IjY5OGM2MzRmM2ExYzZjZDE3Y2U2YzNlNyIsInJvbGUiOiJ1c2VyIiwidG9rZW5JZCI6IjY5OGM2MzRmM2ExYzZjZDE3Y2U2YzNlNyIsImZ1bGxOYW1lIjoiRWhzYW4gTWF6bG9taWFuIiwiZW52IjoicHJvZHVjdGlvbiIsInVzZXJJZCI6IjY5OGM2MzRmM2ExYzZjZDE3Y2U2YzNlNyIsIml0ZXYiOjc0MCwiYWNjb3VudElkIjoiNjk4YzYzNGY4NDYyMTE0MjgzZjM5YzU1IiwidXNlclJvbGVzIjpbeyJyb2xlSWQiOnsiX2lkIjoiNjRjMGQ2NDNlYjA1ZDZlZTg3MWFlZjEzIiwicGVybWlzc2lvbnMiOlsiYXV0aHouYmMiXX19XSwiY3QiOjEsImlhbSI6InYzIiwibmFtZSI6ImVoLm1hemxvbWlhbkBnbWFpbC5jb20iLCJjcmVhdGlvblRzIjoxNzc4NjcxMzI3NzQxfQ.G2mwmjxWURx852uDnbOIdXCLC1QtnEn18rmucdyQB54yr71Fqq1R_1HyAD5fYo5qmHICKoE-lKdc7ExjlrkKwH7s_5LYKTRafy3inYPFmOVtsvR_f-_WagBzh0DphwlMZLQLlLHUGP9jVAO2pCuXiynUpG6cWl0_3zdpG-ubPqJa-jJ5p91Du6sy1b9RbS7L_jFH2g5Y_tOILkHW-2c8iQ6SreDFrvf1nstLordR80PwPpWmUtpjnTkr428-uK5UZVUQqf5CGQ0siSulfBLlHtQeBMVPekzOAg4r1tquK8B8GAH3s4z8RDEZjgnxe_SV7_L0VqdF8Wv0phpm882aew\",\n    \"scope\": \"openid profile email\",\n    \"id_token\": \"eyJraWQiOiJveEZjbHlGMllZRzFaTmxJWVBydjc2WDJnT1pJT3lXMWl6dkFyLWlNNWJvIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIwMHVzemN6eTNlVjFmOTI0YzVkNyIsIm5hbWUiOiJFaHNhbiBNYXpsb21pYW4iLCJlbWFpbCI6ImVoLm1hemxvbWlhbkBnbWFpbC5jb20iLCJ2ZXIiOjEsImlzcyI6Imh0dHBzOi8vbG9naW4uZ3Vlc3R5LmNvbS9vYXV0aDIvYXVzMmpscWZ1d0FzTk5wM0Q1ZDciLCJhdWQiOiIwb2EydWw4cmxlUGxObGRpUTVkNyIsImlhdCI6MTc3ODc2MzIyMCwiZXhwIjoxNzc4NzY2ODIwLCJqdGkiOiJJRC4xTmlfWTA1T0sxaW5iRmdoblpZa2dRbEdHUjhnaEFVZkJ0bDU5MGpXWktVIiwiYW1yIjpbInB3ZCJdLCJpZHAiOiIwMG9jeTg2ejJ0dld4QkxrUzVkNiIsIm5vbmNlIjoiOTNVZjllRktTOXNRb0JmbzBNejByT0s2IiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZWgubWF6bG9taWFuQGdtYWlsLmNvbSIsImF1dGhfdGltZSI6MTc3ODc2MjgzMCwiYXRfaGFzaCI6Inc4THZxQlBueXFjc0Ftcnhvb1ZqamcifQ.Kqu_kqb0ZQy4xWcMoBxb7lDCSU3I92r1lobuuUj5VeuG1GkK2qoMCgpDNlDVZ43GfrJEf_6l4XkGuZYhitHoZ17QFcCITNodvOvvBp9zHQ1y92-3buLIKpY5A35gl4XdKkQccBRevLPw6Tak3WYmcTiLIYJiHn5dU-_k3GC7B_7TfXYNCVu1MUiYOKqe8fHeq2ppHljh-t4yMQyw4A8y0HOJOoKB9CbjBMFGVDTYmSyvqhlbAfho6jApoxCoMMX8mGgn8CF9pIPgwcJEzts_Vxj_KQW5QrzVwPIKspz7ZIkZyTYCIN-a7uDmdUohzdiv5Ra-hb-sE3iAiog9A1mJog\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "5 - Get Listings",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "x-agni-version",
+            "value": "2"
+          }
+        ],
+        "url": {
+          "raw": "https://app.guesty.com/api/listings-fe/listings?limit=50&skip=0",
+          "protocol": "https",
+          "host": [
+            "app",
+            "guesty",
+            "com"
+          ],
+          "path": [
+            "api",
+            "listings-fe",
+            "listings"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "50"
+            },
+            {
+              "key": "skip",
+              "value": "0"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "5 - Get Listings",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "x-agni-version",
+                "value": "2"
+              }
+            ],
+            "url": {
+              "raw": "https://app.guesty.com/api/v2/listings?listed=true&fields=title+nickname+picture.thumbnail+address.full&skip=0&q=",
+              "protocol": "https",
+              "host": [
+                "app",
+                "guesty",
+                "com"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "listings"
+              ],
+              "query": [
+                {
+                  "key": "listed",
+                  "value": "true"
+                },
+                {
+                  "key": "fields",
+                  "value": "title+nickname+picture.thumbnail+address.full"
+                },
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "q",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1537"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 14 May 2026 13:05:53 GMT"
+            },
+            {
+              "key": "X-DNS-Prefetch-Control",
+              "value": "off"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "deny"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000;includesubdomains"
+            },
+            {
+              "key": "X-Download-Options",
+              "value": "noopen"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "1;mode=block"
+            },
+            {
+              "key": "Access-Control-Allow-Credentials",
+              "value": "true"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Access-Control-Max-Age",
+              "value": "7200"
+            },
+            {
+              "key": "Access-Control-Allow-Headers",
+              "value": "Authorization, Origin, Content-Type, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Date, X-Api-Version, X-File-Name, g-aid-cs"
+            },
+            {
+              "key": "Access-Control-Allow-Methods",
+              "value": "POST, GET, PUT, DELETE, PATCH, OPTIONS"
+            },
+            {
+              "key": "uber-trace-id",
+              "value": "2fa0a8253229aca:2fa0a8253229aca:0:1"
+            },
+            {
+              "key": "uberctx-accountid",
+              "value": "698c634f8462114283f39c55"
+            },
+            {
+              "key": "x-request-id",
+              "value": "2fa0a8253229aca"
+            },
+            {
+              "key": "Gst-Pep",
+              "value": "1.3.1"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"601-Dqq16QWIohApN04ulXYAIgjn22M\""
+            },
+            {
+              "key": "x-content-type",
+              "value": "nosniff"
+            },
+            {
+              "key": "x-permitted-cross-domain-policies",
+              "value": "none"
+            },
+            {
+              "key": "X-Gst-Kong-Dc",
+              "value": "production-2"
+            },
+            {
+              "key": "X-Cache",
+              "value": "Miss from cloudfront"
+            },
+            {
+              "key": "Via",
+              "value": "1.1 6636538a05247c80bd9b1634a2f35fb4.cloudfront.net (CloudFront)"
+            },
+            {
+              "key": "X-Amz-Cf-Pop",
+              "value": "FRA60-P14"
+            },
+            {
+              "key": "X-Amz-Cf-Id",
+              "value": "ZPp636HVLKPvA6Nv43jaEO4s66yad3TtZN2pqVjVHzmbWIoGz5DAcw=="
+            },
+            {
+              "key": "Server-Timing",
+              "value": "cdn-upstream-layer;desc=\"EDGE\",cdn-upstream-dns;dur=0,cdn-upstream-connect;dur=0,cdn-upstream-fbl;dur=170,cdn-cache-miss,cdn-pop;desc=\"FRA60-P14\",cdn-rid;desc=\"ZPp636HVLKPvA6Nv43jaEO4s66yad3TtZN2pqVjVHzmbWIoGz5DAcw==\",cdn-downstream-fbl;dur=173"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"results\": [\n        {\n            \"_id\": \"6a045def77b4d200132ba6a8\",\n            \"tags\": [],\n            \"title\": \"HarmoNest Apartments and suites\",\n            \"address\": {\n                \"full\": \"Giesenkirchener Straße 126, Mönchengladbach, Nordrhein-Westfalen 41238, Germany\"\n            },\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"nickname\": \"HN2\",\n            \"picture\": {\n                \"thumbnail\": \"https://assets.guesty.com/image/upload/t_default_thumb/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ\"\n            }\n        },\n        {\n            \"_id\": \"6a045defe8e8730011e03839\",\n            \"tags\": [],\n            \"title\": \"HarmoNest apartments and suites1\",\n            \"address\": {\n                \"full\": \"Giesenkirchener Straße 126, Mönchengladbach, Nordrhein-Westfalen 41238, Germany\"\n            },\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"nickname\": \"HN1\",\n            \"picture\": {\n                \"thumbnail\": \"https://assets.guesty.com/image/upload/t_default_thumb/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\"\n            }\n        },\n        {\n            \"_id\": \"6a045def154b72000f1d251a\",\n            \"tags\": [],\n            \"title\": \"cosy two bedroom apartment(75m2)\",\n            \"address\": {\n                \"full\": \"Giesenkirchener Straße 126, Mönchengladbach, Nordrhein-Westfalen 41238, Germany\"\n            },\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"nickname\": \"Hippo\",\n            \"picture\": {\n                \"thumbnail\": \"https://assets.guesty.com/image/upload/t_default_thumb/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5\"\n            }\n        }\n    ],\n    \"title\": \"Listings Report\",\n    \"fields\": \"title nickname picture.thumbnail address.full\",\n    \"limit\": 25,\n    \"skip\": 0,\n    \"count\": 3\n}"
+        }
+      ]
+    },
+    {
+      "name": "6 - Get Reservations",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "x-agni-version",
+            "value": "2"
+          }
+        ],
+        "url": {
+          "raw": "https://app.guesty.com/api/reservations-reports?smartView=true&columns=checkIn+checkOut+confirmationCode+listing+guest+status+source+guest.email+guestsCount+money.hostPayout+money.totalPaid&filters=%7B%22localTime.checkOutWithPlannedDeparture%22:%7B%22%40in_future%22:true%7D,%22status%22:%7B%22%40in%22:[%22confirmed%22]%7D%7D&skip=0&limit=50&sort=checkIn&lang=en-US&timezone=Europe%2FBerlin",
+          "protocol": "https",
+          "host": [
+            "app",
+            "guesty",
+            "com"
+          ],
+          "path": [
+            "api",
+            "reservations-reports"
+          ],
+          "query": [
+            {
+              "key": "smartView",
+              "value": "true"
+            },
+            {
+              "key": "columns",
+              "value": "checkIn+checkOut+confirmationCode+listing+guest+status+source+guest.email+guestsCount+money.hostPayout+money.totalPaid"
+            },
+            {
+              "key": "filters",
+              "value": "%7B%22localTime.checkOutWithPlannedDeparture%22:%7B%22%40in_future%22:true%7D,%22status%22:%7B%22%40in%22:[%22confirmed%22]%7D%7D"
+            },
+            {
+              "key": "skip",
+              "value": "0"
+            },
+            {
+              "key": "limit",
+              "value": "50"
+            },
+            {
+              "key": "sort",
+              "value": "checkIn"
+            },
+            {
+              "key": "lang",
+              "value": "en-US"
+            },
+            {
+              "key": "timezone",
+              "value": "Europe%2FBerlin"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "6 - Get Reservations",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "x-agni-version",
+                "value": "2"
+              }
+            ],
+            "url": {
+              "raw": "https://app.guesty.com/api/reservations-reports?smartView=true&columns=checkIn+checkOut+confirmationCode+listing+guest+status+source+guest.email+guestsCount+money.hostPayout+money.totalPaid&filters=%7B%22localTime.checkOutWithPlannedDeparture%22:%7B%22%40in_future%22:true%7D,%22status%22:%7B%22%40in%22:[%22confirmed%22]%7D%7D&skip=0&limit=50&sort=checkIn&lang=en-US&timezone=Europe%2FBerlin",
+              "protocol": "https",
+              "host": [
+                "app",
+                "guesty",
+                "com"
+              ],
+              "path": [
+                "api",
+                "reservations-reports"
+              ],
+              "query": [
+                {
+                  "key": "smartView",
+                  "value": "true"
+                },
+                {
+                  "key": "columns",
+                  "value": "checkIn+checkOut+confirmationCode+listing+guest+status+source+guest.email+guestsCount+money.hostPayout+money.totalPaid"
+                },
+                {
+                  "key": "filters",
+                  "value": "%7B%22localTime.checkOutWithPlannedDeparture%22:%7B%22%40in_future%22:true%7D,%22status%22:%7B%22%40in%22:[%22confirmed%22]%7D%7D"
+                },
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "50"
+                },
+                {
+                  "key": "sort",
+                  "value": "checkIn"
+                },
+                {
+                  "key": "lang",
+                  "value": "en-US"
+                },
+                {
+                  "key": "timezone",
+                  "value": "Europe%2FBerlin"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 14 May 2026 13:03:00 GMT"
+            },
+            {
+              "key": "X-Gst-Kong-Dc",
+              "value": "production-2"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "X-DNS-Prefetch-Control",
+              "value": "off"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "deny"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000;includesubdomains"
+            },
+            {
+              "key": "X-Download-Options",
+              "value": "noopen"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "1;mode=block"
+            },
+            {
+              "key": "uber-trace-id",
+              "value": "9ec76d8a60503c7e:9ec76d8a60503c7e:0:1"
+            },
+            {
+              "key": "uberctx-accountid",
+              "value": "698c634f8462114283f39c55"
+            },
+            {
+              "key": "x-request-id",
+              "value": "9ec76d8a60503c7e"
+            },
+            {
+              "key": "Gst-Pep",
+              "value": "1.3.3"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"6f8d-v9zZ0/irttekST83881b49qHxDA\""
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "br"
+            },
+            {
+              "key": "x-content-type",
+              "value": "nosniff"
+            },
+            {
+              "key": "x-permitted-cross-domain-policies",
+              "value": "none"
+            },
+            {
+              "key": "X-Cache",
+              "value": "Miss from cloudfront"
+            },
+            {
+              "key": "Via",
+              "value": "1.1 bab0321b4bf0fd055bdfb0282cee7346.cloudfront.net (CloudFront)"
+            },
+            {
+              "key": "X-Amz-Cf-Pop",
+              "value": "FRA60-P14"
+            },
+            {
+              "key": "X-Amz-Cf-Id",
+              "value": "Oo00SeXl5buNEv7G1awryC4EOU15tTd-5bKqreGhlYkZswi40utE7Q=="
+            },
+            {
+              "key": "Server-Timing",
+              "value": "cdn-upstream-layer;desc=\"EDGE\",cdn-upstream-dns;dur=1,cdn-upstream-connect;dur=0,cdn-upstream-fbl;dur=162,cdn-cache-miss,cdn-pop;desc=\"FRA60-P14\",cdn-rid;desc=\"Oo00SeXl5buNEv7G1awryC4EOU15tTd-5bKqreGhlYkZswi40utE7Q==\",cdn-downstream-fbl;dur=166"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"data\": [\n        {\n            \"_id\": \"6a04ce57484d25001496f348\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def154b72000f1d251a\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-05-14 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-05-15 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"HMK2X9NWK8\"\n            },\n            \"listing\": {\n                \"name\": \"Hippo / cosy two bedroom apartment(75m2)\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Markus Bauer\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"airbnb2\"\n            },\n            \"guest.email\": {},\n            \"guestsCount\": {\n                \"children\": 1\n            },\n            \"money.hostPayout\": {\n                \"value\": 65.32,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a04612c5060810014426b3a\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-05-15 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-05-16 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-C06DB5D82\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Thomas Balz\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"tbalz.565417@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 2\n            },\n            \"money.hostPayout\": {\n                \"value\": 58.3,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a045e477e62890014977346\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def154b72000f1d251a\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-05-15 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-05-17 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"HMZ9FANJPK\"\n            },\n            \"listing\": {\n                \"name\": \"Hippo / cosy two bedroom apartment(75m2)\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Marcel Plüschke\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"airbnb2\"\n            },\n            \"guest.email\": {},\n            \"guestsCount\": {\n                \"children\": 5\n            },\n            \"money.hostPayout\": {\n                \"value\": 315.86,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a0461595060810014426cf5\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-05-16 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-05-17 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-EB40E1D63\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Eva Semler\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"esemle.727623@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 3\n            },\n            \"money.hostPayout\": {\n                \"value\": 54.27,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a046246124dcc0014d36624\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def77b4d200132ba6a8\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-05-16 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-05-17 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-A59B2C5EB\"\n            },\n            \"listing\": {\n                \"name\": \"HN2 / HarmoNest Apartments and suites\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Maria Schüler\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"mschul.704269@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 2\n            },\n            \"money.hostPayout\": {\n                \"value\": 81.7,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a045e47154b72000f1d2a49\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def154b72000f1d251a\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-05-22 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-05-23 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"HMDZDSEBXF\"\n            },\n            \"listing\": {\n                \"name\": \"Hippo / cosy two bedroom apartment(75m2)\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Sini Westendorp\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"airbnb2\"\n            },\n            \"guest.email\": {},\n            \"guestsCount\": {\n                \"children\": 5\n            },\n            \"money.hostPayout\": {\n                \"value\": 128.86,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a0461475060810014426c3d\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-05-22 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-05-24 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-7CF4E2978\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Nathalie Van Sever\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"nsever.708097@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 2\n            },\n            \"money.hostPayout\": {\n                \"value\": 116.6,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a04624a124dcc0014d36637\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def77b4d200132ba6a8\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-05-23 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-05-24 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-C0D68DC8E\"\n            },\n            \"listing\": {\n                \"name\": \"HN2 / HarmoNest Apartments and suites\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Martin Römgens\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"mromge.171027@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 4\n            },\n            \"money.hostPayout\": {\n                \"value\": 82.13,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a046258124dcc0014d36685\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def154b72000f1d251a\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-05-23 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-05-24 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-5A5E4B2E8\"\n            },\n            \"listing\": {\n                \"name\": \"Hippo / cosy two bedroom apartment(75m2)\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Monika Pixius\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"mpixiu.967025@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 5\n            },\n            \"money.hostPayout\": {\n                \"value\": 181.37,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a046225124dcc0014d36497\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def77b4d200132ba6a8\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-05-28 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-06-01 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-47C4BEB2B\"\n            },\n            \"listing\": {\n                \"name\": \"HN2 / HarmoNest Apartments and suites\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Marvin Mack\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"mmack.418663@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 1\n            },\n            \"money.hostPayout\": {\n                \"value\": 396.14,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a0461355060810014426b73\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-05-29 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-05-30 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-6DD3F87BE\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Jana Schröder\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"jschro.814275@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 3\n            },\n            \"money.hostPayout\": {\n                \"value\": 54.27,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a0461505060810014426c6b\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-05-30 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-05-31 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-53A57F01F\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Jegatheeswaran Thambiappa\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"jthamb.383390@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 2\n            },\n            \"money.hostPayout\": {\n                \"value\": 54.27,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a046241124dcc0014d36611\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def77b4d200132ba6a8\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-06-07 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-06-08 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-A7138A10A\"\n            },\n            \"listing\": {\n                \"name\": \"HN2 / HarmoNest Apartments and suites\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Simon Großmann\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"sgross.618228@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 4\n            },\n            \"money.hostPayout\": {\n                \"value\": 80.31,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a045e486c032a00124a0fb4\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def154b72000f1d251a\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-06-12 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-06-14 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"HMEXDHZM9T\"\n            },\n            \"listing\": {\n                \"name\": \"Hippo / cosy two bedroom apartment(75m2)\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Eliška Vrbová\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"airbnb2\"\n            },\n            \"guest.email\": {},\n            \"guestsCount\": {\n                \"children\": 5\n            },\n            \"money.hostPayout\": {\n                \"value\": 278.43,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a04622f124dcc0014d364c9\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def77b4d200132ba6a8\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-06-12 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-06-14 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-E5DD2C75F\"\n            },\n            \"listing\": {\n                \"name\": \"HN2 / HarmoNest Apartments and suites\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Andreas Schädel\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"aschad.989691@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 4\n            },\n            \"money.hostPayout\": {\n                \"value\": 161.54,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a0461315060810014426b55\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-06-19 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-06-21 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-21EC86D01\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Madulein Harff-Bertolini\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"mharff.382559@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 2\n            },\n            \"money.hostPayout\": {\n                \"value\": 97.68,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a046229124dcc0014d364b6\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def77b4d200132ba6a8\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-06-20 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-06-21 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-C84E3E32D\"\n            },\n            \"listing\": {\n                \"name\": \"HN2 / HarmoNest Apartments and suites\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Claudia Schardt\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"cschar.138951@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 3\n            },\n            \"money.hostPayout\": {\n                \"value\": 128.34,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a045e481659510015a084ca\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def154b72000f1d251a\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-07-02 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-07-03 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"HMF5JQ3RNE\"\n            },\n            \"listing\": {\n                \"name\": \"Hippo / cosy two bedroom apartment(75m2)\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"David Steinmarck\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"airbnb2\"\n            },\n            \"guest.email\": {},\n            \"guestsCount\": {\n                \"children\": 5\n            },\n            \"money.hostPayout\": {\n                \"value\": 122.33,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a04613e5060810014426baf\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-07-02 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-07-04 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-9E93900DE\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Ali Salman\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"asalma.372071@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 2\n            },\n            \"money.hostPayout\": {\n                \"value\": 97.68,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a046238124dcc0014d36561\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def77b4d200132ba6a8\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-07-03 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-07-04 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-36139E3E0\"\n            },\n            \"listing\": {\n                \"name\": \"HN2 / HarmoNest Apartments and suites\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Leo Held\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"lheld.758051@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 3\n            },\n            \"money.hostPayout\": {\n                \"value\": 80.41,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a0461545060810014426c93\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-07-10 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-07-11 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-DB2098CEF\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Roland Knoch\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"rknoch.334386@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 2\n            },\n            \"money.hostPayout\": {\n                \"value\": 54.27,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a045e0c7e62890014976f5f\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-07-11 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-07-12 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"HMYBYEXDZD\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Ana Rodríguez Puerta\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"airbnb2\"\n            },\n            \"guest.email\": {},\n            \"guestsCount\": {\n                \"children\": 2\n            },\n            \"money.hostPayout\": {\n                \"value\": 43.31,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a04614c5060810014426c54\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-07-16 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-07-18 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-541068A92\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Stefan Meinel\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"smeine.781572@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 1\n            },\n            \"money.hostPayout\": {\n                \"value\": 103.68,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a045e0c3f64580015cf809d\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-07-18 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-07-19 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"HM5BWZDYPR\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Leila Zimmerman\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"airbnb2\"\n            },\n            \"guest.email\": {},\n            \"guestsCount\": {\n                \"children\": 2\n            },\n            \"money.hostPayout\": {\n                \"value\": 43.31,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a045e4808b72c001446a3c6\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def154b72000f1d251a\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-07-18 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-07-19 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"HMCC84TFQH\"\n            },\n            \"listing\": {\n                \"name\": \"Hippo / cosy two bedroom apartment(75m2)\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Lucas Van De Winkel\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"airbnb2\"\n            },\n            \"guest.email\": {},\n            \"guestsCount\": {\n                \"children\": 5\n            },\n            \"money.hostPayout\": {\n                \"value\": 145.09,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a0461435060810014426c26\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-07-24 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-07-26 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-EC89B1CA7\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Hermann Engbers\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"hengbe.623266@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 2\n            },\n            \"money.hostPayout\": {\n                \"value\": 97.68,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a04624e124dcc0014d3664a\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def77b4d200132ba6a8\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-07-25 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-07-26 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-597BD9C5C\"\n            },\n            \"listing\": {\n                \"name\": \"HN2 / HarmoNest Apartments and suites\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Björn Goldberg\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"bgoldb.932858@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 2\n            },\n            \"money.hostPayout\": {\n                \"value\": 162,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a0461395060810014426b86\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-07-31 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-08-02 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-03449139B\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Winfried Kaiser\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"wkaise.362525@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 2\n            },\n            \"money.hostPayout\": {\n                \"value\": 134.14,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a04623c124dcc0014d365c2\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def77b4d200132ba6a8\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-07-31 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-08-02 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-7457A88D9\"\n            },\n            \"listing\": {\n                \"name\": \"HN2 / HarmoNest Apartments and suites\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Markus Kaiser\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"mkaise.855714@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 2\n            },\n            \"money.hostPayout\": {\n                \"value\": 166.32,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a045e48d7a16500141018c5\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def154b72000f1d251a\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-08-17 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-08-18 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"HMTXBDMWPP\"\n            },\n            \"listing\": {\n                \"name\": \"Hippo / cosy two bedroom apartment(75m2)\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Onno Van Rijsinge\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"airbnb2\"\n            },\n            \"guest.email\": {},\n            \"guestsCount\": {\n                \"children\": 4\n            },\n            \"money.hostPayout\": {\n                \"value\": 107.98,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a046233124dcc0014d364e0\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def77b4d200132ba6a8\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-08-25 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-08-27 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-92245DB7E\"\n            },\n            \"listing\": {\n                \"name\": \"HN2 / HarmoNest Apartments and suites\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Demi Hazenberg\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"dhazen.564231@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 3\n            },\n            \"money.hostPayout\": {\n                \"value\": 159.39,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a045e1b3f64580015cf81b9\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045def77b4d200132ba6a8\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-10-03 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-10-04 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"HMHJWFQJ2E\"\n            },\n            \"listing\": {\n                \"name\": \"HN2 / HarmoNest Apartments and suites\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Andrea Roosen\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"airbnb2\"\n            },\n            \"guest.email\": {},\n            \"guestsCount\": {\n                \"children\": 4\n            },\n            \"money.hostPayout\": {\n                \"value\": 119.97,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        },\n        {\n            \"_id\": \"6a04615e5060810014426d26\",\n            \"accountId\": \"698c634f8462114283f39c55\",\n            \"status\": {\n                \"children\": \"confirmed\"\n            },\n            \"timezone\": {\n                \"children\": \"Europe/Berlin\"\n            },\n            \"listingId\": {\n                \"children\": \"6a045defe8e8730011e03839\"\n            },\n            \"checkIn\": {\n                \"value\": \"2026-10-03 02:00 PM\"\n            },\n            \"checkOut\": {\n                \"value\": \"2026-10-04 11:00 AM\"\n            },\n            \"confirmationCode\": {\n                \"children\": \"BC-AEDAAC93C\"\n            },\n            \"listing\": {\n                \"name\": \"HN1 / HarmoNest apartments and suites1\",\n                \"img\": \"https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv\",\n                \"withAvatar\": true\n            },\n            \"guest\": {\n                \"name\": \"Anja Reuner\",\n                \"withAvatar\": false\n            },\n            \"source\": {\n                \"children\": \"Booking.com\"\n            },\n            \"guest.email\": {\n                \"children\": \"areune.341588@guest.booking.com\"\n            },\n            \"guestsCount\": {\n                \"children\": 3\n            },\n            \"money.hostPayout\": {\n                \"value\": 77.4,\n                \"currency\": \"EUR\"\n            },\n            \"money.totalPaid\": {\n                \"value\": 0,\n                \"currency\": \"EUR\"\n            }\n        }\n    ],\n    \"total\": 33,\n    \"skip\": 0,\n    \"limit\": 50,\n    \"hasAnyReservationReportsInTotal\": true\n}"
+        }
+      ]
+    },
+    {
+      "name": "7 - Get Single Reservation",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "x-agni-version",
+            "value": "2"
+          }
+        ],
+        "url": {
+          "raw": "https://app.guesty.com/api/reservations-fegw/reservations/{{reservationId}}?newResponse=true",
+          "protocol": "https",
+          "host": [
+            "app",
+            "guesty",
+            "com"
+          ],
+          "path": [
+            "api",
+            "reservations-fegw",
+            "reservations",
+            "{{reservationId}}"
+          ],
+          "query": [
+            {
+              "key": "newResponse",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "7 - Get Single Reservation",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "x-agni-version",
+                "value": "2"
+              }
+            ],
+            "url": {
+              "raw": "https://app.guesty.com/api/reservations-fegw/reservations/{{reservationId}}?newResponse=true",
+              "protocol": "https",
+              "host": [
+                "app",
+                "guesty",
+                "com"
+              ],
+              "path": [
+                "api",
+                "reservations-fegw",
+                "reservations",
+                "{{reservationId}}"
+              ],
+              "query": [
+                {
+                  "key": "newResponse",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 14 May 2026 12:57:13 GMT"
+            },
+            {
+              "key": "X-Gst-Kong-Dc",
+              "value": "production-2"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "X-DNS-Prefetch-Control",
+              "value": "off"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "deny"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000;includesubdomains"
+            },
+            {
+              "key": "X-Download-Options",
+              "value": "noopen"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "1;mode=block"
+            },
+            {
+              "key": "uber-trace-id",
+              "value": "8f2ce58fa708cb8c:8f2ce58fa708cb8c:0:1"
+            },
+            {
+              "key": "uberctx-accountid",
+              "value": "698c634f8462114283f39c55"
+            },
+            {
+              "key": "x-request-id",
+              "value": "8f2ce58fa708cb8c"
+            },
+            {
+              "key": "Gst-Pep",
+              "value": "1.3.3"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"375a-sp5DgVsPMvsnDccO0GeSr+LVmn4\""
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "br"
+            },
+            {
+              "key": "x-content-type",
+              "value": "nosniff"
+            },
+            {
+              "key": "x-permitted-cross-domain-policies",
+              "value": "none"
+            },
+            {
+              "key": "X-Cache",
+              "value": "Miss from cloudfront"
+            },
+            {
+              "key": "Via",
+              "value": "1.1 2e1545751358065284c508c87f8e3d4c.cloudfront.net (CloudFront)"
+            },
+            {
+              "key": "X-Amz-Cf-Pop",
+              "value": "FRA60-P14"
+            },
+            {
+              "key": "X-Amz-Cf-Id",
+              "value": "h7XjDVPDfPjZRqwJSO3j3h7pFvyelYWGNDif52c_MBF3-axyedSB5g=="
+            },
+            {
+              "key": "Server-Timing",
+              "value": "cdn-upstream-layer;desc=\"EDGE\",cdn-upstream-dns;dur=7,cdn-upstream-connect;dur=0,cdn-upstream-fbl;dur=298,cdn-cache-miss,cdn-pop;desc=\"FRA60-P14\",cdn-rid;desc=\"h7XjDVPDfPjZRqwJSO3j3h7pFvyelYWGNDif52c_MBF3-axyedSB5g==\",cdn-downstream-fbl;dur=308"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"reservation\": {\n        \"_id\": \"6a04ce57484d25001496f348\",\n        \"createdAt\": \"2026-05-13T19:17:43.968Z\",\n        \"status\": \"confirmed\",\n        \"confirmationCode\": \"HMK2X9NWK8\",\n        \"accountId\": \"698c634f8462114283f39c55\",\n        \"checkInDateLocalized\": \"2026-05-14\",\n        \"checkOutDateLocalized\": \"2026-05-15\",\n        \"conversationId\": \"6a04ce5773baf0001169fabe\",\n        \"source\": \"airbnb2\",\n        \"platform\": \"airbnb2\",\n        \"bookerId\": \"6a04ce56d4042daef4d3c1b8\",\n        \"integrationId\": \"6a045ddc923ff19a02badf47\",\n        \"guestsCount\": 1,\n        \"numberOfGuests\": {\n            \"numberOfAdults\": 1,\n            \"numberOfInfants\": 0,\n            \"numberOfChildren\": 0,\n            \"numberOfPets\": 0\n        },\n        \"legacySystem\": true,\n        \"systemSource\": \"LEGACY\",\n        \"unitTypeId\": \"6a045def154b72000f1d251a\",\n        \"unitId\": \"6a045def154b72000f1d251a\",\n        \"eta\": \"2026-05-14T14:00:00.000Z\",\n        \"etd\": \"2026-05-15T11:00:00.000Z\",\n        \"stay\": [\n            {\n                \"checkInDateLocalized\": \"2026-05-14\",\n                \"checkOutDateLocalized\": \"2026-05-15\",\n                \"guestsCount\": 1,\n                \"numberOfGuests\": {\n                    \"numberOfAdults\": 1,\n                    \"numberOfInfants\": 0,\n                    \"numberOfChildren\": 0,\n                    \"numberOfPets\": 0\n                },\n                \"unitTypeId\": \"6a045def154b72000f1d251a\",\n                \"unitId\": \"6a045def154b72000f1d251a\",\n                \"eta\": \"2026-05-14T14:00:00.000Z\",\n                \"etd\": \"2026-05-15T11:00:00.000Z\",\n                \"earlyCheckIn\": {\n                    \"blockDay\": false\n                },\n                \"lateCheckOut\": {\n                    \"blockDay\": false\n                },\n                \"listing\": {\n                    \"value\": {\n                        \"_id\": \"6a045def154b72000f1d251a\",\n                        \"cleaningStatus\": {\n                            \"value\": \"dirty\"\n                        },\n                        \"pms\": {\n                            \"active\": true\n                        },\n                        \"type\": \"SINGLE\",\n                        \"tags\": [],\n                        \"active\": true,\n                        \"title\": \"cosy two bedroom apartment(75m2)\",\n                        \"isListed\": true,\n                        \"address\": {\n                            \"city\": \"Mönchengladbach\",\n                            \"state\": \"Nordrhein-Westfalen\",\n                            \"zipcode\": \"41238\",\n                            \"country\": \"Germany\",\n                            \"lat\": 51.15043259999999,\n                            \"lng\": 6.463508399999999,\n                            \"full\": \"Giesenkirchener Straße 126, Mönchengladbach, Nordrhein-Westfalen 41238, Germany\"\n                        },\n                        \"defaultCheckInTime\": \"14:00\",\n                        \"defaultCheckOutTime\": \"11:00\",\n                        \"integrations\": [\n                            {\n                                \"_id\": \"6a045ddc923ff19a02badf47\",\n                                \"platform\": \"airbnb2\",\n                                \"externalUrl\": \"https://www.airbnb.com/rooms/943192987005572886\",\n                                \"connectionType\": \"FullConnected\",\n                                \"airbnb2\": {\n                                    \"daysOfWeekMinimumNights\": [],\n                                    \"promotions\": [],\n                                    \"id\": \"943192987005572886\",\n                                    \"instantBookingAllowedCategory\": \"everyone\",\n                                    \"bookingLeadTime\": {\n                                        \"hours\": 1,\n                                        \"allowRequestToBook\": false\n                                    },\n                                    \"maxDaysNotice\": {\n                                        \"days\": 180,\n                                        \"allowRequestToBook\": true\n                                    },\n                                    \"turnoverDays\": 0,\n                                    \"tier\": \"marketplace\",\n                                    \"syncCategory\": \"sync_all\",\n                                    \"syncCategoryUpdatedAt\": \"2026-05-13T11:18:05.209Z\",\n                                    \"cancellationPolicy\": \"moderate\",\n                                    \"cancellationPenaltyEnabled\": false,\n                                    \"permits\": {\n                                        \"regulations\": [\n                                            {\n                                                \"regulatoryBody\": \"european_union_lrn\",\n                                                \"regulationType\": \"tax_reporting\",\n                                                \"status\": \"initial\"\n                                            },\n                                            {\n                                                \"regulatoryBody\": \"germany\",\n                                                \"regulationType\": \"registration\",\n                                                \"status\": \"initial\"\n                                            },\n                                            {\n                                                \"regulatoryBody\": \"germany_epc\",\n                                                \"regulationType\": \"registration\",\n                                                \"status\": \"initial\"\n                                            }\n                                        ],\n                                        \"lastUpdatedOn\": \"2026-05-13T11:18:05.209Z\"\n                                    },\n                                    \"hostRole\": \"OWNER\",\n                                    \"status\": \"COMPLETED\"\n                                }\n                            },\n                            {\n                                \"_id\": \"6a046124b3f312001333f0bc\",\n                                \"platform\": \"bookingCom\",\n                                \"bookingCom\": {\n                                    \"acceptedCreditCards\": [],\n                                    \"initialComplexListing\": false,\n                                    \"publishCompanyLogo\": false,\n                                    \"isPublishedCompanyLogo\": false,\n                                    \"publishCompanyInfo\": false,\n                                    \"isPublishedCompanyInfo\": false,\n                                    \"taxInfo\": [],\n                                    \"hotelId\": 10570128,\n                                    \"id\": 1057012801,\n                                    \"rateId\": 37729350,\n                                    \"rateName\": \"Standard Rate\",\n                                    \"currency\": \"EUR\",\n                                    \"useRMCancellationPolicy\": false,\n                                    \"isLiteLink\": true,\n                                    \"isPublishedByGuesty\": false,\n                                    \"syncType\": \"ARI\",\n                                    \"isComplex\": false,\n                                    \"status\": \"COMPLETED\",\n                                    \"pricingModel\": \"nightly_rate\"\n                                },\n                                \"externalUrl\": \"https://booking.com/hotel/de/cosy-2-bedroom-apartment-75m2.en.html\"\n                            }\n                        ],\n                        \"accommodates\": 5,\n                        \"timezone\": \"Europe/Berlin\",\n                        \"accountId\": \"698c634f8462114283f39c55\",\n                        \"nickname\": \"Hippo\",\n                        \"picture\": {\n                            \"thumbnail\": \"https://assets.guesty.com/image/upload/t_default_thumb/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5\"\n                        },\n                        \"financials\": {\n                            \"channelCommission\": {\n                                \"accountId\": \"698c634f8462114283f39c55\",\n                                \"unitTypeId\": \"6a045def154b72000f1d251a\",\n                                \"useAccountSettings\": true,\n                                \"manual\": []\n                            }\n                        }\n                    },\n                    \"status\": \"SUCCESS\"\n                }\n            }\n        ],\n        \"customFields\": [],\n        \"confirmedAt\": \"2026-05-13T19:17:43.440Z\",\n        \"guestStay\": {\n            \"status\": \"not_set\",\n            \"createdAt\": \"2026-05-13T19:17:43.367Z\",\n            \"updatedAt\": \"2026-05-13T19:17:43.367Z\"\n        },\n        \"manuallyCreated\": false,\n        \"conversationExternalId\": \"2530983856\",\n        \"channelMetadata\": {\n            \"externalReservationId\": \"HMK2X9NWK8\",\n            \"externalListingId\": \"943192987005572886\",\n            \"createdAt\": \"2026-05-13T19:17:08.733Z\",\n            \"hostRole\": \"OWNER\",\n            \"confirmedAt\": \"2026-05-13T19:17:16.343Z\",\n            \"cancellationPolicy\": \"moderate\"\n        },\n        \"ratePlans\": [\n            {\n                \"cancellationPolicy\": \"moderate\"\n            }\n        ],\n        \"payments\": {\n            \"value\": {\n                \"payments\": [\n                    {\n                        \"_id\": \"6a04ce57d06c80af912cbd7e\",\n                        \"reservationId\": \"6a04ce57484d25001496f348\",\n                        \"accountId\": \"698c634f8462114283f39c55\",\n                        \"paymentMethodStatus\": \"ACTIVE\",\n                        \"paymentMethodId\": \"58a48a4fea2a13ea9fda5873\",\n                        \"isAuthorizationHold\": false,\n                        \"isSecurityDeposit\": false,\n                        \"status\": \"PENDING\",\n                        \"chargebacksData\": {\n                            \"chargebacks\": []\n                        },\n                        \"amount\": 65.32,\n                        \"currency\": \"EUR\",\n                        \"shouldBePaidAt\": \"2026-05-15T00:00:00.000Z\",\n                        \"refunds\": [],\n                        \"createdAt\": \"2026-05-13T19:17:43.820Z\",\n                        \"authorizationHoldCaptures\": [],\n                        \"attempts\": [],\n                        \"receiptTargets\": [],\n                        \"updatedAt\": \"2026-05-13T19:17:43.821Z\",\n                        \"__v\": 0\n                    }\n                ],\n                \"balanceDue\": 65.32,\n                \"paymentsDue\": 65.32,\n                \"totalPaid\": 0,\n                \"totalRefunded\": 0,\n                \"totalPaymentFees\": 0,\n                \"isFullyPaid\": false,\n                \"isTouchedPayments\": false,\n                \"currency\": \"EUR\",\n                \"hostPayout\": 65.32\n            },\n            \"status\": \"SUCCESS\"\n        },\n        \"money\": {\n            \"value\": {\n                \"_id\": \"6a04ce57ec7cfd621b009b2b\",\n                \"reservationId\": \"6a04ce57484d25001496f348\",\n                \"listingId\": \"6a045def154b72000f1d251a\",\n                \"accountId\": \"698c634f8462114283f39c55\",\n                \"hostOriginalPayout\": 65.32,\n                \"invoiceItems\": [\n                    {\n                        \"title\": \"Accommodation fare\",\n                        \"amount\": 80.1,\n                        \"currency\": \"EUR\",\n                        \"isLocked\": true,\n                        \"type\": \"ACCOMMODATION_FARE\",\n                        \"normalType\": \"AF\",\n                        \"refId\": \"d07d6956-41c2-45e6-b91e-490d121db0f6\",\n                        \"origin\": \"CHANNEL\",\n                        \"internalIndex\": 0,\n                        \"originalGrosses\": {\n                            \"amount\": 80.1,\n                            \"baseAmount\": 80.1,\n                            \"breakdown\": [\n                                {\n                                    \"date\": \"2026-05-14\",\n                                    \"price\": 80.1\n                                }\n                            ]\n                        },\n                        \"_id\": \"6a04ce57ec7cfd621b009b20\"\n                    },\n                    {\n                        \"title\": \"Cleaning fee\",\n                        \"amount\": 0,\n                        \"baseAmount\": 0,\n                        \"currency\": \"EUR\",\n                        \"isLocked\": true,\n                        \"type\": \"CLEANING_FEE\",\n                        \"normalType\": \"CF\",\n                        \"refId\": \"7b4006de-138e-4e7f-8798-5bd52b622713\",\n                        \"origin\": \"CHANNEL\",\n                        \"internalIndex\": 0,\n                        \"originalGrosses\": {\n                            \"amount\": 0,\n                            \"baseAmount\": 0\n                        },\n                        \"_id\": \"6a04ce57ec7cfd621b009b21\"\n                    },\n                    {\n                        \"title\": \"Host channel fee\",\n                        \"amount\": -14.78,\n                        \"baseAmount\": -14.78,\n                        \"currency\": \"EUR\",\n                        \"isLocked\": true,\n                        \"normalType\": \"PCM\",\n                        \"refId\": \"b7f63e07-1627-40b3-a1bc-f2c42a333706\",\n                        \"origin\": \"CHANNEL\",\n                        \"internalIndex\": 0,\n                        \"_id\": \"6a04ce57ec7cfd621b009b22\"\n                    }\n                ],\n                \"channelInvoiceItems\": [\n                    {\n                        \"name\": \"ACCOMMODATION\",\n                        \"type\": \"ACCOMMODATION_FARE\",\n                        \"title\": \"Accommodation fare\",\n                        \"normalType\": \"AF\",\n                        \"channel\": \"AirBnbOfficial\",\n                        \"currency\": \"EUR\",\n                        \"amount\": 80.1,\n                        \"isLocked\": true,\n                        \"origin\": \"CHANNEL\"\n                    },\n                    {\n                        \"name\": \"CLEANING_FEE\",\n                        \"type\": \"CLEANING_FEE\",\n                        \"title\": \"Cleaning fee\",\n                        \"normalType\": \"CF\",\n                        \"channel\": \"AirBnbOfficial\",\n                        \"currency\": \"EUR\",\n                        \"amount\": 0,\n                        \"isLocked\": true,\n                        \"origin\": \"CHANNEL\"\n                    },\n                    {\n                        \"name\": \"HOST_SERVICE_FEE\",\n                        \"type\": \"ADDITIONAL\",\n                        \"title\": \"Host channel fee\",\n                        \"normalType\": \"PCM\",\n                        \"channel\": \"AirBnbOfficial\",\n                        \"currency\": \"EUR\",\n                        \"amount\": 14.78,\n                        \"isLocked\": true,\n                        \"origin\": \"CHANNEL\"\n                    }\n                ],\n                \"nightlyRateInvoiceItems\": [\n                    {\n                        \"_id\": \"6a04ce57ec7cfd621b009b20\",\n                        \"adjustments\": [],\n                        \"includedAdjustments\": [],\n                        \"internalIndex\": 0,\n                        \"isCalculatedByGuesty\": true,\n                        \"nightsBreakdown\": [\n                            {\n                                \"date\": \"2026-05-14\",\n                                \"basePrice\": 80.1,\n                                \"_id\": \"6a04ce57ec7cfd621b009b35\"\n                            }\n                        ],\n                        \"normalType\": \"AF\",\n                        \"origin\": \"CHANNEL\",\n                        \"refId\": \"d07d6956-41c2-45e6-b91e-490d121db0f6\",\n                        \"title\": \"Accommodation fare\",\n                        \"totalNightsPrice\": 80.1,\n                        \"totalPrice\": 80.1\n                    },\n                    {\n                        \"_id\": \"6a04ce57ec7cfd621b009b21\",\n                        \"adjustments\": [],\n                        \"includedAdjustments\": [],\n                        \"internalIndex\": 0,\n                        \"isCalculatedByGuesty\": true,\n                        \"multiplier\": \"PER_STAY\",\n                        \"nightsBreakdown\": [\n                            {\n                                \"date\": \"2026-05-14\",\n                                \"basePrice\": 0,\n                                \"_id\": \"6a04ce57ec7cfd621b009b36\"\n                            }\n                        ],\n                        \"normalType\": \"CF\",\n                        \"origin\": \"CHANNEL\",\n                        \"refId\": \"7b4006de-138e-4e7f-8798-5bd52b622713\",\n                        \"title\": \"Cleaning fee\",\n                        \"totalNightsPrice\": 0,\n                        \"totalPrice\": 0\n                    },\n                    {\n                        \"_id\": \"6a04ce57ec7cfd621b009b22\",\n                        \"adjustments\": [],\n                        \"includedAdjustments\": [],\n                        \"internalIndex\": 0,\n                        \"isCalculatedByGuesty\": true,\n                        \"multiplier\": \"PER_NIGHT\",\n                        \"nightsBreakdown\": [\n                            {\n                                \"date\": \"2026-05-14\",\n                                \"basePrice\": -14.78,\n                                \"_id\": \"6a04ce57ec7cfd621b009b37\"\n                            }\n                        ],\n                        \"normalType\": \"PCM\",\n                        \"origin\": \"CHANNEL\",\n                        \"refId\": \"b7f63e07-1627-40b3-a1bc-f2c42a333706\",\n                        \"title\": \"Host channel fee\",\n                        \"totalNightsPrice\": -14.78,\n                        \"totalPrice\": -14.78\n                    }\n                ],\n                \"currency\": \"EUR\",\n                \"platform\": \"airbnb2\",\n                \"source\": \"airbnb2\",\n                \"fareAccommodationAdjustment\": 0,\n                \"fareAccommodationDiscount\": 0,\n                \"fareAccommodation\": 80.1,\n                \"fareAccommodationAdjusted\": 80.1,\n                \"fareAccommodationBundleFeesApplied\": 0,\n                \"fareCleaning\": 0,\n                \"guestFeeBase\": 0,\n                \"guestFeeVat\": 0,\n                \"hostServiceFee\": 14.78,\n                \"hostServiceFeeTax\": 0,\n                \"hostServiceFeeIncTax\": 14.78,\n                \"subTotalPrice\": 65.32,\n                \"hostPayout\": 65.32,\n                \"hostPayoutUsd\": 76.46,\n                \"totalTaxes\": 0,\n                \"totalFees\": 0,\n                \"useAccountRevenueShare\": true,\n                \"netIncomeFormula\": \"host_payout\",\n                \"netIncome\": 65.32,\n                \"commissionFormula\": \"net_income\",\n                \"commission\": 65.32,\n                \"commissionTaxPercentage\": 0,\n                \"commissionTax\": 0,\n                \"commissionIncTax\": 65.32,\n                \"ownerRevenueFormula\": \"net_income - pm_commission\",\n                \"ownerRevenue\": 0,\n                \"channelCommissionRules\": null,\n                \"currencyConversionRateToAccount\": 1,\n                \"deductedFees\": [],\n                \"altered\": false,\n                \"transientOccupancyTax\": 0,\n                \"isNightlyRateInExternalCollection\": true,\n                \"version\": 2,\n                \"bundledFees\": [],\n                \"createdAt\": \"2026-05-13T19:17:43.621Z\",\n                \"updatedAt\": \"2026-05-13T19:17:43.621Z\",\n                \"__v\": 0,\n                \"settingsSnapshot\": {\n                    \"_id\": \"6a04ce57ec7cfd621b009b33\",\n                    \"guestsIncludedInRegularFee\": 2,\n                    \"extraPersonFee\": 14,\n                    \"channelCommission\": {\n                        \"manual\": []\n                    },\n                    \"taxes\": [],\n                    \"monthlyPriceFactor\": 0.87,\n                    \"weeklyPriceFactor\": 0.9,\n                    \"useAccountRevenueShare\": true,\n                    \"useAccountAdditionalFees\": false,\n                    \"cleaningFeeFormula\": {\n                        \"value\": {\n                            \"formula\": 0,\n                            \"valueType\": \"FIXED\",\n                            \"multiplier\": \"PER_STAY\"\n                        }\n                    },\n                    \"additionalFees\": [],\n                    \"channelAdditionalFees\": [],\n                    \"currency\": {\n                        \"from\": \"EUR\",\n                        \"to\": \"EUR\",\n                        \"rateDate\": \"2026-05-13T19:17:43.491Z\",\n                        \"rate\": 1\n                    },\n                    \"markup\": null,\n                    \"separateAfToSeveralInvoiceItems\": true,\n                    \"useDeductedTaxesFormula\": true,\n                    \"isTaxesPerLineItemReservation\": true,\n                    \"extractInclusiveTaxesEnabled\": false,\n                    \"reservationId\": \"6a04ce57484d25001496f348\",\n                    \"stayIndex\": 0,\n                    \"listingId\": \"6a045def154b72000f1d251a\",\n                    \"accountId\": \"698c634f8462114283f39c55\",\n                    \"moneyId\": \"6a04ce57ec7cfd621b009b2b\",\n                    \"createdAt\": \"2026-05-13T19:17:43.626Z\",\n                    \"updatedAt\": \"2026-05-13T19:17:43.626Z\",\n                    \"__v\": 0\n                },\n                \"balanceDue\": 65.32,\n                \"paymentsDue\": 65.32,\n                \"totalPaid\": 0,\n                \"totalRefunded\": 0,\n                \"totalPaymentFees\": 0,\n                \"isFullyPaid\": false,\n                \"isTouchedPayments\": false\n            },\n            \"status\": \"SUCCESS\"\n        },\n        \"guest\": {\n            \"value\": {\n                \"_id\": \"6a04ce56d4042daef4d3c1b8\",\n                \"accountId\": \"698c634f8462114283f39c55\",\n                \"firstName\": \"Markus\",\n                \"lastName\": \"Bauer\",\n                \"fullName\": \"Markus Bauer\",\n                \"verifications\": [],\n                \"emails\": [],\n                \"phones\": [\n                    \"491751453567\"\n                ],\n                \"phone\": \"491751453567\",\n                \"languages\": \"de\",\n                \"airbnb\": {\n                    \"id\": \"1523665402323078\"\n                },\n                \"airbnb2\": {\n                    \"id\": \"55929892\",\n                    \"firstName\": \"Markus\",\n                    \"lastName\": \"Bauer\",\n                    \"fullName\": \"Markus Bauer\",\n                    \"isFromChannel\": true,\n                    \"url\": \"https://www.airbnb.com/users/show/55929892\"\n                },\n                \"tags\": [],\n                \"preferredLanguage\": \"de\",\n                \"dietaryPreferences\": [],\n                \"allergies\": [],\n                \"interests\": [],\n                \"otaLinks\": [\n                    {\n                        \"type\": \"airbnb\",\n                        \"url\": \"https://www.airbnb.com/users/show/55929892\"\n                    }\n                ],\n                \"isOtaModified\": false,\n                \"contactType\": \"guest\",\n                \"communicationMethods\": [\n                    \"airbnb2\",\n                    \"sms\"\n                ],\n                \"paymentMethodIds\": [],\n                \"paymentProvidersCustomers\": [],\n                \"archive\": {\n                    \"isArchived\": false,\n                    \"at\": null\n                },\n                \"pictures\": [],\n                \"createdAt\": \"2026-05-13T19:17:42.657Z\",\n                \"__v\": 0,\n                \"confirmed\": true\n            },\n            \"status\": \"SUCCESS\"\n        },\n        \"listing\": {\n            \"value\": {\n                \"_id\": \"6a045def154b72000f1d251a\",\n                \"cleaningStatus\": {\n                    \"value\": \"dirty\"\n                },\n                \"pms\": {\n                    \"active\": true\n                },\n                \"type\": \"SINGLE\",\n                \"tags\": [],\n                \"active\": true,\n                \"title\": \"cosy two bedroom apartment(75m2)\",\n                \"isListed\": true,\n                \"address\": {\n                    \"city\": \"Mönchengladbach\",\n                    \"state\": \"Nordrhein-Westfalen\",\n                    \"zipcode\": \"41238\",\n                    \"country\": \"Germany\",\n                    \"lat\": 51.15043259999999,\n                    \"lng\": 6.463508399999999,\n                    \"full\": \"Giesenkirchener Straße 126, Mönchengladbach, Nordrhein-Westfalen 41238, Germany\"\n                },\n                \"defaultCheckInTime\": \"14:00\",\n                \"defaultCheckOutTime\": \"11:00\",\n                \"integrations\": [\n                    {\n                        \"_id\": \"6a045ddc923ff19a02badf47\",\n                        \"platform\": \"airbnb2\",\n                        \"externalUrl\": \"https://www.airbnb.com/rooms/943192987005572886\",\n                        \"connectionType\": \"FullConnected\",\n                        \"airbnb2\": {\n                            \"daysOfWeekMinimumNights\": [],\n                            \"promotions\": [],\n                            \"id\": \"943192987005572886\",\n                            \"instantBookingAllowedCategory\": \"everyone\",\n                            \"bookingLeadTime\": {\n                                \"hours\": 1,\n                                \"allowRequestToBook\": false\n                            },\n                            \"maxDaysNotice\": {\n                                \"days\": 180,\n                                \"allowRequestToBook\": true\n                            },\n                            \"turnoverDays\": 0,\n                            \"tier\": \"marketplace\",\n                            \"syncCategory\": \"sync_all\",\n                            \"syncCategoryUpdatedAt\": \"2026-05-13T11:18:05.209Z\",\n                            \"cancellationPolicy\": \"moderate\",\n                            \"cancellationPenaltyEnabled\": false,\n                            \"permits\": {\n                                \"regulations\": [\n                                    {\n                                        \"regulatoryBody\": \"european_union_lrn\",\n                                        \"regulationType\": \"tax_reporting\",\n                                        \"status\": \"initial\"\n                                    },\n                                    {\n                                        \"regulatoryBody\": \"germany\",\n                                        \"regulationType\": \"registration\",\n                                        \"status\": \"initial\"\n                                    },\n                                    {\n                                        \"regulatoryBody\": \"germany_epc\",\n                                        \"regulationType\": \"registration\",\n                                        \"status\": \"initial\"\n                                    }\n                                ],\n                                \"lastUpdatedOn\": \"2026-05-13T11:18:05.209Z\"\n                            },\n                            \"hostRole\": \"OWNER\",\n                            \"status\": \"COMPLETED\"\n                        }\n                    },\n                    {\n                        \"_id\": \"6a046124b3f312001333f0bc\",\n                        \"platform\": \"bookingCom\",\n                        \"bookingCom\": {\n                            \"acceptedCreditCards\": [],\n                            \"initialComplexListing\": false,\n                            \"publishCompanyLogo\": false,\n                            \"isPublishedCompanyLogo\": false,\n                            \"publishCompanyInfo\": false,\n                            \"isPublishedCompanyInfo\": false,\n                            \"taxInfo\": [],\n                            \"hotelId\": 10570128,\n                            \"id\": 1057012801,\n                            \"rateId\": 37729350,\n                            \"rateName\": \"Standard Rate\",\n                            \"currency\": \"EUR\",\n                            \"useRMCancellationPolicy\": false,\n                            \"isLiteLink\": true,\n                            \"isPublishedByGuesty\": false,\n                            \"syncType\": \"ARI\",\n                            \"isComplex\": false,\n                            \"status\": \"COMPLETED\",\n                            \"pricingModel\": \"nightly_rate\"\n                        },\n                        \"externalUrl\": \"https://booking.com/hotel/de/cosy-2-bedroom-apartment-75m2.en.html\"\n                    }\n                ],\n                \"accommodates\": 5,\n                \"timezone\": \"Europe/Berlin\",\n                \"accountId\": \"698c634f8462114283f39c55\",\n                \"nickname\": \"Hippo\",\n                \"picture\": {\n                    \"thumbnail\": \"https://assets.guesty.com/image/upload/t_default_thumb/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5\"\n                },\n                \"financials\": {\n                    \"channelCommission\": {\n                        \"accountId\": \"698c634f8462114283f39c55\",\n                        \"unitTypeId\": \"6a045def154b72000f1d251a\",\n                        \"useAccountSettings\": true,\n                        \"manual\": []\n                    }\n                },\n                \"houseRules\": {\n                    \"__v\": 0,\n                    \"additionalRules\": \"no parties\\nno loud music after 9PM\\nnon-smoking\\nNo additional guests\\n• Your access code will automatically deactivate after 11:00\\n• Leave the kitchen clean and organized\\n• Put all trash in bags and leave them inside the apartment\\n• Remove used bed linen and towels and leave them in one place\\n• Turn off lights and close windows\\n• Make sure the apartment door is properly closed\\nAdditional cleaning fees may apply if the apartment is left excessively dirty.\\n\",\n                    \"childrenRules\": {\n                        \"suitableForChildren\": true,\n                        \"suitableForInfants\": true\n                    },\n                    \"petsAllowed\": {\n                        \"enabled\": true,\n                        \"chargeType\": \"petStayCharge\"\n                    },\n                    \"quietBetween\": {\n                        \"enabled\": false\n                    },\n                    \"smokingAllowed\": {\n                        \"enabled\": false\n                    },\n                    \"suitableForEvents\": {\n                        \"enabled\": false\n                    }\n                }\n            },\n            \"status\": \"SUCCESS\"\n        },\n        \"rates\": {\n            \"ratePlans\": []\n        },\n        \"cancellationRequest\": null,\n        \"alterationRequests\": []\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "8 - Account Verification Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "url": {
+          "raw": "https://app.guesty.com/api/accounts-verification/accounts/account-verification/status",
+          "protocol": "https",
+          "host": [
+            "app",
+            "guesty",
+            "com"
+          ],
+          "path": [
+            "api",
+            "accounts-verification",
+            "accounts",
+            "account-verification",
+            "status"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "8 - Account Verification Status",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "https://app.guesty.com/api/accounts-verification/accounts/account-verification/status",
+              "protocol": "https",
+              "host": [
+                "app",
+                "guesty",
+                "com"
+              ],
+              "path": [
+                "api",
+                "accounts-verification",
+                "accounts",
+                "account-verification",
+                "status"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "269"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 14 May 2026 13:08:33 GMT"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "X-DNS-Prefetch-Control",
+              "value": "off"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "deny"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000;includesubdomains"
+            },
+            {
+              "key": "X-Download-Options",
+              "value": "noopen"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "1;mode=block"
+            },
+            {
+              "key": "uber-trace-id",
+              "value": "d03eeb9c7308d60d:d03eeb9c7308d60d:0:1"
+            },
+            {
+              "key": "uberctx-accountid",
+              "value": "698c634f8462114283f39c55"
+            },
+            {
+              "key": "x-request-id",
+              "value": "d03eeb9c7308d60d"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"10d-qPEcbAcnF3/7YxL5yYbDYtLFNic\""
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "x-content-type",
+              "value": "nosniff"
+            },
+            {
+              "key": "x-permitted-cross-domain-policies",
+              "value": "none"
+            },
+            {
+              "key": "X-Gst-Kong-Dc",
+              "value": "production-2"
+            },
+            {
+              "key": "X-Cache",
+              "value": "Miss from cloudfront"
+            },
+            {
+              "key": "Via",
+              "value": "1.1 6636538a05247c80bd9b1634a2f35fb4.cloudfront.net (CloudFront)"
+            },
+            {
+              "key": "X-Amz-Cf-Pop",
+              "value": "FRA60-P14"
+            },
+            {
+              "key": "X-Amz-Cf-Id",
+              "value": "mn0fTErziWRhXmNejDJwMnjcfcWl08VjMS8ykAsf2nBVMWoXtMxEOg=="
+            },
+            {
+              "key": "Server-Timing",
+              "value": "cdn-upstream-layer;desc=\"EDGE\",cdn-upstream-dns;dur=0,cdn-upstream-connect;dur=0,cdn-upstream-fbl;dur=114,cdn-cache-miss,cdn-pop;desc=\"FRA60-P14\",cdn-rid;desc=\"mn0fTErziWRhXmNejDJwMnjcfcWl08VjMS8ykAsf2nBVMWoXtMxEOg==\",cdn-downstream-fbl;dur=117"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"accountId\": \"698c634f8462114283f39c55\",\n    \"url\": \"https://10tix.me/OrDbJbDByuzUIcFFZiWB\",\n    \"expiresAt\": \"2026-05-20T11:15:04.387Z\",\n    \"status\": \"PENDING\",\n    \"sessionId\": \"246148B02A3D4B288E95ABBD5241D5AC\",\n    \"createdAt\": \"2026-05-13T11:15:04.486Z\",\n    \"updatedAt\": \"2026-05-13T11:15:04.486Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "9 - Billing Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "url": {
+          "raw": "https://app.guesty.com/api/billing-hub-api/account/status",
+          "protocol": "https",
+          "host": [
+            "app",
+            "guesty",
+            "com"
+          ],
+          "path": [
+            "api",
+            "billing-hub-api",
+            "account",
+            "status"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "9 - Billing Status",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "https://app.guesty.com/api/billing-hub-api/account/status",
+              "protocol": "https",
+              "host": [
+                "app",
+                "guesty",
+                "com"
+              ],
+              "path": [
+                "api",
+                "billing-hub-api",
+                "account",
+                "status"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "114"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 14 May 2026 13:08:20 GMT"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Access-Control-Expose-Headers",
+              "value": "Content-Disposition"
+            },
+            {
+              "key": "X-DNS-Prefetch-Control",
+              "value": "off"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "deny"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000;includesubdomains"
+            },
+            {
+              "key": "X-Download-Options",
+              "value": "noopen"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "1;mode=block"
+            },
+            {
+              "key": "uber-trace-id",
+              "value": "eb1ef7c18c807ca:eb1ef7c18c807ca:0:1"
+            },
+            {
+              "key": "uberctx-accountid",
+              "value": "698c634f8462114283f39c55"
+            },
+            {
+              "key": "x-request-id",
+              "value": "eb1ef7c18c807ca"
+            },
+            {
+              "key": "Gst-Pep",
+              "value": "1.3.3"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"72-8AG18IVhT5jXgiB7GyjNBX/O3rI\""
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "x-content-type",
+              "value": "nosniff"
+            },
+            {
+              "key": "x-permitted-cross-domain-policies",
+              "value": "none"
+            },
+            {
+              "key": "X-Gst-Kong-Dc",
+              "value": "production-2"
+            },
+            {
+              "key": "X-Cache",
+              "value": "Miss from cloudfront"
+            },
+            {
+              "key": "Via",
+              "value": "1.1 6636538a05247c80bd9b1634a2f35fb4.cloudfront.net (CloudFront)"
+            },
+            {
+              "key": "X-Amz-Cf-Pop",
+              "value": "FRA60-P14"
+            },
+            {
+              "key": "X-Amz-Cf-Id",
+              "value": "IirciN1v3RFUqQJkFM3gl49IAPyAs_L050tkd5vMFrFnGYJ2v2Qg9g=="
+            },
+            {
+              "key": "Server-Timing",
+              "value": "cdn-upstream-layer;desc=\"EDGE\",cdn-upstream-dns;dur=0,cdn-upstream-connect;dur=0,cdn-upstream-fbl;dur=121,cdn-cache-miss,cdn-pop;desc=\"FRA60-P14\",cdn-rid;desc=\"IirciN1v3RFUqQJkFM3gl49IAPyAs_L050tkd5vMFrFnGYJ2v2Qg9g==\",cdn-downstream-fbl;dur=124"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"dunningStartedAt\": null,\n    \"active\": true,\n    \"id\": \"698c634f8462114283f39c55\",\n    \"paymentsAmount\": 1,\n    \"paymentMethodsCount\": 1\n}"
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "username",
+      "value": ""
+    },
+    {
+      "key": "password",
+      "value": ""
+    },
+    {
+      "key": "clientId",
+      "value": "0oa2ul8rlePlNldiQ5d7"
+    },
+    {
+      "key": "issuer",
+      "value": "https://login.guesty.com/oauth2/aus2jlqfuwAsNNp3D5d7"
+    },
+    {
+      "key": "redirectUri",
+      "value": "https://app.guesty.com/auth/login/callback"
+    },
+    {
+      "key": "reservationId",
+      "value": "6a04ce57484d25001496f348"
+    }
+  ]
+}

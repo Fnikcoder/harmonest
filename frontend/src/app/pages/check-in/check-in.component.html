@@ -42,18 +42,18 @@
                         <div *ngIf="currentStep === 1 && submissionMessageType !== 'success'">
                             <div class="text-center mb-6">
                                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Verify Your Reservation</h3>
-                                <p class="text-gray-600 dark:text-gray-400">Enter first name and reservation code of the booking</p>
+                                <p class="text-gray-600 dark:text-gray-400">Enter your reservation code and your name as it appears on the booking (first name, last name, or part of the full name).</p>
                             </div>
 
                             <form [formGroup]="validationForm" (ngSubmit)="validateReservation()" class="space-y-6">
                               <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                  First Name *
+                                  Name (as on booking) *
                                 </label>
                                 <input
                                   type="text"
-                                  formControlName="firstName"
-                                  placeholder="Your first name"
+                                  formControlName="guestNameHint"
+                                  placeholder="e.g. Maria or Maria Schmidt"
                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-harmonest-blue focus:border-harmonest-blue dark:bg-gray-800 dark:text-white">
                               </div>
                               <div>

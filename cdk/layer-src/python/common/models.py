@@ -38,6 +38,16 @@ def identify_booking_source(raw_data: Dict[str, Any]) -> Dict[str, Any]:
         }
     """
     source_id = raw_data.get("sourceId")
+    if source_id is None:
+        sp = raw_data.get("source") or raw_data.get("platform")
+        if isinstance(sp, str):
+            sl = sp.lower()
+            if "airbnb" in sl:
+                source_id = 1
+            elif "booking" in sl:
+                source_id = 2
+            elif "home" in sl or "vrbo" in sl:
+                source_id = 3
     home_away_ref = raw_data.get("homeAwayReferenceNumber")
     reservation_code = raw_data.get("reservationCode", "")
 

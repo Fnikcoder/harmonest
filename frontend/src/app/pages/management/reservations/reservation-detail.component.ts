@@ -585,18 +585,26 @@ export class ReservationDetailComponent implements OnInit, OnDestroy {
   openAccessDoorsPage(): void {
     if (!this.reservation) return;
 
-    // Get the guest first name from either the main reservation or check-in data
-    const guestFirstName = this.reservation.customFields?.checkin?.mainGuestFirstname ||
-                           this.reservation.guestName ||
-                           'Guest';
+    const fromBooking = [this.reservation.guestName, this.reservation.guestSurname]
+      .map(s => (s || '').trim())
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+    const c = this.reservation.customFields?.checkin;
+    const fromCheckin = [c?.mainGuestFirstname, c?.mainGuestLastname]
+      .map(s => (s || '').trim())
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+    const nameHint = fromBooking || fromCheckin || 'Guest';
 
     // Get the QR code if available
     const qrCode = this.reservation.customFields?.doorAccesses?.qrCode || '';
 
-    // Build the URL with query parameters
+    // Build the URL with query parameters (guestFirstName carries URL name hint for backward compatibility)
     const params = new URLSearchParams({
       reservationCode: this.reservation.reservationCode,
-      guestFirstName: guestFirstName
+      guestFirstName: nameHint
     });
 
     // Add QR code if available

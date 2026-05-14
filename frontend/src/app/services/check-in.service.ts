@@ -98,7 +98,9 @@ export interface CheckInStep {
 // Validation interfaces
 export interface ReservationValidationRequest {
   reservationCode: string;
-  guestFirstName: string;
+  /** Primary field; backend also accepts legacy `guestFirstName`. */
+  guestName: string;
+  guestFirstName?: string;
 }
 
 export interface CheckInSubmissionRequest {
@@ -199,10 +201,11 @@ export class CheckInService {
   }
 
   // API Methods
-  validateReservation(reservationCode: string, guestFirstName: string): Observable<ReservationValidationResponse> {
+  validateReservation(reservationCode: string, guestNameHint: string): Observable<ReservationValidationResponse> {
     const request: ReservationValidationRequest = {
       reservationCode,
-      guestFirstName
+      guestName: guestNameHint,
+      guestFirstName: guestNameHint,
     };
 
     return this.http.post<ReservationValidationResponse>(this.apiEndpoint, {
@@ -271,8 +274,8 @@ export class CheckInService {
   };
 
   // Updated verifyBooking method to use real API
-  verifyBooking(reservationCode: string, guestFirstName: string): Observable<{ success: boolean; data?: any; message: string }> {
-    return this.validateReservation(reservationCode, guestFirstName).pipe(
+  verifyBooking(reservationCode: string, guestNameHint: string): Observable<{ success: boolean; data?: any; message: string }> {
+    return this.validateReservation(reservationCode, guestNameHint).pipe(
       map((response: ReservationValidationResponse) => {
         if (response.success) {
           // Store full data for later use

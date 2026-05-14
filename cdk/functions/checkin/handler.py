@@ -6,11 +6,19 @@ Supports client-specific settings through environment variables
 import json
 import re
 import os
+import urllib.parse
 import boto3
 from botocore.exceptions import ClientError, ParamValidationError
 from boto3.dynamodb.conditions import Key, Attr
 from typing import Dict, Any, Optional
 from common.g4h import get_client, refresh_on_auth_error
+from common.guesty_adapters import (
+    use_guesty_app_api,
+    normalize_fegw_detail_response,
+    G4H_APP_BASE,
+    app_json_headers,
+    merge_legacy_raw_for_update,
+)
 from common.ddb import get, put, now_ms, TABLE
 from common.config import get_client_config, is_feature_enabled
 from common.email_utils import send_checkin_completion_email
@@ -183,24 +191,36 @@ def _get_reservation_by_code(reservation_code: str) -> Optional[Dict[str, Any]]:
 
 
 def _fetch_latest_reservation_status(session, user_id: str, reservation_id: str) -> Dict[str, Any]:
-    """Fetch latest reservation status from G4H API"""
+    """Fetch latest reservation status from Guesty (legacy POST or app GET fegw)."""
+    if use_guesty_app_api():
+        rid = urllib.parse.quote(reservation_id, safe="")
+        url = f"{G4H_APP_BASE}/api/reservations-fegw/reservations/{rid}?newResponse=true"
+
+        def _call():
+            h = {**dict(session.headers), **app_json_headers()}
+            return session.get(url, headers=h, timeout=45)
+
+        r = refresh_on_auth_error(_call)
+        r.raise_for_status()
+        return normalize_fegw_detail_response(r.json())
+
     payload = {
         "guestyId": False,
         "reservationId": reservation_id,
         "userId": user_id,
-        "version": 3
+        "version": 3,
     }
-    
+
     def _call():
         return session.post(GET_RESERVATION_DETAIL_URL, json=payload, timeout=45)
-    
+
     r = refresh_on_auth_error(_call)
     r.raise_for_status()
     js = r.json()
-    
+
     if not js.get("success"):
         raise RuntimeError(f"G4H API failure: {js}")
-    
+
     return js
 
 
@@ -226,11 +246,18 @@ def _update_reservation_in_db(reservation_data: Dict[str, Any]) -> None:
         existing_last_custom_update = existing_reservation.get("lastCustomUpdate")
         print(f"Preserving existing customFields for reservation {reservation_id}")
 
-    # Use centralized model to safely update reservation while preserving customFields
     from common.models import create_reservation_from_g4h
-    updated_reservation = create_reservation_from_g4h(reservation, existing_custom_fields)
 
-    # Preserve additional metadata from existing reservation
+    merged = merge_legacy_raw_for_update(
+        existing_reservation.get("rawData") if existing_reservation else None,
+        reservation,
+    )
+    updated_reservation = create_reservation_from_g4h(merged, existing_custom_fields)
+
+    app_raw = reservation_data.get("_guestyApp")
+    if app_raw is not None:
+        updated_reservation["rawDataGuestyApp"] = app_raw
+
     if existing_last_custom_update:
         updated_reservation["lastCustomUpdate"] = existing_last_custom_update
 
@@ -533,17 +560,45 @@ def _create_response(status_code: int, success: bool, message: str, data: Option
     }
 
 
+def _normalize_guest_name_whitespace(s: str) -> str:
+    return " ".join((s or "").split()).lower()
+
+
+def _guest_name_row_has_parts(row: Optional[Dict[str, Any]]) -> bool:
+    if not row:
+        return False
+    return bool(
+        (str(row.get("guestName") or "").strip()) or (str(row.get("guestSurname") or "").strip())
+    )
+
+
+def _guest_hint_matches_reservation(typed_name: str, reservation_row: Dict[str, Any]) -> bool:
+    """
+    True if normalized typed_name is contained in the booking guest full name
+    (guestName + guestSurname). Case- and extra-whitespace-insensitive.
+    """
+    needle = _normalize_guest_name_whitespace(typed_name)
+    if len(needle) < 2:
+        return False
+    first = str((reservation_row or {}).get("guestName") or "").strip()
+    last = str((reservation_row or {}).get("guestSurname") or "").strip()
+    hay = _normalize_guest_name_whitespace(f"{first} {last}".strip())
+    if not hay:
+        return False
+    return needle in hay
+
+
 def validate_reservation(event: Dict[str, Any]) -> Dict[str, Any]:
-    """Validate reservation code and guest name"""
+    """Validate reservation code and guest name (name hint must match part of the booking guest name)."""
     try:
         body = json.loads(event.get("body", "{}"))
         reservation_code = body.get("reservationCode", "").strip()
-        guest_first_name = body.get("guestFirstName", "").strip()
+        guest_name_hint = (body.get("guestName") or body.get("guestFirstName") or "").strip()
 
-        if not reservation_code or not guest_first_name:
+        if not reservation_code or not guest_name_hint:
             return _create_response(
                 400, False,
-                "Reservation code and guest first name are required",
+                "Reservation code and guest name are required",
                 error_code=ERROR_MISSING_REQUIRED_FIELDS
             )
 
@@ -565,26 +620,22 @@ def validate_reservation(event: Dict[str, Any]) -> Dict[str, Any]:
                 error_code=ERROR_INTERNAL_ERROR
             )
 
-        # Validate guest name (case insensitive)
-        stored_first_name = reservation.get("guestName", "").strip().lower()
-        provided_first_name = guest_first_name.lower()
+        # Fetch latest guest name from G4H, then validate hint before writing to DB
+        session, user_id = get_client()
+        latest_data = _fetch_latest_reservation_status(session, user_id, reservation_id)
+        reservation_detail = latest_data.get("reservation", {}).get("reservation", {}) or {}
+        name_src = reservation_detail if _guest_name_row_has_parts(reservation_detail) else reservation
 
-        if stored_first_name != provided_first_name:
+        if not _guest_hint_matches_reservation(guest_name_hint, name_src):
             return _create_response(
                 400, False,
-                "Guest first name does not match reservation",
+                "Guest name does not match reservation",
                 error_code=ERROR_INVALID_GUEST_NAME
             )
 
-        # Fetch latest status from G4H API
-        session, user_id = get_client()
-        latest_data = _fetch_latest_reservation_status(session, user_id, reservation_id)
-
-        # Update reservation in database
         _update_reservation_in_db(latest_data)
 
         # Check reservation status
-        reservation_detail = latest_data.get("reservation", {}).get("reservation", {})
         status = reservation_detail.get("status")
 
         if status == 0:  # Canceled

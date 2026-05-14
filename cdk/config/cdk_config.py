@@ -11,6 +11,7 @@ import sys
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 from config_manager import ConfigManager, ConfigurationError
+from guesty_lambda_env import guesty_lambda_env_from_client
 
 
 class CDKConfigHelper:
@@ -179,15 +180,7 @@ class CDKConfigHelper:
         client = config["client"]
         env_vars = {}
         
-        # G4H integration settings
-        if "g4h" in client.get("integrations", {}):
-            g4h = client["integrations"]["g4h"]
-            env_vars.update({
-                "G4H_ORIGIN": g4h.get("origin", "https://app.guestyforhosts.com"),
-                "G4H_APP_VERSION": g4h.get("appVersion", "6.x"),
-                "G4H_PLATFORM": g4h.get("platform", "browser--win32"),
-                "G4H_DEVICE_UUID": g4h.get("deviceUuid", f"ypa-uuid-{client['name']}")
-            })
+        env_vars.update(guesty_lambda_env_from_client(client))
         
         # Feature flags
         features = client.get("features", {})
