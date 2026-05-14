@@ -1,0 +1,172 @@
+<div class="email-verification-container" *ngIf="isBookingVerificationEnabled">
+  <!-- Verification Status -->
+  <div *ngIf="isVerified" class="mb-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+    <div class="flex items-center">
+      <i data-feather="check-circle" class="w-5 h-5 text-green-600 dark:text-green-400 mr-3"></i>
+      <div>
+        <p class="text-sm text-green-700 dark:text-green-300">{{ email }} has been successfully verified.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Send/Resend Controls (positioned near email input) -->
+  <div *ngIf="!isVerified" class="mb-4">
+    <div class="flex flex-col sm:flex-row gap-3 items-start">
+      <!-- Send/Resend Button -->
+      <button
+        type="button"
+        (click)="sendVerificationCode()"
+        [disabled]="!canSendCode"
+        class="py-2 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors flex items-center justify-center">
+        <div *ngIf="isLoading" class="flex items-center">
+          <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+          {{ verificationState.verificationSent ? 'Resending...' : 'Sending...' }}
+        </div>
+        <div *ngIf="!isLoading" class="flex items-center">
+          <i [attr.data-feather]="verificationState.verificationSent ? 'refresh-cw' : 'mail'" class="w-4 h-4 mr-2"></i>
+          {{ verificationState.verificationSent ? 'Resend Code' : 'Verify Email' }}
+        </div>
+      </button>
+
+      <!-- Cooldown Timer -->
+      <div *ngIf="cooldownTimer > 0" class="flex items-center text-sm text-gray-600 dark:text-gray-400">
+        <i data-feather="clock" class="w-4 h-4 mr-1"></i>
+        Wait {{ formatTime(cooldownTimer) }}
+      </div>
+
+      <!-- Helper Text -->
+      <div class="text-sm text-gray-600 dark:text-gray-400">
+        <span *ngIf="!verificationState.verificationSent">
+          We'll send a 6-digit code to {{ email }}
+        </span>
+        <span *ngIf="verificationState.verificationSent && cooldownTimer === 0">
+          Didn't receive the code?
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Verification Code Input -->
+  <div *ngIf="showVerificationInput" class="mb-4">
+    <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <i data-feather="mail" class="w-5 h-5 text-blue-600 dark:text-blue-400 mr-3"></i>
+          <div>
+            <h3 class="text-sm font-medium text-blue-900 dark:text-blue-200">Code sent to {{ email }}</h3>
+            <p class="text-xs text-blue-700 dark:text-blue-300">Check your inbox and enter the 6-digit code</p>
+          </div>
+        </div>
+
+<!--        &lt;!&ndash; Development Helper &ndash;&gt;-->
+<!--        <div *ngIf="isDevelopment" class="bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-700 rounded px-2 py-1">-->
+<!--          <p class="text-xs text-yellow-800 dark:text-yellow-200">-->
+<!--            <strong>Dev:</strong> <code class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">{{ currentVerificationCode }}</code>-->
+<!--          </p>-->
+<!--        </div>-->
+      </div>
+    </div>
+
+    <!-- Code Input Form -->
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-slate-900 dark:text-white mb-2">
+          Verification Code
+        </label>
+        <div class="flex gap-3">
+          <input
+            type="text"
+            [formControl]="verificationCodeControl"
+            placeholder="Enter 6-digit code"
+            maxlength="6"
+            class="flex-1 py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-harmonest-blue focus:border-harmonest-blue dark:bg-slate-800 dark:text-white text-center text-lg font-mono tracking-widest"
+            [class.border-harmonest-blue]="verificationCodeControl.invalid && verificationCodeControl.touched"
+            (keyup.enter)="verifyCode()">
+
+          <button
+            type="button"
+            (click)="verifyCode()"
+            [disabled]="verificationCodeControl.invalid || isVerifying"
+            class="py-3 px-6 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors flex items-center">
+            <div *ngIf="isVerifying" class="flex items-center">
+              <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+              Verifying...
+            </div>
+            <div *ngIf="!isVerifying" class="flex items-center">
+              <i data-feather="check" class="w-4 h-4 mr-2"></i>
+              Verify
+            </div>
+          </button>
+        </div>
+
+        <div *ngIf="verificationCodeControl.invalid && verificationCodeControl.touched"
+             class="text-harmonest-blue text-sm mt-1">
+          <span *ngIf="verificationCodeControl.errors?.['required']">
+            Verification code is required
+          </span>
+          <span *ngIf="verificationCodeControl.errors?.['pattern']">
+            Please enter a valid 6-digit verification code
+          </span>
+        </div>
+      </div>
+
+
+
+      <!-- Attempts Warning -->
+      <div *ngIf="verificationState.attempts > 0 && !isVerified"
+           class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3">
+        <div class="flex items-center">
+          <i data-feather="alert-triangle" class="w-4 h-4 text-yellow-600 dark:text-yellow-400 mr-2"></i>
+          <span class="text-sm text-yellow-800 dark:text-yellow-200">
+            {{ verificationState.maxAttempts - verificationState.attempts }} attempts remaining
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="message" class="mb-4">
+    <div class="p-4 rounded-lg border"
+         [ngClass]="{
+           'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300': messageType === 'success',
+           'bg-blue-50 dark:bg-harmonest-blue/20 border-harmonest-blue dark:border-harmonest-blue text-harmonest-blue dark:text-harmonest-blue': messageType === 'error',
+           'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300': messageType === 'info'
+         }">
+      <div class="flex items-start">
+        <i [attr.data-feather]="messageType === 'success' ? 'check-circle' : messageType === 'error' ? 'x-circle' : 'info'"
+           class="w-5 h-5 mr-3 mt-0.5 flex-shrink-0"
+           [ngClass]="{
+             'text-green-600 dark:text-green-400': messageType === 'success',
+             'text-harmonest-blue dark:text-harmonest-blue': messageType === 'error',
+             'text-blue-600 dark:text-blue-400': messageType === 'info'
+           }"></i>
+        <span class="text-sm">{{ message }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email Verification Required Notice -->
+  <div *ngIf="required && !isVerified" class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
+    <div class="flex items-start">
+      <i data-feather="shield" class="w-5 h-5 text-orange-600 dark:text-orange-400 mr-3 mt-0.5"></i>
+      <div>
+        <h3 class="text-sm font-medium text-orange-900 dark:text-orange-200 mb-1">Email Verification Required</h3>
+        <p class="text-sm text-orange-700 dark:text-orange-300">
+          You must verify your email address before proceeding with the booking. This helps us ensure secure communication and booking confirmations.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- When booking verification is disabled -->
+<div *ngIf="!isBookingVerificationEnabled" class="mb-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+  <div class="flex items-center">
+    <i data-feather="check-circle" class="w-5 h-5 text-green-600 dark:text-green-400 mr-3"></i>
+    <div>
+      <p class="text-sm text-green-700 dark:text-green-300">{{ email }} is automatically verified for booking.</p>
+      <p class="text-xs text-green-600 dark:text-green-400 mt-1">No verification required for this booking process.</p>
+    </div>
+  </div>
+</div>

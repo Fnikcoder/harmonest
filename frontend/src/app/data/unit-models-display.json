@@ -1,0 +1,403 @@
+[
+  {
+    "id": "um-1br1b-city",
+    "propertyGroupId": "pg-sunset-apartments",
+    "propertyGroupName": "Sunset Apartments",
+    "name": "1 Room 1 Bed City Side",
+    "title": "City View Studio",
+    "description": "Modern studio apartment with stunning city views. Features a queen bed, full kitchen, and private balcony overlooking downtown San Diego.",
+    "price": 165,
+    "originalPrice": 180,
+    "basePrice": 150,
+    "amount": 165,
+    "currency": "USD",
+    "discount": 8,
+    "tag": "8% Off",
+    "rating": 4.8,
+    "reviews": 124,
+    "propertyType": "Studio",
+    "guests": 3,
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "beds": 1,
+    "images": [
+      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+      "https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2274&q=80"
+    ],
+    "amenities": ["WiFi", "Kitchen", "Balcony", "City View", "Air Conditioning", "Workspace", "Washer/Dryer"],
+    "features": {
+      "view": "city",
+      "size": 650,
+      "sizeUnit": "sqft",
+      "floor": "3-8",
+      "orientation": "North-facing",
+      "bedTypes": [
+        {
+          "type": "queen",
+          "count": 1,
+          "room": "main"
+        }
+      ]
+    },
+    "host": {
+      "name": "Pacific Property Management",
+      "image": "assets/images/hosts/pacific-pm.jpg",
+      "responseTime": "within 30 minutes",
+      "rating": 4.9
+    },
+    "location": {
+      "latitude": 32.7157,
+      "longitude": -117.1611,
+      "address": "123 Sunset Boulevard, San Diego, CA 92101",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3357.123!2d-117.1611!3d32.7157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z32.7157,-117.1611!5e0!3m2!1sen!2sus",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "United States",
+      "neighborhood": "Downtown"
+    },
+    "inventory": {
+      "totalUnits": 6,
+      "availableUnits": 2,
+      "occupiedUnits": 4
+    },
+    "pricing": {
+      "rules": {
+        "weekend": {
+          "enabled": true,
+          "fridayMultiplier": 1.15,
+          "saturdayMultiplier": 1.25,
+          "sundayMultiplier": 1.1
+        },
+        "lengthOfStay": [
+          {
+            "minNights": 7,
+            "discountPercent": 10
+          },
+          {
+            "minNights": 30,
+            "discountPercent": 20
+          }
+        ]
+      }
+    },
+    "booking": {
+      "availableDates": [
+        "2024-07-01",
+        "2024-07-02",
+        "2024-07-03",
+        "2024-07-04",
+        "2024-07-05"
+      ],
+      "bookedDates": [
+        "2024-07-15",
+        "2024-07-16",
+        "2024-07-17"
+      ],
+      "checkIn": "15:00",
+      "checkOut": "11:00",
+      "minimumStay": 1,
+      "maximumStay": 30
+    },
+    "available": true,
+    "featured": true,
+    "status": "active"
+  },
+  {
+    "id": "um-1br1b-mountain",
+    "propertyGroupId": "pg-sunset-apartments",
+    "propertyGroupName": "Sunset Apartments",
+    "name": "1 Room 1 Bed Mountain Side",
+    "title": "Mountain View Studio",
+    "description": "Peaceful studio apartment with breathtaking mountain views. Perfect for guests seeking tranquility with modern amenities and natural light.",
+    "price": 195,
+    "originalPrice": 220,
+    "basePrice": 180,
+    "amount": 195,
+    "currency": "USD",
+    "discount": 11,
+    "tag": "11% Off",
+    "rating": 4.9,
+    "reviews": 89,
+    "propertyType": "Studio",
+    "guests": 3,
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "beds": 1,
+    "images": [
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+    ],
+    "amenities": ["WiFi", "Kitchen", "Balcony", "Mountain View", "Air Conditioning", "Workspace", "Washer/Dryer"],
+    "features": {
+      "view": "mountain",
+      "size": 650,
+      "sizeUnit": "sqft",
+      "floor": "3-8",
+      "orientation": "East-facing",
+      "bedTypes": [
+        {
+          "type": "queen",
+          "count": 1,
+          "room": "main"
+        }
+      ]
+    },
+    "host": {
+      "name": "Pacific Property Management",
+      "image": "assets/images/hosts/pacific-pm.jpg",
+      "responseTime": "within 30 minutes",
+      "rating": 4.9
+    },
+    "location": {
+      "latitude": 32.7157,
+      "longitude": -117.1611,
+      "address": "123 Sunset Boulevard, San Diego, CA 92101",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3357.123!2d-117.1611!3d32.7157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z32.7157,-117.1611!5e0!3m2!1sen!2sus",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "United States",
+      "neighborhood": "Downtown"
+    },
+    "inventory": {
+      "totalUnits": 4,
+      "availableUnits": 3,
+      "occupiedUnits": 1
+    },
+    "pricing": {
+      "rules": {
+        "weekend": {
+          "enabled": true,
+          "fridayMultiplier": 1.15,
+          "saturdayMultiplier": 1.25,
+          "sundayMultiplier": 1.1
+        },
+        "lengthOfStay": [
+          {
+            "minNights": 7,
+            "discountPercent": 10
+          }
+        ]
+      }
+    },
+    "booking": {
+      "availableDates": [
+        "2024-07-20",
+        "2024-07-21",
+        "2024-07-22",
+        "2024-07-23",
+        "2024-07-24"
+      ],
+      "bookedDates": [],
+      "checkIn": "15:00",
+      "checkOut": "11:00",
+      "minimumStay": 1,
+      "maximumStay": 30
+    },
+    "available": true,
+    "featured": true,
+    "status": "active"
+  },
+  {
+    "id": "um-2br4b",
+    "propertyGroupId": "pg-sunset-apartments",
+    "propertyGroupName": "Sunset Apartments",
+    "name": "2 Rooms 4 Beds",
+    "title": "Family Suite",
+    "description": "Spacious two-bedroom apartment perfect for families or groups. Features separate bedrooms with bunk beds and a large living area with city views.",
+    "price": 320,
+    "originalPrice": 350,
+    "basePrice": 280,
+    "amount": 320,
+    "currency": "USD",
+    "discount": 9,
+    "tag": "9% Off",
+    "rating": 4.7,
+    "reviews": 67,
+    "propertyType": "Apartment",
+    "guests": 8,
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "beds": 4,
+    "images": [
+      "https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+      "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+      "https://images.unsplash.com/photo-1574180045827-681f8a1a9622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+    ],
+    "amenities": ["WiFi", "Kitchen", "Balcony", "City View", "Air Conditioning", "Living Room", "Workspace", "Washer/Dryer", "Oven"],
+    "features": {
+      "view": "city",
+      "size": 1200,
+      "sizeUnit": "sqft",
+      "floor": "4-8",
+      "orientation": "Corner unit",
+      "bedTypes": [
+        {
+          "type": "bunk",
+          "count": 2,
+          "room": "bedroom_1"
+        },
+        {
+          "type": "bunk",
+          "count": 2,
+          "room": "bedroom_2"
+        }
+      ]
+    },
+    "host": {
+      "name": "Pacific Property Management",
+      "image": "assets/images/hosts/pacific-pm.jpg",
+      "responseTime": "within 30 minutes",
+      "rating": 4.9
+    },
+    "location": {
+      "latitude": 32.7157,
+      "longitude": -117.1611,
+      "address": "123 Sunset Boulevard, San Diego, CA 92101",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3357.123!2d-117.1611!3d32.7157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z32.7157,-117.1611!5e0!3m2!1sen!2sus",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "United States",
+      "neighborhood": "Downtown"
+    },
+    "inventory": {
+      "totalUnits": 3,
+      "availableUnits": 3,
+      "occupiedUnits": 0
+    },
+    "pricing": {
+      "rules": {
+        "weekend": {
+          "enabled": true,
+          "fridayMultiplier": 1.2,
+          "saturdayMultiplier": 1.3,
+          "sundayMultiplier": 1.15
+        },
+        "lengthOfStay": [
+          {
+            "minNights": 7,
+            "discountPercent": 15
+          }
+        ]
+      }
+    },
+    "booking": {
+      "availableDates": [
+        "2024-08-10",
+        "2024-08-11",
+        "2024-08-12",
+        "2024-08-13",
+        "2024-08-14",
+        "2024-08-15",
+        "2024-08-16"
+      ],
+      "bookedDates": [],
+      "checkIn": "15:00",
+      "checkOut": "11:00",
+      "minimumStay": 2,
+      "maximumStay": 30
+    },
+    "available": true,
+    "featured": true,
+    "status": "active"
+  },
+  {
+    "id": "um-executive-suite",
+    "propertyGroupId": "pg-downtown-suites",
+    "propertyGroupName": "Downtown Executive Suites",
+    "name": "Executive Suite",
+    "title": "Luxury Executive Suite",
+    "description": "Luxury executive suite with separate living and sleeping areas. Perfect for business travelers with premium amenities and downtown views.",
+    "price": 380,
+    "originalPrice": 420,
+    "basePrice": 350,
+    "amount": 380,
+    "currency": "USD",
+    "discount": 10,
+    "tag": "10% Off",
+    "rating": 4.9,
+    "reviews": 203,
+    "propertyType": "Suite",
+    "guests": 3,
+    "bedrooms": 2,
+    "bathrooms": 1.5,
+    "beds": 1,
+    "images": [
+      "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+    ],
+    "amenities": ["WiFi", "Living Room", "Workspace", "Minibar", "Air Conditioning", "Room Service", "Safe", "City View"],
+    "features": {
+      "view": "city",
+      "size": 800,
+      "sizeUnit": "sqft",
+      "floor": "8-15",
+      "orientation": "Various",
+      "bedTypes": [
+        {
+          "type": "king",
+          "count": 1,
+          "room": "bedroom"
+        }
+      ]
+    },
+    "host": {
+      "name": "Luxury Hospitality Group",
+      "image": "assets/images/hosts/luxury-hospitality.jpg",
+      "responseTime": "within 15 minutes",
+      "rating": 4.95
+    },
+    "location": {
+      "latitude": 32.7081,
+      "longitude": -117.1611,
+      "address": "456 Broadway, San Diego, CA 92101",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3357.456!2d-117.1611!3d32.7081!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z32.7081,-117.1611!5e0!3m2!1sen!2sus",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "United States",
+      "neighborhood": "Downtown Financial District"
+    },
+    "inventory": {
+      "totalUnits": 20,
+      "availableUnits": 12,
+      "occupiedUnits": 8
+    },
+    "pricing": {
+      "rules": {
+        "weekend": {
+          "enabled": false,
+          "fridayMultiplier": 1.0,
+          "saturdayMultiplier": 1.0,
+          "sundayMultiplier": 1.0
+        },
+        "lengthOfStay": [
+          {
+            "minNights": 7,
+            "discountPercent": 10
+          }
+        ]
+      }
+    },
+    "booking": {
+      "availableDates": [
+        "2024-07-05",
+        "2024-07-06",
+        "2024-07-07",
+        "2024-07-08",
+        "2024-07-09",
+        "2024-07-10",
+        "2024-07-11"
+      ],
+      "bookedDates": [],
+      "checkIn": "16:00",
+      "checkOut": "12:00",
+      "minimumStay": 1,
+      "maximumStay": 90
+    },
+    "available": true,
+    "featured": true,
+    "status": "active"
+  }
+]

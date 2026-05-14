@@ -1,0 +1,20 @@
+{
+  "version": "0",
+  "id": "12345678-1234-1234-1234-123456789012",
+  "detail-type": "Scheduled Access Notification",
+  "source": "harmonest.scheduler",
+  "account": "669597026882",
+  "time": "2025-01-20T10:30:00Z",
+  "region": "eu-central-1",
+  "detail": {
+    "reservationId": "test-reservation-123",
+    "triggerType": "scheduled",
+    "scheduledTime": "2025-01-20T10:30:00Z",
+    "checkInDate": "2025-01-20",
+    "guestEmail": "test.guest@example.com",
+    "listingId": "test-listing-456"
+  },
+  "resources": [
+    "arn:aws:events:eu-central-1:669597026882:rule/harmonest-access-notification-scheduler"
+  ]
+}

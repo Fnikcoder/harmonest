@@ -1,0 +1,30 @@
+/* Template Name: Travosy - Angular 17 Tour & Travels Agency Template
+   Author: Shreethemes
+   Email: support@shreethemes.in
+   Website: https://shreethemes.in
+   Version: 1.2.0
+   Created: February 2024
+   File: Main Css File
+*/
+
+// FONTS
+@use "custom/fonts";
+
+// general
+@use "custom/general";
+
+// structure
+@use "custom/structure/topnav";
+
+// pages
+@use "custom/pages/helper";
+@use "custom/pages/testi";
+@use "custom/pages/swiper-slider";
+@use "custom/pages/countdown";
+@use "custom/pages/datepicker";
+@use "custom/pages/range-slider";
+@use "custom/pages/contact";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

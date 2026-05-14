@@ -1,0 +1,21 @@
+{
+  "version": "0",
+  "id": "test-event-12345",
+  "detail-type": "Access Notification Test",
+  "source": "harmonest.test",
+  "account": "669597026882",
+  "time": "2025-01-20T10:30:00Z",
+  "region": "eu-central-1",
+  "detail": {
+    "reservationId": "09438725-8b63-4222-9eac-de9f82d0f50a",
+    "triggerType": "manual_test",
+    "timestamp": "2025-01-20T10:30:00Z"
+  },
+  "resources": [],
+  "httpMethod": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "User-Agent": "test-client"
+  },
+  "body": "{\"reservationId\": \"test-reservation-123\", \"operation\": \"process_access_notification\"}"
+}

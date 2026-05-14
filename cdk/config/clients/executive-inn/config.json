@@ -1,0 +1,138 @@
+{
+  "client": {
+    "name": "executive-inn",
+    "displayName": "Executive Inn Business Hotel",
+    "description": "Premium business hotel with conference facilities and corporate services",
+    "domains": {
+      "primary": "executiveinn.com",
+      "www": "www.executiveinn.com",
+      "dev": "dev.executiveinn.com",
+      "api": "api.executiveinn.com",
+      "events": "events.executiveinn.com"
+    },
+    "email": {
+      "noreply": "noreply@executiveinn.com",
+      "support": "frontdesk@executiveinn.com",
+      "admin": "gm@executiveinn.com",
+      "events": "events@executiveinn.com",
+      "corporate": "corporate@executiveinn.com",
+      "fromName": "Executive Inn"
+    },
+    "aws": {
+      "profile": "executive-inn-admin",
+      "region": "us-east-1",
+      "accountId": "456789012345"
+    },
+    "features": {
+      "checkin": {
+        "enabled": true,
+        "deadlineHours": 24,
+        "qrCodeEnabled": true,
+        "documentUpload": {
+          "enabled": true,
+          "maxSizeMB": 25,
+          "allowedTypes": ["pdf", "jpg", "png", "doc", "docx"]
+        },
+        "expressCheckin": true,
+        "corporateRates": true
+      },
+      "reservations": {
+        "enabled": true,
+        "syncEnabled": true,
+        "syncIntervalMinutes": 15,
+        "groupBookings": true,
+        "corporateContracts": true
+      },
+      "listings": {
+        "enabled": true,
+        "syncEnabled": true,
+        "publicListings": true,
+        "corporatePortal": true
+      },
+      "events": {
+        "enabled": true,
+        "meetingRooms": true,
+        "conferenceCenter": true,
+        "catering": true,
+        "avEquipment": true
+      },
+      "business": {
+        "enabled": true,
+        "businessCenter": true,
+        "printingServices": true,
+        "secretarialServices": true,
+        "translation": true
+      }
+    },
+    "integrations": {
+      "g4h": {
+        "origin": "https://app.guestyforhosts.com",
+        "appVersion": "6.x",
+        "platform": "browser--win32",
+        "deviceUuid": "ypa-uuid-executive-inn"
+      },
+      "pms": {
+        "provider": "protel",
+        "endpoint": "https://api.protel.com/v1",
+        "enabled": true
+      },
+      "events": {
+        "provider": "cvent",
+        "endpoint": "https://api.cvent.com/v1",
+        "enabled": true
+      },
+      "corporate": {
+        "provider": "concur",
+        "endpoint": "https://api.concur.com/v1",
+        "enabled": true
+      }
+    },
+    "branding": {
+      "primaryColor": "#1e40af",
+      "secondaryColor": "#64748b",
+      "accentColor": "#dc2626",
+      "logo": "executive-inn-logo.png",
+      "favicon": "executive-favicon.ico",
+      "theme": "corporate",
+      "fonts": {
+        "primary": "Inter",
+        "secondary": "Roboto"
+      }
+    }
+  },
+  "environments": {
+    "prod": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 1024,
+          "timeout": 120
+        },
+        "api": {
+          "throttling": {
+            "rateLimit": 2000,
+            "burstLimit": 4000
+          }
+        }
+      }
+    },
+    "staging": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 512,
+          "timeout": 60
+        }
+      }
+    },
+    "dev": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 256,
+          "timeout": 30
+        }
+      }
+    }
+  }
+}

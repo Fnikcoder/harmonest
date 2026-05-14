@@ -1,0 +1,4 @@
+# API Server Dependencies
+Flask>=2.3.0
+Flask-CORS>=4.0.0
+jsonschema>=4.17.0

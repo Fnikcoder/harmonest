@@ -1,0 +1,33 @@
+// Component-specific styles for booking step four (review)
+// Using Tailwind classes in template, minimal custom SCSS needed
+
+.review-card {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.edit-button {
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+// Mobile-first responsive adjustments
+@media (max-width: 640px) {
+  .booking-review {
+    .grid-cols-2 {
+      grid-template-columns: 1fr;
+    }
+    
+    .text-right {
+      text-align: left;
+      margin-top: 0.5rem;
+    }
+  }
+}

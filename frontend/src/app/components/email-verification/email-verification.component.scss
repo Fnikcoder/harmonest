@@ -1,0 +1,71 @@
+// Email verification component styles
+
+.email-verification-container {
+  .verification-code-input {
+    letter-spacing: 0.5em;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    
+    &:focus {
+      letter-spacing: 0.5em;
+    }
+  }
+  
+  .loading-spinner {
+    animation: spin 1s linear infinite;
+  }
+  
+  .verification-success {
+    animation: slideInFromTop 0.5s ease-out;
+  }
+  
+  .verification-error {
+    animation: shake 0.5s ease-in-out;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+// Mobile-first responsive adjustments
+@media (max-width: 640px) {
+  .email-verification-container {
+    .flex-row {
+      flex-direction: column;
+    }
+    
+    .verification-code-input {
+      font-size: 1.125rem;
+      padding: 0.875rem;
+    }
+  }
+}

@@ -1,0 +1,86 @@
+<div class="p-6 rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900">
+  <h6 class="text-base font-semibold mb-4">Management</h6>
+  <ul class="list-none sidebar-nav mb-0 pb-0" id="management-tabs">
+
+    <li class="navbar-item" [ngClass]="current === '/dashboard' ? 'active' : ''">
+      <a [routerLink]="'/dashboard'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+        <i data-feather="bar-chart-2" class="size-4 me-2"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+
+    <li class="navbar-item" [ngClass]="current === '/properties' ? 'active' : ''">
+      <a [routerLink]="'/properties'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+        <i data-feather="home" class="size-4 me-2"></i>
+        <span>My Properties</span>
+      </a>
+    </li>
+    <li class="navbar-item" [ngClass]="current === '/bookings' ? 'active' : ''">
+      <a [routerLink]="'/bookings'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+        <i data-feather="calendar" class="size-4 me-2"></i>
+        <span>Bookings</span>
+      </a>
+    </li>
+    <li class="navbar-item" [ngClass]="current === '/calendar' ? 'active' : ''">
+      <a [routerLink]="'/calendar'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+        <i data-feather="calendar" class="size-4 me-2"></i>
+        <span>Calendar</span>
+      </a>
+    </li>
+
+    <li class="navbar-item" [ngClass]="current === '/messages' ? 'active' : ''">
+      <a [routerLink]="'/messages'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+        <i data-feather="message-circle" class="size-4 me-2"></i>
+        <span>Messages (Guests)</span>
+      </a>
+    </li>
+
+    <li class="navbar-item" [ngClass]="current === '/reviews' ? 'active' : ''">
+      <a [routerLink]="'/reviews'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+        <i data-feather="star" class="size-4 me-2"></i>
+        <span>Reviews</span>
+      </a>
+    </li>
+
+    <li class="navbar-item" [ngClass]="current === '/team-access' ? 'active' : ''">
+      <a [routerLink]="'/team-access'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+        <i data-feather="users" class="size-4 me-2"></i>
+        <span>Team & Roles</span>
+      </a>
+    </li>
+
+    <li class="navbar-item" [ngClass]="current === '/tasks' ? 'active' : ''">
+      <a [routerLink]="'/tasks'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+        <i data-feather="check-square" class="size-4 me-2"></i>
+        <span>Cleaning & Tasks</span>
+      </a>
+    </li>
+
+    <li class="navbar-item" [ngClass]="current === '/documents' ? 'active' : ''">
+      <a [routerLink]="'/documents'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+        <i data-feather="folder" class="size-4 me-2"></i>
+        <span>Document Center</span>
+      </a>
+    </li>
+    <li class="navbar-item" [ngClass]="current === '/payouts' ? 'active' : ''">
+      <a [routerLink]="'/payouts'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+        <i data-feather="dollar-sign" class="size-4 me-2"></i>
+        <span>Payouts</span>
+      </a>
+    </li>
+    <li class="navbar-item" [ngClass]="current === '/reports-taxes' ? 'active' : ''">
+      <a [routerLink]="'/reports-taxes'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+        <i data-feather="file-text" class="size-4 me-2"></i>
+        <span>Reports & Taxes</span>
+      </a>
+    </li>
+
+    <li class="navbar-item" [ngClass]="current === '/settings' ? 'active' : ''">
+      <a [routerLink]="'/settings'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+        <i data-feather="settings" class="size-4 me-2"></i>
+        <span>Settings</span>
+      </a>
+    </li>
+
+  </ul>
+</div>

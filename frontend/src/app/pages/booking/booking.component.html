@@ -1,0 +1,56 @@
+<app-navbar [navClass]="'defaultscroll is-sticky'" [navLight]="false"></app-navbar>
+
+<section class="relative lg:pb-24 pb-16 md:mt-[84px] mt-[70px]">
+  <!-- Hero Section -->
+  <div class="md:container container-fluid relative">
+    <div class="relative overflow-hidden md:rounded-md shadow dark:shadow-gray-800 h-52 bg-gradient-to-r from-red-500 to-red-600">
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="text-center text-white">
+          <h1 class="text-4xl font-bold mb-2">Complete Your Booking</h1>
+          <p class="text-xl opacity-90">Just a few steps to secure your perfect stay</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Booking Content -->
+  <div class="container relative md:mt-24 mt-16">
+    <app-booking-progress></app-booking-progress>
+
+    <div class="grid lg:grid-cols-3 grid-cols-1 gap-6 lg:gap-8">
+      <!-- Main Booking Steps -->
+      <div class="lg:col-span-2 order-2 lg:order-1">
+        <!-- Progress Indicator -->
+
+        <!-- Step Content -->
+        <div class="booking-step-content">
+          <!-- Step 1: Guest Details & Dates -->
+          <app-booking-step-one *ngIf="currentStep === 1"></app-booking-step-one>
+
+          <!-- Step 2: Room Selection -->
+          <app-booking-step-two *ngIf="currentStep === 2"></app-booking-step-two>
+
+          <!-- Step 3: Additional Services -->
+          <app-booking-step-three *ngIf="currentStep === 3"></app-booking-step-three>
+
+          <!-- Step 4: Review Booking -->
+          <app-booking-step-four *ngIf="currentStep === 4"></app-booking-step-four>
+
+          <!-- Step 5: Payment -->
+          <app-booking-step-five *ngIf="currentStep === 5"></app-booking-step-five>
+
+          <!-- Step 6: Confirmation -->
+          <app-booking-step-six *ngIf="currentStep === 6"></app-booking-step-six>
+        </div>
+      </div>
+
+      <!-- Booking Summary Sidebar -->
+      <div class="lg:col-span-1 order-2 lg:order-1">
+        <app-booking-summary></app-booking-summary>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-footer></app-footer>
+<app-switcher></app-switcher>

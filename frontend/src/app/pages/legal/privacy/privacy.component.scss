@@ -1,0 +1,25 @@
+.prose {
+  h2 {
+    @apply text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4 first:mt-0;
+  }
+  
+  h3 {
+    @apply text-lg font-medium text-gray-800 dark:text-gray-200 mt-6 mb-3;
+  }
+  
+  p {
+    @apply text-gray-700 dark:text-gray-300 mb-4 leading-relaxed;
+  }
+  
+  ul {
+    @apply list-disc list-inside mb-4 space-y-2;
+    
+    li {
+      @apply text-gray-700 dark:text-gray-300;
+      
+      strong {
+        @apply font-semibold text-gray-900 dark:text-white;
+      }
+    }
+  }
+}

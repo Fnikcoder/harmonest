@@ -1,0 +1,286 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Calendar Management</h1>
+      <p class="text-gray-600 dark:text-gray-400">View and manage bookings, availability, and maintenance schedules</p>
+    </div>
+    <div class="flex space-x-3">
+      <button (click)="showLearning = !showLearning"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+        <i data-feather="book-open" class="mr-2"></i>
+        Learning Guide
+      </button>
+      <button (click)="showBlockModal = true"
+              class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+        <i data-feather="x-circle" class="mr-2"></i>
+        Block Dates
+      </button>
+    </div>
+  </div>
+
+  <!-- Learning Section -->
+  <div *ngIf="showLearning" class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+    <div class="flex items-start space-x-3">
+      <i data-feather="lightbulb" class="text-blue-600 dark:text-blue-400 mt-1"></i>
+      <div>
+        <h3 class="text-lg font-medium text-blue-900 dark:text-blue-100 mb-3">Calendar Management Guide</h3>
+        <div class="space-y-3 text-sm text-blue-700 dark:text-blue-300">
+          <div>
+            <h4 class="font-medium mb-1">Understanding Calendar Views:</h4>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+              <li><strong>Green:</strong> Available dates for booking</li>
+              <li><strong>Blue:</strong> Confirmed bookings</li>
+              <li><strong>Yellow:</strong> Pending bookings</li>
+              <li><strong>Red:</strong> Blocked/maintenance dates</li>
+              <li><strong>Gray:</strong> Past dates</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-medium mb-1">Best Practices:</h4>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+              <li>Block dates in advance for maintenance or personal use</li>
+              <li>Keep availability updated to maximize bookings</li>
+              <li>Use different views (month/week/day) for different tasks</li>
+              <li>Check for conflicts before confirming bookings</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Property</label>
+        <select [(ngModel)]="selectedProperty"
+                (change)="filterEvents()"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          <option value="">All Properties</option>
+          <option *ngFor="let property of properties" [value]="property.id">{{ property.name }}</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Unit</label>
+        <select [(ngModel)]="selectedUnit"
+                (change)="filterEvents()"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          <option value="">All Units</option>
+          <option *ngFor="let unit of filteredUnits" [value]="unit.id">{{ unit.name }}</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Event Type</label>
+        <select [(ngModel)]="selectedEventType"
+                (change)="filterEvents()"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          <option value="">All Types</option>
+          <option value="booking">Bookings</option>
+          <option value="maintenance">Maintenance</option>
+          <option value="blocked">Blocked</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">View</label>
+        <select [(ngModel)]="calendarView"
+                (change)="changeView()"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          <option value="month">Month View</option>
+          <option value="week">Week View</option>
+          <option value="day">Day View</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendar Navigation -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <button (click)="previousPeriod()"
+                class="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+          <i data-feather="chevron-left"></i>
+        </button>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+          {{ getCurrentPeriodTitle() }}
+        </h2>
+        <button (click)="nextPeriod()"
+                class="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+          <i data-feather="chevron-right"></i>
+        </button>
+      </div>
+      <button (click)="goToToday()"
+              class="px-4 py-2 text-red-600 border border-red-600 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+        Today
+      </button>
+    </div>
+  </div>
+
+  <!-- Calendar Grid -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <!-- Month View -->
+    <div *ngIf="calendarView === 'month'" class="p-6">
+      <!-- Days of Week Header -->
+      <div class="grid grid-cols-7 gap-1 mb-4">
+        <div *ngFor="let day of daysOfWeek"
+             class="p-3 text-center text-sm font-medium text-gray-500 dark:text-gray-400">
+          {{ day }}
+        </div>
+      </div>
+
+      <!-- Calendar Days -->
+      <div class="grid grid-cols-7 gap-1">
+        <div *ngFor="let day of calendarDays"
+             class="min-h-[120px] p-2 border border-gray-100 dark:border-gray-700 rounded-lg"
+             [class.bg-gray-50]="!day.isCurrentMonth"
+             [class.dark:bg-gray-700]="!day.isCurrentMonth">
+
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium"
+                  [class.text-gray-400]="!day.isCurrentMonth"
+                  [class.text-red-600]="day.isToday"
+                  [class.text-gray-900]="day.isCurrentMonth && !day.isToday"
+                  [class.dark:text-white]="day.isCurrentMonth && !day.isToday">
+              {{ day.date.getDate() }}
+            </span>
+            <button *ngIf="day.isCurrentMonth"
+                    (click)="blockDate(day.date)"
+                    class="text-xs text-gray-400 hover:text-red-600">
+              <i data-feather="x-circle"></i>
+            </button>
+          </div>
+
+          <!-- Events for this day -->
+          <div class="space-y-1">
+            <div *ngFor="let event of getEventsForDay(day.date)"
+                 class="text-xs p-1 rounded truncate cursor-pointer"
+                 [ngClass]="getEventClass(event.type)"
+                 (click)="viewEvent(event)">
+              {{ event.title }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Week/Day View Placeholder -->
+    <div *ngIf="calendarView !== 'month'" class="p-6 text-center">
+      <i data-feather="calendar" class="text-gray-400 text-4xl mb-4"></i>
+      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">{{ calendarView | titlecase }} View</h3>
+      <p class="text-gray-500 dark:text-gray-400">{{ calendarView | titlecase }} view coming soon!</p>
+    </div>
+  </div>
+
+  <!-- Event Summary -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Bookings</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ getEventCount('booking') }}</p>
+        </div>
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="calendar" class="text-blue-600 dark:text-blue-400"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Maintenance</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ getEventCount('maintenance') }}</p>
+        </div>
+        <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="tool" class="text-yellow-600 dark:text-yellow-400"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Blocked Dates</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ getEventCount('blocked') }}</p>
+        </div>
+        <div class="w-12 h-12 bg-red-100 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="x-circle" class="text-red-600 dark:text-red-400"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Occupancy Rate</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ getOccupancyRate() }}%</p>
+        </div>
+        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="trending-up" class="text-green-600 dark:text-green-400"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Block Dates Modal -->
+<div *ngIf="showBlockModal"
+     class="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
+  <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Block Dates</h3>
+      <button (click)="showBlockModal = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+        <i data-feather="x"></i>
+      </button>
+    </div>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Property</label>
+        <select [(ngModel)]="blockForm.propertyId"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          <option value="">Select Property</option>
+          <option *ngFor="let property of properties" [value]="property.id">{{ property.name }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Start Date</label>
+        <input [(ngModel)]="blockForm.startDate"
+               type="date"
+               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">End Date</label>
+        <input [(ngModel)]="blockForm.endDate"
+               type="date"
+               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Reason</label>
+        <select [(ngModel)]="blockForm.reason"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          <option value="maintenance">Maintenance</option>
+          <option value="personal">Personal Use</option>
+          <option value="renovation">Renovation</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="flex justify-end space-x-3 mt-6">
+      <button (click)="showBlockModal = false"
+              class="px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        Cancel
+      </button>
+      <button (click)="blockDates()"
+              class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors">
+        Block Dates
+      </button>
+    </div>
+  </div>
+</div>

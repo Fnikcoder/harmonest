@@ -1,0 +1,254 @@
+/* HarmoNest Configurator Dynamic Theme System */
+
+/* CSS Custom Properties for Dynamic Theming */
+:root {
+  /* Default Colors */
+  --color-primary: #3b82f6;
+  --color-secondary: #64748b;
+  --color-accent: #10b981;
+  --color-background: #ffffff;
+  --color-surface: #f8fafc;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #64748b;
+  --color-border: #e2e8f0;
+  
+  /* Default Typography */
+  --font-primary: "Inter", sans-serif;
+  --font-secondary: "Inter", sans-serif;
+  --font-heading: "Inter", sans-serif;
+  
+  /* Default Component Styles */
+  --button-border-radius: 0.5rem;
+  --button-padding: 0.75rem 1.5rem;
+  --button-font-size: 0.875rem;
+  --button-font-weight: 600;
+  
+  --card-border-radius: 0.75rem;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --card-padding: 1.5rem;
+}
+
+/* Apply theme variables to components */
+.theme-aware {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+}
+
+.btn-theme-primary {
+  background-color: var(--color-primary);
+  color: white;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--button-border-radius);
+  padding: var(--button-padding);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  font-family: var(--font-primary);
+  transition: all 0.3s ease;
+}
+
+.btn-theme-primary:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 90%, black);
+  border-color: color-mix(in srgb, var(--color-primary) 90%, black);
+  transform: translateY(-1px);
+}
+
+.btn-theme-secondary {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--button-border-radius);
+  padding: var(--button-padding);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  font-family: var(--font-primary);
+  transition: all 0.3s ease;
+}
+
+.btn-theme-secondary:hover {
+  background-color: var(--color-primary);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.card-theme {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-shadow);
+  padding: var(--card-padding);
+  transition: all 0.3s ease;
+}
+
+.card-theme:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.text-theme-primary {
+  color: var(--color-text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-theme-accent {
+  color: var(--color-primary);
+}
+
+.bg-theme-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-theme-surface {
+  background-color: var(--color-surface);
+}
+
+.border-theme {
+  border-color: var(--color-border);
+}
+
+/* HarmoNest Brand Theme */
+.harmonest-theme {
+  --color-primary: #3e7cb1;
+  --color-secondary: #1d1d1b;
+  --color-accent: #1c39bb;
+  --color-background: #ffffff;
+  --color-surface: #f9fafb;
+  --color-text-primary: #1d1d1b;
+  --color-text-secondary: #6b7280;
+  --color-text-accent: #3e7cb1;
+  --color-border: #e5e7eb;
+  
+  --font-primary: "Corbel", "Segoe UI", sans-serif;
+  --font-secondary: "DM Mono", "Courier New", monospace;
+  --font-heading: "Faculty Glyphic", serif;
+  
+  --button-border-radius: 0.75rem;
+  --button-padding: 0.875rem 2rem;
+  --card-border-radius: 1rem;
+  --card-shadow: 0 8px 25px -8px rgba(62, 124, 177, 0.2);
+  --card-padding: 2rem;
+}
+
+/* Dark mode support */
+[data-theme="dark"] {
+  --color-primary: #3b82f6;
+  --color-secondary: #64748b;
+  --color-accent: #10b981;
+  --color-background: #0f172a;
+  --color-surface: #1e293b;
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #94a3b8;
+  --color-border: #334155;
+}
+
+[data-theme="dark"].harmonest-theme {
+  --color-primary: #3e7cb1;
+  --color-secondary: #d2bfa3;
+  --color-accent: #1c39bb;
+  --color-background: #0f172a;
+  --color-surface: #1e293b;
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-text-accent: #3e7cb1;
+  --color-border: #374151;
+}
+
+/* HarmoNest specific component styles */
+.harmonest-theme .btn-theme-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  font-family: var(--font-primary);
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+.harmonest-theme .btn-theme-primary:hover {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 90%, black) 0%, color-mix(in srgb, var(--color-accent) 90%, black) 100%);
+  box-shadow: 0 8px 15px -3px rgba(62, 124, 177, 0.3);
+}
+
+.harmonest-theme h1,
+.harmonest-theme h2,
+.harmonest-theme h3,
+.harmonest-theme h4,
+.harmonest-theme h5,
+.harmonest-theme h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+
+.harmonest-theme .harmonest-pattern-bg {
+  background-image: url('/assets/images/branding/HarmoNest Pattern.svg');
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.05;
+}
+
+/* Notification styles */
+.notification {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  color: white;
+  font-weight: 500;
+  z-index: 9999;
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification.success {
+  background-color: #10b981;
+}
+
+.notification.error {
+  background-color: #ef4444;
+}
+
+.notification.warning {
+  background-color: #f59e0b;
+}
+
+.notification.info {
+  background-color: #3b82f6;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Form elements */
+.form-control-theme {
+  border: 2px solid var(--color-border);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-primary);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  transition: all 0.3s ease;
+}
+
+.form-control-theme:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(62, 124, 177, 0.1);
+}
+
+.harmonest-theme .form-control-theme:focus {
+  box-shadow: 0 0 0 3px rgba(62, 124, 177, 0.1);
+}

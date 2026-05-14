@@ -1,0 +1,20 @@
+// Component-specific styles for booking step two
+// Using Tailwind classes in template, minimal custom SCSS needed
+
+.room-card {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.quantity-controls {
+  button {
+    transition: all 0.2s ease;
+    
+    &:hover:not(:disabled) {
+      transform: scale(1.1);
+    }
+  }
+}

@@ -1,0 +1,43 @@
+<app-navbar [navClass]="'defaultscroll is-sticky'" [navLight]="false"></app-navbar>
+<section class="relative table w-full pt-44 pb-56 bg-[url('/assets/images/bg/7.png')] bg-bottom bg-cover" id="home">
+    <div class="container relative">
+        <div class="grid grid-cols-1 items-center mt-10 gap-[30px]">
+            <div>
+                <h5 class="text-3xl font-dancing">Beauty of Discover</h5>
+                <h4 class="font-bold lg:leading-normal leading-normal text-4xl lg:text-6xl mb-6 mt-5">Enjoy Your Dream <br> Vacation</h4>
+                <p class="text-xl max-w-xl mb-12">Planning for a trip? We will organize your trip with the best places and within best budget!</p>
+
+                <app-form></app-form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="relative md:py-24 py-16 overflow-hidden">
+    <app-top-destinations></app-top-destinations>
+
+    <app-about></app-about>
+
+    <div class="container relative md:mt-24 mt-16">
+        <div class="grid grid-cols-1 pb-8 text-center">
+            <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">Tours Packages</h3>
+
+            <p class="text-slate-400 max-w-xl mx-auto">Planning for a trip? We will organize your trip with the best places and within best budget!</p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 grid-cols-1 gap-6">                    
+            <div *ngFor="let item of package | slice : 0 : 8 " class="group rounded-md shadow dark:shadow-gray-700">
+                <app-list-data [packageData]="item"></app-list-data>
+            </div>
+        </div>
+
+        <div class="mt-6 text-center">
+            <a [routerLink]="'/grid-right-sidebar'" class="text-slate-400 hover:text-red-500 inline-block">See More Tours <i class="mdi mdi-arrow-right align-middle"></i></a>
+        </div>
+    </div>
+
+    <app-client></app-client>
+   <app-blog></app-blog>
+</section>
+<app-footer></app-footer>
+<app-switcher></app-switcher>

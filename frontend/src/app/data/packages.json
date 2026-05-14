@@ -1,0 +1,843 @@
+[
+  {
+    "id": 1,
+    "tag": "10% Off",
+    "title": "Modern Apartment near Alexanderplatz",
+    "propertyType": "Apartment",
+    "guests": 4,
+    "bedrooms": 2,
+    "amount": 250,
+    "currency": "USD",
+    "rating": 4.8,
+    "reviews": 156,
+    "description": "Stylish apartment in central Berlin, just steps from Alexanderplatz. Perfect for city explorers and culture lovers.",
+    "amenities": [
+      "WiFi",
+      "Pool",
+      "Gym",
+      "Parking",
+      "Air Conditioning",
+      "Kitchen",
+      "Washer/Dryer",
+      "Elevator"
+    ],
+    "host": {
+      "name": "Ahmed Hassan",
+      "image": "assets/images/hosts/host1.jpg",
+      "responseTime": "within 1 hour",
+      "rating": 4.9
+    },
+    "location": {
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "address": "Alexanderplatz 1, 10178 Berlin",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d55.1387!3d25.0922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z25.0922,55.1387!5e0!3m2!1sen!2sde",
+      "city": "Berlin",
+      "country": "Germany"
+    },
+    "booking": {
+      "availableDates": [
+        "2024-04-01",
+        "2024-04-02",
+        "2024-04-03"
+      ],
+      "bookedDates": [
+        "2024-03-25",
+        "2024-03-26",
+        "2024-03-27"
+      ],
+      "checkIn": "15:00",
+      "checkOut": "11:00",
+      "minimumStay": 2
+    },
+    "access": {
+      "qrCode": "assets/qr/listing1.png",
+      "lockCode": "1234",
+      "instructions": "Use the QR code to access the smart lock. The code will be active 2 hours before check-in."
+    },
+    "policies": {
+      "cancellation": "Free cancellation up to 48 hours before check-in",
+      "houseRules": [
+        "No smoking",
+        "No parties",
+        "No pets"
+      ],
+      "securityDeposit": 500
+    },
+    "images": [
+      "assets/images/listing/1.jpg",
+      "assets/images/listing/2.jpg",
+      "assets/images/listing/3.jpg",
+      "assets/images/listing/4.jpg"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Modern Apartment near Alexanderplatz",
+    "propertyType": "Villa",
+    "guests": 6,
+    "bedrooms": 3,
+    "amount": 350,
+    "currency": "EUR",
+    "rating": 4.9,
+    "reviews": 203,
+    "description": "Stylish apartment in central Berlin, just steps from Alexanderplatz. Perfect for city explorers and culture lovers.",
+    "amenities": [
+      "WiFi",
+      "Garden",
+      "Terrace",
+      "Air Conditioning",
+      "Kitchen",
+      "Washer",
+      "Historical Features"
+    ],
+    "host": {
+      "name": "Marco Rossi",
+      "image": "assets/images/hosts/host2.jpg",
+      "responseTime": "within 2 hours",
+      "rating": 4.8
+    },
+    "location": {
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "address": "Alexanderplatz 1, 10178 Berlin",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d12.4964!3d41.9028!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z41.9028,12.4964!5e0!3m2!1sen!2sde",
+      "city": "Berlin",
+      "country": "Germany"
+    },
+    "booking": {
+      "availableDates": [
+        "2024-04-05",
+        "2024-04-06",
+        "2024-04-07"
+      ],
+      "bookedDates": [
+        "2024-03-28",
+        "2024-03-29",
+        "2024-03-30"
+      ],
+      "checkIn": "14:00",
+      "checkOut": "10:00",
+      "minimumStay": 3
+    },
+    "access": {
+      "qrCode": "assets/qr/listing2.png",
+      "lockCode": "5678",
+      "instructions": "Smart lock access via QR code. Code activates 1 hour before check-in."
+    },
+    "policies": {
+      "cancellation": "Free cancellation up to 72 hours before check-in",
+      "houseRules": [
+        "No smoking",
+        "Quiet hours 22:00-08:00",
+        "No pets"
+      ],
+      "securityDeposit": 600
+    },
+    "images": [
+      "assets/images/listing/2.jpg",
+      "assets/images/listing/1.jpg",
+      "assets/images/listing/3.jpg",
+      "assets/images/listing/4.jpg"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Modern Apartment near Alexanderplatz",
+    "propertyType": "Bungalow",
+    "guests": 2,
+    "bedrooms": 1,
+    "amount": 500,
+    "currency": "USD",
+    "rating": 4.9,
+    "reviews": 178,
+    "description": "Stylish apartment in central Berlin, just steps from Alexanderplatz. Perfect for city explorers and culture lovers.",
+    "amenities": [
+      "WiFi",
+      "Private Pool",
+      "Glass Floor",
+      "Air Conditioning",
+      "Mini Bar",
+      "Room Service",
+      "Spa Access"
+    ],
+    "host": {
+      "name": "Island Resorts Management",
+      "image": "assets/images/hosts/host3.jpg",
+      "responseTime": "within 30 minutes",
+      "rating": 4.9
+    },
+    "location": {
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "address": "Alexanderplatz 1, 10178 Berlin",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d73.2207!3d3.2028!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z3.2028,73.2207!5e0!3m2!1sen!2sde",
+      "city": "Berlin",
+      "country": "Germany"
+    },
+    "booking": {
+      "availableDates": [
+        "2024-04-10",
+        "2024-04-11",
+        "2024-04-12"
+      ],
+      "bookedDates": [
+        "2024-03-31",
+        "2024-04-01",
+        "2024-04-02"
+      ],
+      "checkIn": "14:00",
+      "checkOut": "12:00",
+      "minimumStay": 2
+    },
+    "access": {
+      "qrCode": "assets/qr/listing3.png",
+      "lockCode": "9012",
+      "instructions": "24/7 concierge service. QR code for room access."
+    },
+    "policies": {
+      "cancellation": "Free cancellation up to 7 days before check-in",
+      "houseRules": [
+        "No smoking",
+        "No shoes inside",
+        "Respect marine life"
+      ],
+      "securityDeposit": 1000
+    },
+    "images": [
+      "assets/images/listing/3.jpg",
+      "assets/images/listing/2.jpg",
+      "assets/images/listing/1.jpg",
+      "assets/images/listing/4.jpg"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Modern Apartment near Alexanderplatz",
+    "propertyType": "Studio",
+    "guests": 2,
+    "bedrooms": 1,
+    "amount": 200,
+    "currency": "USD",
+    "rating": 4.7,
+    "reviews": 245,
+    "description": "Stylish apartment in central Berlin, just steps from Alexanderplatz. Perfect for city explorers and culture lovers.",
+    "amenities": [
+      "WiFi",
+      "Air Conditioning",
+      "Kitchenette",
+      "Washer/Dryer",
+      "Elevator",
+      "Doorman"
+    ],
+    "host": {
+      "name": "Sarah Johnson",
+      "image": "assets/images/hosts/host4.jpg",
+      "responseTime": "within 1 hour",
+      "rating": 4.8
+    },
+    "location": {
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "address": "Alexanderplatz 1, 10178 Berlin",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d-74.006!3d40.7128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z40.7128,-74.006!5e0!3m2!1sen!2sde",
+      "city": "Berlin",
+      "country": "Germany"
+    },
+    "booking": {
+      "availableDates": [
+        "2024-04-15",
+        "2024-04-16",
+        "2024-04-17"
+      ],
+      "bookedDates": [
+        "2024-04-05",
+        "2024-04-06",
+        "2024-04-07"
+      ],
+      "checkIn": "15:00",
+      "checkOut": "11:00",
+      "minimumStay": 2
+    },
+    "access": {
+      "qrCode": "assets/qr/listing4.png",
+      "lockCode": "3456",
+      "instructions": "Smart lock access via QR code. Building access with doorman."
+    },
+    "policies": {
+      "cancellation": "Free cancellation up to 24 hours before check-in",
+      "houseRules": [
+        "No smoking",
+        "No parties",
+        "No pets"
+      ],
+      "securityDeposit": 300
+    },
+    "images": [
+      "assets/images/listing/4.jpg",
+      "assets/images/listing/2.jpg",
+      "assets/images/listing/3.jpg",
+      "assets/images/listing/1.jpg"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Cozy Villa near Schlossplatz",
+    "propertyType": "Villa",
+    "guests": 4,
+    "bedrooms": 2,
+    "amount": 180,
+    "currency": "USD",
+    "rating": 4.9,
+    "reviews": 189,
+    "description": "Relaxing villa close to Stuttgart's K\u00f6nigstra\u00dfe and Schlossplatz. Enjoy shopping, museums, and Swabian cuisine.",
+    "amenities": [
+      "WiFi",
+      "Private Pool",
+      "Garden",
+      "Air Conditioning",
+      "Kitchen",
+      "Outdoor Shower",
+      "Staff Service"
+    ],
+    "host": {
+      "name": "Made Wijaya",
+      "image": "assets/images/hosts/host5.jpg",
+      "responseTime": "within 2 hours",
+      "rating": 4.9
+    },
+    "location": {
+      "latitude": 48.7758,
+      "longitude": 9.1829,
+      "address": "K\u00f6nigstra\u00dfe 1A, 70173 Stuttgart",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d115.1889!3d-8.4095!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z-8.4095,115.1889!5e0!3m2!1sen!2sde",
+      "city": "Stuttgart",
+      "country": "Germany"
+    },
+    "booking": {
+      "availableDates": [
+        "2024-04-20",
+        "2024-04-21",
+        "2024-04-22"
+      ],
+      "bookedDates": [
+        "2024-04-10",
+        "2024-04-11",
+        "2024-04-12"
+      ],
+      "checkIn": "14:00",
+      "checkOut": "12:00",
+      "minimumStay": 3
+    },
+    "access": {
+      "qrCode": "assets/qr/listing5.png",
+      "lockCode": "7890",
+      "instructions": "24/7 staff available. QR code for villa access."
+    },
+    "policies": {
+      "cancellation": "Free cancellation up to 5 days before check-in",
+      "houseRules": [
+        "No smoking",
+        "Respect local customs",
+        "No pets"
+      ],
+      "securityDeposit": 400
+    },
+    "images": [
+      "assets/images/listing/6.jpg",
+      "assets/images/listing/2.jpg",
+      "assets/images/listing/3.jpg",
+      "assets/images/listing/1.jpg"
+    ]
+  },
+  {
+    "id": 6,
+    "tag": "25% Off",
+    "title": "Cozy Villa near Schlossplatz",
+    "propertyType": "Condo",
+    "guests": 3,
+    "bedrooms": 1,
+    "amount": 120,
+    "currency": "USD",
+    "rating": 4.7,
+    "reviews": 167,
+    "description": "Relaxing villa close to Stuttgart's K\u00f6nigstra\u00dfe and Schlossplatz. Enjoy shopping, museums, and Swabian cuisine.",
+    "amenities": [
+      "WiFi",
+      "Pool",
+      "Gym",
+      "Air Conditioning",
+      "Kitchen",
+      "Washer/Dryer",
+      "Rooftop Terrace"
+    ],
+    "host": {
+      "name": "Somchai Thai",
+      "image": "assets/images/hosts/host6.jpg",
+      "responseTime": "within 1 hour",
+      "rating": 4.8
+    },
+    "location": {
+      "latitude": 48.7758,
+      "longitude": 9.1829,
+      "address": "K\u00f6nigstra\u00dfe 1A, 70173 Stuttgart",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d100.5018!3d13.7563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z13.7563,100.5018!5e0!3m2!1sen!2sde",
+      "city": "Stuttgart",
+      "country": "Germany"
+    },
+    "booking": {
+      "availableDates": [
+        "2024-04-25",
+        "2024-04-26",
+        "2024-04-27"
+      ],
+      "bookedDates": [
+        "2024-04-15",
+        "2024-04-16",
+        "2024-04-17"
+      ],
+      "checkIn": "15:00",
+      "checkOut": "11:00",
+      "minimumStay": 2
+    },
+    "access": {
+      "qrCode": "assets/qr/listing6.png",
+      "lockCode": "2345",
+      "instructions": "Smart lock access via QR code. Building security 24/7."
+    },
+    "policies": {
+      "cancellation": "Free cancellation up to 48 hours before check-in",
+      "houseRules": [
+        "No smoking",
+        "No parties",
+        "No pets"
+      ],
+      "securityDeposit": 200
+    },
+    "images": [
+      "assets/images/listing/11.jpg",
+      "assets/images/listing/2.jpg",
+      "assets/images/listing/3.jpg",
+      "assets/images/listing/4.jpg"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Cozy Villa near Schlossplatz",
+    "propertyType": "Suite",
+    "guests": 2,
+    "bedrooms": 1,
+    "amount": 300,
+    "currency": "SGD",
+    "rating": 4.8,
+    "reviews": 198,
+    "description": "Relaxing villa close to Stuttgart's K\u00f6nigstra\u00dfe and Schlossplatz. Enjoy shopping, museums, and Swabian cuisine.",
+    "amenities": [
+      "WiFi",
+      "Pool",
+      "Gym",
+      "Air Conditioning",
+      "Kitchen",
+      "Washer/Dryer",
+      "Concierge Service"
+    ],
+    "host": {
+      "name": "Lee Wei Chen",
+      "image": "assets/images/hosts/host7.jpg",
+      "responseTime": "within 30 minutes",
+      "rating": 4.9
+    },
+    "location": {
+      "latitude": 48.7758,
+      "longitude": 9.1829,
+      "address": "K\u00f6nigstra\u00dfe 1A, 70173 Stuttgart",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d103.852!3d1.2847!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z1.2847,103.852!5e0!3m2!1sen!2sde",
+      "city": "Stuttgart",
+      "country": "Germany"
+    },
+    "booking": {
+      "availableDates": [
+        "2024-04-30",
+        "2024-05-01",
+        "2024-05-02"
+      ],
+      "bookedDates": [
+        "2024-04-20",
+        "2024-04-21",
+        "2024-04-22"
+      ],
+      "checkIn": "15:00",
+      "checkOut": "11:00",
+      "minimumStay": 2
+    },
+    "access": {
+      "qrCode": "assets/qr/listing7.png",
+      "lockCode": "6789",
+      "instructions": "24/7 concierge service. QR code for suite access."
+    },
+    "policies": {
+      "cancellation": "Free cancellation up to 48 hours before check-in",
+      "houseRules": [
+        "No smoking",
+        "No parties",
+        "No pets"
+      ],
+      "securityDeposit": 500
+    },
+    "images": [
+      "assets/images/listing/10.jpg",
+      "assets/images/listing/2.jpg",
+      "assets/images/listing/3.jpg",
+      "assets/images/listing/4.jpg"
+    ]
+  },
+  {
+    "id": 8,
+    "tag": "20% Off",
+    "title": "Cozy Villa near Schlossplatz",
+    "propertyType": "Villa",
+    "guests": 8,
+    "bedrooms": 4,
+    "amount": 400,
+    "currency": "USD",
+    "rating": 4.9,
+    "reviews": 145,
+    "description": "Relaxing villa close to Stuttgart's K\u00f6nigstra\u00dfe and Schlossplatz. Enjoy shopping, museums, and Swabian cuisine.",
+    "amenities": [
+      "WiFi",
+      "Private Pool",
+      "Beach Access",
+      "Air Conditioning",
+      "Kitchen",
+      "Staff Service",
+      "Garden"
+    ],
+    "host": {
+      "name": "Pranee Srisawat",
+      "image": "assets/images/hosts/host8.jpg",
+      "responseTime": "within 2 hours",
+      "rating": 4.9
+    },
+    "location": {
+      "latitude": 48.7758,
+      "longitude": 9.1829,
+      "address": "K\u00f6nigstra\u00dfe 1A, 70173 Stuttgart",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d98.3923!3d7.8804!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z7.8804,98.3923!5e0!3m2!1sen!2sde",
+      "city": "Stuttgart",
+      "country": "Germany"
+    },
+    "booking": {
+      "availableDates": [
+        "2024-05-05",
+        "2024-05-06",
+        "2024-05-07"
+      ],
+      "bookedDates": [
+        "2024-04-25",
+        "2024-04-26",
+        "2024-04-27"
+      ],
+      "checkIn": "14:00",
+      "checkOut": "12:00",
+      "minimumStay": 3
+    },
+    "access": {
+      "qrCode": "assets/qr/listing8.png",
+      "lockCode": "0123",
+      "instructions": "24/7 staff available. QR code for villa access."
+    },
+    "policies": {
+      "cancellation": "Free cancellation up to 7 days before check-in",
+      "houseRules": [
+        "No smoking",
+        "Respect beach rules",
+        "No pets"
+      ],
+      "securityDeposit": 800
+    },
+    "images": [
+      "assets/images/listing/9.jpg",
+      "assets/images/listing/2.jpg",
+      "assets/images/listing/3.jpg",
+      "assets/images/listing/4.jpg"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Cozy Villa near Schlossplatz",
+    "propertyType": "Apartment",
+    "guests": 4,
+    "bedrooms": 2,
+    "amount": 150,
+    "currency": "USD",
+    "rating": 4.6,
+    "reviews": 132,
+    "description": "Relaxing villa close to Stuttgart's K\u00f6nigstra\u00dfe and Schlossplatz. Enjoy shopping, museums, and Swabian cuisine.",
+    "amenities": [
+      "WiFi",
+      "Pool",
+      "Gym",
+      "Air Conditioning",
+      "Kitchen",
+      "Washer/Dryer",
+      "Balcony"
+    ],
+    "host": {
+      "name": "Somsak Chai",
+      "image": "assets/images/hosts/host9.jpg",
+      "responseTime": "within 1 hour",
+      "rating": 4.7
+    },
+    "location": {
+      "latitude": 48.7758,
+      "longitude": 9.1829,
+      "address": "K\u00f6nigstra\u00dfe 1A, 70173 Stuttgart",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d100.8824!3d12.9236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z12.9236,100.8824!5e0!3m2!1sen!2sde",
+      "city": "Stuttgart",
+      "country": "Germany"
+    },
+    "booking": {
+      "availableDates": [
+        "2024-05-10",
+        "2024-05-11",
+        "2024-05-12"
+      ],
+      "bookedDates": [
+        "2024-04-30",
+        "2024-05-01",
+        "2024-05-02"
+      ],
+      "checkIn": "15:00",
+      "checkOut": "11:00",
+      "minimumStay": 2
+    },
+    "access": {
+      "qrCode": "assets/qr/listing9.png",
+      "lockCode": "4567",
+      "instructions": "Smart lock access via QR code. Building security 24/7."
+    },
+    "policies": {
+      "cancellation": "Free cancellation up to 48 hours before check-in",
+      "houseRules": [
+        "No smoking",
+        "No parties",
+        "No pets"
+      ],
+      "securityDeposit": 300
+    },
+    "images": [
+      "assets/images/listing/5.jpg",
+      "assets/images/listing/2.jpg",
+      "assets/images/listing/3.jpg",
+      "assets/images/listing/4.jpg"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "City Condo on K\u00f6nigsallee",
+    "propertyType": "Villa",
+    "guests": 6,
+    "bedrooms": 3,
+    "amount": 280,
+    "currency": "USD",
+    "rating": 4.8,
+    "reviews": 98,
+    "description": "Elegant condo on D\u00fcsseldorf\u2019s famous K\u00f6nigsallee. Great location for shopping, art, and nightlife.",
+    "amenities": [
+      "WiFi",
+      "Private Beach",
+      "Pool",
+      "Air Conditioning",
+      "Kitchen",
+      "Staff Service",
+      "Water Sports"
+    ],
+    "host": {
+      "name": "Island Resorts India",
+      "image": "assets/images/hosts/host10.jpg",
+      "responseTime": "within 1 hour",
+      "rating": 4.8
+    },
+    "location": {
+      "latitude": 51.2277,
+      "longitude": 6.7735,
+      "address": "K\u00f6nigsallee 2, 40212 D\u00fcsseldorf",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d72.6417!3d10.5667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z10.5667,72.6417!5e0!3m2!1sen!2sde",
+      "city": "D\u00fcsseldorf",
+      "country": "Germany"
+    },
+    "booking": {
+      "availableDates": [
+        "2024-05-15",
+        "2024-05-16",
+        "2024-05-17"
+      ],
+      "bookedDates": [
+        "2024-05-05",
+        "2024-05-06",
+        "2024-05-07"
+      ],
+      "checkIn": "14:00",
+      "checkOut": "12:00",
+      "minimumStay": 3
+    },
+    "access": {
+      "qrCode": "assets/qr/listing10.png",
+      "lockCode": "8901",
+      "instructions": "24/7 staff available. QR code for villa access."
+    },
+    "policies": {
+      "cancellation": "Free cancellation up to 7 days before check-in",
+      "houseRules": [
+        "No smoking",
+        "Respect marine life",
+        "No pets"
+      ],
+      "securityDeposit": 500
+    },
+    "images": [
+      "assets/images/listing/6.jpg",
+      "assets/images/listing/2.jpg",
+      "assets/images/listing/3.jpg",
+      "assets/images/listing/4.jpg"
+    ]
+  },
+  {
+    "id": 11,
+    "title": "City Condo on K\u00f6nigsallee",
+    "propertyType": "Apartment",
+    "guests": 3,
+    "bedrooms": 1,
+    "amount": 220,
+    "currency": "EUR",
+    "rating": 4.9,
+    "reviews": 187,
+    "description": "Elegant condo on D\u00fcsseldorf\u2019s famous K\u00f6nigsallee. Great location for shopping, art, and nightlife.",
+    "amenities": [
+      "WiFi",
+      "Air Conditioning",
+      "Kitchen",
+      "Washer/Dryer",
+      "Elevator",
+      "Balcony"
+    ],
+    "host": {
+      "name": "Sophie Dubois",
+      "image": "assets/images/hosts/host11.jpg",
+      "responseTime": "within 1 hour",
+      "rating": 4.9
+    },
+    "location": {
+      "latitude": 51.2277,
+      "longitude": 6.7735,
+      "address": "K\u00f6nigsallee 2, 40212 D\u00fcsseldorf",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d2.3522!3d48.8566!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z48.8566,2.3522!5e0!3m2!1sen!2sde",
+      "city": "D\u00fcsseldorf",
+      "country": "Germany"
+    },
+    "booking": {
+      "availableDates": [
+        "2024-05-20",
+        "2024-05-21",
+        "2024-05-22"
+      ],
+      "bookedDates": [
+        "2024-05-10",
+        "2024-05-11",
+        "2024-05-12"
+      ],
+      "checkIn": "15:00",
+      "checkOut": "11:00",
+      "minimumStay": 2
+    },
+    "access": {
+      "qrCode": "assets/qr/listing11.png",
+      "lockCode": "2345",
+      "instructions": "Smart lock access via QR code. Building access with code."
+    },
+    "policies": {
+      "cancellation": "Free cancellation up to 48 hours before check-in",
+      "houseRules": [
+        "No smoking",
+        "Quiet hours 22:00-08:00",
+        "No pets"
+      ],
+      "securityDeposit": 400
+    },
+    "images": [
+      "assets/images/listing/8.jpg",
+      "assets/images/listing/2.jpg",
+      "assets/images/listing/3.jpg",
+      "assets/images/listing/4.jpg"
+    ]
+  },
+  {
+    "id": 12,
+    "title": "City Condo on K\u00f6nigsallee",
+    "propertyType": "Townhouse",
+    "guests": 5,
+    "bedrooms": 3,
+    "amount": 320,
+    "currency": "GBP",
+    "rating": 4.8,
+    "reviews": 156,
+    "description": "Elegant condo on D\u00fcsseldorf\u2019s famous K\u00f6nigsallee. Great location for shopping, art, and nightlife.",
+    "amenities": [
+      "WiFi",
+      "Garden",
+      "Air Conditioning",
+      "Kitchen",
+      "Washer/Dryer",
+      "Fireplace"
+    ],
+    "host": {
+      "name": "James Wilson",
+      "image": "assets/images/hosts/host12.jpg",
+      "responseTime": "within 1 hour",
+      "rating": 4.8
+    },
+    "location": {
+      "latitude": 51.2277,
+      "longitude": 6.7735,
+      "address": "K\u00f6nigsallee 2, 40212 D\u00fcsseldorf",
+      "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d-0.1957!3d51.5074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z51.5074,-0.1957!5e0!3m2!1sen!2sde",
+      "city": "D\u00fcsseldorf",
+      "country": "Germany"
+    },
+    "booking": {
+      "availableDates": [
+        "2024-05-25",
+        "2024-05-26",
+        "2024-05-27"
+      ],
+      "bookedDates": [
+        "2024-05-15",
+        "2024-05-16",
+        "2024-05-17"
+      ],
+      "checkIn": "15:00",
+      "checkOut": "11:00",
+      "minimumStay": 3
+    },
+    "access": {
+      "qrCode": "assets/qr/listing12.png",
+      "lockCode": "6789",
+      "instructions": "Smart lock access via QR code. Key safe available as backup."
+    },
+    "policies": {
+      "cancellation": "Free cancellation up to 72 hours before check-in",
+      "houseRules": [
+        "No smoking",
+        "Quiet hours 22:00-08:00",
+        "No pets"
+      ],
+      "securityDeposit": 600
+    },
+    "images": [
+      "assets/images/listing/7.jpg",
+      "assets/images/listing/2.jpg",
+      "assets/images/listing/3.jpg",
+      "assets/images/listing/4.jpg"
+    ]
+  }
+]

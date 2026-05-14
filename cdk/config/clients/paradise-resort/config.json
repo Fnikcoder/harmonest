@@ -1,0 +1,143 @@
+{
+  "client": {
+    "name": "paradise-resort",
+    "displayName": "Paradise Resort & Spa",
+    "description": "Luxury beachfront resort with world-class spa and dining",
+    "domains": {
+      "primary": "paradiseresort.com",
+      "www": "www.paradiseresort.com",
+      "dev": "dev.paradiseresort.com",
+      "staging": "staging.paradiseresort.com",
+      "api": "api.paradiseresort.com",
+      "spa": "spa.paradiseresort.com",
+      "dining": "dining.paradiseresort.com"
+    },
+    "email": {
+      "noreply": "noreply@paradiseresort.com",
+      "support": "guestservices@paradiseresort.com",
+      "admin": "management@paradiseresort.com",
+      "spa": "spa@paradiseresort.com",
+      "dining": "dining@paradiseresort.com",
+      "fromName": "Paradise Resort & Spa"
+    },
+    "aws": {
+      "profile": "paradise-resort-admin",
+      "region": "us-west-2",
+      "accountId": "987654321098",
+      "kmsKeyId": "arn:aws:kms:us-west-2:987654321098:key/12345678-1234-1234-1234-123456789012"
+    },
+    "features": {
+      "checkin": {
+        "enabled": true,
+        "deadlineHours": 72,
+        "qrCodeEnabled": true,
+        "documentUpload": {
+          "enabled": true,
+          "maxSizeMB": 50,
+          "allowedTypes": ["pdf", "jpg", "png", "doc", "docx", "heic"]
+        }
+      },
+      "reservations": {
+        "enabled": true,
+        "syncEnabled": true,
+        "syncIntervalMinutes": 5
+      },
+      "listings": {
+        "enabled": true,
+        "syncEnabled": true,
+        "publicListings": true
+      },
+      "spa": {
+        "enabled": true,
+        "bookingEnabled": true,
+        "treatmentTypes": ["massage", "facial", "body-treatment", "wellness"]
+      },
+      "dining": {
+        "enabled": true,
+        "reservationEnabled": true,
+        "menuManagement": true,
+        "restaurants": ["main-dining", "beach-grill", "rooftop-bar", "room-service"]
+      },
+      "activities": {
+        "enabled": true,
+        "waterSports": true,
+        "excursions": true,
+        "fitness": true
+      }
+    },
+    "integrations": {
+      "g4h": {
+        "origin": "https://app.guestyforhosts.com",
+        "appVersion": "6.x",
+        "platform": "browser--win32",
+        "deviceUuid": "ypa-uuid-paradise-resort"
+      },
+      "pms": {
+        "provider": "oracle-hospitality",
+        "endpoint": "https://api.oracle.com/hospitality/v2",
+        "enabled": true
+      },
+      "spa": {
+        "provider": "spabooker",
+        "endpoint": "https://api.spabooker.com/v1",
+        "enabled": true
+      },
+      "dining": {
+        "provider": "opentable",
+        "endpoint": "https://api.opentable.com/v1",
+        "enabled": true
+      }
+    },
+    "branding": {
+      "primaryColor": "#0ea5e9",
+      "secondaryColor": "#64748b",
+      "accentColor": "#f97316",
+      "logo": "paradise-resort-logo.png",
+      "favicon": "paradise-favicon.ico",
+      "theme": "tropical",
+      "fonts": {
+        "primary": "Playfair Display",
+        "secondary": "Source Sans Pro"
+      }
+    }
+  },
+  "environments": {
+    "prod": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 2048,
+          "timeout": 180
+        },
+        "api": {
+          "throttling": {
+            "rateLimit": 5000,
+            "burstLimit": 10000
+          }
+        },
+        "dynamodb": {
+          "readCapacity": 100,
+          "writeCapacity": 50
+        }
+      }
+    },
+    "staging": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 1024,
+          "timeout": 90
+        }
+      }
+    },
+    "dev": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 512,
+          "timeout": 60
+        }
+      }
+    }
+  }
+}

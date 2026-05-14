@@ -1,0 +1,272 @@
+<div class="price-optimization-container p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+  <!-- Header -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Price Optimization</h2>
+    <p class="text-gray-600 dark:text-gray-400">
+      Optimize pricing based on location, demand, events, and market conditions
+    </p>
+  </div>
+
+  <!-- Optimization Form -->
+  <form [formGroup]="optimizationForm" (ngSubmit)="runOptimization()" class="mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Location -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Location</h3>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">City</label>
+          <input
+            type="text"
+            formControlName="city"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">State</label>
+          <input
+            type="text"
+            formControlName="state"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Country</label>
+          <select
+            formControlName="country"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white">
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="UK">United Kingdom</option>
+            <option value="AU">Australia</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Date Range -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Date Range</h3>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Start Date</label>
+          <input
+            type="date"
+            formControlName="startDate"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">End Date</label>
+          <input
+            type="date"
+            formControlName="endDate"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white">
+        </div>
+
+        <div class="text-sm text-gray-600 dark:text-gray-400">
+          <i data-feather="calendar" class="w-4 h-4 inline mr-1"></i>
+          {{ getDaysBetween(optimizationForm.get('startDate')?.value, optimizationForm.get('endDate')?.value) }} days
+        </div>
+      </div>
+
+      <!-- Property Data -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Property Data</h3>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Current Price ($)</label>
+          <input
+            type="number"
+            [value]="currentPrice"
+            readonly
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-600 text-gray-900 dark:text-white">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Base Price ($)</label>
+          <input
+            type="number"
+            [value]="basePrice"
+            readonly
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-600 text-gray-900 dark:text-white">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Occupancy Rate</label>
+          <input
+            type="number"
+            formControlName="occupancyRate"
+            min="0"
+            max="1"
+            step="0.01"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white">
+          <div class="text-xs text-gray-500 mt-1">{{ (optimizationForm.get('occupancyRate')?.value * 100).toFixed(0) }}%</div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Available</label>
+            <input
+              type="number"
+              formControlName="availableUnits"
+              min="0"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Total Units</label>
+            <input
+              type="number"
+              formControlName="totalUnits"
+              min="1"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex space-x-4 mt-6">
+      <button
+        type="submit"
+        [disabled]="optimizationForm.invalid || isOptimizing"
+        class="px-6 py-3 bg-harmonest-blue text-white rounded-lg hover:bg-harmonest-navy disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors duration-200 flex items-center">
+        <div *ngIf="isOptimizing" class="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+        <i *ngIf="!isOptimizing" data-feather="trending-up" class="w-5 h-5 mr-2"></i>
+        {{ isOptimizing ? 'Optimizing...' : 'Run Optimization' }}
+      </button>
+
+      <button
+        type="button"
+        (click)="reset()"
+        class="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+        Reset
+      </button>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="mt-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+      <div class="flex items-center">
+        <i data-feather="alert-circle" class="w-5 h-5 text-red-600 mr-2"></i>
+        <span class="text-red-800 dark:text-red-200">{{ errorMessage }}</span>
+      </div>
+    </div>
+  </form>
+
+  <!-- Optimization Results -->
+  <div *ngIf="optimizationResult" class="space-y-6">
+    <!-- Summary -->
+    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Optimization Summary</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="text-center">
+          <div class="text-2xl font-bold text-green-600">{{ formatCurrency(optimizationResult.summary.averagePrice) }}</div>
+          <div class="text-sm text-gray-600 dark:text-gray-400">Average Price</div>
+        </div>
+
+        <div class="text-center">
+          <div class="text-2xl font-bold" [class]="optimizationResult.summary.revenueIncreasePercent >= 0 ? 'text-green-600' : 'text-red-600'">
+            {{ formatPercentage(optimizationResult.summary.revenueIncreasePercent / 100) }}
+          </div>
+          <div class="text-sm text-gray-600 dark:text-gray-400">Revenue Change</div>
+        </div>
+
+        <div class="text-center">
+          <div class="text-2xl font-bold text-blue-600">{{ formatCurrency(optimizationResult.summary.totalRevenue) }}</div>
+          <div class="text-sm text-gray-600 dark:text-gray-400">Total Revenue</div>
+        </div>
+
+        <div class="text-center">
+          <div class="text-2xl font-bold" [class]="optimizationResult.summary.riskScore <= 0.3 ? 'text-green-600' : optimizationResult.summary.riskScore <= 0.6 ? 'text-yellow-600' : 'text-red-600'">
+            {{ (optimizationResult.summary.riskScore * 100).toFixed(0) }}%
+          </div>
+          <div class="text-sm text-gray-600 dark:text-gray-400">Risk Score</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div *ngIf="optimizationResult.recommendations.length > 0" class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
+      <h3 class="text-lg font-semibold text-blue-900 dark:text-blue-200 mb-4">
+        <i data-feather="lightbulb" class="w-5 h-5 inline mr-2"></i>
+        Recommendations
+      </h3>
+      <ul class="space-y-2">
+        <li *ngFor="let recommendation of optimizationResult.recommendations" class="flex items-start">
+          <i data-feather="check-circle" class="w-4 h-4 text-blue-600 mt-0.5 mr-2 flex-shrink-0"></i>
+          <span class="text-blue-800 dark:text-blue-200 text-sm">{{ recommendation }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Price Calendar -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Optimized Price Calendar</h3>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Current</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Optimized</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Change</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Confidence</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Factors</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            <tr *ngFor="let price of optimizationResult.optimizedPrices; let i = index" [class]="i % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-700'">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                {{ price.date | date:'MMM dd, yyyy' }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                {{ formatCurrency(price.originalPrice) }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                {{ formatCurrency(price.price) }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm" [class]="getImpactColor(price.priceChange / price.originalPrice)">
+                <div class="flex items-center">
+                  <i [attr.data-feather]="getImpactIcon(price.priceChange / price.originalPrice)" class="w-4 h-4 mr-1"></i>
+                  {{ formatPercentage(price.priceChangePercent / 100) }}
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm" [class]="getConfidenceColor(price.confidence)">
+                {{ getConfidenceLevel(price.confidence) }}
+              </td>
+              <td class="px-6 py-4 text-sm">
+                <div class="flex flex-wrap gap-1">
+                  <span *ngFor="let factor of price.factors"
+                        [class]="getFactorTypeColor(factor.type)"
+                        class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium">
+                    {{ factor.name }}
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex space-x-4">
+      <button
+        (click)="applyOptimizedPrices()"
+        class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200 flex items-center">
+        <i data-feather="check" class="w-5 h-5 mr-2"></i>
+        Apply Optimized Prices
+      </button>
+
+      <button
+        (click)="exportResults()"
+        class="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 flex items-center">
+        <i data-feather="download" class="w-5 h-5 mr-2"></i>
+        Export Results
+      </button>
+    </div>
+  </div>
+</div>

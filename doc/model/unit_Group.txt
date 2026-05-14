@@ -1,0 +1,83 @@
+
+{success: true, message: "Property request successful",…}
+message
+: 
+"Property request successful"
+payload
+: 
+[{unit_group_id: 127, rate_plan_id: "WIL10-C32_N_1_0_L0-STUDIO",…},…]
+0
+: 
+{unit_group_id: 127, rate_plan_id: "WIL10-C32_N_1_0_L0-STUDIO",…}
+add_ons
+: 
+[]
+available_units
+: 
+5
+cancellation_policy_code
+: 
+"NONREF"
+city_tax
+: 
+{vat_type: "Without", gross_amount: {amount: 1.44, currency: "EUR"},…}
+is_alternative
+: 
+false
+max_persons
+: 
+2
+rate_plan_id
+: 
+"WIL10-C32_N_1_0_L0-STUDIO"
+total_gross_amount
+: 
+{amount: 78.44, currency: "EUR"}
+total_net_amount
+: 
+{amount: 73.4, currency: "EUR"}
+total_tax
+: 
+{amount: 5.04, currency: "EUR"}
+unit_group_id
+: 
+127
+1
+: 
+{unit_group_id: 404, rate_plan_id: "WIL10-C33_N_1_0_L0-C33",…}
+add_ons
+: 
+[]
+available_units
+: 
+5
+cancellation_policy_code
+: 
+"NONREF"
+city_tax
+: 
+{vat_type: "Without", gross_amount: {amount: 1.48, currency: "EUR"},…}
+is_alternative
+: 
+false
+max_persons
+: 
+2
+rate_plan_id
+: 
+"WIL10-C33_N_1_0_L0-C33"
+total_gross_amount
+: 
+{amount: 80.48, currency: "EUR"}
+total_net_amount
+: 
+{amount: 75.31, currency: "EUR"}
+total_tax
+: 
+{amount: 5.17, currency: "EUR"}
+unit_group_id
+: 
+404
+success
+: 
+true

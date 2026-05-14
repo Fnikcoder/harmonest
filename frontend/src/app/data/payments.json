@@ -1,0 +1,372 @@
+[
+  {
+    "PK": "PAYMENT#PAY-2024-001",
+    "SK": "METADATA",
+    "paymentId": "PAY-2024-001",
+    "bookingId": "BK-2024-001",
+    "userId": "user-john-doe-001",
+    "propertyGroupId": "pg-sunset-apartments",
+    "amount": {
+      "total": 569.5,
+      "currency": "USD",
+      "breakdown": {
+        "principal": 495,
+        "taxes": 49.5,
+        "fees": 25
+      }
+    },
+    "paymentMethod": {
+      "type": "credit_card",
+      "provider": "stripe",
+      "card": {
+        "last4": "4242",
+        "brand": "visa",
+        "expiryMonth": 12,
+        "expiryYear": 2027,
+        "fingerprint": "fp_visa_4242_001",
+        "holderName": "John Doe"
+      }
+    },
+    "transaction": {
+      "status": "succeeded",
+      "gatewayTransactionId": "pi_3NqK8w2eZvKYlo2C0123456789",
+      "gatewayResponse": {
+        "id": "pi_3NqK8w2eZvKYlo2C0123456789",
+        "amount": 56950,
+        "currency": "usd",
+        "status": "succeeded",
+        "payment_method": "pm_1NqK8w2eZvKYlo2C0987654321"
+      },
+      "authorizationCode": "AUTH123456",
+      "capturedAt": "2024-06-29T10:05:00Z",
+      "riskScore": 15,
+      "paymentFlow": "immediate"
+    },
+    "documents": {
+      "receipts": [
+        {
+          "receiptId": "receipt-001",
+          "s3Key": "payments/PAY-2024-001/receipts/receipt-001.pdf",
+          "s3Bucket": "harmonest-payment-docs",
+          "url": "https://cdn.harmonest.com/payments/PAY-2024-001/receipts/receipt-001.pdf",
+          "type": "payment_receipt",
+          "metadata": {
+            "size": 245760,
+            "format": "pdf",
+            "generatedAt": "2024-06-29T10:06:00Z"
+          }
+        }
+      ]
+    },
+    "security": {
+      "ipAddress": "192.168.1.100",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "deviceFingerprint": "device_fp_001",
+      "threeDSecure": {
+        "version": "2.1",
+        "status": "authenticated",
+        "transactionId": "3ds_txn_001"
+      },
+      "fraudChecks": {
+        "avsCheck": "pass",
+        "cvvCheck": "pass",
+        "velocityCheck": "pass",
+        "blacklistCheck": "pass"
+      },
+      "riskAssessment": {
+        "score": 15,
+        "level": "low",
+        "factors": ["verified_user", "known_device"],
+        "reviewRequired": false
+      }
+    },
+    "billingAddress": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "street": "123 Main Street",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "US",
+      "zipCode": "92101"
+    },
+    "notifications": [
+      {
+        "notificationId": "notif-001",
+        "type": "payment_confirmation",
+        "channel": "email",
+        "sentAt": "2024-06-29T10:07:00Z",
+        "status": "delivered"
+      }
+    ],
+    "unitBreakdown": [
+      {
+        "unitId": "unit-city-301",
+        "unitNumber": "301",
+        "modelId": "um-1br1b-city",
+        "modelName": "1 Room 1 Bed City Side",
+        "nights": 3,
+        "nightlyRate": 165,
+        "totalAmount": 495
+      }
+    ],
+    "createdAt": "2024-06-29T10:03:00Z",
+    "updatedAt": "2024-06-29T10:05:00Z",
+    "processedAt": "2024-06-29T10:05:00Z",
+    "GSI1PK": "BOOKING#BK-2024-001",
+    "GSI1SK": "PAYMENT#2024-06-29T10:03:00Z",
+    "GSI2PK": "USER#user-john-doe-001",
+    "GSI2SK": "PAYMENT#2024-06-29T10:03:00Z",
+    "GSI3PK": "STATUS#succeeded",
+    "GSI3SK": "PAYMENT#2024-06-29T10:03:00Z",
+    "GSI4PK": "GATEWAY#stripe",
+    "GSI4SK": "PAYMENT#pi_3NqK8w2eZvKYlo2C0123456789",
+    "GSI5PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI5SK": "PAYMENT#2024-06-29T10:03:00Z"
+  },
+  {
+    "PK": "PAYMENT#PAY-2024-002",
+    "SK": "METADATA",
+    "paymentId": "PAY-2024-002",
+    "bookingId": "BK-2024-002",
+    "userId": "user-sarah-wilson-002",
+    "amount": {
+      "total": 1000,
+      "currency": "USD",
+      "breakdown": {
+        "principal": 877.5,
+        "taxes": 97.5,
+        "fees": 25
+      }
+    },
+    "paymentMethod": {
+      "type": "credit_card",
+      "provider": "stripe",
+      "card": {
+        "last4": "5555",
+        "brand": "mastercard",
+        "expiryMonth": 8,
+        "expiryYear": 2026,
+        "fingerprint": "fp_mc_5555_002",
+        "holderName": "Sarah Wilson"
+      }
+    },
+    "transaction": {
+      "status": "succeeded",
+      "gatewayTransactionId": "pi_3NqL9x3fZvKYlo2C0234567890",
+      "gatewayResponse": {
+        "id": "pi_3NqL9x3fZvKYlo2C0234567890",
+        "amount": 100000,
+        "currency": "usd",
+        "status": "succeeded",
+        "payment_method": "pm_1NqL9x3fZvKYlo2C0876543210"
+      },
+      "authorizationCode": "AUTH234567",
+      "capturedAt": "2024-06-28T15:35:00Z",
+      "riskScore": 22,
+      "paymentFlow": "immediate"
+    },
+    "security": {
+      "ipAddress": "192.168.1.200",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)",
+      "fraudChecks": {
+        "avsCheck": "pass",
+        "cvvCheck": "pass",
+        "velocityCheck": "pass",
+        "blacklistCheck": "pass"
+      },
+      "riskAssessment": {
+        "score": 22,
+        "level": "low",
+        "factors": ["mobile_device", "new_location"],
+        "reviewRequired": false
+      }
+    },
+    "billingAddress": {
+      "firstName": "Sarah",
+      "lastName": "Wilson",
+      "street": "456 Ocean Avenue",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "US",
+      "zipCode": "92109"
+    },
+    "notifications": [
+      {
+        "notificationId": "notif-002",
+        "type": "payment_confirmation",
+        "channel": "email",
+        "sentAt": "2024-06-28T15:36:00Z",
+        "status": "delivered"
+      }
+    ],
+    "createdAt": "2024-06-28T15:32:00Z",
+    "updatedAt": "2024-06-28T15:35:00Z",
+    "processedAt": "2024-06-28T15:35:00Z",
+    "GSI1PK": "BOOKING#BK-2024-002",
+    "GSI1SK": "PAYMENT#2024-06-28T15:32:00Z",
+    "GSI2PK": "USER#user-sarah-wilson-002",
+    "GSI2SK": "PAYMENT#2024-06-28T15:32:00Z",
+    "GSI3PK": "STATUS#succeeded",
+    "GSI3SK": "PAYMENT#2024-06-28T15:32:00Z",
+    "GSI4PK": "GATEWAY#stripe",
+    "GSI4SK": "PAYMENT#pi_3NqL9x3fZvKYlo2C0234567890"
+  },
+  {
+    "PK": "PAYMENT#PAY-2024-003",
+    "SK": "METADATA",
+    "paymentId": "PAY-2024-003",
+    "bookingId": "BK-2024-004",
+    "userId": "user-sarah-wilson-002",
+    "amount": {
+      "total": 2700,
+      "currency": "USD",
+      "breakdown": {
+        "principal": 2394,
+        "taxes": 266,
+        "fees": 40
+      }
+    },
+    "paymentMethod": {
+      "type": "digital_wallet",
+      "provider": "paypal",
+      "wallet": {
+        "type": "paypal",
+        "accountEmail": "sarah.wilson@email.com"
+      }
+    },
+    "transaction": {
+      "status": "succeeded",
+      "gatewayTransactionId": "PAYPAL-TXN-345678901",
+      "gatewayResponse": {
+        "id": "PAYPAL-TXN-345678901",
+        "amount": "2700.00",
+        "currency": "USD",
+        "status": "COMPLETED",
+        "payer_email": "sarah.wilson@email.com"
+      },
+      "authorizationCode": "PAYPAL-AUTH-345",
+      "capturedAt": "2024-06-25T14:05:00Z",
+      "riskScore": 18,
+      "paymentFlow": "immediate"
+    },
+    "security": {
+      "ipAddress": "192.168.1.200",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)",
+      "fraudChecks": {
+        "velocityCheck": "pass",
+        "blacklistCheck": "pass"
+      },
+      "riskAssessment": {
+        "score": 18,
+        "level": "low",
+        "factors": ["verified_paypal", "repeat_customer"],
+        "reviewRequired": false
+      }
+    },
+    "billingAddress": {
+      "firstName": "Sarah",
+      "lastName": "Wilson",
+      "street": "456 Ocean Avenue",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "US",
+      "zipCode": "92109"
+    },
+    "notifications": [
+      {
+        "notificationId": "notif-003",
+        "type": "payment_confirmation",
+        "channel": "email",
+        "sentAt": "2024-06-25T14:06:00Z",
+        "status": "delivered"
+      }
+    ],
+    "createdAt": "2024-06-25T14:02:00Z",
+    "updatedAt": "2024-06-25T14:05:00Z",
+    "processedAt": "2024-06-25T14:05:00Z",
+    "GSI1PK": "BOOKING#BK-2024-004",
+    "GSI1SK": "PAYMENT#2024-06-25T14:02:00Z",
+    "GSI2PK": "USER#user-sarah-wilson-002",
+    "GSI2SK": "PAYMENT#2024-06-25T14:02:00Z",
+    "GSI3PK": "STATUS#succeeded",
+    "GSI3SK": "PAYMENT#2024-06-25T14:02:00Z",
+    "GSI4PK": "GATEWAY#paypal",
+    "GSI4SK": "PAYMENT#PAYPAL-TXN-345678901"
+  },
+  {
+    "PK": "PAYMENT#PAY-2024-004",
+    "SK": "METADATA",
+    "paymentId": "PAY-2024-004",
+    "bookingId": "BK-2024-003",
+    "userId": "user-john-doe-001",
+    "amount": {
+      "total": 2163,
+      "currency": "USD",
+      "breakdown": {
+        "principal": 1904,
+        "taxes": 224,
+        "fees": 35
+      }
+    },
+    "paymentMethod": {
+      "type": "credit_card",
+      "provider": "stripe",
+      "card": {
+        "last4": "4242",
+        "brand": "visa",
+        "expiryMonth": 12,
+        "expiryYear": 2027,
+        "fingerprint": "fp_visa_4242_001",
+        "holderName": "John Doe"
+      }
+    },
+    "transaction": {
+      "status": "pending",
+      "gatewayTransactionId": "pi_3NqM0y4gZvKYlo2C0456789012",
+      "gatewayResponse": {
+        "id": "pi_3NqM0y4gZvKYlo2C0456789012",
+        "amount": 216300,
+        "currency": "usd",
+        "status": "requires_capture"
+      },
+      "riskScore": 25,
+      "paymentFlow": "authorize_capture"
+    },
+    "security": {
+      "ipAddress": "192.168.1.100",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "deviceFingerprint": "device_fp_001",
+      "fraudChecks": {
+        "avsCheck": "pass",
+        "cvvCheck": "pass",
+        "velocityCheck": "pass",
+        "blacklistCheck": "pass"
+      },
+      "riskAssessment": {
+        "score": 25,
+        "level": "low",
+        "factors": ["large_amount", "family_booking"],
+        "reviewRequired": false
+      }
+    },
+    "billingAddress": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "street": "123 Main Street",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "US",
+      "zipCode": "92101"
+    },
+    "createdAt": "2024-06-29T16:02:00Z",
+    "updatedAt": "2024-06-29T16:02:00Z",
+    "GSI1PK": "BOOKING#BK-2024-003",
+    "GSI1SK": "PAYMENT#2024-06-29T16:02:00Z",
+    "GSI2PK": "USER#user-john-doe-001",
+    "GSI2SK": "PAYMENT#2024-06-29T16:02:00Z",
+    "GSI3PK": "STATUS#pending",
+    "GSI3SK": "PAYMENT#2024-06-29T16:02:00Z",
+    "GSI4PK": "GATEWAY#stripe",
+    "GSI4SK": "PAYMENT#pi_3NqM0y4gZvKYlo2C0456789012"
+  }
+]

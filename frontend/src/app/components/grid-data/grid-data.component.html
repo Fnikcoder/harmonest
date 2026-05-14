@@ -1,0 +1,95 @@
+<div class="relative overflow-hidden rounded-2xl shadow-[0_10px_20px_rgba(0,0,0,0.5)] dark:shadow-[0_10px_20px_rgba(0,0,0,0.9)] mx-3 mt-6 group">
+  <!-- Image with link -->
+  <a [routerLink]="['/location-detail-one', packageData.id]"
+     [queryParams]="currentSearchParams">
+    <img
+      [src]="packageData.images[0]"
+      alt=""
+      class="w-full h-60 object-cover transform scale-125 group-hover:scale-100 transition duration-500"
+    />
+  </a>
+
+  <!-- Tag -->
+  <div *ngIf="packageData.tag" class="absolute top-0 left-0 p-4">
+    <span class="bg-red-500 text-white text-xs px-3 py-1 font-semibold rounded-md">
+      {{ packageData.tag }}
+    </span>
+  </div>
+
+<!--  &lt;!&ndash; Favorite Icon &ndash;&gt;-->
+<!--  <div class="absolute top-0 right-0 p-4">-->
+<!--    <a-->
+<!--      [routerLink]="[]"-->
+<!--      class="w-8 h-8 flex justify-center items-center bg-white dark:bg-slate-900 shadow-md dark:shadow-gray-800 rounded-full text-slate-400 hover:text-red-500 transition"-->
+<!--    >-->
+<!--      <i class="mdi mdi-heart text-lg"></i>-->
+<!--    </a>-->
+<!--  </div>-->
+</div>
+
+<!-- Info Content -->
+<div class="p-5">
+  <!-- Location -->
+  <p class="flex items-center text-slate-400 font-medium mb-2 text-sm">
+    <i data-feather="map-pin" class="text-red-500 size-4 mr-1"></i>
+    {{ packageData?.location?.city }}, {{ packageData?.location?.country }}
+  </p>
+
+  <!-- Title -->
+  <a
+    [routerLink]="['/location-detail-one', packageData.id]"
+    [queryParams]="currentSearchParams"
+    class="text-xl font-semibold text-slate-900 dark:text-white hover:text-red-500 transition"
+  >
+    {{ packageData.title }}
+  </a>
+
+  <!-- Property Info -->
+  <div class="flex flex-wrap items-center mt-2 text-slate-500 text-sm gap-x-3 gap-y-1">
+    <div class="flex items-center">
+      <i data-feather="home" class="text-red-500 size-4 mr-1"></i>
+      <span>{{ packageData.propertyType }}</span>
+    </div>
+    <div class="flex items-center">
+      <i data-feather="users" class="text-red-500 size-4 mr-1"></i>
+      <span>{{ packageData.guests }} Guests</span>
+    </div>
+    <div class="flex items-center">
+      <i data-feather="tablet" class="text-red-500 size-4 mr-1"></i>
+      <span>{{ packageData.bedrooms }} Beds</span>
+    </div>
+  </div>
+
+  <!-- Rating -->
+  <div class="flex items-center mt-3">
+    <ul class="ml-2 flex items-center text-amber-400 text-lg font-medium list-none">
+      <li
+        *ngFor="let star of [1, 2, 3, 4, 5]"
+        class="mr-0 text-xl"
+      >
+        <i
+          class="mdi align-middle"
+          [ngClass]="{
+            'mdi-star': packageData.rating >= star,
+            'mdi-star-half-full': packageData.rating >= star - 0.5 && packageData.rating < star,
+            'mdi-star-outline': packageData.rating < star - 0.5
+          }"
+        ></i>
+      </li>
+      <li class="text-black dark:text-white text-sm ml-2">
+        {{ packageData.reviews }} Reviews
+      </li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <div class="mt-5 pt-4 flex justify-between items-center border-t border-slate-200 dark:border-gray-800">
+    <a
+      [routerLink]="['/location-detail-one', packageData.id]"
+      [queryParams]="currentSearchParams"
+      class="text-slate-500 hover:text-red-500 transition"
+    >
+      View Details <i class="mdi mdi-arrow-right"></i>
+    </a>
+  </div>
+</div>

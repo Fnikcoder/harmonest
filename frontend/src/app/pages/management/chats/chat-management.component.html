@@ -1,0 +1,299 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Message Center</h1>
+      <p class="text-gray-600 dark:text-gray-400">Communicate with guests and manage support conversations</p>
+    </div>
+    <div class="flex space-x-3">
+      <button (click)="showLearning = !showLearning"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center">
+        <i data-feather="book-open" class="w-4 h-4 mr-2"></i>
+        Learning Guide
+      </button>
+      <button (click)="startNewConversation()"
+              class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center">
+        <i data-feather="message-circle" class="w-4 h-4 mr-2"></i>
+        New Message
+      </button>
+    </div>
+  </div>
+
+  <!-- Learning Section -->
+  <div *ngIf="showLearning" class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+    <div class="flex items-start space-x-3">
+      <i data-feather="lightbulb" class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1 flex-shrink-0"></i>
+      <div>
+        <h3 class="text-lg font-medium text-blue-900 dark:text-blue-100 mb-3">Message Center Guide</h3>
+        <div class="space-y-3 text-sm text-blue-700 dark:text-blue-300">
+          <div>
+            <h4 class="font-medium mb-1">Communication Features:</h4>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+              <li>Real-time messaging with guests before, during, and after stays</li>
+              <li>Automated welcome messages and check-in instructions</li>
+              <li>Template responses for common questions</li>
+              <li>File sharing for documents and images</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-medium mb-1">Best Practices:</h4>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+              <li>Respond to guest messages within 1 hour during business hours</li>
+              <li>Use professional and friendly tone in all communications</li>
+              <li>Keep records of all guest interactions for future reference</li>
+              <li>Set up automated responses for common inquiries</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Messages</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.totalMessages }}</p>
+        </div>
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="message-circle" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span class="text-green-600 dark:text-green-400 font-medium">+18%</span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">from last month</span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Unread Messages</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.unreadMessages }}</p>
+        </div>
+        <div class="w-12 h-12 bg-red-100 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="mail" class="w-6 h-6 text-red-600 dark:text-red-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span class="text-red-600 dark:text-red-400 font-medium">{{ stats.unreadMessages }}</span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">need attention</span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Response Time</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.avgResponseTime }}m</p>
+        </div>
+        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="clock" class="w-6 h-6 text-green-600 dark:text-green-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span class="text-green-600 dark:text-green-400 font-medium">-5m</span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">improvement</span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active Chats</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.activeChats }}</p>
+        </div>
+        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="users" class="w-6 h-6 text-purple-600 dark:text-purple-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span class="text-gray-600 dark:text-gray-400">{{ stats.onlineGuests }} guests online</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Interface -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Conversations List -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Conversations</h3>
+        <div class="mt-2">
+          <input [(ngModel)]="searchTerm"
+                 (input)="filterConversations()"
+                 type="text"
+                 placeholder="Search conversations..."
+                 aria-label="Search conversations"
+                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm">
+        </div>
+      </div>
+      <div class="max-h-96 overflow-y-auto">
+        <div *ngFor="let conversation of filteredConversations" (click)="selectConversation(conversation)" class="p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer" [ngClass]="{'bg-red-50': conversation.id === selectedConversation?.id, 'dark:bg-red-900/20': conversation.id === selectedConversation?.id}">
+          <div class="flex items-start space-x-3">
+            <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+              <span class="text-white text-sm font-medium">
+                {{ conversation.guestName.charAt(0) }}
+              </span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                  {{ conversation.guestName }}
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                  {{ conversation.lastMessageTime | date:'short' }}
+                </p>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-400 truncate">
+                {{ conversation.lastMessage }}
+              </p>
+              <div class="flex items-center justify-between mt-1">
+                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                      [ngClass]="getConversationStatusClass(conversation.status)">
+                  {{ conversation.status | titlecase }}
+                </span>
+                <span *ngIf="conversation.unreadCount > 0"
+                      class="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-600 rounded-full">
+                  {{ conversation.unreadCount }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Messages -->
+    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+      <div *ngIf="selectedConversation" class="flex flex-col h-96 md:h-[500px] lg:h-[600px]">
+        <!-- Chat Header -->
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+                <span class="text-white text-sm font-medium">
+                  {{ selectedConversation.guestName.charAt(0) }}
+                </span>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-gray-900 dark:text-white">
+                  {{ selectedConversation.guestName }}
+                </h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  {{ selectedConversation.propertyName }}
+                </p>
+              </div>
+            </div>
+            <div class="flex space-x-2">
+              <button (click)="markAsResolved(selectedConversation)"
+                      class="p-2 text-green-600 hover:text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-colors"
+                      aria-label="Mark conversation as resolved">
+                <i data-feather="check-circle" class="w-5 h-5"></i>
+              </button>
+              <button (click)="archiveConversation(selectedConversation)"
+                      class="p-2 text-gray-600 hover:text-gray-700 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                      aria-label="Archive conversation">
+                <i data-feather="archive" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-4" #messagesContainer>
+          <div *ngFor="let message of selectedConversation.messages"
+               class="flex"
+               [class.justify-end]="message.isFromHost">
+            <div class="max-w-xs sm:max-w-sm lg:max-w-md"
+                 [class.bg-red-600]="message.isFromHost"
+                 [class.text-white]="message.isFromHost"
+                 [class.bg-gray-100]="!message.isFromHost"
+                 [class.dark:bg-gray-700]="!message.isFromHost"
+                 [class.text-gray-900]="!message.isFromHost"
+                 [class.dark:text-white]="!message.isFromHost"
+                 class="rounded-lg px-4 py-2 break-words">
+              <p class="text-sm">{{ message.content }}</p>
+              <p class="text-xs mt-1 opacity-75">
+                {{ message.timestamp | date:'short' }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Message Input -->
+        <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+          <div class="flex space-x-2">
+            <input [(ngModel)]="newMessage"
+                   (keyup.enter)="sendMessage()"
+                   type="text"
+                   placeholder="Type your message..."
+                   aria-label="Type your message"
+                   class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+            <button (click)="sendMessage()"
+                    [disabled]="!newMessage.trim()"
+                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                    aria-label="Send message">
+              <i data-feather="send" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Conversation Selected -->
+      <div *ngIf="!selectedConversation" class="flex items-center justify-center h-96 md:h-[500px] lg:h-[600px]">
+        <div class="text-center">
+          <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
+            <i data-feather="message-circle" class="w-8 h-8 text-gray-400"></i>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No conversation selected</h3>
+          <p class="text-gray-500 dark:text-gray-400">Choose a conversation from the list to start messaging</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <button (click)="createTemplate()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              aria-label="Create message templates">
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="file-text" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Message Templates</span>
+      </button>
+
+      <button (click)="exportConversations()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              aria-label="Export chat conversations">
+        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="download" class="w-6 h-6 text-green-600 dark:text-green-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Export Chats</span>
+      </button>
+
+      <button (click)="configureAutoResponses()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              aria-label="Configure automatic responses">
+        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="settings" class="w-6 h-6 text-purple-600 dark:text-purple-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Auto Responses</span>
+      </button>
+
+      <button (click)="viewAnalytics()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              aria-label="View chat analytics">
+        <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="bar-chart-2" class="w-6 h-6 text-yellow-600 dark:text-yellow-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Analytics</span>
+      </button>
+    </div>
+  </div>
+</div>

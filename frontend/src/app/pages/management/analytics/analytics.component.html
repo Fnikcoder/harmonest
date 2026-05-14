@@ -1,0 +1,308 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Analytics Dashboard</h1>
+      <p class="text-gray-600 dark:text-gray-400">Advanced analytics and business intelligence</p>
+    </div>
+    <div class="flex space-x-3">
+      <button (click)="showLearning = !showLearning"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+        <i data-feather="book-open" class="mr-2"></i>
+        Learning Guide
+      </button>
+      <button (click)="exportReport()"
+              class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+        <i data-feather="download" class="mr-2"></i>
+        Export Report
+      </button>
+    </div>
+  </div>
+
+  <!-- Learning Section -->
+  <div *ngIf="showLearning" class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+    <div class="flex items-start space-x-3">
+      <i data-feather="lightbulb" class="text-blue-600 dark:text-blue-400 mt-1"></i>
+      <div>
+        <h3 class="text-lg font-medium text-blue-900 dark:text-blue-100 mb-3">Analytics Guide</h3>
+        <div class="space-y-3 text-sm text-blue-700 dark:text-blue-300">
+          <div>
+            <h4 class="font-medium mb-1">Key Metrics:</h4>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+              <li>Revenue trends and forecasting</li>
+              <li>Occupancy rates and seasonal patterns</li>
+              <li>Guest satisfaction and review scores</li>
+              <li>Booking conversion rates and sources</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-medium mb-1">Best Practices:</h4>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+              <li>Review analytics weekly to identify trends</li>
+              <li>Use data to optimize pricing strategies</li>
+              <li>Track performance against industry benchmarks</li>
+              <li>Set up alerts for significant changes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Time Period Filter -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700">
+    <div class="flex items-center justify-between">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Time Period</h3>
+      <div class="flex space-x-2">
+        <button *ngFor="let period of timePeriods"
+                (click)="selectedPeriod = period.value; loadAnalytics()"
+                [class.bg-red-600]="selectedPeriod === period.value"
+                [class.text-white]="selectedPeriod === period.value"
+                [class.bg-gray-100]="selectedPeriod !== period.value"
+                [class.text-gray-700]="selectedPeriod !== period.value"
+                [class.dark:bg-gray-700]="selectedPeriod !== period.value"
+                [class.dark:text-gray-300]="selectedPeriod !== period.value"
+                class="px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+          {{ period.label }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Metrics -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Revenue</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">€{{ metrics.totalRevenue | number:'1.0-0' }}</p>
+        </div>
+        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="dollar-sign" class="text-green-600 dark:text-green-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span [class.text-green-600]="metrics.revenueChange >= 0"
+              [class.dark:text-green-400]="metrics.revenueChange >= 0"
+              [class.text-red-600]="metrics.revenueChange < 0"
+              [class.dark:text-red-400]="metrics.revenueChange < 0"
+              class="font-medium">
+          {{ metrics.revenueChange >= 0 ? '+' : '' }}{{ metrics.revenueChange }}%
+        </span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">vs previous period</span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Occupancy Rate</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ metrics.occupancyRate }}%</p>
+        </div>
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="home" class="text-blue-600 dark:text-blue-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span [class.text-green-600]="metrics.occupancyChange >= 0"
+              [class.dark:text-green-400]="metrics.occupancyChange >= 0"
+              [class.text-red-600]="metrics.occupancyChange < 0"
+              [class.dark:text-red-400]="metrics.occupancyChange < 0"
+              class="font-medium">
+          {{ metrics.occupancyChange >= 0 ? '+' : '' }}{{ metrics.occupancyChange }}%
+        </span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">vs previous period</span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Average Daily Rate</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">€{{ metrics.averageDailyRate | number:'1.0-0' }}</p>
+        </div>
+        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="trending-up" class="text-purple-600 dark:text-purple-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span [class.text-green-600]="metrics.adrChange >= 0"
+              [class.dark:text-green-400]="metrics.adrChange >= 0"
+              [class.text-red-600]="metrics.adrChange < 0"
+              [class.dark:text-red-400]="metrics.adrChange < 0"
+              class="font-medium">
+          {{ metrics.adrChange >= 0 ? '+' : '' }}{{ metrics.adrChange }}%
+        </span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">vs previous period</span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Guest Satisfaction</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ metrics.guestSatisfaction }}/5</p>
+        </div>
+        <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="star" class="text-yellow-600 dark:text-yellow-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span [class.text-green-600]="metrics.satisfactionChange >= 0"
+              [class.dark:text-green-400]="metrics.satisfactionChange >= 0"
+              [class.text-red-600]="metrics.satisfactionChange < 0"
+              [class.dark:text-red-400]="metrics.satisfactionChange < 0"
+              class="font-medium">
+          {{ metrics.satisfactionChange >= 0 ? '+' : '' }}{{ metrics.satisfactionChange }}
+        </span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">vs previous period</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Revenue Chart -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Revenue Trend</h3>
+      <div class="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-700 rounded-lg">
+        <div class="text-center">
+          <i data-feather="bar-chart-2" class="text-gray-400 text-4xl mb-2"></i>
+          <p class="text-gray-500 dark:text-gray-400">Chart visualization coming soon</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Occupancy Chart -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Occupancy Rate</h3>
+      <div class="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-700 rounded-lg">
+        <div class="text-center">
+          <i data-feather="pie-chart" class="text-gray-400 text-4xl mb-2"></i>
+          <p class="text-gray-500 dark:text-gray-400">Chart visualization coming soon</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Sources -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Booking Sources</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div *ngFor="let source of bookingSources" class="text-center">
+        <div class="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center"
+             [ngClass]="source.colorClass">
+          <i [attr.data-feather]="source.icon" class="text-2xl"></i>
+        </div>
+        <h4 class="font-semibold text-gray-900 dark:text-white">{{ source.name }}</h4>
+        <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ source.percentage }}%</p>
+        <p class="text-sm text-gray-600 dark:text-gray-400">{{ source.bookings }} bookings</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Property Performance -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Property Performance</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead class="bg-gray-50 dark:bg-gray-700">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Property
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Revenue
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Occupancy
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              ADR
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Rating
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <tr *ngFor="let property of propertyPerformance" class="hover:bg-gray-50 dark:hover:bg-gray-700">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm font-medium text-gray-900 dark:text-white">{{ property.name }}</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">{{ property.location }}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm font-medium text-gray-900 dark:text-white">€{{ property.revenue | number:'1.0-0' }}</div>
+              <div class="text-sm"
+                   [class.text-green-600]="property.revenueChange >= 0"
+                   [class.text-red-600]="property.revenueChange < 0">
+                {{ property.revenueChange >= 0 ? '+' : '' }}{{ property.revenueChange }}%
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm font-medium text-gray-900 dark:text-white">{{ property.occupancy }}%</div>
+              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-1">
+                <div class="bg-blue-600 h-2 rounded-full" [style.width.%]="property.occupancy"></div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+              €{{ property.adr | number:'1.0-0' }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <span class="text-sm font-medium text-gray-900 dark:text-white mr-2">{{ property.rating }}</span>
+                <div class="flex">
+                  <i *ngFor="let star of [1,2,3,4,5]"
+                     data-feather="star"
+                     [class.text-yellow-400]="star <= property.rating"
+                     [class.text-gray-300]="star > property.rating"
+                     class="w-4 h-4"></i>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <button (click)="generateCustomReport()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="file-text" class="text-blue-600 dark:text-blue-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Custom Report</span>
+      </button>
+
+      <button (click)="scheduleReport()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="clock" class="text-green-600 dark:text-green-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Schedule Report</span>
+      </button>
+
+      <button (click)="compareProperties()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="bar-chart-2" class="text-purple-600 dark:text-purple-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Compare Properties</span>
+      </button>
+
+      <button (click)="viewForecast()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="trending-up" class="text-yellow-600 dark:text-yellow-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Forecast</span>
+      </button>
+    </div>
+  </div>
+</div>

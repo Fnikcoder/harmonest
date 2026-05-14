@@ -1,0 +1,20 @@
+{
+  "environment": "dev",
+  "region": "eu-central-1",
+  "userPoolId": "eu-central-1_3nRWgJleG",
+  "userPoolWebClientId": "3ubhvkhn0bk6bb3idt3iftssaj",
+  "identityPoolId": "eu-central-1:258d2ac7-1741-4b39-8095-ae397427638b",
+  "authRoleArn": "arn:aws:iam::669597026882:role/Cognito_harmonest_dev_Auth_Role",
+  "unauthRoleArn": "arn:aws:iam::669597026882:role/Cognito_harmonest_dev_Unauth_Role",
+  "oauth": {
+    "domain": "",
+    "scope": ["openid", "email", "profile"],
+    "redirectSignIn": "http://localhost:4200/auth/callback",
+    "redirectSignOut": "http://localhost:4200/auth/logout",
+    "responseType": "code"
+  },
+  "adminUser": {
+    "email": "admin@harmonest.com",
+    "role": "super_admin"
+  }
+}

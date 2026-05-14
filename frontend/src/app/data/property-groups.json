@@ -1,0 +1,284 @@
+[
+  {
+    "PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "SK": "METADATA",
+    "groupId": "pg-sunset-apartments",
+    "name": "Sunset Apartments",
+    "description": "Modern apartment complex with stunning city and mountain views. Located in the heart of San Diego with easy access to downtown attractions and beaches.",
+    "type": "apartment_complex",
+    "address": {
+      "street": "123 Sunset Boulevard",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "US",
+      "zipCode": "92101",
+      "coordinates": {
+        "latitude": 32.7157,
+        "longitude": -117.1611
+      }
+    },
+    "buildingInfo": {
+      "floors": 8,
+      "totalUnits": 24,
+      "buildingYear": 2020,
+      "renovationYear": 2023,
+      "architect": "Modern Living Designs",
+      "buildingStyle": "Contemporary"
+    },
+    "contact": {
+      "phone": "+1-619-555-0123",
+      "email": "info@sunsetapartments.com",
+      "website": "https://sunsetapartments.com",
+      "emergencyContact": "+1-619-555-0911",
+      "managementCompany": "Pacific Property Management"
+    },
+    "amenities": ["pool", "gym", "parking", "wifi", "rooftop_terrace", "concierge", "laundry", "elevator"],
+    "policies": {
+      "checkInTime": "15:00",
+      "checkOutTime": "11:00",
+      "cancellationPolicy": "Free cancellation up to 48 hours before check-in",
+      "petPolicy": "No pets allowed",
+      "smokingPolicy": "Non-smoking property",
+      "ageRestriction": 18,
+      "quietHours": {
+        "start": "22:00",
+        "end": "08:00"
+      }
+    },
+    "smartLockConfig": {
+      "enabled": true,
+      "provider": "yale",
+      "buildingAccessRequired": true,
+      "apiEndpoint": "https://api.yale.com/v2",
+      "credentials": "encrypted_yale_credentials"
+    },
+    "media": {
+      "images": [
+        {
+          "s3Key": "property-groups/pg-sunset-apartments/images/main/exterior-1.jpg",
+          "s3Bucket": "harmonest-property-media",
+          "url": "https://cdn.harmonest.com/property-groups/pg-sunset-apartments/images/main/exterior-1.jpg",
+          "thumbnailS3Key": "property-groups/pg-sunset-apartments/images/thumbnails/exterior-1-thumb.jpg",
+          "alt": "Sunset Apartments exterior view",
+          "type": "main",
+          "order": 1,
+          "metadata": {
+            "size": 2048576,
+            "width": 1920,
+            "height": 1080,
+            "format": "jpeg",
+            "uploadedAt": "2024-01-15T10:30:00Z"
+          }
+        },
+        {
+          "s3Key": "property-groups/pg-sunset-apartments/images/amenities/pool-1.jpg",
+          "s3Bucket": "harmonest-property-media",
+          "url": "https://cdn.harmonest.com/property-groups/pg-sunset-apartments/images/amenities/pool-1.jpg",
+          "alt": "Rooftop pool with city view",
+          "type": "amenity",
+          "order": 2,
+          "metadata": {
+            "size": 1536000,
+            "width": 1600,
+            "height": 900,
+            "format": "jpeg",
+            "uploadedAt": "2024-01-15T10:35:00Z"
+          }
+        }
+      ],
+      "videos": [
+        {
+          "s3Key": "property-groups/pg-sunset-apartments/videos/tour-1.mp4",
+          "s3Bucket": "harmonest-property-media",
+          "url": "https://cdn.harmonest.com/property-groups/pg-sunset-apartments/videos/tour-1.mp4",
+          "thumbnailS3Key": "property-groups/pg-sunset-apartments/videos/thumbnails/tour-1-thumb.jpg",
+          "title": "Virtual Property Tour",
+          "duration": 180,
+          "type": "tour",
+          "metadata": {
+            "size": 52428800,
+            "resolution": "1920x1080",
+            "format": "mp4",
+            "uploadedAt": "2024-01-15T11:00:00Z"
+          }
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 156,
+    "priceRange": {
+      "min": 120,
+      "max": 350,
+      "currency": "USD"
+    },
+    "status": "active",
+    "ownerId": "owner-pacific-properties",
+    "managementCompanyId": "mgmt-pacific-pm",
+    "createdAt": "2024-01-15T09:00:00Z",
+    "updatedAt": "2024-06-29T14:30:00Z",
+    "GSI1PK": "OWNER#owner-pacific-properties",
+    "GSI1SK": "PROPERTY_GROUP#2024-01-15T09:00:00Z",
+    "GSI2PK": "LOCATION#San Diego#US",
+    "GSI2SK": "PROPERTY_GROUP#4.8"
+  },
+  {
+    "PK": "PROPERTY_GROUP#pg-downtown-suites",
+    "SK": "METADATA",
+    "groupId": "pg-downtown-suites",
+    "name": "Downtown Executive Suites",
+    "description": "Luxury hotel suites in the heart of downtown San Diego. Perfect for business travelers and extended stays with premium amenities and services.",
+    "type": "hotel",
+    "address": {
+      "street": "456 Broadway",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "US",
+      "zipCode": "92101",
+      "coordinates": {
+        "latitude": 32.7081,
+        "longitude": -117.1611
+      }
+    },
+    "buildingInfo": {
+      "floors": 15,
+      "totalUnits": 45,
+      "buildingYear": 2018,
+      "architect": "Urban Design Group",
+      "buildingStyle": "Modern Glass"
+    },
+    "contact": {
+      "phone": "+1-619-555-0456",
+      "email": "reservations@downtownsuites.com",
+      "website": "https://downtownsuites.com",
+      "emergencyContact": "+1-619-555-0911"
+    },
+    "amenities": ["pool", "gym", "spa", "restaurant", "bar", "business_center", "valet_parking", "concierge", "room_service"],
+    "policies": {
+      "checkInTime": "16:00",
+      "checkOutTime": "12:00",
+      "cancellationPolicy": "Free cancellation up to 24 hours before check-in",
+      "petPolicy": "Pets allowed with $50 fee",
+      "smokingPolicy": "Designated smoking areas only",
+      "ageRestriction": 21
+    },
+    "smartLockConfig": {
+      "enabled": true,
+      "provider": "august",
+      "buildingAccessRequired": false,
+      "apiEndpoint": "https://api.august.com/v1"
+    },
+    "media": {
+      "images": [
+        {
+          "s3Key": "property-groups/pg-downtown-suites/images/main/lobby-1.jpg",
+          "s3Bucket": "harmonest-property-media",
+          "url": "https://cdn.harmonest.com/property-groups/pg-downtown-suites/images/main/lobby-1.jpg",
+          "alt": "Elegant hotel lobby",
+          "type": "main",
+          "order": 1,
+          "metadata": {
+            "size": 1843200,
+            "width": 1800,
+            "height": 1200,
+            "format": "jpeg",
+            "uploadedAt": "2024-02-01T09:15:00Z"
+          }
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 203,
+    "priceRange": {
+      "min": 200,
+      "max": 800,
+      "currency": "USD"
+    },
+    "status": "active",
+    "ownerId": "owner-luxury-hospitality",
+    "createdAt": "2024-02-01T08:00:00Z",
+    "updatedAt": "2024-06-29T15:00:00Z",
+    "GSI1PK": "OWNER#owner-luxury-hospitality",
+    "GSI1SK": "PROPERTY_GROUP#2024-02-01T08:00:00Z",
+    "GSI2PK": "LOCATION#San Diego#US",
+    "GSI2SK": "PROPERTY_GROUP#4.9"
+  },
+  {
+    "PK": "PROPERTY_GROUP#pg-beach-resort",
+    "SK": "METADATA",
+    "groupId": "pg-beach-resort",
+    "name": "Pacific Beach Resort",
+    "description": "Oceanfront resort with direct beach access. Featuring spacious villas and suites with panoramic ocean views and world-class amenities.",
+    "type": "resort",
+    "address": {
+      "street": "789 Ocean Drive",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "US",
+      "zipCode": "92109",
+      "coordinates": {
+        "latitude": 32.7941,
+        "longitude": -117.2501
+      }
+    },
+    "buildingInfo": {
+      "floors": 6,
+      "totalUnits": 60,
+      "buildingYear": 2019,
+      "architect": "Coastal Resort Architects",
+      "buildingStyle": "Mediterranean"
+    },
+    "contact": {
+      "phone": "+1-858-555-0789",
+      "email": "info@pacificbeachresort.com",
+      "website": "https://pacificbeachresort.com",
+      "emergencyContact": "+1-858-555-0911"
+    },
+    "amenities": ["private_beach", "multiple_pools", "spa", "restaurants", "bars", "water_sports", "tennis_court", "kids_club", "fitness_center"],
+    "policies": {
+      "checkInTime": "15:00",
+      "checkOutTime": "11:00",
+      "cancellationPolicy": "Free cancellation up to 72 hours before check-in",
+      "petPolicy": "No pets allowed",
+      "smokingPolicy": "Designated outdoor areas only"
+    },
+    "smartLockConfig": {
+      "enabled": true,
+      "provider": "schlage",
+      "buildingAccessRequired": false
+    },
+    "media": {
+      "images": [
+        {
+          "s3Key": "property-groups/pg-beach-resort/images/main/ocean-view-1.jpg",
+          "s3Bucket": "harmonest-property-media",
+          "url": "https://cdn.harmonest.com/property-groups/pg-beach-resort/images/main/ocean-view-1.jpg",
+          "alt": "Resort with ocean view",
+          "type": "main",
+          "order": 1,
+          "metadata": {
+            "size": 2359296,
+            "width": 2048,
+            "height": 1365,
+            "format": "jpeg",
+            "uploadedAt": "2024-03-01T10:00:00Z"
+          }
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 89,
+    "priceRange": {
+      "min": 300,
+      "max": 1200,
+      "currency": "USD"
+    },
+    "status": "active",
+    "ownerId": "owner-resort-group",
+    "createdAt": "2024-03-01T09:00:00Z",
+    "updatedAt": "2024-06-29T16:00:00Z",
+    "GSI1PK": "OWNER#owner-resort-group",
+    "GSI1SK": "PROPERTY_GROUP#2024-03-01T09:00:00Z",
+    "GSI2PK": "LOCATION#San Diego#US",
+    "GSI2SK": "PROPERTY_GROUP#4.7"
+  }
+]

@@ -1,0 +1,214 @@
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow dark:shadow-gray-700 p-6">
+  <h2 class="text-2xl font-semibold text-slate-900 dark:text-white mb-6">Guest Details & Dates</h2>
+
+  <form [formGroup]="guestForm" class="space-y-6">
+    <!-- Personal Information -->
+    <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
+      <div>
+        <label class="form-label font-medium text-slate-900 dark:text-white">First Name *</label>
+        <div class="relative mt-2">
+          <i data-feather="user" class="size-[18px] absolute top-[10px] start-3 text-slate-500"></i>
+          <input
+            type="text"
+            formControlName="firstName"
+            class="w-full py-2 px-3 ps-10 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border focus:ring-0"
+            [ngClass]="{
+              'border-red-500 dark:border-red-500': isFieldInvalid('firstName'),
+              'border-gray-100 dark:border-gray-800': !isFieldInvalid('firstName')
+            }"
+            placeholder="Enter your first name"
+          />
+        </div>
+        <p *ngIf="isFieldInvalid('firstName')" class="text-red-500 text-sm mt-1">
+          {{ getFieldError('firstName') }}
+        </p>
+      </div>
+
+      <div>
+        <label class="form-label font-medium text-slate-900 dark:text-white">Last Name *</label>
+        <div class="relative mt-2">
+          <i data-feather="user" class="size-[18px] absolute top-[10px] start-3 text-slate-500"></i>
+          <input
+            type="text"
+            formControlName="lastName"
+            class="w-full py-2 px-3 ps-10 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border focus:ring-0"
+            [ngClass]="{
+              'border-red-500 dark:border-red-500': isFieldInvalid('lastName'),
+              'border-gray-100 dark:border-gray-800': !isFieldInvalid('lastName')
+            }"
+            placeholder="Enter your last name"
+          />
+        </div>
+        <p *ngIf="isFieldInvalid('lastName')" class="text-red-500 text-sm mt-1">
+          {{ getFieldError('lastName') }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
+      <div>
+        <label class="form-label font-medium text-slate-900 dark:text-white">Email Address *</label>
+        <div class="relative mt-2">
+          <i data-feather="mail" class="size-[18px] absolute top-[10px] start-3 text-slate-500"></i>
+          <input
+            type="email"
+            formControlName="email"
+            class="w-full py-2 px-3 ps-10 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border focus:ring-0"
+            [ngClass]="{
+              'border-red-500 dark:border-red-500': isFieldInvalid('email'),
+              'border-gray-100 dark:border-gray-800': !isFieldInvalid('email')
+            }"
+            placeholder="Enter your email"
+          />
+        </div>
+        <p *ngIf="isFieldInvalid('email')" class="text-red-500 text-sm mt-1">
+          {{ getFieldError('email') }}
+        </p>
+      </div>
+
+      <!-- Email Verification -->
+      <div class="col-span-2">
+        <app-email-verification
+          [email]="emailForVerification"
+          [required]="true"
+          (verificationStatusChange)="onEmailVerificationStatusChange($event)"
+          (verifiedEmailChange)="onVerifiedEmailChange($event)">
+        </app-email-verification>
+      </div>
+
+      <div>
+        <label class="form-label font-medium text-slate-900 dark:text-white">Phone Number *</label>
+        <div class="relative mt-2">
+          <i data-feather="phone" class="size-[18px] absolute top-[10px] start-3 text-slate-500"></i>
+          <input
+            type="tel"
+            formControlName="phone"
+            class="w-full py-2 px-3 ps-10 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border focus:ring-0"
+            [ngClass]="{
+              'border-red-500 dark:border-red-500': isFieldInvalid('phone'),
+              'border-gray-100 dark:border-gray-800': !isFieldInvalid('phone')
+            }"
+            placeholder="Enter your phone number"
+          />
+        </div>
+        <p *ngIf="isFieldInvalid('phone')" class="text-red-500 text-sm mt-1">
+          {{ getFieldError('phone') }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Date Range Picker -->
+    <div>
+      <label class="form-label font-medium text-slate-900 dark:text-white">Check-in / Check-out Dates *</label>
+      <div class="relative mt-2">
+        <i data-feather="calendar" class="size-[18px] absolute top-[10px] start-3 text-slate-500 cursor-pointer z-10" (click)="openDatepicker()"></i>
+        <input
+          type="text"
+          readonly
+          class="w-full py-2 px-3 ps-10 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 cursor-pointer"
+          (click)="openDatepicker()"
+          [value]="
+            dateRangeGroup.value.start && dateRangeGroup.value.end
+              ? (dateRangeGroup.value.start | date: 'MMM dd, yyyy') +
+                ' - ' +
+                (dateRangeGroup.value.end | date: 'MMM dd, yyyy')
+              : ''
+          "
+          placeholder="Select your stay dates"
+        />
+      </div>
+    </div>
+
+    <!-- Guest Selector -->
+    <div class="guest-selector relative">
+      <label class="form-label font-medium text-slate-900 dark:text-white">Guests & Rooms</label>
+      <div class="relative mt-2">
+        <i data-feather="users" class="size-[18px] absolute top-[10px] start-3 text-slate-500"></i>
+        <div
+          class="w-full py-2 px-3 ps-10 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border border-gray-100 dark:border-gray-800 focus-within:ring-0 cursor-pointer"
+          (click)="showGuestDropdown = !showGuestDropdown"
+        >
+          {{ guests.adults + guests.children }} Guest{{ guests.adults + guests.children > 1 ? 's' : '' }}, {{ guests.rooms }} Room{{ guests.rooms > 1 ? 's' : '' }}
+        </div>
+
+        <div *ngIf="showGuestDropdown" class="absolute z-10 w-full mt-1 p-4 bg-white dark:bg-slate-800 rounded-lg shadow border border-gray-100 dark:border-gray-700">
+          <div class="flex justify-between items-center mb-4">
+            <span class="text-slate-900 dark:text-white">Adults</span>
+            <div class="flex items-center gap-2">
+              <button type="button" (click)="adjustGuests('adults', -1)" class="w-6 h-6 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i data-feather="minus" class="w-4 h-4"></i>
+              </button>
+              <span class="w-8 text-center text-slate-900 dark:text-white">{{ guests.adults }}</span>
+              <button type="button" (click)="adjustGuests('adults', 1)" class="w-6 h-6 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i data-feather="plus" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center mb-4">
+            <span class="text-slate-900 dark:text-white">Children</span>
+            <div class="flex items-center gap-2">
+              <button type="button" (click)="adjustGuests('children', -1)" class="w-6 h-6 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i data-feather="minus" class="w-4 h-4"></i>
+              </button>
+              <span class="w-8 text-center text-slate-900 dark:text-white">{{ guests.children }}</span>
+              <button type="button" (click)="adjustGuests('children', 1)" class="w-6 h-6 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i data-feather="plus" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <span class="text-slate-900 dark:text-white">Rooms</span>
+            <div class="flex items-center gap-2">
+              <button type="button" (click)="adjustGuests('rooms', -1)" class="w-6 h-6 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i data-feather="minus" class="w-4 h-4"></i>
+              </button>
+              <span class="w-8 text-center text-slate-900 dark:text-white">{{ guests.rooms }}</span>
+              <button type="button" (click)="adjustGuests('rooms', 1)" class="w-6 h-6 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i data-feather="plus" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Special Requests -->
+    <div>
+      <label class="form-label font-medium text-slate-900 dark:text-white">Special Requests (Optional)</label>
+      <div class="relative mt-2">
+        <textarea
+          formControlName="specialRequests"
+          rows="3"
+          class="w-full py-2 px-3 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 resize-none"
+          placeholder="Any special requests or requirements..."
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Verification Status -->
+
+    <!-- Action Buttons -->
+    <div class="flex justify-end pt-4">
+      <button
+        type="button"
+        (click)="onNext()"
+        class="py-2 px-6 inline-block tracking-wide align-middle duration-500 text-base text-center bg-red-500 hover:bg-red-600 text-white rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="!canProceed"
+      >
+        Continue to Room Selection
+        <i data-feather="arrow-right" class="w-4 h-4 ml-2 inline"></i>
+      </button>
+    </div>
+  </form>
+
+  <!-- Custom Datepicker -->
+  <app-custom-datepicker
+    [isOpen]="showDatepicker"
+    [selectedRange]="{ start: dateRangeGroup.value.start, end: dateRangeGroup.value.end }"
+    (dateRangeSelected)="onDateRangeSelected($event)"
+    (closeCalendar)="closeDatepicker()">
+  </app-custom-datepicker>
+</div>

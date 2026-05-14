@@ -1,0 +1,52 @@
+.id-scanner-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.camera-scanner {
+  .scanning-overlay {
+    animation: pulse 2s infinite;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.upload-scanner {
+  .upload-area {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+// Mobile optimizations
+@media (max-width: 768px) {
+  .id-scanner-container {
+    padding: 0 1rem;
+  }
+  
+  .camera-scanner video {
+    height: 240px;
+  }
+  
+  .upload-scanner .upload-area {
+    padding: 2rem 1rem;
+  }
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  .upload-scanner .upload-area:hover {
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+  }
+}

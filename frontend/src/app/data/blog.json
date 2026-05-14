@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "image": "assets/images/blog/1.jpg",
+    "date": "13th Sep 2024",
+    "tag": "Berlin",
+    "title": "Top Neighborhoods to Stay in Berlin for Short Trips",
+    "desc": "Explore the best districts in Berlin for short-term rentals, whether you're here for business, leisure, or sightseeing."
+  },
+  {
+    "id": 2,
+    "image": "assets/images/blog/2.jpg",
+    "date": "29th Nov 2024",
+    "tag": "Hosting Tips",
+    "title": "How to Prepare Your Apartment for Guests on HarmoNest",
+    "desc": "Simple and effective tips for making your property stand out, get great reviews, and earn more from every booking."
+  },
+  {
+    "id": 3,
+    "image": "assets/images/blog/3.jpg",
+    "date": "29th Dec 2024",
+    "tag": "Stuttgart",
+    "title": "A Weekend in Stuttgart: Where to Stay and What to See",
+    "desc": "Plan the perfect weekend escape in Stuttgart with our guide to local gems and cozy HarmoNest stays."
+  },
+  {
+    "id": 4,
+    "image": "assets/images/blog/4.jpg",
+    "date": "13th March 2024",
+    "tag": "Travel Tips",
+    "title": "The Ultimate Packing List for Short-Term Stays",
+    "desc": "Whether it’s 2 nights or 2 weeks, here’s everything you need for a smooth, stress-free short-term rental experience."
+  },
+  {
+    "id": 5,
+    "image": "assets/images/blog/5.jpg",
+    "date": "5th May 2024",
+    "tag": "Düsseldorf",
+    "title": "Explore Düsseldorf: Culture, Cuisine & Cozy Stays",
+    "desc": "From riverside walks to vibrant art scenes, discover what makes Düsseldorf a great destination for guests and hosts."
+  },
+  {
+    "id": 6,
+    "image": "assets/images/blog/6.jpg",
+    "date": "19th June 2024",
+    "tag": "Hosting",
+    "title": "How to Create a Guest-Friendly Welcome Book",
+    "desc": "Impress your guests with a thoughtful, informative welcome guide that answers questions and elevates their stay."
+  },
+  {
+    "id": 7,
+    "image": "assets/images/blog/7.jpg",
+    "date": "20th June 2024",
+    "tag": "Guest Stories",
+    "title": "Why Guests Love Staying with HarmoNest: Real Reviews",
+    "desc": "Read what our happy travelers have to say about their experiences with HarmoNest across Germany."
+  },
+  {
+    "id": 8,
+    "image": "assets/images/blog/8.jpg",
+    "date": "31st Aug 2024",
+    "tag": "News",
+    "title": "HarmoNest Launches in Munich: New Listings Available",
+    "desc": "We’re growing! Discover our newest properties in Munich and be among the first to book a stay in Bavaria’s capital."
+  },
+  {
+    "id": 9,
+    "image": "assets/images/blog/9.jpg",
+    "date": "1st Sep 2024",
+    "tag": "Packages",
+    "title": "Special Summer Packages Now Live for 2025",
+    "desc": "Get early access to discounted summer stays with our limited-time offers for returning guests and new explorers."
+  }
+]

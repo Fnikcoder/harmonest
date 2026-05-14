@@ -1,0 +1,120 @@
+{
+  "client": {
+    "name": "harmonest",
+    "displayName": "HarmoNest",
+    "description": "Hotel management system providing online check-in functionality for guests",
+    "domains": {
+      "primary": "harmonest.de",
+      "www": "www.harmonest.de",
+      "dev": "dev.harmonest.de",
+      "staging": "staging.harmonest.de",
+      "api": "api.harmonest.de",
+      "admin": "admin.harmonest.de",
+      "additional": [
+        "www.dev.harmonest.de"
+      ]
+    },
+    "email": {
+      "noreply": "noreply@harmonest.com",
+      "support": "support@harmonest.com",
+      "admin": "admin@harmonest.com",
+      "notifications": "notifications@harmonest.com",
+      "fromName": "HarmoNest"
+    },
+    "aws": {
+      "profile": "harmonestadmin",
+      "region": "eu-central-1",
+      "accountId": "669597026882",
+      "kmsKeyId": "fba5ed5b-43a6-40cf-9545-7828da6bfcdb"
+    },
+    "branding": {
+      "primaryColor": "#2563eb",
+      "secondaryColor": "#64748b",
+      "logo": {
+        "url": "https://harmonest.de/assets/logo.png",
+        "width": 200,
+        "height": 60
+      },
+      "favicon": "https://harmonest.de/favicon.ico"
+    },
+    "integrations": {
+      "g4h": {
+        "origin": "https://app.guestyforhosts.com",
+        "appVersion": "6.x",
+        "platform": "browser--win32",
+        "deviceUuid": "ypa-uuid-lambda"
+      },
+      "analytics": {
+        "googleAnalytics": "GA-HARMONEST-123"
+      }
+    },
+    "features": {
+      "checkin": {
+        "enabled": true,
+        "deadlineHours": 25,
+        "qrCodeEnabled": true,
+        "documentUpload": {
+          "enabled": true,
+          "maxSizeMB": 10,
+          "allowedTypes": [
+            "image/jpeg",
+            "image/png",
+            "application/pdf"
+          ]
+        }
+      },
+      "reservations": {
+        "syncEnabled": true,
+        "syncIntervalMinutes": 30
+      },
+      "listings": {
+        "syncEnabled": true,
+        "publicListings": false
+      }
+    }
+  },
+  "environments": {
+    "dev": {
+      "enabled": true,
+      "domains": {
+        "primary": "dev.harmonest.de",
+        "api": "api-dev.harmonest.de"
+      },
+      "scaling": {
+        "lambda": {
+          "memorySize": 256,
+          "timeout": 30
+        }
+      }
+    },
+    "staging": {
+      "enabled": true,
+      "domains": {
+        "primary": "staging.harmonest.de",
+        "api": "api-staging.harmonest.de"
+      },
+      "scaling": {
+        "lambda": {
+          "memorySize": 512,
+          "timeout": 60
+        }
+      }
+    },
+    "prod": {
+      "enabled": true,
+      "domains": {
+        "primary": "harmonest.de",
+        "api": "api.harmonest.de"
+      },
+      "scaling": {
+        "lambda": {
+          "memorySize": 512,
+          "timeout": 60
+        },
+        "dynamodb": {
+          "billingMode": "PAY_PER_REQUEST"
+        }
+      }
+    }
+  }
+}

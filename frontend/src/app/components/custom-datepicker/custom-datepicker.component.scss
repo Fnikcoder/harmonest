@@ -1,0 +1,123 @@
+// Custom datepicker styles - Mobile First
+
+.calendar-month {
+  // Mobile-first: Larger touch targets and better spacing
+  .grid-cols-7 {
+    gap: 0.25rem; // 4px gap on mobile
+  }
+
+  button {
+    // Mobile-first: Larger buttons for better touch interaction
+    height: 3rem; // 48px - minimum touch target size
+    width: 3rem;
+    font-size: 0.875rem; // 14px
+    font-weight: 500;
+
+    // Better touch feedback
+    &:active {
+      transform: scale(0.95);
+    }
+
+    // Smooth transitions
+    transition: all 0.15s ease;
+
+    &:hover:not(:disabled) {
+      transform: scale(1.02);
+    }
+  }
+
+  .calendar-day {
+    transition: all 0.2s ease;
+
+    &.range-start {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &.range-end {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &.in-range {
+      border-radius: 0;
+    }
+  }
+}
+
+// Animation for modal - Mobile optimized
+.calendar-modal {
+  animation: slideUpFadeIn 0.3s ease-out;
+}
+
+@keyframes slideUpFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Tablet and up adjustments
+@media (min-width: 640px) {
+  .calendar-month {
+    .grid-cols-7 {
+      gap: 0.25rem; // Keep same gap
+    }
+
+    button {
+      height: 2.5rem; // 40px on tablet
+      width: 2.5rem;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Desktop adjustments
+@media (min-width: 768px) {
+  .calendar-month {
+    .grid-cols-7 {
+      gap: 0.25rem; // Keep consistent gap
+    }
+
+    button {
+      height: 2.5rem; // 40px on desktop
+      width: 2.5rem;
+      font-size: 0.875rem;
+
+      &:hover:not(:disabled) {
+        transform: scale(1.05); // Slightly more hover effect on desktop
+      }
+    }
+  }
+}
+
+// Large desktop adjustments
+@media (min-width: 1024px) {
+  .calendar-month {
+    button {
+      &:hover:not(:disabled) {
+        transform: scale(1.08); // Even more hover effect on large screens
+      }
+    }
+  }
+}
+
+// Accessibility improvements
+@media (prefers-reduced-motion: reduce) {
+  .calendar-month button {
+    transition: none;
+
+    &:hover:not(:disabled),
+    &:active {
+      transform: none;
+    }
+  }
+
+  .calendar-modal {
+    animation: none;
+  }
+}

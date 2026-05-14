@@ -1,0 +1,111 @@
+{
+  "selectedTheme": "harmonest",
+  "darkMode": false,
+  "themes": {
+    "default": {
+      "id": "default",
+      "name": "Default",
+      "description": "Clean and modern design",
+      "colors": {
+        "light": {
+          "primary": "#ef4444",
+          "secondary": "#64748b",
+          "accent": "#3b82f6",
+          "background": "#ffffff",
+          "surface": "#f8fafc",
+          "textPrimary": "#0f172a",
+          "textSecondary": "#64748b",
+          "textAccent": "#ef4444",
+          "border": "#e2e8f0",
+          "shadow": "rgba(60, 72, 88, 0.15)"
+        },
+        "dark": {
+          "primary": "#ef4444",
+          "secondary": "#64748b",
+          "accent": "#3b82f6",
+          "background": "#0f172a",
+          "surface": "#1e293b",
+          "textPrimary": "#f8fafc",
+          "textSecondary": "#94a3b8",
+          "textAccent": "#ef4444",
+          "border": "#334155",
+          "shadow": "rgba(0, 0, 0, 0.3)"
+        }
+      },
+      "fonts": {
+        "primary": "\"DM Sans\", sans-serif",
+        "secondary": "\"Dancing Script\", cursive"
+      }
+    },
+    "cozy-nest": {
+      "id": "cozy-nest",
+      "name": "Cozy Nest",
+      "description": "Warm and inviting hospitality design",
+      "colors": {
+        "light": {
+          "primary": "#8b5a3c",
+          "secondary": "#6b7280",
+          "accent": "#3b82f6",
+          "background": "#ffffff",
+          "surface": "#f9fafb",
+          "textPrimary": "#1f2937",
+          "textSecondary": "#6b7280",
+          "textAccent": "#8b5a3c",
+          "border": "#e5e7eb",
+          "shadow": "rgba(139, 90, 60, 0.15)"
+        },
+        "dark": {
+          "primary": "#d2b48c",
+          "secondary": "#9ca3af",
+          "accent": "#60a5fa",
+          "background": "#111827",
+          "surface": "#1f2937",
+          "textPrimary": "#f9fafb",
+          "textSecondary": "#d1d5db",
+          "textAccent": "#d2b48c",
+          "border": "#374151",
+          "shadow": "rgba(0, 0, 0, 0.4)"
+        }
+      },
+      "fonts": {
+        "primary": "\"Inter\", sans-serif",
+        "secondary": "\"Playfair Display\", serif"
+      }
+    },
+    "harmonest": {
+      "id": "harmonest",
+      "name": "HarmoNest",
+      "description": "Official HarmoNest brand design",
+      "colors": {
+        "light": {
+          "primary": "#3e7cb1",
+          "secondary": "#1d1d1b",
+          "accent": "#1c39bb",
+          "background": "#ffffff",
+          "surface": "#f9fafb",
+          "textPrimary": "#1d1d1b",
+          "textSecondary": "#6b7280",
+          "textAccent": "#3e7cb1",
+          "border": "#e5e7eb",
+          "shadow": "rgba(62, 124, 177, 0.15)"
+        },
+        "dark": {
+          "primary": "#3e7cb1",
+          "secondary": "#d2bfa3",
+          "accent": "#1c39bb",
+          "background": "#0f172a",
+          "surface": "#1e293b",
+          "textPrimary": "#f9fafb",
+          "textSecondary": "#d1d5db",
+          "textAccent": "#3e7cb1",
+          "border": "#374151",
+          "shadow": "rgba(62, 124, 177, 0.25)"
+        }
+      },
+      "fonts": {
+        "primary": "\"Corbel\", \"Segoe UI\", sans-serif",
+        "secondary": "\"Faculty Glyphic\", serif"
+      }
+    }
+  }
+}

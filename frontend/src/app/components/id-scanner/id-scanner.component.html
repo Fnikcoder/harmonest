@@ -1,0 +1,199 @@
+<div class="id-scanner-container">
+  <!-- Scanner Mode Toggle -->
+  <div class="mb-6">
+    <div class="flex items-center justify-center space-x-4 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+      <button
+        (click)="switchToCamera()"
+        [class]="scannerMode === 'camera' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm' : 'text-gray-600 dark:text-gray-400'"
+        class="flex-1 py-2 px-4 text-sm font-medium rounded-md transition-all duration-200">
+        <i data-feather="camera" class="w-4 h-4 inline mr-2"></i>
+        Camera Scan
+      </button>
+      <button
+        (click)="switchToUpload()"
+        [class]="scannerMode === 'upload' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm' : 'text-gray-600 dark:text-gray-400'"
+        class="flex-1 py-2 px-4 text-sm font-medium rounded-md transition-all duration-200">
+        <i data-feather="upload" class="w-4 h-4 inline mr-2"></i>
+        Upload Photo
+      </button>
+    </div>
+  </div>
+
+  <!-- Camera Scanner -->
+  <div *ngIf="scannerMode === 'camera'" class="camera-scanner">
+    <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+      <!-- Video Element -->
+      <video
+        #videoElement
+        *ngIf="isCameraActive"
+        class="w-full h-64 md:h-80 object-cover"
+        autoplay
+        playsinline
+        muted
+        [attr.webkit-playsinline]="true">
+      </video>
+
+      <!-- Camera Placeholder -->
+      <div *ngIf="!isCameraActive" class="w-full h-64 md:h-80 flex items-center justify-center bg-gray-800">
+        <div class="text-center text-white">
+          <i data-feather="camera" class="w-12 h-12 mx-auto mb-4 opacity-50"></i>
+          <p class="text-lg font-medium mb-2">Camera Ready</p>
+          <p class="text-sm opacity-75">Position your ID document in the frame</p>
+        </div>
+      </div>
+
+      <!-- Scanning Overlay -->
+      <div *ngIf="isCameraActive" class="absolute inset-0 pointer-events-none">
+        <!-- Scanning Frame -->
+        <div class="absolute inset-4 border-2 border-white border-dashed rounded-lg opacity-75">
+          <div class="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-harmonest-blue rounded-tl-lg"></div>
+          <div class="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-harmonest-blue rounded-tr-lg"></div>
+          <div class="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-harmonest-blue rounded-bl-lg"></div>
+          <div class="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-harmonest-blue rounded-br-lg"></div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="absolute bottom-4 left-4 right-4 text-center">
+          <p class="text-white text-sm bg-black bg-opacity-50 px-3 py-2 rounded-lg">
+            Position your ID document within the frame
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Camera Controls -->
+    <div class="mt-4 flex justify-center space-x-4">
+      <button
+        *ngIf="!isCameraActive"
+        (click)="startCamera()"
+        class="px-6 py-3 bg-harmonest-blue text-white rounded-lg hover:bg-harmonest-navy transition-colors duration-200 flex items-center">
+        <i data-feather="camera" class="w-5 h-5 mr-2"></i>
+        Start Camera
+      </button>
+
+      <button
+        *ngIf="isCameraActive && !isScanning"
+        (click)="capturePhoto()"
+        class="px-6 py-3 bg-harmonest-blue text-white rounded-lg hover:bg-harmonest-navy transition-colors duration-200 flex items-center">
+        <i data-feather="camera" class="w-5 h-5 mr-2"></i>
+        Capture ID
+      </button>
+
+      <button
+        *ngIf="isCameraActive"
+        (click)="stopCamera()"
+        class="px-4 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors duration-200 flex items-center">
+        <i data-feather="x" class="w-5 h-5 mr-2"></i>
+        Stop
+      </button>
+
+      <!-- Debug Info (only in development) -->
+<!--      <div *ngIf="!isCameraActive && scannerMode === 'camera'" class="mt-4 text-center">-->
+<!--        <button-->
+<!--          (click)="debugCamera()"-->
+<!--          class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200 text-sm">-->
+<!--          Debug Camera-->
+<!--        </button>-->
+<!--      </div>-->
+    </div>
+  </div>
+
+  <!-- File Upload Scanner -->
+  <div *ngIf="scannerMode === 'upload'" class="upload-scanner">
+    <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-harmonest-blue dark:hover:border-harmonest-blue transition-colors duration-200">
+      <input
+        #fileInput
+        type="file"
+        accept="image/*"
+        (change)="onFileSelected($event)"
+        class="hidden">
+
+      <div class="space-y-4">
+        <div class="mx-auto w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+          <i data-feather="upload" class="w-8 h-8 text-gray-400"></i>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            Upload ID Document
+          </h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            Take a clear photo of your passport, driver's license, or national ID
+          </p>
+        </div>
+
+        <button
+          (click)="triggerFileInput()"
+          [disabled]="isScanning"
+          class="px-6 py-3 bg-harmonest-blue text-white rounded-lg hover:bg-harmonest-navy disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors duration-200 flex items-center mx-auto">
+          <i data-feather="upload" class="w-5 h-5 mr-2"></i>
+          Choose File
+        </button>
+
+        <p class="text-xs text-gray-500 dark:text-gray-400">
+          Supported formats: JPG, PNG, HEIC • Max size: 10MB
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scanning Progress -->
+  <div *ngIf="isScanning" class="mt-6 p-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+    <div class="flex items-center justify-center space-x-3">
+      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+      <div class="text-center">
+        <p class="text-blue-900 dark:text-blue-200 font-medium">Processing ID Document...</p>
+        <p class="text-sm text-blue-700 dark:text-blue-300 mt-1">This may take a few seconds</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scan Result -->
+  <div *ngIf="scanResult && scanResult.success" class="mt-6 p-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+    <div class="flex items-start space-x-3">
+      <div class="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mt-1">
+        <i data-feather="check" class="w-5 h-5 text-green-600"></i>
+      </div>
+      <div class="flex-1">
+        <h4 class="font-medium text-green-900 dark:text-green-200 mb-2">ID Document Uploaded Successfully</h4>
+        <p class="text-green-700 dark:text-green-300 text-sm">
+          <i data-feather="edit-3" class="w-4 h-4 inline mr-1"></i>
+          {{ scanResult.message }}
+        </p>
+
+        <div *ngIf="scanResult.confidence" class="mt-3">
+          <div class="flex items-center space-x-2">
+            <span class="text-xs text-green-700 dark:text-green-300">Confidence:</span>
+            <div class="flex-1 bg-green-200 dark:bg-green-800 rounded-full h-2">
+              <div
+                class="bg-green-600 h-2 rounded-full transition-all duration-500"
+                [style.width.%]="(scanResult.confidence || 0) * 100">
+              </div>
+            </div>
+            <span class="text-xs text-green-700 dark:text-green-300">{{ ((scanResult.confidence || 0) * 100) | number:'1.0-0' }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="mt-6 p-4 bg-blue-50 dark:bg-harmonest-blue/20 border border-harmonest-blue dark:border-harmonest-blue rounded-lg">
+    <div class="flex items-start space-x-3">
+      <div class="w-6 h-6 bg-blue-100 dark:bg-harmonest-blue/30 rounded-full flex items-center justify-center mt-0.5">
+        <i data-feather="alert-circle" class="w-4 h-4 text-harmonest-blue"></i>
+      </div>
+      <div class="flex-1">
+        <p class="text-harmonest-blue dark:text-harmonest-blue text-sm">{{ errorMessage }}</p>
+        <button
+          (click)="retryScanning()"
+          class="mt-2 text-harmonest-blue dark:text-harmonest-blue text-sm hover:text-harmonest-navy dark:hover:text-harmonest-navy font-medium">
+          Try Again
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden Canvas for Image Processing -->
+  <canvas #canvasElement class="hidden"></canvas>
+</div>

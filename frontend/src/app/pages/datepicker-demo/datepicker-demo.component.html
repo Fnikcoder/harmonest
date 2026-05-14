@@ -1,0 +1,121 @@
+<!-- Datepicker Demo Page -->
+<app-navbar></app-navbar>
+
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-2xl mx-auto">
+    
+    <!-- Page Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">
+        Mobile-First Datepicker Demo
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400">
+        Test the custom datepicker component with mobile-first responsive design
+      </p>
+    </div>
+
+    <!-- Demo Card -->
+    <div class="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">
+        Date Range Selector
+      </h2>
+      
+      <!-- Date Input Field -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          Select your stay dates
+        </label>
+        <input
+          type="text"
+          readonly
+          (click)="openDatepicker()"
+          [value]="selectedRange.start && selectedRange.end 
+            ? (selectedRange.start | date:'MMM dd, yyyy') + ' - ' + (selectedRange.end | date:'MMM dd, yyyy')
+            : ''"
+          placeholder="Click to select dates"
+          class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-red-500 focus:border-red-500 cursor-pointer transition-colors"
+        />
+      </div>
+
+      <!-- Selected Range Display -->
+      <div *ngIf="selectedRange.start || selectedRange.end" class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
+        <h3 class="text-sm font-medium text-red-900 dark:text-red-100 mb-2">Selected Range:</h3>
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+          <div class="text-center">
+            <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">Check-in</div>
+            <div class="font-medium text-slate-900 dark:text-white">
+              {{ selectedRange.start ? (selectedRange.start | date:'MMM dd, yyyy') : 'Not selected' }}
+            </div>
+          </div>
+          <i data-feather="arrow-right" class="w-4 h-4 text-gray-400 hidden sm:block"></i>
+          <div class="text-center">
+            <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">Check-out</div>
+            <div class="font-medium text-slate-900 dark:text-white">
+              {{ selectedRange.end ? (selectedRange.end | date:'MMM dd, yyyy') : 'Not selected' }}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="selectedRange.start && selectedRange.end" class="mt-3 text-sm text-gray-600 dark:text-gray-400">
+          Duration: {{ (selectedRange.end.getTime() - selectedRange.start.getTime()) / (1000 * 60 * 60 * 24) }} night(s)
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button
+          type="button"
+          (click)="openDatepicker()"
+          class="flex-1 px-4 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors touch-manipulation">
+          <i data-feather="calendar" class="w-4 h-4 mr-2 inline"></i>
+          Open Datepicker
+        </button>
+        <button
+          type="button"
+          (click)="clearSelection()"
+          class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors touch-manipulation">
+          Clear Selection
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile-First Features Info -->
+    <div class="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6">
+      <h3 class="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-4">
+        Mobile-First Features
+      </h3>
+      <ul class="space-y-2 text-sm text-blue-800 dark:text-blue-200">
+        <li class="flex items-start gap-2">
+          <i data-feather="smartphone" class="w-4 h-4 mt-0.5 flex-shrink-0"></i>
+          <span><strong>Mobile Layout:</strong> Single month view on mobile, two months on desktop</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <i data-feather="maximize" class="w-4 h-4 mt-0.5 flex-shrink-0"></i>
+          <span><strong>Touch Targets:</strong> Larger buttons (48px) for better touch interaction</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <i data-feather="layout" class="w-4 h-4 mt-0.5 flex-shrink-0"></i>
+          <span><strong>Modal Design:</strong> Bottom sheet on mobile, centered modal on desktop</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <i data-feather="navigation" class="w-4 h-4 mt-0.5 flex-shrink-0"></i>
+          <span><strong>Navigation:</strong> Simplified month navigation for mobile screens</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <i data-feather="zap" class="w-4 h-4 mt-0.5 flex-shrink-0"></i>
+          <span><strong>Performance:</strong> Optimized animations and reduced motion support</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Datepicker -->
+<app-custom-datepicker
+  [isOpen]="showDatepicker"
+  [selectedRange]="selectedRange"
+  (dateRangeSelected)="onDateRangeSelected($event)"
+  (closeCalendar)="closeDatepicker()">
+</app-custom-datepicker>
+
+<app-footer></app-footer>
+<app-switcher></app-switcher>

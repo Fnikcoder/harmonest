@@ -1,0 +1,474 @@
+[
+  {
+    "PK": "QRCODE#QR-2024-001",
+    "SK": "METADATA",
+    "qrCodeId": "QR-2024-001",
+    "bookingId": "BK-2024-004",
+    "userId": "user-sarah-wilson-002",
+    "propertyGroupId": "pg-downtown-suites",
+    "unitId": "unit-exec-1201",
+    "modelId": "um-exec-suite",
+    "code": {
+      "data": "{\"bookingId\":\"BK-2024-004\",\"unitId\":\"unit-exec-1201\",\"validFrom\":\"2024-07-05\",\"validUntil\":\"2024-07-12\",\"permissions\":[\"unit_door\",\"building_entrance\",\"elevator\"]}",
+      "format": "encrypted_json",
+      "algorithm": "AES256",
+      "signature": "sig_qr_001_2024",
+      "version": "1.0"
+    },
+    "qrString": "eyJiIjoiQkstMjAyNC0wMDQiLCJ1IjoidW5pdC1leGVjLTEyMDEiLCJwIjoicGctZG93bnRvd24tc3VpdGVzIiwidmYiOiIyMDI0LTA3LTA1IiwidnUiOiIyMDI0LTA3LTEyIiwidCI6MTcxOTU2NzAwMDAwMH0=",
+    "access": {
+      "type": "unit_entry",
+      "permissions": ["unit_door", "building_entrance", "elevator"],
+      "buildingAccess": {
+        "required": false,
+        "entranceCodes": [],
+        "elevatorAccess": true,
+        "floor": 12
+      },
+      "unitAccess": {
+        "unitNumber": "1201",
+        "lockId": "lock-august-1201",
+        "accessCode": "789012",
+        "masterKey": false
+      },
+      "restrictions": {
+        "timeWindows": [
+          {
+            "start": "2024-07-05T00:00:00Z",
+            "end": "2024-07-12T23:59:59Z",
+            "days": [0, 1, 2, 3, 4, 5, 6]
+          }
+        ],
+        "usageLimit": 100,
+        "concurrentUseLimit": 1
+      }
+    },
+    "smartLock": {
+      "unitLock": {
+        "lockId": "lock-august-1201",
+        "lockType": "August Smart Lock Pro",
+        "accessCode": "789012",
+        "batteryLevel": 95,
+        "lastSync": "2024-07-05T14:00:00Z"
+      },
+      "provider": {
+        "name": "august",
+        "apiVersion": "1.0",
+        "credentials": "encrypted_august_api_key"
+      }
+    },
+    "validity": {
+      "issuedAt": "2024-07-05T14:30:00Z",
+      "activatedAt": "2024-07-05T15:00:00Z",
+      "expiresAt": "2024-07-12T12:00:00Z",
+      "autoExtend": false,
+      "maxExtensions": 0,
+      "extensionsUsed": 0,
+      "gracePeriod": {
+        "beforeCheckIn": 2,
+        "afterCheckOut": 1
+      }
+    },
+    "usage": {
+      "totalScans": 15,
+      "successfulScans": 15,
+      "failedScans": 0,
+      "lastUsedAt": "2024-07-11T20:30:00Z",
+      "lastLocation": "unit_door",
+      "usageHistory": [
+        {
+          "timestamp": "2024-07-05T15:00:00Z",
+          "location": "unit_door",
+          "lockId": "lock-august-1201",
+          "success": true,
+          "deviceId": "iphone_sarah_001",
+          "ipAddress": "192.168.1.200",
+          "userAgent": "HarmonestApp/1.0 iOS"
+        },
+        {
+          "timestamp": "2024-07-05T18:30:00Z",
+          "location": "unit_door",
+          "lockId": "lock-august-1201",
+          "success": true,
+          "deviceId": "iphone_sarah_001"
+        },
+        {
+          "timestamp": "2024-07-06T09:15:00Z",
+          "location": "unit_door",
+          "lockId": "lock-august-1201",
+          "success": true,
+          "deviceId": "iphone_sarah_001"
+        }
+      ],
+      "patterns": {
+        "mostUsedHour": 18,
+        "mostUsedDay": 5,
+        "averageUsesPerDay": 2.1
+      }
+    },
+    "security": {
+      "encryptionKey": "key_qr_001_2024",
+      "rotationSchedule": "0 0 * * *",
+      "lastRotated": "2024-07-05T14:30:00Z",
+      "fraudDetection": {
+        "enabled": true,
+        "suspiciousActivity": false,
+        "riskScore": 5,
+        "lastRiskAssessment": "2024-07-11T20:30:00Z"
+      },
+      "geofence": {
+        "enabled": true,
+        "latitude": 32.7081,
+        "longitude": -117.1611,
+        "radius": 100
+      }
+    },
+    "delivery": {
+      "method": "app",
+      "deliveredAt": "2024-07-05T14:35:00Z",
+      "deliveryStatus": "delivered",
+      "deviceInfo": {
+        "platform": "ios",
+        "appVersion": "1.2.0",
+        "deviceId": "iphone_sarah_001",
+        "pushToken": "push_token_sarah_001"
+      }
+    },
+    "instructions": {
+      "checkInInstructions": "Welcome to Downtown Executive Suites! Use this QR code to access your suite.",
+      "accessInstructions": "Hold your phone near the door lock and the QR code will automatically unlock the door.",
+      "emergencyInstructions": "For emergencies, call front desk at +1-619-555-0456 or dial 911.",
+      "wifiCredentials": {
+        "network": "DowntownSuites_Guest",
+        "password": "Welcome2024!"
+      },
+      "importantNumbers": [
+        {
+          "type": "front_desk",
+          "name": "Front Desk",
+          "number": "+1-619-555-0456"
+        },
+        {
+          "type": "concierge",
+          "name": "Concierge",
+          "number": "+1-619-555-0457"
+        },
+        {
+          "type": "emergency",
+          "name": "Emergency",
+          "number": "911"
+        }
+      ]
+    },
+    "unitContext": {
+      "unitNumber": "1201",
+      "unitName": "Executive Suite 1201",
+      "modelName": "Executive Suite",
+      "floor": "12",
+      "buildingSection": "Tower A"
+    },
+    "status": "active",
+    "createdAt": "2024-07-05T14:30:00Z",
+    "updatedAt": "2024-07-11T20:30:00Z",
+    "GSI1PK": "BOOKING#BK-2024-004",
+    "GSI1SK": "QRCODE#2024-07-05T14:30:00Z",
+    "GSI2PK": "PROPERTY_GROUP#pg-downtown-suites",
+    "GSI2SK": "QRCODE#2024-07-12T12:00:00Z",
+    "GSI3PK": "STATUS#active",
+    "GSI3SK": "QRCODE#2024-07-05T14:30:00Z",
+    "GSI4PK": "UNIT#unit-exec-1201",
+    "GSI4SK": "QRCODE#2024-07-05T14:30:00Z",
+    "GSI5PK": "USER#user-sarah-wilson-002",
+    "GSI5SK": "QRCODE#2024-07-05T14:30:00Z",
+    "GSI6PK": "MODEL#um-exec-suite",
+    "GSI6SK": "QRCODE#2024-07-05T14:30:00Z"
+  },
+  {
+    "PK": "QRCODE#QR-2024-002",
+    "SK": "METADATA",
+    "qrCodeId": "QR-2024-002",
+    "bookingId": "BK-2024-001",
+    "userId": "user-john-doe-001",
+    "propertyGroupId": "pg-sunset-apartments",
+    "unitId": "unit-city-301",
+    "code": {
+      "data": "{\"bookingId\":\"BK-2024-001\",\"unitId\":\"unit-city-301\",\"validFrom\":\"2024-07-15\",\"validUntil\":\"2024-07-18\",\"permissions\":[\"unit_door\",\"building_entrance\"]}",
+      "format": "encrypted_json",
+      "algorithm": "AES256",
+      "signature": "sig_qr_002_2024",
+      "version": "1.0"
+    },
+    "qrString": "eyJiIjoiQkstMjAyNC0wMDEiLCJ1IjoidW5pdC1jaXR5LTMwMSIsInAiOiJwZy1zdW5zZXQtYXBhcnRtZW50cyIsInZmIjoiMjAyNC0wNy0xNSIsInZ1IjoiMjAyNC0wNy0xOCIsInQiOjE3MjEwNDAwMDAwMDB9",
+    "access": {
+      "type": "unit_entry",
+      "permissions": ["unit_door", "building_entrance"],
+      "buildingAccess": {
+        "required": true,
+        "entranceCodes": ["123456"],
+        "elevatorAccess": true,
+        "floor": 3
+      },
+      "unitAccess": {
+        "unitNumber": "301",
+        "lockId": "lock-yale-301",
+        "accessCode": "789012",
+        "masterKey": false
+      },
+      "restrictions": {
+        "timeWindows": [
+          {
+            "start": "2024-07-15T00:00:00Z",
+            "end": "2024-07-18T23:59:59Z",
+            "days": [0, 1, 2, 3, 4, 5, 6]
+          }
+        ],
+        "usageLimit": 50,
+        "concurrentUseLimit": 1
+      }
+    },
+    "smartLock": {
+      "buildingLock": {
+        "lockId": "lock-yale-building",
+        "lockType": "Yale Building Access",
+        "accessCode": "123456"
+      },
+      "unitLock": {
+        "lockId": "lock-yale-301",
+        "lockType": "Yale Assure SL",
+        "accessCode": "789012",
+        "batteryLevel": 85,
+        "lastSync": "2024-07-14T16:00:00Z"
+      },
+      "provider": {
+        "name": "yale",
+        "apiVersion": "2.0",
+        "credentials": "encrypted_yale_api_key"
+      }
+    },
+    "validity": {
+      "issuedAt": "2024-07-14T16:00:00Z",
+      "expiresAt": "2024-07-18T11:00:00Z",
+      "autoExtend": false,
+      "maxExtensions": 0,
+      "extensionsUsed": 0,
+      "gracePeriod": {
+        "beforeCheckIn": 2,
+        "afterCheckOut": 1
+      }
+    },
+    "usage": {
+      "totalScans": 0,
+      "successfulScans": 0,
+      "failedScans": 0,
+      "usageHistory": [],
+      "patterns": {
+        "mostUsedHour": 0,
+        "mostUsedDay": 0,
+        "averageUsesPerDay": 0
+      }
+    },
+    "security": {
+      "encryptionKey": "key_qr_002_2024",
+      "rotationSchedule": "0 0 * * *",
+      "lastRotated": "2024-07-14T16:00:00Z",
+      "fraudDetection": {
+        "enabled": true,
+        "suspiciousActivity": false,
+        "riskScore": 0,
+        "lastRiskAssessment": "2024-07-14T16:00:00Z"
+      },
+      "geofence": {
+        "enabled": true,
+        "latitude": 32.7157,
+        "longitude": -117.1611,
+        "radius": 50
+      }
+    },
+    "delivery": {
+      "method": "email",
+      "deliveredAt": "2024-07-14T16:05:00Z",
+      "deliveryStatus": "delivered",
+      "backupMethods": [
+        {
+          "method": "sms",
+          "delivered": true,
+          "deliveredAt": "2024-07-14T16:06:00Z"
+        }
+      ]
+    },
+    "instructions": {
+      "checkInInstructions": "Welcome to Sunset Apartments! Your QR code will be active starting July 15th at 3:00 PM.",
+      "accessInstructions": "First scan at the building entrance, then use the same QR code for your unit door.",
+      "emergencyInstructions": "For emergencies, call building management at +1-619-555-0123 or dial 911.",
+      "wifiCredentials": {
+        "network": "SunsetApts_Guest",
+        "password": "CityView2024"
+      },
+      "importantNumbers": [
+        {
+          "type": "front_desk",
+          "name": "Building Management",
+          "number": "+1-619-555-0123"
+        },
+        {
+          "type": "maintenance",
+          "name": "Maintenance",
+          "number": "+1-619-555-0124"
+        },
+        {
+          "type": "emergency",
+          "name": "Emergency",
+          "number": "911"
+        }
+      ]
+    },
+    "status": "active",
+    "createdAt": "2024-07-14T16:00:00Z",
+    "updatedAt": "2024-07-14T16:05:00Z",
+    "GSI1PK": "BOOKING#BK-2024-001",
+    "GSI1SK": "QRCODE#2024-07-14T16:00:00Z",
+    "GSI2PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI2SK": "QRCODE#2024-07-18T11:00:00Z",
+    "GSI3PK": "STATUS#active",
+    "GSI3SK": "QRCODE#2024-07-14T16:00:00Z",
+    "GSI4PK": "UNIT#unit-city-301",
+    "GSI4SK": "QRCODE#2024-07-14T16:00:00Z"
+  },
+  {
+    "PK": "QRCODE#QR-2024-003",
+    "SK": "METADATA",
+    "qrCodeId": "QR-2024-003",
+    "bookingId": "BK-2024-002",
+    "userId": "user-sarah-wilson-002",
+    "propertyGroupId": "pg-sunset-apartments",
+    "unitId": "unit-mountain-302",
+    "code": {
+      "data": "{\"bookingId\":\"BK-2024-002\",\"unitId\":\"unit-mountain-302\",\"validFrom\":\"2024-07-20\",\"validUntil\":\"2024-07-25\",\"permissions\":[\"unit_door\",\"building_entrance\",\"amenity_access\"]}",
+      "format": "encrypted_json",
+      "algorithm": "AES256",
+      "signature": "sig_qr_003_2024",
+      "version": "1.0"
+    },
+    "qrString": "eyJiIjoiQkstMjAyNC0wMDIiLCJ1IjoidW5pdC1tb3VudGFpbi0zMDIiLCJwIjoicGctc3Vuc2V0LWFwYXJ0bWVudHMiLCJ2ZiI6IjIwMjQtMDctMjAiLCJ2dSI6IjIwMjQtMDctMjUiLCJ0IjoxNzIxNDczMjAwMDAwfQ==",
+    "access": {
+      "type": "unit_entry",
+      "permissions": ["unit_door", "building_entrance", "amenity_access"],
+      "buildingAccess": {
+        "required": true,
+        "entranceCodes": ["234567"],
+        "elevatorAccess": true,
+        "floor": 3
+      },
+      "unitAccess": {
+        "unitNumber": "302",
+        "lockId": "lock-yale-302",
+        "accessCode": "901234",
+        "masterKey": false
+      },
+      "restrictions": {
+        "timeWindows": [
+          {
+            "start": "2024-07-20T00:00:00Z",
+            "end": "2024-07-25T23:59:59Z",
+            "days": [0, 1, 2, 3, 4, 5, 6]
+          }
+        ],
+        "usageLimit": 75,
+        "concurrentUseLimit": 1
+      }
+    },
+    "smartLock": {
+      "buildingLock": {
+        "lockId": "lock-yale-building",
+        "lockType": "Yale Building Access",
+        "accessCode": "234567"
+      },
+      "unitLock": {
+        "lockId": "lock-yale-302",
+        "lockType": "Yale Assure SL",
+        "accessCode": "901234",
+        "batteryLevel": 78,
+        "lastSync": "2024-07-19T14:00:00Z"
+      },
+      "provider": {
+        "name": "yale",
+        "apiVersion": "2.0"
+      }
+    },
+    "validity": {
+      "issuedAt": "2024-07-19T14:00:00Z",
+      "expiresAt": "2024-07-25T11:00:00Z",
+      "autoExtend": false,
+      "maxExtensions": 0,
+      "extensionsUsed": 0,
+      "gracePeriod": {
+        "beforeCheckIn": 2,
+        "afterCheckOut": 1
+      }
+    },
+    "usage": {
+      "totalScans": 0,
+      "successfulScans": 0,
+      "failedScans": 0,
+      "usageHistory": [],
+      "patterns": {
+        "mostUsedHour": 0,
+        "mostUsedDay": 0,
+        "averageUsesPerDay": 0
+      }
+    },
+    "security": {
+      "encryptionKey": "key_qr_003_2024",
+      "rotationSchedule": "0 0 * * *",
+      "lastRotated": "2024-07-19T14:00:00Z",
+      "fraudDetection": {
+        "enabled": true,
+        "suspiciousActivity": false,
+        "riskScore": 0,
+        "lastRiskAssessment": "2024-07-19T14:00:00Z"
+      }
+    },
+    "delivery": {
+      "method": "app",
+      "deliveredAt": "2024-07-19T14:05:00Z",
+      "deliveryStatus": "delivered",
+      "deviceInfo": {
+        "platform": "ios",
+        "appVersion": "1.2.0",
+        "deviceId": "iphone_sarah_001"
+      }
+    },
+    "instructions": {
+      "checkInInstructions": "Welcome back to Sunset Apartments! Your mountain view studio is ready.",
+      "accessInstructions": "Use QR code for building entrance, unit door, and amenity access (pool, gym).",
+      "emergencyInstructions": "For emergencies, call +1-619-555-0123 or dial 911.",
+      "wifiCredentials": {
+        "network": "SunsetApts_Guest",
+        "password": "MountainView2024"
+      },
+      "importantNumbers": [
+        {
+          "type": "front_desk",
+          "name": "Building Management",
+          "number": "+1-619-555-0123"
+        },
+        {
+          "type": "emergency",
+          "name": "Emergency",
+          "number": "911"
+        }
+      ]
+    },
+    "status": "active",
+    "createdAt": "2024-07-19T14:00:00Z",
+    "updatedAt": "2024-07-19T14:05:00Z",
+    "GSI1PK": "BOOKING#BK-2024-002",
+    "GSI1SK": "QRCODE#2024-07-19T14:00:00Z",
+    "GSI2PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI2SK": "QRCODE#2024-07-25T11:00:00Z",
+    "GSI3PK": "STATUS#active",
+    "GSI3SK": "QRCODE#2024-07-19T14:00:00Z",
+    "GSI4PK": "UNIT#unit-mountain-302",
+    "GSI4SK": "QRCODE#2024-07-19T14:00:00Z"
+  }
+]

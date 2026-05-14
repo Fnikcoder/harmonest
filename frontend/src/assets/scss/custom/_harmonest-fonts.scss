@@ -1,0 +1,133 @@
+// HarmoNest Brand Fonts
+// Font face declarations for HarmoNest branding
+
+// Corbel Font Family
+@font-face {
+  font-family: 'Corbel';
+  src: url('/assets/fonts/Corbel/corbel.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Corbel';
+  src: url('/assets/fonts/Corbel/corbelb.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Corbel';
+  src: url('/assets/fonts/Corbel/corbeli.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Corbel';
+  src: url('/assets/fonts/Corbel/corbell.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Corbel';
+  src: url('/assets/fonts/Corbel/corbelli.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+// DM Mono Font Family
+@font-face {
+  font-family: 'DM Mono';
+  src: url('/assets/fonts/DM_Mono/DMMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Mono';
+  src: url('/assets/fonts/DM_Mono/DMMono-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Mono';
+  src: url('/assets/fonts/DM_Mono/DMMono-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Mono';
+  src: url('/assets/fonts/DM_Mono/DMMono-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Mono';
+  src: url('/assets/fonts/DM_Mono/DMMono-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Mono';
+  src: url('/assets/fonts/DM_Mono/DMMono-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+// Faculty Glyphic Font Family
+@font-face {
+  font-family: 'Faculty Glyphic';
+  src: url('/assets/fonts/Faculty_Glyphic/FacultyGlyphic-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Font utility classes
+.font-corbel {
+  font-family: 'Corbel', 'Segoe UI', sans-serif;
+}
+
+.font-dm-mono {
+  font-family: 'DM Mono', 'Courier New', monospace;
+}
+
+.font-faculty-glyphic {
+  font-family: 'Faculty Glyphic', serif;
+}
+
+// HarmoNest brand typography hierarchy
+.harmonest-heading {
+  font-family: 'Faculty Glyphic', serif;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+
+.harmonest-body {
+  font-family: 'Corbel', 'Segoe UI', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.harmonest-mono {
+  font-family: 'DM Mono', 'Courier New', monospace;
+  font-weight: 400;
+  letter-spacing: 0.025em;
+}

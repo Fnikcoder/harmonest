@@ -1,0 +1,195 @@
+<app-navbar [navClass]="'defaultscroll is-sticky'" [navLight]="false"></app-navbar>
+
+<section class="relative md:py-24 py-16">
+    <div class="container relative">
+        <div class="md:flex justify-center">
+            <div class="md:w-3/4">
+                <div class="p-6 bg-white dark:bg-slate-900 shadow-md dark:shadow-gray-700 rounded-md">
+                    <!-- Header -->
+                    <div class="text-center mb-8">
+                        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Terms and Conditions</h1>
+                        <p class="text-gray-600 dark:text-gray-400">Last updated: {{ lastUpdated }}</p>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="prose prose-slate dark:prose-invert max-w-none">
+                        <h2>1. General Terms</h2>
+                        <p>
+                            These Terms and Conditions govern the use of HarmoNest's short-term rental services in Germany.
+                            By booking or using our services, you accept and agree to be bound by these terms and conditions.
+                            If you do not agree to these terms, please do not use our services.
+                        </p>
+
+                        <h2>2. Compliance with German Short-Term Rental Regulations</h2>
+                        <p>
+                            HarmoNest operates in full compliance with German short-term rental laws and regulations, including:
+                        </p>
+                        <ul>
+                            <li><strong>Registration Requirements:</strong> All properties are registered with local authorities as required by German law (Zweckentfremdungsverbot).</li>
+                            <li><strong>Guest Registration:</strong> In accordance with the German Federal Registration Act (Bundesmeldegesetz - BMG), all guests must provide valid identification and complete registration.</li>
+                            <li><strong>Tax Compliance:</strong> All bookings include applicable local tourism taxes (Bettensteuer/Übernachtungssteuer) as required by local municipalities.</li>
+                            <li><strong>Safety Standards:</strong> All properties meet German safety and building code requirements.</li>
+                        </ul>
+
+                        <h2>3. Online Check-In Service</h2>
+                        <p>
+                            The HarmoNest online check-in service allows guests to complete their check-in process digitally before arrival.
+                            This includes identity verification, document upload, and access code generation for your accommodation.
+                        </p>
+                        <p>
+                            <strong>Information Collected During Check-In:</strong>
+                        </p>
+                        <ul>
+                            <li>First name and last name</li>
+                            <li>Email address (with mandatory verification via 6-digit code)</li>
+                            <li>Phone number (optional)</li>
+                            <li>Valid government-issued ID document (passport or national ID card)</li>
+                            <li>Reservation/booking confirmation number</li>
+                        </ul>
+                        <p>
+                            <strong>Legal Basis:</strong> Online check-in is conducted in compliance with the German Federal Registration Act (BMG § 29)
+                            which requires accommodation providers to collect and verify guest information.
+                        </p>
+
+                        <h2>4. Identity Verification Requirements (German Law Compliance)</h2>
+                        <p>
+                            In compliance with the German Federal Registration Act (Bundesmeldegesetz - BMG § 29), all guests must provide valid identification.
+                            Accepted documents include:
+                        </p>
+                        <ul>
+                            <li>Valid passport (Reisepass)</li>
+                            <li>National ID card (Personalausweis)</li>
+                        </ul>
+                        <p>
+                            You agree to provide clear, legible images of government-issued photo identification and ensure all information
+                            on the document is visible and unobstructed. The information provided must match your booking details.
+                        </p>
+
+                        <h2>5. Document Upload Guidelines</h2>
+                        <p>When uploading or scanning documents for check-in verification:</p>
+                        <ul>
+                            <li>You can use the camera scan feature or upload a photo from your device</li>
+                            <li>File size must not exceed 10MB</li>
+                            <li>Accepted formats: JPEG, PNG, GIF, WebP</li>
+                            <li>Documents must be current and valid (not expired)</li>
+                            <li>Images must be clear and all text must be readable</li>
+                            <li>Upload only authentic, unaltered identification documents</li>
+                        </ul>
+                        <p>
+                            Providing false or misleading information may result in cancellation of your reservation without refund
+                            and may be reported to authorities as required by German law.
+                        </p>
+
+                        <h2>6. Email Verification</h2>
+                        <p>
+                            Email verification is mandatory for all check-ins. You will receive a 6-digit verification code to the email address
+                            you provide. This ensures secure communication and booking confirmations. You must verify your email before completing
+                            the check-in process.
+                        </p>
+
+                        <h2>7. Data Security and Privacy (GDPR Compliance)</h2>
+                        <p>
+                            We implement industry-standard security measures to protect your personal information and uploaded documents
+                            in full compliance with the EU General Data Protection Regulation (GDPR) and German Federal Data Protection Act (BDSG).
+                        </p>
+                        <ul>
+                            <li>All data is encrypted during transmission and storage using industry-standard protocols</li>
+                            <li>Your information is processed only for legal compliance and service provision purposes</li>
+                            <li>Guest registration data is retained as required by German law (typically 6 months for tax purposes)</li>
+                            <li>You have the right to access, correct, or request deletion of your personal data (subject to legal retention requirements)</li>
+                        </ul>
+                        <p>
+                            For detailed information about data processing, please refer to our <a [routerLink]="'/privacy'" class="text-harmonest-blue hover:underline">Privacy Policy</a>.
+                        </p>
+
+                        <h2>8. Access Codes and QR Codes</h2>
+                        <p>
+                            Upon successful completion of online check-in, you will receive digital access codes and/or QR codes for keyless entry.
+                            You are responsible for keeping these codes secure and not sharing them with unauthorized persons.
+                        </p>
+
+                        <h2>9. Check-In Completion Requirements</h2>
+                        <p>
+                            Online check-in should be completed before your scheduled arrival time for a smooth check-in experience.
+                            Failure to complete the process may result in delays or inability to access your accommodation.
+                        </p>
+
+                        <h2>10. Technical Support</h2>
+                        <p>
+                            If you experience technical difficulties during the check-in process, please contact our support team
+                            at support&#64;harmonest.de or +49 176 8630 6753 for immediate assistance.
+                        </p>
+
+                        <h2>11. Limitation of Liability</h2>
+                        <p>
+                            HarmoNest's liability for the online check-in service is limited to technical issues directly related
+                            to the check-in platform. We are not responsible for accommodation-related issues or property disputes.
+                        </p>
+
+                        <h2>12. Service Availability</h2>
+                        <p>
+                            While we strive to maintain 24/7 availability of the online check-in service, we cannot guarantee
+                            uninterrupted service due to maintenance windows and technical requirements.
+                        </p>
+
+                        <h2>13. Tourism Tax (Bettensteuer/Übernachtungssteuer)</h2>
+                        <p>
+                            In accordance with local German municipal regulations, tourism tax may be applicable to your stay.
+                            This tax is collected on behalf of local authorities and varies by location. The applicable tax rate
+                            will be clearly displayed during the booking process and included in your final invoice.
+                        </p>
+
+                        <h2>14. Cancellation and Refund Policy</h2>
+                        <p>
+                            Cancellation policies are subject to the specific property and booking terms. Please review your booking
+                            confirmation for detailed cancellation terms. Cancellations must be made in accordance with German consumer
+                            protection laws (BGB - Bürgerliches Gesetzbuch).
+                        </p>
+
+                        <h2>15. Liability and Insurance</h2>
+                        <p>
+                            HarmoNest maintains appropriate liability insurance as required by German law. Our liability is governed by
+                            German civil law (BGB). We are not liable for damages beyond what is required by mandatory German consumer protection laws.
+                        </p>
+
+                        <h2>16. Dispute Resolution and Applicable Law</h2>
+                        <p>
+                            These Terms and Conditions are governed by German law. Any disputes arising from or in connection with these
+                            terms shall be subject to the exclusive jurisdiction of German courts. For consumer contracts, the mandatory
+                            consumer protection provisions of your country of residence may also apply.
+                        </p>
+
+                        <h2>17. Changes to Terms</h2>
+                        <p>
+                            We reserve the right to modify these Terms at any time. Changes will be effective immediately upon posting.
+                            Continued use of our services constitutes acceptance of modified terms. We will notify registered users of
+                            material changes via email.
+                        </p>
+
+                        <h2>18. Contact Information & Imprint (Impressum)</h2>
+                        <p>
+                            If you have any questions about these Terms and Conditions, please contact us at:
+                        </p>
+                        <ul>
+                            <li><strong>Company:</strong> HarmoNest Group</li>
+                            <li><strong>Email:</strong> support&#64;harmonest.de</li>
+                            <li><strong>Phone:</strong> +49 176 8630 6753</li>
+                            <li><strong>Address:</strong> Bahnhof str 18, 41236 Mönchengladbach, Germany</li>
+                            <li><strong>Registration:</strong> Registered in Germany</li>
+                        </ul>
+                        <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                            <em>This service complies with German short-term rental regulations including the Federal Registration Act (BMG),
+                            GDPR, and local municipal ordinances (Zweckentfremdungsverbot).</em>
+                        </p>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<app-footer></app-footer>
+
+<app-back-to-home></app-back-to-home>

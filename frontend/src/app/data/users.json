@@ -1,0 +1,387 @@
+[
+  {
+    "PK": "USER#user-john-doe-001",
+    "SK": "PROFILE",
+    "userId": "user-john-doe-001",
+    "email": "john.doe@email.com",
+    "emailVerified": true,
+    "phone": "+1-619-555-0123",
+    "phoneVerified": true,
+    "profile": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "dateOfBirth": "1985-03-15",
+      "gender": "male",
+      "nationality": "US",
+      "preferredLanguage": "en",
+      "timezone": "America/Los_Angeles",
+      "avatar": {
+        "s3Key": "users/user-john-doe-001/avatar/profile.jpg",
+        "s3Bucket": "harmonest-user-media",
+        "url": "https://cdn.harmonest.com/users/user-john-doe-001/avatar/profile.jpg",
+        "alt": "John Doe profile picture",
+        "type": "avatar",
+        "metadata": {
+          "size": 204800,
+          "width": 400,
+          "height": 400,
+          "format": "jpeg",
+          "uploadedAt": "2024-03-01T10:00:00Z"
+        }
+      }
+    },
+    "address": {
+      "street": "123 Main Street",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "US",
+      "zipCode": "92101"
+    },
+    "auth": {
+      "passwordHash": "$2b$12$encrypted_password_hash",
+      "providers": [
+        {
+          "type": "email",
+          "providerId": "john.doe@email.com",
+          "connectedAt": "2024-03-01T09:00:00Z"
+        },
+        {
+          "type": "google",
+          "providerId": "google_oauth_id_123",
+          "connectedAt": "2024-03-01T09:05:00Z"
+        }
+      ],
+      "lastLogin": "2024-06-29T08:30:00Z",
+      "loginCount": 47,
+      "twoFactorEnabled": true,
+      "securityQuestions": [
+        {
+          "question": "What was your first pet's name?",
+          "answerHash": "$2b$12$encrypted_answer_hash"
+        }
+      ]
+    },
+    "preferences": {
+      "currency": "USD",
+      "notifications": {
+        "email": true,
+        "sms": true,
+        "push": true,
+        "marketing": false,
+        "bookingReminders": true,
+        "priceAlerts": true
+      },
+      "accessibility": {
+        "screenReader": false,
+        "highContrast": false,
+        "largeText": false
+      },
+      "privacy": {
+        "profileVisibility": "private",
+        "shareDataForMarketing": false,
+        "shareDataForAnalytics": true
+      }
+    },
+    "travelProfile": {
+      "frequentDestinations": ["San Diego", "Los Angeles", "San Francisco"],
+      "preferredRoomType": "1BR",
+      "specialRequests": ["High floor", "City view"],
+      "dietaryRestrictions": [],
+      "emergencyContact": {
+        "name": "Jane Doe",
+        "phone": "+1-619-555-0456",
+        "relationship": "spouse"
+      },
+      "travelPurpose": "both",
+      "budgetRange": {
+        "min": 100,
+        "max": 400,
+        "currency": "USD"
+      }
+    },
+    "loyalty": {
+      "points": 2450,
+      "tier": "gold",
+      "totalBookings": 12,
+      "totalSpent": 4800,
+      "memberSince": "2024-03-01T09:00:00Z",
+      "benefits": ["priority_support", "late_checkout", "room_upgrades"],
+      "nextTierRequirement": {
+        "pointsNeeded": 550,
+        "spendingNeeded": 1200,
+        "bookingsNeeded": 3
+      }
+    },
+    "paymentMethods": [
+      {
+        "methodId": "pm-visa-4242",
+        "type": "credit_card",
+        "isDefault": true,
+        "card": {
+          "last4": "4242",
+          "brand": "visa",
+          "expiryMonth": 12,
+          "expiryYear": 2027,
+          "holderName": "John Doe"
+        },
+        "billingAddress": {
+          "street": "123 Main Street",
+          "city": "San Diego",
+          "state": "CA",
+          "country": "US",
+          "zipCode": "92101"
+        },
+        "addedAt": "2024-03-01T10:30:00Z",
+        "lastUsed": "2024-06-25T14:20:00Z"
+      }
+    ],
+    "verification": {
+      "identityVerified": true,
+      "phoneVerified": true,
+      "emailVerified": true,
+      "documents": [
+        {
+          "documentId": "doc-passport-001",
+          "type": "passport",
+          "s3Key": "users/user-john-doe-001/documents/passport.jpg",
+          "verificationStatus": "verified",
+          "verifiedAt": "2024-03-02T15:00:00Z",
+          "expiryDate": "2030-03-15"
+        }
+      ],
+      "verificationLevel": "enhanced"
+    },
+    "status": "active",
+    "role": "guest",
+    "createdAt": "2024-03-01T09:00:00Z",
+    "updatedAt": "2024-06-29T08:30:00Z",
+    "lastActiveAt": "2024-06-29T08:30:00Z",
+    "GSI1PK": "EMAIL#john.doe@email.com",
+    "GSI1SK": "USER",
+    "GSI2PK": "PHONE#+1-619-555-0123",
+    "GSI2SK": "USER",
+    "GSI3PK": "ROLE#guest",
+    "GSI3SK": "USER#2024-03-01T09:00:00Z"
+  },
+  {
+    "PK": "USER#user-sarah-wilson-002",
+    "SK": "PROFILE",
+    "userId": "user-sarah-wilson-002",
+    "email": "sarah.wilson@email.com",
+    "emailVerified": true,
+    "phone": "+1-858-555-0789",
+    "phoneVerified": true,
+    "profile": {
+      "firstName": "Sarah",
+      "lastName": "Wilson",
+      "dateOfBirth": "1990-07-22",
+      "gender": "female",
+      "nationality": "US",
+      "preferredLanguage": "en",
+      "timezone": "America/Los_Angeles"
+    },
+    "address": {
+      "street": "456 Ocean Avenue",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "US",
+      "zipCode": "92109"
+    },
+    "auth": {
+      "passwordHash": "$2b$12$encrypted_password_hash_2",
+      "providers": [
+        {
+          "type": "email",
+          "providerId": "sarah.wilson@email.com",
+          "connectedAt": "2024-04-15T14:00:00Z"
+        }
+      ],
+      "lastLogin": "2024-06-28T19:45:00Z",
+      "loginCount": 23,
+      "twoFactorEnabled": false
+    },
+    "preferences": {
+      "currency": "USD",
+      "notifications": {
+        "email": true,
+        "sms": false,
+        "push": true,
+        "marketing": true,
+        "bookingReminders": true,
+        "priceAlerts": false
+      },
+      "accessibility": {
+        "screenReader": false,
+        "highContrast": false,
+        "largeText": false
+      },
+      "privacy": {
+        "profileVisibility": "public",
+        "shareDataForMarketing": true,
+        "shareDataForAnalytics": true
+      }
+    },
+    "travelProfile": {
+      "frequentDestinations": ["San Diego", "Miami", "New York"],
+      "preferredRoomType": "Studio",
+      "specialRequests": ["Ocean view", "Balcony"],
+      "dietaryRestrictions": ["vegetarian"],
+      "emergencyContact": {
+        "name": "Michael Wilson",
+        "phone": "+1-858-555-0321",
+        "relationship": "brother"
+      },
+      "travelPurpose": "leisure",
+      "budgetRange": {
+        "min": 150,
+        "max": 300,
+        "currency": "USD"
+      }
+    },
+    "loyalty": {
+      "points": 850,
+      "tier": "silver",
+      "totalBookings": 5,
+      "totalSpent": 1700,
+      "memberSince": "2024-04-15T14:00:00Z",
+      "benefits": ["priority_support", "late_checkout"],
+      "nextTierRequirement": {
+        "pointsNeeded": 1150,
+        "spendingNeeded": 1300,
+        "bookingsNeeded": 7
+      }
+    },
+    "paymentMethods": [
+      {
+        "methodId": "pm-mastercard-5555",
+        "type": "credit_card",
+        "isDefault": true,
+        "card": {
+          "last4": "5555",
+          "brand": "mastercard",
+          "expiryMonth": 8,
+          "expiryYear": 2026,
+          "holderName": "Sarah Wilson"
+        },
+        "billingAddress": {
+          "street": "456 Ocean Avenue",
+          "city": "San Diego",
+          "state": "CA",
+          "country": "US",
+          "zipCode": "92109"
+        },
+        "addedAt": "2024-04-15T15:00:00Z",
+        "lastUsed": "2024-06-20T11:30:00Z"
+      }
+    ],
+    "verification": {
+      "identityVerified": false,
+      "phoneVerified": true,
+      "emailVerified": true,
+      "verificationLevel": "standard"
+    },
+    "status": "active",
+    "role": "guest",
+    "createdAt": "2024-04-15T14:00:00Z",
+    "updatedAt": "2024-06-28T19:45:00Z",
+    "lastActiveAt": "2024-06-28T19:45:00Z",
+    "GSI1PK": "EMAIL#sarah.wilson@email.com",
+    "GSI1SK": "USER",
+    "GSI2PK": "PHONE#+1-858-555-0789",
+    "GSI2SK": "USER",
+    "GSI3PK": "ROLE#guest",
+    "GSI3SK": "USER#2024-04-15T14:00:00Z"
+  },
+  {
+    "PK": "USER#user-admin-001",
+    "SK": "PROFILE",
+    "userId": "user-admin-001",
+    "email": "admin@harmonest.com",
+    "emailVerified": true,
+    "phone": "+1-619-555-0001",
+    "phoneVerified": true,
+    "profile": {
+      "firstName": "Admin",
+      "lastName": "User",
+      "preferredLanguage": "en",
+      "timezone": "America/Los_Angeles"
+    },
+    "auth": {
+      "passwordHash": "$2b$12$encrypted_admin_password_hash",
+      "providers": [
+        {
+          "type": "email",
+          "providerId": "admin@harmonest.com",
+          "connectedAt": "2024-01-01T00:00:00Z"
+        }
+      ],
+      "lastLogin": "2024-06-29T16:00:00Z",
+      "loginCount": 156,
+      "twoFactorEnabled": true
+    },
+    "preferences": {
+      "currency": "USD",
+      "notifications": {
+        "email": true,
+        "sms": true,
+        "push": true,
+        "marketing": false,
+        "bookingReminders": false,
+        "priceAlerts": false
+      },
+      "accessibility": {
+        "screenReader": false,
+        "highContrast": false,
+        "largeText": false
+      },
+      "privacy": {
+        "profileVisibility": "private",
+        "shareDataForMarketing": false,
+        "shareDataForAnalytics": false
+      }
+    },
+    "travelProfile": {
+      "frequentDestinations": [],
+      "preferredRoomType": "",
+      "specialRequests": [],
+      "dietaryRestrictions": [],
+      "emergencyContact": {
+        "name": "Emergency Contact",
+        "phone": "+1-619-555-0911",
+        "relationship": "company"
+      },
+      "travelPurpose": "business",
+      "budgetRange": {
+        "min": 0,
+        "max": 1000,
+        "currency": "USD"
+      }
+    },
+    "loyalty": {
+      "points": 0,
+      "tier": "bronze",
+      "totalBookings": 0,
+      "totalSpent": 0,
+      "memberSince": "2024-01-01T00:00:00Z",
+      "benefits": []
+    },
+    "paymentMethods": [],
+    "verification": {
+      "identityVerified": true,
+      "phoneVerified": true,
+      "emailVerified": true,
+      "verificationLevel": "enhanced"
+    },
+    "status": "active",
+    "role": "admin",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-06-29T16:00:00Z",
+    "lastActiveAt": "2024-06-29T16:00:00Z",
+    "GSI1PK": "EMAIL#admin@harmonest.com",
+    "GSI1SK": "USER",
+    "GSI2PK": "PHONE#+1-619-555-0001",
+    "GSI2SK": "USER",
+    "GSI3PK": "ROLE#admin",
+    "GSI3SK": "USER#2024-01-01T00:00:00Z"
+  }
+]

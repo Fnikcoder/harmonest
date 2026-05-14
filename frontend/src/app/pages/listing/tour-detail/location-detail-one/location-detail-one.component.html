@@ -1,0 +1,250 @@
+<app-navbar [navClass]="'defaultscroll is-sticky'" [navLight]="true"></app-navbar>
+
+<section
+  class="relative table w-full items-center py-56 bg-top bg-no-repeat bg-contain bg-center"
+  [ngStyle]="{ 'background-image': 'url(' + data?.images[0] + ')' }"
+>
+
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/80 to-slate-900"></div>
+    <div class="container relative">
+        <div class="grid grid-cols-1 pb-8 text-center mt-10">
+            <h3 class="text-3xl leading-normal tracking-wider font-semibold text-white">{{data?.title ? data.title : 'New Zealand’s South Island brims with majestic'}}</h3>
+        </div>
+    </div>
+
+    <div class="absolute text-center z-10 bottom-5 start-0 end-0 mx-3">
+        <ul class="tracking-[0.5px] mb-0 inline-block">
+            <li class="inline-block  text-[13px] font-bold duration-500 ease-in-out text-white/50 hover:text-white"><a routerLink="/">HarmoNest</a></li>
+            <li class="inline-block text-base text-white/50 mx-0.5 ltr:rotate-180 rtl:rotate-180"><i class="mdi mdi-chevron-right"></i></li>
+<!--            <li class="inline-block  text-[13px] font-bold duration-500 ease-in-out text-white" aria-current="page">{{data.title}}</li>-->
+        </ul>
+    </div>
+</section>
+
+<section class="relative md:py-24 py-16">
+    <div class="container relative">
+        <div class="grid md:grid-cols-12 grid-cols-1 gap-6">
+            <div class="lg:col-span-8 md:col-span-7">
+              <div class="grid grid-cols-12 gap-4">
+                <!-- Image 1 (wide) -->
+                <div class="col-span-8" *ngIf="data.images[0]">
+                  <div class="overflow-hidden rounded shadow dark:shadow-gray-800 relative group h-64 cursor-pointer" (click)="openImageViewer(0)">
+                    <img [src]="data.images[0]" class="w-full h-full object-cover" alt="Image 1">
+                    <div class="absolute inset-0 group-hover:bg-slate-900/70 duration-500 ease-in-out"></div>
+                    <div class="absolute top-1/2 -translate-y-1/2 start-0 end-0 text-center opacity-0 group-hover:opacity-100 duration-500">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Image 2 (narrow) -->
+                <div class="col-span-4" *ngIf="data.images[1]">
+                  <div class="overflow-hidden rounded shadow dark:shadow-gray-800 relative group h-64 cursor-pointer" (click)="openImageViewer(1)">
+                    <img [src]="data.images[1]" class="w-full h-full object-cover" alt="Image 2">
+                    <div class="absolute inset-0 group-hover:bg-slate-900/70 duration-500 ease-in-out"></div>
+                    <div class="absolute top-1/2 -translate-y-1/2 start-0 end-0 text-center opacity-0 group-hover:opacity-100 duration-500">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Image 3 (narrow) -->
+                <div class="col-span-4" *ngIf="data.images[2]">
+                  <div class="overflow-hidden rounded shadow dark:shadow-gray-800 relative group h-64 cursor-pointer" (click)="openImageViewer(2)">
+                    <img [src]="data.images[2]" class="w-full h-full object-cover" alt="Image 3">
+                    <div class="absolute inset-0 group-hover:bg-slate-900/70 duration-500 ease-in-out"></div>
+                    <div class="absolute top-1/2 -translate-y-1/2 start-0 end-0 text-center opacity-0 group-hover:opacity-100 duration-500">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Image 4 (wide) -->
+                <div class="col-span-8" *ngIf="data.images[3]">
+                  <div class="overflow-hidden rounded shadow dark:shadow-gray-800 relative group h-64 cursor-pointer" (click)="openImageViewer(3)">
+                    <img [src]="data.images[3]" class="w-full h-full object-cover" alt="Image 4">
+                    <div class="absolute inset-0 group-hover:bg-slate-900/70 duration-500 ease-in-out"></div>
+                    <div class="absolute top-1/2 -translate-y-1/2 start-0 end-0 text-center opacity-0 group-hover:opacity-100 duration-500">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <h5 class="text-2xl font-semibold mt-5">{{data?.title ? data.title : 'New Zealand’s South Island brims with majestic'}}</h5>
+                <p class="flex items-center text-slate-400 font-medium mt-2"><i data-feather="map-pin" class="size-4 me-1"></i> {{data?.location?.city}}, {{data?.location?.country}}</p>
+
+              <ul class="list-none">
+                <!-- Type -->
+                <li class="inline-flex items-start me-5 mt-5" *ngIf="data.propertyType">
+                  <i data-feather="home" class="size-6 stroke-[1.5] text-red-500"></i>
+                  <div class="ms-3">
+                    <p class="font-medium">Type</p>
+                    <span class="text-slate-400 font-medium text-sm">{{ data.propertyType }}</span>
+                  </div>
+                </li>
+
+                <!-- Guests -->
+                <li class="inline-flex items-start me-5 mt-5" *ngIf="data.guests">
+                  <i data-feather="users" class="size-6 stroke-[1.5] text-red-500"></i>
+                  <div class="ms-3">
+                    <p class="font-medium">Guests</p>
+                    <span class="text-slate-400 font-medium text-sm">{{ data.guests }}</span>
+                  </div>
+                </li>
+
+                <!-- Bedrooms -->
+                <li class="inline-flex items-start me-5 mt-5" *ngIf="data.bedrooms">
+                  <i data-feather="tablet" class="size-6 stroke-[1.5] text-red-500"></i>
+                  <div class="ms-3">
+                    <p class="font-medium">Bedrooms</p>
+                    <span class="text-slate-400 font-medium text-sm">{{ data.bedrooms }}</span>
+                  </div>
+                </li>
+
+                <!-- Price -->
+                <li class="inline-flex items-start me-5 mt-5" *ngIf="data.amount">
+                  <i data-feather="dollar-sign" class="size-6 stroke-[1.5] text-red-500"></i>
+                  <div class="ms-3">
+                    <p class="font-medium">Price</p>
+                    <span class="text-slate-400 font-medium text-sm">{{ data.amount }} {{ data.currency }} / Night</span>
+                  </div>
+                </li>
+
+                <li class="inline-flex items-start me-5 mt-5" *ngIf="data.amenities?.length">
+                  <i data-feather="check-circle" class="size-6 stroke-[1.5] text-red-500 mt-1 shrink-0"></i>
+                  <div class="ms-3 w-full">
+                    <p class="font-medium mb-2">Amenities</p>
+                    <ul class="flex flex-wrap gap-2">
+                      <li *ngFor="let amenity of data.amenities"
+                          class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-200 shadow-sm">
+                        <i data-feather="check" class="size-4 me-1 text-green-500"></i>
+                        {{ amenity }}
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+
+
+                <!-- Access Instructions -->
+                <li class="inline-flex items-center me-5 mt-5" *ngIf="data.access?.instructions">
+                  <i data-feather="key" class="size-6 stroke-[1.5] text-red-500"></i>
+                  <div class="ms-3">
+                    <p class="font-medium">Access</p>
+                    <span class="text-slate-400 font-medium text-sm">{{ data.access.instructions }}</span>
+                  </div>
+                </li>
+
+                <!-- Policies: House Rules -->
+                <li class="inline-flex items-center me-5 mt-5" *ngIf="data.policies?.houseRules?.length">
+                  <i data-feather="alert-circle" class="size-6 stroke-[1.5] text-red-500"></i>
+                  <div class="ms-3">
+                    <p class="font-medium">House Rules</p>
+                    <span class="text-slate-400 font-medium text-sm">{{ data.policies.houseRules.join(', ') }}</span>
+                  </div>
+                </li>
+
+                <!-- Policies: Cancellation -->
+                <li class="inline-flex items-center me-5 mt-5" *ngIf="data.policies?.cancellation">
+                  <i data-feather="shield" class="size-6 stroke-[1.5] text-red-500"></i>
+                  <div class="ms-3">
+                    <p class="font-medium">Cancellation Policy</p>
+                    <span class="text-slate-400 font-medium text-sm">{{ data.policies.cancellation }}</span>
+                  </div>
+                </li>
+<!--                &lt;!&ndash; Policies: Security Deposit &ndash;&gt;-->
+<!--                <li class="inline-flex items-center me-5 mt-5" *ngIf="data.policies?.securityDeposit">-->
+<!--                  <i data-feather="lock" class="size-6 stroke-[1.5] text-red-500"></i>-->
+<!--                  <div class="ms-3">-->
+<!--                    <p class="font-medium">Security Deposit</p>-->
+<!--                    <span class="text-slate-400 font-medium text-sm">{{ data.policies.securityDeposit }} {{ data.currency }}</span>-->
+<!--                  </div>-->
+<!--                </li>-->
+              </ul>
+              <div class="mt-6">
+                <h5 class="text-lg font-semibold">Location Descriptions:</h5>
+                <p class="text-slate-400 mt-6">{{data.description}}</p>
+              </div>
+
+<!--                <div class="mt-6">-->
+<!--                    <h5 class="text-lg font-semibold">Questions & Answers:</h5>-->
+
+<!--                    <app-faq-accordian></app-faq-accordian>-->
+<!--                </div>-->
+
+<!--                <div class="mt-6">-->
+<!--                    <h5 class="text-lg font-semibold">Leave A Comment:</h5>-->
+
+<!--                    <form class="mt-6">-->
+<!--                        <div class="grid lg:grid-cols-12 lg:gap-6">-->
+<!--                            <div class="lg:col-span-6 mb-5">-->
+<!--                                <div class="text-left">-->
+<!--                                    <label for="name" class="font-semibold">Your Name:</label>-->
+<!--                                    <input name="name" id="name" type="text" class="mt-3 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="Name :">-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                            <div class="lg:col-span-6 mb-5">-->
+<!--                                <div class="text-left">-->
+<!--                                    <label for="email" class="font-semibold">Your Email:</label>-->
+<!--                                    <input name="email" id="email" type="email" class="mt-3 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="Email :">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="grid grid-cols-1">-->
+<!--                            <div class="mb-5">-->
+<!--                                <div class="text-left">-->
+<!--                                    <label for="comments" class="font-semibold">Your Comment:</label>-->
+<!--                                    <textarea name="comments" id="comments" class="mt-3 w-full py-2 px-3 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 h-28" placeholder="Message :"></textarea>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <button type="submit" id="submit" name="send" class="py-2 px-5 inline-block tracking-wide align-middle duration-500 text-base text-center bg-red-500 text-white rounded-md w-full">Send Message</button>-->
+<!--                    </form>-->
+<!--                </div>-->
+            </div>
+
+            <div class="lg:col-span-4 md:col-span-5">
+                <div class="p-4 rounded-md shadow dark:shadow-gray-700 sticky top-20">
+                  <app-form-single-listing
+                    [initialDateRange]="initialDateRange"
+                    [initialGuests]="initialGuests"
+                    (submitBooking)="handleBooking($event)"
+                  ></app-form-single-listing>
+
+                  <div class="flex mt-2 pl-6">
+                    <ul class="text-lg font-medium flex items-center text-center text-amber-400">
+                      <li *ngFor="let star of [1, 2, 3, 4, 5]" class="me-[0px] text-xl">
+                        <i
+                          class="mdi align-middle"
+                          [ngClass]="{'mdi-star': data.rating >= star,
+                                      'mdi-star-half-full': data.rating >= star - 0.5 && data.rating < star,
+                                      'mdi-star-outline': data.rating < star - 0.5}"
+                        ></i>
+                      </li>
+                      <li class="text-black dark:text-white ms-2 text-sm">
+                        {{ data.reviews }} reviews
+                      </li>
+                    </ul>
+                  </div>
+
+                    <div class="mt-16 ">
+                        <h5 class="text-lg font-medium">Location Map</h5>
+
+                      <div class="mt-3" *ngIf="safeMapUrl">
+                        <iframe
+                          [src]="safeMapUrl"
+                          class="w-full h-[300px] rounded-2xl"
+                          style="border:0"
+                          allowfullscreen
+                          loading="lazy"
+                          referrerpolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                      </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<app-footer></app-footer>
+<app-switcher></app-switcher>

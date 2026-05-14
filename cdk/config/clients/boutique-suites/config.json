@@ -1,0 +1,108 @@
+{
+  "client": {
+    "name": "boutique-suites",
+    "displayName": "Boutique Suites Downtown",
+    "description": "Luxury boutique hotel in the heart of the city with personalized service",
+    "domains": {
+      "primary": "boutiquesuites.com",
+      "www": "www.boutiquesuites.com",
+      "dev": "dev.boutiquesuites.com",
+      "api": "api.boutiquesuites.com"
+    },
+    "email": {
+      "noreply": "noreply@boutiquesuites.com",
+      "support": "concierge@boutiquesuites.com",
+      "admin": "manager@boutiquesuites.com",
+      "notifications": "alerts@boutiquesuites.com",
+      "fromName": "Boutique Suites Concierge"
+    },
+    "aws": {
+      "profile": "boutique-suites-admin",
+      "region": "us-east-1",
+      "accountId": "123456789012"
+    },
+    "features": {
+      "checkin": {
+        "enabled": true,
+        "deadlineHours": 48,
+        "qrCodeEnabled": true,
+        "documentUpload": {
+          "enabled": true,
+          "maxSizeMB": 20,
+          "allowedTypes": ["pdf", "jpg", "png", "doc", "docx"]
+        }
+      },
+      "reservations": {
+        "enabled": true,
+        "syncEnabled": true,
+        "syncIntervalMinutes": 10
+      },
+      "listings": {
+        "enabled": true,
+        "syncEnabled": true,
+        "publicListings": true
+      },
+      "concierge": {
+        "enabled": true,
+        "autoResponse": true,
+        "languages": ["en", "es", "fr"]
+      }
+    },
+    "integrations": {
+      "g4h": {
+        "origin": "https://app.guestyforhosts.com",
+        "appVersion": "6.x",
+        "platform": "browser--win32",
+        "deviceUuid": "ypa-uuid-boutique-suites"
+      },
+      "pms": {
+        "provider": "opera",
+        "endpoint": "https://api.opera.com/v1",
+        "enabled": true
+      }
+    },
+    "branding": {
+      "primaryColor": "#8b5cf6",
+      "secondaryColor": "#64748b",
+      "accentColor": "#f59e0b",
+      "logo": "boutique-suites-logo.png",
+      "favicon": "boutique-favicon.ico",
+      "theme": "luxury"
+    }
+  },
+  "environments": {
+    "prod": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 1024,
+          "timeout": 120
+        },
+        "api": {
+          "throttling": {
+            "rateLimit": 1000,
+            "burstLimit": 2000
+          }
+        }
+      }
+    },
+    "staging": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 512,
+          "timeout": 60
+        }
+      }
+    },
+    "dev": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 256,
+          "timeout": 30
+        }
+      }
+    }
+  }
+}

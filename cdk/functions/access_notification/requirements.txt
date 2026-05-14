@@ -1,0 +1,6 @@
+# Function-specific dependencies for access_notification
+# QR code generation and image processing
+#qrcode[pil]==7.4.2
+#Pillow==10.0.1
+
+# Note: boto3, requests are provided by the common layer

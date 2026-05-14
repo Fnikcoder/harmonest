@@ -1,0 +1,16 @@
+# Lambda Layer Dependencies - Shared across all functions
+# Core AWS and utility packages
+# boto3==1.34.0
+# botocore==1.34.0
+requests==2.31.0
+pydantic==2.10.4
+
+# Authentication and security
+PyJWT==2.8.0
+cryptography==41.0.7
+
+# QR code generation (using basic qrcode without PIL to avoid platform issues)
+qrcode==7.4.2
+Pillow==10.4.0
+# Note: CDK dependencies removed - they should not be in Lambda layer
+# They are only needed for development/deployment on local machine

@@ -1,0 +1,223 @@
+.data-models-example {
+  // Button styles
+  button {
+    transition: all 0.2s ease-in-out;
+    
+    &:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  // Card styles
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6;
+    transition: all 0.2s ease-in-out;
+    
+    &:hover {
+      @apply shadow-xl;
+      transform: translateY(-2px);
+    }
+  }
+
+  // Status indicators
+  .status-indicator {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+    
+    &.available {
+      @apply bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300;
+    }
+    
+    &.occupied {
+      @apply bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300;
+    }
+    
+    &.maintenance {
+      @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300;
+    }
+    
+    &.pending {
+      @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300;
+    }
+    
+    &.confirmed {
+      @apply bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300;
+    }
+    
+    &.active {
+      @apply bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300;
+    }
+  }
+
+  // Grid layouts
+  .property-grid {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+  }
+  
+  .user-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+  }
+  
+  .booking-grid {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+  }
+
+  // Item lists
+  .item-list {
+    @apply space-y-2;
+    
+    .item {
+      @apply p-3 border border-gray-200 dark:border-gray-700 rounded-lg;
+      transition: all 0.2s ease-in-out;
+      
+      &:hover {
+        @apply bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600;
+      }
+      
+      .item-title {
+        @apply font-medium text-gray-900 dark:text-white;
+      }
+      
+      .item-subtitle {
+        @apply text-sm text-gray-600 dark:text-gray-400;
+      }
+      
+      .item-meta {
+        @apply text-sm text-gray-500;
+      }
+    }
+  }
+
+  // Statistics
+  .stats-grid {
+    @apply grid grid-cols-2 gap-4;
+    
+    .stat-item {
+      @apply flex justify-between items-center;
+      
+      .stat-label {
+        @apply text-gray-600 dark:text-gray-400;
+      }
+      
+      .stat-value {
+        @apply font-medium text-gray-900 dark:text-white;
+      }
+    }
+  }
+
+  // Relationship diagram
+  .relationship-diagram {
+    @apply bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6;
+    
+    .hierarchy-list {
+      @apply text-sm text-blue-700 dark:text-blue-300 space-y-1;
+      
+      li {
+        font-family: 'Courier New', monospace;
+      }
+    }
+    
+    .flow-list {
+      @apply text-sm text-blue-700 dark:text-blue-300 space-y-1;
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    .property-grid,
+    .booking-grid {
+      @apply grid-cols-1;
+    }
+    
+    .stats-grid {
+      @apply grid-cols-1;
+    }
+    
+    .card {
+      @apply p-4;
+    }
+  }
+
+  // Animation classes
+  .fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .slide-up {
+    animation: slideUp 0.3s ease-in-out;
+  }
+  
+  .scale-in {
+    animation: scaleIn 0.2s ease-in-out;
+  }
+}
+
+// Keyframe animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Dark mode specific adjustments
+@media (prefers-color-scheme: dark) {
+  .data-models-example {
+    .card {
+      @apply bg-gray-800 border-gray-700;
+    }
+    
+    .relationship-diagram {
+      @apply bg-blue-900/20 border-blue-800;
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .data-models-example {
+    button {
+      @apply hidden;
+    }
+    
+    .card {
+      @apply shadow-none border border-gray-300;
+      break-inside: avoid;
+    }
+    
+    .property-grid,
+    .user-grid,
+    .booking-grid {
+      @apply grid-cols-1;
+    }
+  }
+}

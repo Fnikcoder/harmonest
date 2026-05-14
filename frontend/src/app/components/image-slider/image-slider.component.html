@@ -1,0 +1,17 @@
+<div class="container-fluid relative">
+    <div class="grid grid-cols-1 relative">
+        <div class="tiny-twelve-item">
+            <div *ngFor="let item of image" class="tiny-slide">
+                <lightgallery>
+                    <a [href]="item" class="lightbox d-inline-block" title="">
+                        <img [src]="item" class="sm:size-40 object-cover" alt="">
+                    </a>
+                </lightgallery>
+            </div>
+        </div>
+
+        <div class="absolute top-2/4 -translate-y-2/4 start-2/4 ltr:-translate-x-2/4 rtl:translate-x-2/4 text-center">
+            <a href="https://www.instagram.com/shreethemes/" target="_blank" class="size-8 inline-flex items-center justify-center tracking-wide align-middle duration-500 text-base text-center rounded-md border border-red-500 bg-red-500 text-white"><i data-feather="instagram" class="size-4"></i></a>
+        </div>
+    </div>
+</div>

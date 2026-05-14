@@ -1,0 +1,410 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Client Configuration Schema",
+  "description": "Schema for client-specific configuration in the multi-tenant hotel management system",
+  "type": "object",
+  "required": ["client", "environments"],
+  "properties": {
+    "client": {
+      "type": "object",
+      "required": ["name", "displayName", "domains", "email", "aws"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*[a-z0-9]$",
+          "minLength": 2,
+          "maxLength": 30,
+          "description": "Client identifier used in resource naming (lowercase, alphanumeric, hyphens)"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Human-readable client name for UI and documentation"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Optional description of the client"
+        },
+        "domains": {
+          "type": "object",
+          "required": ["primary"],
+          "properties": {
+            "primary": {
+              "type": "string",
+              "format": "hostname",
+              "description": "Primary domain for the client"
+            },
+            "www": {
+              "type": "string",
+              "format": "hostname",
+              "description": "WWW subdomain"
+            },
+            "dev": {
+              "type": "string",
+              "format": "hostname",
+              "description": "Development domain"
+            },
+            "staging": {
+              "type": "string",
+              "format": "hostname",
+              "description": "Staging domain"
+            },
+            "api": {
+              "type": "string",
+              "format": "hostname",
+              "description": "API domain"
+            },
+            "admin": {
+              "type": "string",
+              "format": "hostname",
+              "description": "Admin panel domain"
+            },
+            "additional": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "hostname"
+              },
+              "description": "Additional domains for CORS and routing"
+            }
+          }
+        },
+        "email": {
+          "type": "object",
+          "required": ["noreply"],
+          "properties": {
+            "noreply": {
+              "type": "string",
+              "format": "email",
+              "description": "No-reply email address"
+            },
+            "support": {
+              "type": "string",
+              "format": "email",
+              "description": "Support email address"
+            },
+            "admin": {
+              "type": "string",
+              "format": "email",
+              "description": "Admin email address"
+            },
+            "notifications": {
+              "type": "string",
+              "format": "email",
+              "description": "Notifications email address"
+            },
+            "fromName": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Display name for outgoing emails"
+            }
+          }
+        },
+        "aws": {
+          "type": "object",
+          "required": ["profile", "region"],
+          "properties": {
+            "profile": {
+              "type": "string",
+              "description": "AWS CLI profile name"
+            },
+            "region": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$",
+              "description": "AWS region"
+            },
+            "accountId": {
+              "type": "string",
+              "pattern": "^[0-9]{12}$",
+              "description": "AWS account ID (12 digits)"
+            },
+            "kmsKeyId": {
+              "type": "string",
+              "description": "KMS key ID for encryption"
+            }
+          }
+        },
+        "branding": {
+          "type": "object",
+          "properties": {
+            "primaryColor": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$",
+              "description": "Primary brand color (hex)"
+            },
+            "secondaryColor": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$",
+              "description": "Secondary brand color (hex)"
+            },
+            "logo": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "Logo URL"
+                },
+                "width": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "height": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "favicon": {
+              "type": "string",
+              "format": "uri",
+              "description": "Favicon URL"
+            }
+          }
+        },
+        "integrations": {
+          "type": "object",
+          "properties": {
+            "g4h": {
+              "type": "object",
+              "properties": {
+                "origin": {
+                  "type": "string",
+                  "format": "uri",
+                  "default": "https://app.guestyforhosts.com",
+                  "description": "Guesty for Hosts origin URL"
+                },
+                "appVersion": {
+                  "type": "string",
+                  "default": "6.x",
+                  "description": "G4H app version"
+                },
+                "platform": {
+                  "type": "string",
+                  "default": "browser--win32",
+                  "description": "G4H platform identifier"
+                },
+                "deviceUuid": {
+                  "type": "string",
+                  "description": "G4H device UUID"
+                }
+              }
+            },
+            "analytics": {
+              "type": "object",
+              "properties": {
+                "googleAnalytics": {
+                  "type": "string",
+                  "description": "Google Analytics tracking ID"
+                },
+                "mixpanel": {
+                  "type": "string",
+                  "description": "Mixpanel project token"
+                }
+              }
+            },
+            "payment": {
+              "type": "object",
+              "properties": {
+                "stripe": {
+                  "type": "object",
+                  "properties": {
+                    "publishableKey": {
+                      "type": "string",
+                      "description": "Stripe publishable key"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "features": {
+          "type": "object",
+          "properties": {
+            "checkin": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "deadlineHours": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 72,
+                  "default": 25,
+                  "description": "Hours before checkin when updates are no longer allowed"
+                },
+                "qrCodeEnabled": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "documentUpload": {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "maxSizeMB": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 50,
+                      "default": 10
+                    },
+                    "allowedTypes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "default": ["image/jpeg", "image/png", "application/pdf"]
+                    }
+                  }
+                }
+              }
+            },
+            "reservations": {
+              "type": "object",
+              "properties": {
+                "syncEnabled": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "syncIntervalMinutes": {
+                  "type": "integer",
+                  "minimum": 5,
+                  "maximum": 1440,
+                  "default": 30
+                }
+              }
+            },
+            "listings": {
+              "type": "object",
+              "properties": {
+                "syncEnabled": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "publicListings": {
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "environments": {
+      "type": "object",
+      "required": ["prod"],
+      "properties": {
+        "dev": {
+          "$ref": "#/definitions/environment"
+        },
+        "staging": {
+          "$ref": "#/definitions/environment"
+        },
+        "prod": {
+          "$ref": "#/definitions/environment"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/environment"
+      }
+    }
+  },
+  "definitions": {
+    "environment": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether this environment is enabled for deployment"
+        },
+        "aws": {
+          "type": "object",
+          "properties": {
+            "profile": {
+              "type": "string",
+              "description": "Environment-specific AWS profile (overrides client default)"
+            },
+            "region": {
+              "type": "string",
+              "description": "Environment-specific AWS region (overrides client default)"
+            },
+            "accountId": {
+              "type": "string",
+              "pattern": "^[0-9]{12}$",
+              "description": "Environment-specific AWS account ID"
+            }
+          }
+        },
+        "domains": {
+          "type": "object",
+          "description": "Environment-specific domain overrides",
+          "properties": {
+            "primary": {
+              "type": "string",
+              "format": "hostname"
+            },
+            "api": {
+              "type": "string",
+              "format": "hostname"
+            }
+          }
+        },
+        "features": {
+          "type": "object",
+          "description": "Environment-specific feature overrides",
+          "properties": {
+            "checkin": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "scaling": {
+          "type": "object",
+          "properties": {
+            "lambda": {
+              "type": "object",
+              "properties": {
+                "memorySize": {
+                  "type": "integer",
+                  "minimum": 128,
+                  "maximum": 10240,
+                  "default": 512
+                },
+                "timeout": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 900,
+                  "default": 60
+                }
+              }
+            },
+            "dynamodb": {
+              "type": "object",
+              "properties": {
+                "billingMode": {
+                  "type": "string",
+                  "enum": ["PAY_PER_REQUEST", "PROVISIONED"],
+                  "default": "PAY_PER_REQUEST"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

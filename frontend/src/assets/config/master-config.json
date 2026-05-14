@@ -1,0 +1,230 @@
+{
+  "client": {
+    "id": "harmonest-de",
+    "name": "HarmoNest Germany",
+    "domain": "harmonest.de",
+    "subdomains": ["www.harmonest.de", "app.harmonest.de"],
+    "deploymentRegion": "eu-central-1"
+  },
+  "environment": {
+    "type": "prod",
+    "resourcePrefix": "harmonest-prod",
+    "debugMode": false,
+    "analyticsEnabled": true
+  },
+  "branding": {
+    "logo": {
+      "primary": "/assets/images/logo-primary.svg",
+      "secondary": "/assets/images/logo-light.svg",
+      "favicon": "/assets/images/favicon.ico",
+      "appleTouchIcon": "/assets/images/apple-touch-icon.png"
+    },
+    "colors": {
+      "light": {
+        "primary": "#8b5a3c",
+        "secondary": "#6b7280",
+        "accent": "#3b82f6",
+        "background": "#ffffff",
+        "surface": "#f9fafb",
+        "textPrimary": "#1f2937",
+        "textSecondary": "#6b7280",
+        "textAccent": "#8b5a3c",
+        "border": "#e5e7eb",
+        "shadow": "rgba(139, 90, 60, 0.15)"
+      },
+      "dark": {
+        "primary": "#8b5a3c",
+        "secondary": "#6b7280",
+        "accent": "#3b82f6",
+        "background": "#0f172a",
+        "surface": "#1e293b",
+        "textPrimary": "#f8fafc",
+        "textSecondary": "#94a3b8",
+        "textAccent": "#8b5a3c",
+        "border": "#334155",
+        "shadow": "rgba(0, 0, 0, 0.3)"
+      }
+    },
+    "typography": {
+      "primaryFont": "\"Inter\", sans-serif",
+      "secondaryFont": "\"Playfair Display\", serif"
+    },
+    "components": {},
+    "theme": {
+      "selectedTheme": "harmonest",
+      "darkModeEnabled": false
+    }
+  },
+  "business": {
+    "name": "HarmoNest",
+    "legalName": "HarmoNest Hospitality GmbH",
+    "description": "Premium short-term rental accommodations with seamless digital experiences",
+    "tagline": "Your Home Away From Home",
+    "contact": {
+      "email": "info@harmonest.de",
+      "phone": "0049 176 8630 6753",
+      "website": "https://harmonest.de",
+      "supportEmail": "support@harmonest.de",
+      "bookingEmail": "bookings@harmonest.de",
+      "address": {
+        "street": "Musterstraße 123",
+        "city": "Berlin",
+        "state": "Berlin",
+        "country": "Germany",
+        "zipCode": "10115"
+      }
+    },
+    "social": {
+      "facebook": "https://facebook.com/harmonest",
+      "instagram": "https://instagram.com/harmonest",
+      "twitter": "https://twitter.com/harmonest"
+    },
+    "operatingHours": {
+      "timezone": "Europe/Berlin",
+      "checkInTime": "15:00",
+      "checkOutTime": "11:00"
+    }
+  },
+  "technical": {
+    "aws": {
+      "region": "eu-central-1",
+      "cognito": {
+        "userPoolId": "eu-central-1_oOMDUFanW",
+        "userPoolWebClientId": "4jm7vgta4tc7r5chltr4eb4kqj",
+        "identityPoolId": "eu-central-1:434a4973-03f1-4074-929b-de185a7cd4ac",
+        "domain": "harmonest-de-auth.auth.eu-central-1.amazoncognito.com",
+        "oauth": {
+          "domain": "harmonest-de-auth.auth.eu-central-1.amazoncognito.com",
+          "scope": ["openid", "email", "profile"],
+          "redirectSignIn": "https://harmonest.de/auth/callback",
+          "redirectSignOut": "https://harmonest.de/auth/logout",
+          "responseType": "code"
+        }
+      },
+      "dynamodb": {
+        "tableName": "harmonest-main",
+        "region": "eu-central-1",
+        "endpoint": null
+      },
+      "s3": {
+        "bucketName": "harmonest-storage",
+        "region": "eu-central-1"
+      }
+    },
+    "apis": {
+      "userManagement": {
+        "baseUrl": "https://8y8k22wgzj.execute-api.eu-central-1.amazonaws.com/prod"
+      },
+      "checkin": {
+        "baseUrl": "https://k5ackrx9ga.execute-api.eu-central-1.amazonaws.com/prod/checkin"
+      },
+      "emailVerification": {
+        "baseUrl": "https://k5ackrx9ga.execute-api.eu-central-1.amazonaws.com/prod/email-verification"
+      },
+      "booking": {
+        "baseUrl": "https://harmonest-de-prod-booking-api.execute-api.eu-central-1.amazonaws.com/prod"
+      },
+      "payment": {
+        "baseUrl": "https://harmonest-de-prod-payment-api.execute-api.eu-central-1.amazonaws.com/prod"
+      }
+    },
+    "payments": {
+      "stripe": {
+        "publishableKey": "pk_live_51234567890abcdef",
+        "enabled": true
+      },
+      "paypal": {
+        "clientId": "live_paypal_client_id",
+        "enabled": true
+      },
+      "currency": "EUR",
+      "taxRate": 0.19
+    },
+    "socialProviders": {
+      "google": {
+        "enabled": true,
+        "clientId": "your-prod-google-client-id"
+      },
+      "facebook": {
+        "enabled": true,
+        "appId": "your-prod-facebook-app-id"
+      },
+      "apple": {
+        "enabled": true,
+        "clientId": "your-prod-apple-client-id"
+      }
+    }
+  },
+  "features": {
+    "authentication": {
+      "emailVerification": {
+        "signup": true,
+        "booking": true
+      },
+      "socialLogin": {
+        "enabled": true,
+        "providers": ["google", "facebook"]
+      },
+      "mfa": {
+        "enabled": true,
+        "requiredForRoles": ["super_admin", "owner", "admin"],
+        "methods": ["TOTP", "SMS", "EMAIL"]
+      },
+      "passwordPolicy": {
+        "minLength": 8,
+        "requireUppercase": true,
+        "requireLowercase": true,
+        "requireNumbers": true,
+        "requireSymbols": true,
+        "preventReuse": 5
+      },
+      "session": {
+        "timeout": 480,
+        "extendOnActivity": true,
+        "rememberMeDuration": 30
+      }
+    },
+    "booking": {
+      "guestBooking": true,
+      "instantBooking": false,
+      "minimumStayNights": 1,
+      "maximumStayNights": 30
+    },
+    "checkin": {
+      "onlineCheckin": true,
+      "idVerification": true,
+      "documentTypes": ["passport", "national_id", "drivers_license"],
+      "qrCodeAccess": true
+    }
+  },
+  "content": {
+    "homepage": {
+      "hero": {
+        "title": "Welcome to HarmoNest",
+        "subtitle": "Experience premium accommodations with seamless digital check-in",
+        "backgroundImage": "/assets/images/hero-bg.jpg",
+        "ctaText": "Book Your Stay",
+        "ctaLink": "/booking"
+      }
+    },
+    "localization": {
+      "defaultLanguage": "en",
+      "supportedLanguages": ["en", "de"],
+      "currency": "EUR",
+      "currencySymbol": "€"
+    }
+  },
+  "deployment": {
+    "version": "1.0.0",
+    "buildDate": "2025-08-16T15:30:00Z",
+    "deployedBy": "production-deployment",
+    "healthChecks": {
+      "enabled": true,
+      "endpoints": ["/health", "/api/health"]
+    },
+    "monitoring": {
+      "enabled": true,
+      "logLevel": "info"
+    }
+  }
+}

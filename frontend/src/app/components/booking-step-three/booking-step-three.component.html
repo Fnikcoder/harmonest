@@ -1,0 +1,133 @@
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow dark:shadow-gray-700 p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-semibold text-slate-900 dark:text-white">Additional Services</h2>
+    <div class="text-sm text-slate-600 dark:text-slate-400">
+      <span class="font-medium">{{ getSelectedServicesCount() }}</span> services selected
+    </div>
+  </div>
+
+  <p class="text-slate-600 dark:text-slate-400 mb-6">
+    Enhance your stay with our optional services and amenities.
+  </p>
+
+  <!-- Services List -->
+  <div class="space-y-4 mb-8">
+    <div *ngFor="let service of additionalServices"
+         class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 transition-all duration-200"
+         [ngClass]="{
+           'border-red-500 bg-red-50 dark:bg-red-900/20': service.selected,
+           'hover:border-gray-300 dark:hover:border-gray-600': !service.selected
+         }">
+
+      <div class="flex items-start justify-between">
+        <div class="flex-1">
+          <div class="flex items-center mb-2">
+            <input
+              type="checkbox"
+              [checked]="service.selected"
+              (change)="toggleService(service.id)"
+              class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <h3 class="ml-3 text-lg font-semibold text-slate-900 dark:text-white">
+              {{ service.name }}
+            </h3>
+          </div>
+
+          <p class="text-slate-600 dark:text-slate-400 mb-3 ml-7">
+            {{ service.description }}
+          </p>
+
+          <div class="ml-7 flex items-center justify-between">
+            <div class="text-lg font-bold text-slate-900 dark:text-white">
+              ${{ service.price }}
+              <span class="text-sm font-normal text-slate-600 dark:text-slate-400">
+                per night
+              </span>
+            </div>
+
+            <!-- Quantity Controls -->
+            <div *ngIf="service.selected" class="flex items-center gap-2">
+              <span class="text-sm text-slate-600 dark:text-slate-400 mr-2">Quantity:</span>
+              <button
+                type="button"
+                (click)="adjustServiceQuantity(service.id, -1)"
+                class="w-6 h-6 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i data-feather="minus" class="w-3 h-3"></i>
+              </button>
+              <span class="w-8 text-center font-medium text-slate-900 dark:text-white">
+                {{ service.quantity || 1 }}
+              </span>
+              <button
+                type="button"
+                (click)="adjustServiceQuantity(service.id, 1)"
+                class="w-6 h-6 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i data-feather="plus" class="w-3 h-3"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Service Total -->
+          <div *ngIf="service.selected" class="ml-7 mt-2">
+            <div class="text-sm text-green-600 dark:text-green-400 font-medium">
+              Total: ${{ service.price * (service.quantity || 1) * nights }}
+              <span class="text-xs text-slate-500">
+                ({{ service.quantity || 1 }} × ${{ service.price }} × {{ nights }} nights)
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Selected Services Summary -->
+  <div *ngIf="getSelectedServicesCount() > 0" class="mb-8">
+    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Selected Services Summary</h3>
+    <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-4">
+      <div *ngFor="let service of additionalServices" class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
+        <div *ngIf="service.selected">
+          <span class="font-medium text-slate-900 dark:text-white">{{ service.name }}</span>
+          <span class="text-sm text-slate-600 dark:text-slate-400 ml-2">× {{ service.quantity || 1 }}</span>
+        </div>
+        <div *ngIf="service.selected" class="text-right">
+          <div class="font-medium text-slate-900 dark:text-white">
+            ${{ service.price * (service.quantity || 1) * nights }}
+          </div>
+          <div class="text-sm text-slate-600 dark:text-slate-400">{{ nights }} nights</div>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
+        <span class="text-lg font-semibold text-slate-900 dark:text-white">Total Additional Services</span>
+        <span class="text-xl font-bold text-red-500">${{ getSelectedServicesTotal() }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Services Selected -->
+  <div *ngIf="getSelectedServicesCount() === 0" class="text-center py-8 mb-8">
+    <i data-feather="plus-circle" class="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4"></i>
+    <p class="text-gray-500 dark:text-gray-400">
+      No additional services selected. You can continue without any extras or select services above.
+    </p>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="flex justify-between pt-4">
+    <button
+      type="button"
+      (click)="onPrevious()"
+      class="py-2 px-6 inline-block tracking-wide align-middle duration-500 text-base text-center bg-gray-500 hover:bg-gray-600 text-white rounded-md cursor-pointer">
+      <i data-feather="arrow-left" class="w-4 h-4 mr-2 inline"></i>
+      Previous
+    </button>
+
+    <button
+      type="button"
+      (click)="onNext()"
+      class="py-2 px-6 inline-block tracking-wide align-middle duration-500 text-base text-center bg-red-500 hover:bg-red-600 text-white rounded-md cursor-pointer">
+      Review Booking
+      <i data-feather="arrow-right" class="w-4 h-4 ml-2 inline"></i>
+    </button>
+  </div>
+</div>

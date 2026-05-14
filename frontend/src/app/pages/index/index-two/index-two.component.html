@@ -1,0 +1,80 @@
+<app-tagline></app-tagline>
+<app-navbar [navClass] = "'defaultscroll is-sticky tagline-height'" [navLight]="true"></app-navbar>
+
+<section class="swiper-slider-hero relative block h-screen overflow-x-hidden" id="home">
+    <div class="swiper-container absolute end-0 top-0 w-full h-full">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide flex items-center overflow-hidden">
+                <div class="slide-inner absolute end-0 top-0 w-full h-full slide-bg-image flex items-center bg-[url('../../assets/images/bg/2.jpg')] bg-center;">
+                    <div class="absolute inset-0 bg-black/70"></div>
+                    <div class="container relative">
+                        <div class="grid grid-cols-1">
+                            <div class="text-center">
+                                <img [src]="'/assets/images/map-plane.png'" class="mx-auto w-[300px]" alt="">
+                                <h1 class="font-bold text-white lg:leading-normal leading-normal text-4xl lg:text-6xl mb-6 mt-5">Find Your Best <br> Travels Package</h1>
+                                <p class="text-white/70 text-xl max-w-xl mx-auto">Planning for a trip? We will organize your trip with the best places and within best budget!</p>
+                                
+                                <div class="mt-6">
+                                    <a [routerLink]="[]" class="py-2 px-5 inline-block tracking-wide align-middle duration-500 text-base text-center bg-red-500 text-white rounded-md">See More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide flex items-center overflow-hidden">
+                <div class="slide-inner absolute end-0 top-0 w-full h-full slide-bg-image flex items-center bg-center bg-[url('/assets/images/bg/3.jpg')]">
+                    <div class="absolute inset-0 bg-black/70"></div>
+                    <div class="container relative">
+                        <div class="grid grid-cols-1">
+                            <div class="text-center">
+                                <img [src]="'/assets/images/map-plane.png'" class="mx-auto w-[300px]" alt="">
+                                <h1 class="font-bold text-white lg:leading-normal leading-normal text-4xl lg:text-6xl mb-6 mt-5">Find Next Best <br> Place To Visit</h1>
+                                <p class="text-white/70 text-xl max-w-xl mx-auto">Planning for a trip? We will organize your trip with the best places and within best budget!</p>
+                                
+                                <div class="mt-6">
+                                    <a [routerLink]="[]" class="py-2 px-5 inline-block tracking-wide align-middle duration-500 text-base text-center bg-red-500 text-white rounded-md">See More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div> 
+        </div>
+
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+
+<section class="relative py-16 bg-gray-50 dark:bg-slate-800">
+    <div class="container relative">
+        <div class="grid grid-cols-1">
+            <app-form></app-form>
+        </div>
+    </div>
+</section>
+
+<section class="relative md:pb-24 pb-16 overflow-hidden">
+    <app-about></app-about>
+
+    <div class="container relative md:mt-24 mt-16">
+        <div class="grid grid-cols-1 pb-8 text-center">
+            <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">Tours Packages</h3>
+
+            <p class="text-slate-400 max-w-xl mx-auto">Planning for a trip? We will organize your trip with the best places and within best budget!</p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 grid-cols-1 mt-6 gap-6">                    
+            <div *ngFor="let item of package | slice : 0 : 8 " class="group rounded-md shadow dark:shadow-gray-700">
+                <app-list-data [packageData] = "item"></app-list-data>
+            </div>
+        </div>
+    </div>
+
+    <app-client></app-client>
+
+    <app-blog></app-blog>
+</section>
+<app-footer></app-footer>
+<app-switcher></app-switcher>

@@ -1,0 +1,10 @@
+{
+  "TableName": "harmonest-main",
+  "KeyConditionExpression": "PK = :pk",
+  "FilterExpression": "contains(SK, :resId)",
+  "ExpressionAttributeValues": {
+    ":pk": {"S": "RESERVATION"},
+    ":resId": {"S": "9ad6ea8b-2a50-401b-9e9a-b22f25319f21"}
+  }
+}
+

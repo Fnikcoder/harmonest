@@ -1,0 +1,56 @@
+<div class="mb-8">
+  <div class="flex items-center justify-between">
+    <div *ngFor="let step of steps; let i = index; let isLast = last"
+         class="flex items-center"
+         [class.flex-1]="!isLast">
+
+      <!-- Step Circle -->
+      <div class="flex items-center">
+        <div
+          class="flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300"
+          [ngClass]="{
+            'bg-harmonest-blue border-harmonest-blue text-white': step.completed || step.active,
+            'bg-white border-gray-300 text-gray-500 dark:bg-slate-800 dark:border-gray-600 dark:text-gray-400': !step.completed && !step.active,
+            'cursor-pointer hover:border-harmonest-blue hover:text-harmonest-blue': isStepClickable(step.id),
+            'cursor-not-allowed opacity-60': !isStepClickable(step.id)
+          }"
+          (click)="onStepClick(step.id)">
+
+          <i *ngIf="step.completed" data-feather="check" class="w-5 h-5"></i>
+          <span *ngIf="!step.completed" class="text-sm font-medium">{{ step.id }}</span>
+        </div>
+
+        <!-- Step Label -->
+        <div class="ml-3 hidden sm:block">
+          <p class="text-sm font-medium"
+             [ngClass]="{
+               'text-harmonest-blue': step.active,
+               'text-gray-900 dark:text-white': step.completed,
+               'text-gray-500 dark:text-gray-400': !step.completed && !step.active
+             }">
+            {{ step.title }}
+          </p>
+          <p class="text-xs text-gray-500 dark:text-gray-400">{{ step.description }}</p>
+        </div>
+      </div>
+
+      <!-- Connector Line -->
+      <div *ngIf="!isLast"
+           class="flex-1 h-0.5 mx-4 transition-all duration-300"
+           [ngClass]="{
+             'bg-harmonest-blue': step.completed,
+             'bg-gray-300 dark:bg-gray-600': !step.completed
+           }">
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Step Labels -->
+  <div class="sm:hidden mt-4">
+    <div *ngFor="let step of steps"
+         [ngClass]="{ 'block': step.active, 'hidden': !step.active }">
+      <p class="text-sm font-medium text-harmonest-blue">{{ step.title }}</p>
+      <p class="text-xs text-gray-500 dark:text-gray-400">{{ step.description }}</p>
+    </div>
+  </div>
+</div>

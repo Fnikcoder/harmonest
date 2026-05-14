@@ -1,0 +1,506 @@
+[
+  {
+    "PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "SK": "UNIT_MODEL#um-1br1b-city",
+    "modelId": "um-1br1b-city",
+    "groupId": "pg-sunset-apartments",
+    "name": "1 Room 1 Bed City Side",
+    "description": "Modern studio apartment with stunning city views. Features a queen bed, full kitchen, and private balcony overlooking downtown San Diego.",
+    "configuration": {
+      "rooms": 1,
+      "beds": 1,
+      "bathrooms": 1,
+      "bedTypes": [
+        {
+          "type": "queen",
+          "count": 1,
+          "room": "main"
+        }
+      ]
+    },
+    "capacity": {
+      "adults": 2,
+      "children": 1,
+      "maxOccupancy": 3
+    },
+    "features": {
+      "view": "city",
+      "amenities": ["balcony", "kitchen", "workspace", "wifi", "air_conditioning"],
+      "appliances": ["refrigerator", "microwave", "dishwasher", "coffee_maker", "washer_dryer"]
+    },
+    "physical": {
+      "size": 650,
+      "sizeUnit": "sqft",
+      "floor": "3-8",
+      "orientation": "North-facing"
+    },
+    "pricing": {
+      "basePrice": 150,
+      "currency": "USD",
+      "priceType": "per_night",
+      "currentPrice": 165,
+      "lastPriceUpdate": "2024-06-29T10:00:00Z",
+      "priceCalendar": [
+        {
+          "startDate": "2024-07-01",
+          "endDate": "2024-07-31",
+          "price": 165,
+          "priceSource": "seasonal",
+          "setAt": "2024-06-15T09:00:00Z",
+          "setBy": "system"
+        },
+        {
+          "startDate": "2024-08-01",
+          "endDate": "2024-08-31",
+          "price": 180,
+          "priceSource": "seasonal",
+          "setAt": "2024-06-15T09:00:00Z",
+          "setBy": "system"
+        }
+      ],
+      "rules": {
+        "seasonal": [
+          {
+            "season": "peak",
+            "startDate": "2024-06-01",
+            "endDate": "2024-09-30",
+            "priceMultiplier": 1.2
+          },
+          {
+            "season": "low",
+            "startDate": "2024-01-01",
+            "endDate": "2024-03-31",
+            "priceMultiplier": 0.85
+          }
+        ],
+        "weekend": {
+          "enabled": true,
+          "fridayMultiplier": 1.15,
+          "saturdayMultiplier": 1.25,
+          "sundayMultiplier": 1.1
+        },
+        "lengthOfStay": [
+          {
+            "minNights": 7,
+            "discountPercent": 10
+          },
+          {
+            "minNights": 30,
+            "discountPercent": 20
+          }
+        ],
+        "advanceBooking": [
+          {
+            "daysInAdvance": 60,
+            "discountPercent": 5
+          }
+        ]
+      },
+      "optimization": {
+        "enabled": true,
+        "strategy": "balanced",
+        "minPrice": 120,
+        "maxPrice": 250,
+        "adjustmentFrequency": "daily",
+        "factors": {
+          "occupancyWeight": 0.3,
+          "competitorWeight": 0.2,
+          "demandWeight": 0.25,
+          "seasonalityWeight": 0.15,
+          "eventWeight": 0.1
+        }
+      }
+    },
+    "inventory": {
+      "totalUnits": 6,
+      "availableUnits": 2,
+      "occupiedUnits": 4,
+      "maintenanceUnits": 0,
+      "lastUpdated": "2024-06-29T14:30:00Z"
+    },
+    "media": {
+      "images": [
+        {
+          "s3Key": "property-groups/pg-sunset-apartments/models/um-1br1b-city/images/main-1.jpg",
+          "s3Bucket": "harmonest-property-media",
+          "url": "https://cdn.harmonest.com/property-groups/pg-sunset-apartments/models/um-1br1b-city/images/main-1.jpg",
+          "thumbnailS3Key": "property-groups/pg-sunset-apartments/models/um-1br1b-city/images/thumbnails/main-1-thumb.jpg",
+          "alt": "City view studio main room",
+          "type": "main",
+          "order": 1,
+          "metadata": {
+            "size": 1536000,
+            "width": 1600,
+            "height": 1067,
+            "format": "jpeg",
+            "uploadedAt": "2024-01-15T11:30:00Z"
+          }
+        },
+        {
+          "s3Key": "property-groups/pg-sunset-apartments/models/um-1br1b-city/images/kitchen-1.jpg",
+          "s3Bucket": "harmonest-property-media",
+          "url": "https://cdn.harmonest.com/property-groups/pg-sunset-apartments/models/um-1br1b-city/images/kitchen-1.jpg",
+          "alt": "Modern kitchen with city view",
+          "type": "kitchen",
+          "order": 2,
+          "metadata": {
+            "size": 1228800,
+            "width": 1400,
+            "height": 933,
+            "format": "jpeg",
+            "uploadedAt": "2024-01-15T11:35:00Z"
+          }
+        }
+      ],
+      "floorPlan": {
+        "s3Key": "property-groups/pg-sunset-apartments/models/um-1br1b-city/floorplan.pdf",
+        "s3Bucket": "harmonest-property-media",
+        "url": "https://cdn.harmonest.com/property-groups/pg-sunset-apartments/models/um-1br1b-city/floorplan.pdf",
+        "alt": "1BR1B City View Floor Plan",
+        "type": "floorplan",
+        "metadata": {
+          "size": 512000,
+          "format": "pdf",
+          "uploadedAt": "2024-01-15T12:00:00Z"
+        }
+      }
+    },
+    "status": "active",
+    "createdAt": "2024-01-15T10:00:00Z",
+    "updatedAt": "2024-06-29T14:30:00Z",
+    "GSI1PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI1SK": "MODEL#1R#1B#city#165",
+    "GSI2PK": "AVAILABILITY#available",
+    "GSI2SK": "MODEL#pg-sunset-apartments#2"
+  },
+  {
+    "PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "SK": "UNIT_MODEL#um-1br1b-mountain",
+    "modelId": "um-1br1b-mountain",
+    "groupId": "pg-sunset-apartments",
+    "name": "1 Room 1 Bed Mountain Side",
+    "description": "Peaceful studio apartment with breathtaking mountain views. Perfect for guests seeking tranquility with modern amenities and natural light.",
+    "configuration": {
+      "rooms": 1,
+      "beds": 1,
+      "bathrooms": 1,
+      "bedTypes": [
+        {
+          "type": "queen",
+          "count": 1,
+          "room": "main"
+        }
+      ]
+    },
+    "capacity": {
+      "adults": 2,
+      "children": 1,
+      "maxOccupancy": 3
+    },
+    "features": {
+      "view": "mountain",
+      "amenities": ["balcony", "kitchen", "workspace", "wifi", "air_conditioning"],
+      "appliances": ["refrigerator", "microwave", "dishwasher", "coffee_maker", "washer_dryer"]
+    },
+    "physical": {
+      "size": 650,
+      "sizeUnit": "sqft",
+      "floor": "3-8",
+      "orientation": "East-facing"
+    },
+    "pricing": {
+      "basePrice": 180,
+      "currency": "USD",
+      "priceType": "per_night",
+      "currentPrice": 195,
+      "lastPriceUpdate": "2024-06-29T10:00:00Z",
+      "priceCalendar": [
+        {
+          "startDate": "2024-07-01",
+          "endDate": "2024-07-31",
+          "price": 195,
+          "priceSource": "seasonal",
+          "setAt": "2024-06-15T09:00:00Z",
+          "setBy": "system"
+        }
+      ],
+      "rules": {
+        "seasonal": [
+          {
+            "season": "peak",
+            "startDate": "2024-06-01",
+            "endDate": "2024-09-30",
+            "priceMultiplier": 1.2
+          }
+        ],
+        "weekend": {
+          "enabled": true,
+          "fridayMultiplier": 1.15,
+          "saturdayMultiplier": 1.25,
+          "sundayMultiplier": 1.1
+        },
+        "lengthOfStay": [
+          {
+            "minNights": 7,
+            "discountPercent": 10
+          }
+        ],
+        "advanceBooking": []
+      },
+      "optimization": {
+        "enabled": true,
+        "strategy": "maximize_revenue",
+        "minPrice": 150,
+        "maxPrice": 300,
+        "adjustmentFrequency": "daily",
+        "factors": {
+          "occupancyWeight": 0.25,
+          "competitorWeight": 0.2,
+          "demandWeight": 0.3,
+          "seasonalityWeight": 0.15,
+          "eventWeight": 0.1
+        }
+      }
+    },
+    "inventory": {
+      "totalUnits": 4,
+      "availableUnits": 3,
+      "occupiedUnits": 1,
+      "maintenanceUnits": 0,
+      "lastUpdated": "2024-06-29T14:30:00Z"
+    },
+    "media": {
+      "images": [
+        {
+          "s3Key": "property-groups/pg-sunset-apartments/models/um-1br1b-mountain/images/main-1.jpg",
+          "s3Bucket": "harmonest-property-media",
+          "url": "https://cdn.harmonest.com/property-groups/pg-sunset-apartments/models/um-1br1b-mountain/images/main-1.jpg",
+          "alt": "Mountain view studio main room",
+          "type": "main",
+          "order": 1,
+          "metadata": {
+            "size": 1638400,
+            "width": 1600,
+            "height": 1067,
+            "format": "jpeg",
+            "uploadedAt": "2024-01-15T11:45:00Z"
+          }
+        }
+      ]
+    },
+    "status": "active",
+    "createdAt": "2024-01-15T10:15:00Z",
+    "updatedAt": "2024-06-29T14:30:00Z",
+    "GSI1PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI1SK": "MODEL#1R#1B#mountain#195",
+    "GSI2PK": "AVAILABILITY#available",
+    "GSI2SK": "MODEL#pg-sunset-apartments#3"
+  },
+  {
+    "PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "SK": "UNIT_MODEL#um-2br4b",
+    "modelId": "um-2br4b",
+    "groupId": "pg-sunset-apartments",
+    "name": "2 Rooms 4 Beds",
+    "description": "Spacious two-bedroom apartment perfect for families or groups. Features separate bedrooms with bunk beds and a large living area with city views.",
+    "configuration": {
+      "rooms": 2,
+      "beds": 4,
+      "bathrooms": 2,
+      "bedTypes": [
+        {
+          "type": "bunk",
+          "count": 2,
+          "room": "bedroom_1"
+        },
+        {
+          "type": "bunk",
+          "count": 2,
+          "room": "bedroom_2"
+        }
+      ]
+    },
+    "capacity": {
+      "adults": 6,
+      "children": 2,
+      "maxOccupancy": 8
+    },
+    "features": {
+      "view": "city",
+      "amenities": ["balcony", "kitchen", "living_room", "workspace", "wifi", "air_conditioning"],
+      "appliances": ["refrigerator", "microwave", "dishwasher", "coffee_maker", "washer_dryer", "oven"]
+    },
+    "physical": {
+      "size": 1200,
+      "sizeUnit": "sqft",
+      "floor": "4-8",
+      "orientation": "Corner unit"
+    },
+    "pricing": {
+      "basePrice": 280,
+      "currency": "USD",
+      "priceType": "per_night",
+      "currentPrice": 320,
+      "lastPriceUpdate": "2024-06-29T10:00:00Z",
+      "priceCalendar": [
+        {
+          "startDate": "2024-07-01",
+          "endDate": "2024-08-31",
+          "price": 320,
+          "priceSource": "seasonal",
+          "setAt": "2024-06-15T09:00:00Z",
+          "setBy": "system"
+        }
+      ],
+      "rules": {
+        "seasonal": [
+          {
+            "season": "peak",
+            "startDate": "2024-06-01",
+            "endDate": "2024-09-30",
+            "priceMultiplier": 1.25
+          }
+        ],
+        "weekend": {
+          "enabled": true,
+          "fridayMultiplier": 1.2,
+          "saturdayMultiplier": 1.3,
+          "sundayMultiplier": 1.15
+        },
+        "lengthOfStay": [
+          {
+            "minNights": 7,
+            "discountPercent": 15
+          }
+        ],
+        "advanceBooking": []
+      }
+    },
+    "inventory": {
+      "totalUnits": 3,
+      "availableUnits": 3,
+      "occupiedUnits": 0,
+      "maintenanceUnits": 0,
+      "lastUpdated": "2024-06-29T14:30:00Z"
+    },
+    "media": {
+      "images": [
+        {
+          "s3Key": "property-groups/pg-sunset-apartments/models/um-2br4b/images/main-1.jpg",
+          "s3Bucket": "harmonest-property-media",
+          "url": "https://cdn.harmonest.com/property-groups/pg-sunset-apartments/models/um-2br4b/images/main-1.jpg",
+          "alt": "Two bedroom family apartment",
+          "type": "main",
+          "order": 1,
+          "metadata": {
+            "size": 1843200,
+            "width": 1800,
+            "height": 1200,
+            "format": "jpeg",
+            "uploadedAt": "2024-01-15T12:00:00Z"
+          }
+        }
+      ]
+    },
+    "status": "active",
+    "createdAt": "2024-01-15T10:30:00Z",
+    "updatedAt": "2024-06-29T14:30:00Z",
+    "GSI1PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI1SK": "MODEL#2R#4B#city#320",
+    "GSI2PK": "AVAILABILITY#available",
+    "GSI2SK": "MODEL#pg-sunset-apartments#3"
+  },
+  {
+    "PK": "PROPERTY_GROUP#pg-downtown-suites",
+    "SK": "UNIT_MODEL#um-executive-suite",
+    "modelId": "um-executive-suite",
+    "groupId": "pg-downtown-suites",
+    "name": "Executive Suite",
+    "description": "Luxury executive suite with separate living and sleeping areas. Perfect for business travelers with premium amenities and downtown views.",
+    "configuration": {
+      "rooms": 2,
+      "beds": 1,
+      "bathrooms": 1.5,
+      "bedTypes": [
+        {
+          "type": "king",
+          "count": 1,
+          "room": "bedroom"
+        }
+      ]
+    },
+    "capacity": {
+      "adults": 2,
+      "children": 1,
+      "maxOccupancy": 3
+    },
+    "features": {
+      "view": "city",
+      "amenities": ["living_room", "workspace", "minibar", "wifi", "air_conditioning", "room_service"],
+      "appliances": ["refrigerator", "microwave", "coffee_maker", "safe"]
+    },
+    "physical": {
+      "size": 800,
+      "sizeUnit": "sqft",
+      "floor": "8-15",
+      "orientation": "Various"
+    },
+    "pricing": {
+      "basePrice": 350,
+      "currency": "USD",
+      "priceType": "per_night",
+      "currentPrice": 380,
+      "lastPriceUpdate": "2024-06-29T10:00:00Z",
+      "priceCalendar": [],
+      "rules": {
+        "seasonal": [],
+        "weekend": {
+          "enabled": false,
+          "fridayMultiplier": 1.0,
+          "saturdayMultiplier": 1.0,
+          "sundayMultiplier": 1.0
+        },
+        "lengthOfStay": [
+          {
+            "minNights": 7,
+            "discountPercent": 10
+          }
+        ],
+        "advanceBooking": []
+      }
+    },
+    "inventory": {
+      "totalUnits": 20,
+      "availableUnits": 12,
+      "occupiedUnits": 8,
+      "maintenanceUnits": 0,
+      "lastUpdated": "2024-06-29T14:30:00Z"
+    },
+    "media": {
+      "images": [
+        {
+          "s3Key": "property-groups/pg-downtown-suites/models/um-executive-suite/images/main-1.jpg",
+          "s3Bucket": "harmonest-property-media",
+          "url": "https://cdn.harmonest.com/property-groups/pg-downtown-suites/models/um-executive-suite/images/main-1.jpg",
+          "alt": "Executive suite living area",
+          "type": "main",
+          "order": 1,
+          "metadata": {
+            "size": 2048000,
+            "width": 1920,
+            "height": 1280,
+            "format": "jpeg",
+            "uploadedAt": "2024-02-01T10:00:00Z"
+          }
+        }
+      ]
+    },
+    "status": "active",
+    "createdAt": "2024-02-01T09:00:00Z",
+    "updatedAt": "2024-06-29T15:00:00Z",
+    "GSI1PK": "PROPERTY_GROUP#pg-downtown-suites",
+    "GSI1SK": "MODEL#2R#1B#city#380",
+    "GSI2PK": "AVAILABILITY#available",
+    "GSI2SK": "MODEL#pg-downtown-suites#12"
+  }
+]

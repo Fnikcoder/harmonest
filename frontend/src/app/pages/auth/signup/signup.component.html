@@ -1,0 +1,230 @@
+<section class="md:h-screen py-36 flex items-center relative overflow-hidden zoom-image">
+    <div class="absolute inset-0 image-wrap z-1 bg-[url('/assets/images/bg/6.jpg')] bg-no-repeat bg-center bg-cover"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black z-2" id="particles-snow"></div>
+    <div class="container relative z-3">
+        <div class="flex justify-center">
+            <div class="max-w-[400px] w-full m-auto p-6 bg-white dark:bg-slate-900 shadow-md dark:shadow-gray-700 rounded-md">
+                <a [routerLink]="'/'"><img [src]="'assets/images/branding/HarmoNest-18.png'" class="mx-auto" alt=""></a>
+                <h5 class="my-6 text-xl font-semibold">Signup</h5>
+                <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="text-start">
+                    <!-- Error Message -->
+                    <div *ngIf="error" class="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-harmonest-blue dark:border-harmonest-navy rounded-md">
+                        <p class="text-harmonest-blue dark:text-harmonest-blue text-sm">{{ error }}</p>
+                    </div>
+
+                    <div class="grid grid-cols-1">
+                        <!-- First Name and Last Name -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <!-- First Name -->
+                            <div>
+                                <label class="font-semibold" for="firstName">First Name:</label>
+                                <input
+                                    id="firstName"
+                                    type="text"
+                                    formControlName="firstName"
+                                    class="mt-3 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border"
+                                    [class.border-harmonest-blue]="isFieldInvalid('firstName')"
+                                    [class.border-gray-100]="!isFieldInvalid('firstName')"
+                                    [class.dark:border-harmonest-blue]="isFieldInvalid('firstName')"
+                                    [class.dark:border-gray-800]="!isFieldInvalid('firstName')"
+                                    placeholder="John">
+                                <div *ngIf="isFieldInvalid('firstName')" class="mt-1 text-harmonest-blue text-sm">
+                                    {{ getFieldError('firstName') }}
+                                </div>
+                            </div>
+
+                            <!-- Last Name -->
+                            <div>
+                                <label class="font-semibold" for="lastName">Last Name:</label>
+                                <input
+                                    id="lastName"
+                                    type="text"
+                                    formControlName="lastName"
+                                    class="mt-3 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border"
+                                    [class.border-harmonest-blue]="isFieldInvalid('lastName')"
+                                    [class.border-gray-100]="!isFieldInvalid('lastName')"
+                                    [class.dark:border-harmonest-blue]="isFieldInvalid('lastName')"
+                                    [class.dark:border-gray-800]="!isFieldInvalid('lastName')"
+                                    placeholder="Doe">
+                                <div *ngIf="isFieldInvalid('lastName')" class="mt-1 text-harmonest-blue text-sm">
+                                    {{ getFieldError('lastName') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email Address -->
+                        <div class="mb-4">
+                            <label class="font-semibold" for="email">Email Address:</label>
+                            <input
+                                id="email"
+                                type="email"
+                                formControlName="email"
+                                class="mt-3 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border"
+                                [class.border-harmonest-blue]="isFieldInvalid('email')"
+                                [class.border-gray-100]="!isFieldInvalid('email')"
+                                [class.dark:border-harmonest-blue]="isFieldInvalid('email')"
+                                [class.dark:border-gray-800]="!isFieldInvalid('email')"
+                                placeholder="john@example.com">
+                            <div *ngIf="isFieldInvalid('email')" class="mt-1 text-harmonest-blue text-sm">
+                                {{ getFieldError('email') }}
+                            </div>
+                        </div>
+                        <!-- Password -->
+                        <div class="mb-4">
+                            <label class="font-semibold" for="password">Password:</label>
+                            <div class="relative">
+                                <input
+                                    id="password"
+                                    [type]="showPassword ? 'text' : 'password'"
+                                    formControlName="password"
+                                    class="mt-3 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border pr-10"
+                                    [class.border-red-500]="isFieldInvalid('password')"
+                                    [class.border-gray-100]="!isFieldInvalid('password')"
+                                    [class.dark:border-red-500]="isFieldInvalid('password')"
+                                    [class.dark:border-gray-800]="!isFieldInvalid('password')"
+                                    placeholder="Enter your password">
+                                <button
+                                    type="button"
+                                    (click)="togglePasswordVisibility('password')"
+                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                                </button>
+                            </div>
+                            <div *ngIf="isFieldInvalid('password')" class="mt-1 text-red-500 text-sm">
+                                {{ getFieldError('password') }}
+                            </div>
+                            <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                Password must contain uppercase, lowercase, number, and special character
+                            </div>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="mb-4">
+                            <label class="font-semibold" for="confirmPassword">Confirm Password:</label>
+                            <div class="relative">
+                                <input
+                                    id="confirmPassword"
+                                    [type]="showConfirmPassword ? 'text' : 'password'"
+                                    formControlName="confirmPassword"
+                                    class="mt-3 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border pr-10"
+                                    [class.border-red-500]="isFieldInvalid('confirmPassword')"
+                                    [class.border-gray-100]="!isFieldInvalid('confirmPassword')"
+                                    [class.dark:border-red-500]="isFieldInvalid('confirmPassword')"
+                                    [class.dark:border-gray-800]="!isFieldInvalid('confirmPassword')"
+                                    placeholder="Confirm your password">
+                                <button
+                                    type="button"
+                                    (click)="togglePasswordVisibility('confirmPassword')"
+                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                                </button>
+                            </div>
+                            <div *ngIf="isFieldInvalid('confirmPassword')" class="mt-1 text-red-500 text-sm">
+                                {{ getFieldError('confirmPassword') }}
+                            </div>
+                        </div>
+
+                        <!-- Terms and Conditions - MANDATORY -->
+                        <div class="mb-6">
+                            <div class="flex items-start space-x-3 p-4 bg-gray-50 dark:bg-slate-800 rounded-lg border-2"
+                                 [class.border-red-500]="isFieldInvalid('acceptTerms')"
+                                 [class.border-gray-200]="!isFieldInvalid('acceptTerms')"
+                                 [class.dark:border-red-500]="isFieldInvalid('acceptTerms')"
+                                 [class.dark:border-gray-700]="!isFieldInvalid('acceptTerms')">
+                                <input
+                                    id="acceptTerms"
+                                    type="checkbox"
+                                    formControlName="acceptTerms"
+                                    class="mt-1 w-5 h-5 text-red-600 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded focus:ring-red-500 dark:focus:ring-red-600 focus:ring-2 checked:bg-red-600 checked:border-red-600 dark:checked:bg-red-600 dark:checked:border-red-600">
+                                <label for="acceptTerms" class="text-sm font-medium text-gray-900 dark:text-gray-300">
+                                    <span class="text-red-500">*</span> I accept the
+                                    <a href="/terms" target="_blank" class="text-red-500 hover:text-red-700 underline font-semibold">
+                                        Terms and Conditions
+                                    </a>
+                                    and
+                                    <a href="/privacy" target="_blank" class="text-red-500 hover:text-red-700 underline font-semibold">
+                                        Privacy Policy
+                                    </a>
+                                </label>
+                            </div>
+                            <div *ngIf="isFieldInvalid('acceptTerms')" class="mt-2 text-red-500 text-sm font-medium">
+                                <i class="fas fa-exclamation-triangle mr-1"></i>
+                                {{ getFieldError('acceptTerms') }}
+                            </div>
+                            <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                You must accept our terms and conditions to create an account
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="mb-4">
+                            <button
+                                type="submit"
+                                [disabled]="loading || !signupForm.valid"
+                                class="py-2 px-5 inline-block tracking-wide align-middle duration-500 text-base text-center rounded-md w-full transition-all"
+                                [class.bg-harmonest-blue]="!loading && signupForm.valid"
+                                [class.hover:bg-harmonest-navy]="!loading && signupForm.valid"
+                                [class.text-white]="!loading && signupForm.valid"
+                                [class.bg-gray-300]="loading || !signupForm.valid"
+                                [class.dark:bg-gray-600]="loading || !signupForm.valid"
+                                [class.text-gray-500]="loading || !signupForm.valid"
+                                [class.cursor-not-allowed]="loading || !signupForm.valid">
+                                <span *ngIf="loading" class="inline-flex items-center">
+                                    <i class="fas fa-spinner fa-spin mr-2"></i>
+                                    Creating Account...
+                                </span>
+                                <span *ngIf="!loading">
+                                    <i class="fas fa-user-plus mr-2"></i>
+                                    Create Account
+                                </span>
+                            </button>
+                        </div>
+
+                        <!-- Social Signup Options -->
+                        <div class="mb-4">
+                            <div class="relative">
+                                <div class="absolute inset-0 flex items-center">
+                                    <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                                </div>
+                                <div class="relative flex justify-center text-sm">
+                                    <span class="px-2 bg-white dark:bg-slate-900 text-gray-500">Or continue with</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 grid grid-cols-3 gap-3">
+                                <button
+                                    type="button"
+                                    (click)="signUpWithGoogle()"
+                                    class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-slate-800 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700">
+                                    <i class="fab fa-google text-harmonest-blue"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    (click)="signUpWithFacebook()"
+                                    class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-slate-800 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700">
+                                    <i class="fab fa-facebook text-blue-600"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    (click)="signUpWithApple()"
+                                    class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-slate-800 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700">
+                                    <i class="fab fa-apple text-gray-900 dark:text-white"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Login Link -->
+                        <div class="text-center">
+                            <span class="text-slate-400 me-2">Already have an account?</span>
+                            <a [routerLink]="'/login'" class="text-harmonest-blue hover:text-harmonest-navy font-bold inline-block transition-colors">
+                                Sign in
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<app-switcher></app-switcher>
+<app-back-to-home></app-back-to-home>

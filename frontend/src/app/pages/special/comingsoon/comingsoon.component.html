@@ -1,0 +1,32 @@
+<section class="relative bg-[url('/assets/images/bg/cta.jpg')] bg-no-repeat bg-center bg-cover">
+    <div class="absolute inset-0 bg-black/25"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black"></div>
+    <div class="container-fluid relative">
+        <div class="grid grid-cols-1">
+            <div class="flex flex-col min-h-screen justify-center md:px-10 py-10 px-4">
+                <div class="text-center">
+                    <a [routerLink]="'/'"><img [src]="'assets/images/logo-icon.png'" class="mx-auto" alt=""></a>
+                </div>
+                <div class="title-heading text-center my-auto">
+                    <h1 class="text-white mt-3 mb-6 md:text-5xl text-3xl font-bold">We Are Coming Soon...</h1>
+                    <p class="text-white/70 text-lg max-w-xl mx-auto">Start working with Travosy that can provide everything you need to generate awareness, drive traffic, connect.</p>
+                
+                    <div id="countdown">
+                        <ul class="count-down list-none inline-block text-white text-center mt-8 m-6">
+                            <li id="days" class="count-number inline-block m-2">{{days}}<p class='count-head'>Days</p></li>
+                            <li id="hours" class="count-number inline-block m-2">{{hours}}<p class='count-head'>Hours</p> </li>
+                            <li id="mins" class="count-number inline-block m-2">{{minutes}}<p class='count-head'>Mins</p></li>
+                            <li id="secs" class="count-number inline-block m-2">{{seconds}}<p class='count-head'>Secs</p></li>
+                            <li id="end" class="h1"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p class="mb-0 text-slate-400">© {{date}} Travosy. Design & Develop with <i class="mdi mdi-heart text-red-600"></i> by <a href="https://shreethemes.in/" target="_blank" class="text-reset">Shreethemes</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<app-switcher></app-switcher>
+<app-back-to-home></app-back-to-home>

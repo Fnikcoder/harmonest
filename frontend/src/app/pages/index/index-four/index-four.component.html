@@ -1,0 +1,198 @@
+<app-tagline></app-tagline>
+<app-navbar [navClass] = "'defaultscroll is-sticky tagline-height'" [navLight]="true"></app-navbar>
+
+<section class="relative py-36 bg-[url('/assets/images/bg/6.jpg')] bg-cover jarallax" data-jarallax data-speed="0.5">
+    <div class="absolute inset-0 bg-slate-900/40"></div>
+    <div class="container relative">
+        <div class="grid lg:grid-cols-12 md:grid-cols-2 mt-10 items-center gap-6">
+            <div class="lg:col-span-7">
+                <h5 class="text-3xl font-dancing text-white">Find Your Ideal Stay</h5>
+                <h4 class="font-bold text-white lg:leading-normal leading-normal text-4xl lg:text-6xl mb-6 mt-5">Where Do You <br> Want To Go?</h4>
+                <p class="text-white/70 text-xl max-w-xl">Planning for a trip? We will organize your trip with the best places and within best budget!</p>
+
+                <div class="mt-6">
+                    <a [routerLink]="[]" class="py-2 px-5 inline-block tracking-wide align-middle duration-500 text-base text-center bg-red-500 text-white rounded-md">View Packages</a>
+                    <a  data-modal-target="default-modal" data-modal-toggle="default-modal" class="size-10 inline-flex items-center justify-center tracking-wide align-middle duration-500 text-base text-center rounded-full border border-red-500 bg-red-500 text-white ms-1 lightbox"><i data-feather="video" class="h-4 w-4"></i></a><span class="font-semibold ms-1 align-middle"></span>
+                </div>
+
+                <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/S_CGed6E610" class=" md:w-[640px] md:h-[360px] w-[350px] h-[250px]" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5">
+                <div class="bg-white dark:bg-slate-900 rounded-xl shadow dark:shadow-gray-800 p-6 z-10 relative lg:ms-10">
+                    <h4 class="mb-5 text-2xl font-semibold">Search Your Destinations</h4>
+
+                    <form>
+                        <div class="grid grid-cols-1 gap-3">
+                            <div>
+                                <label class="form-label font-medium text-slate-900 dark:text-white">Search:</label>
+                                <div class="relative mt-2">
+                                    <i data-feather="search" class="size-[18px] absolute top-[10px] start-3"></i>
+                                    <input name="name" type="text" id="job-keyword" class="w-full py-2 px-3 ps-10 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="Search">
+                                </div>
+                            </div>
+                            <div>
+                              <label class="form-label font-medium text-slate-900 dark:text-white">Checking:</label>
+                              <div class="relative mt-2">
+                                <i data-feather="calendar" class="size-[18px] absolute top-[10px] start-3 text-slate-500 cursor-pointer" (click)="picker.open()"></i>
+
+                                <!-- Styled input -->
+                                <input
+                                  type="text"
+                                  readonly
+                                  class="w-full py-2 px-3 ps-10 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 cursor-pointer"
+                                  (click)="picker.open()"
+                                  [value]="dateRangeGroup.value.start && dateRangeGroup.value.end ? (dateRangeGroup.value.start | date:'dd.MM.yy') + ' - ' + (dateRangeGroup.value.end | date:'dd.MM.yy') : '' "
+                                  placeholder="Choose dates"
+                                />
+
+                                <!-- Feather icon -->
+
+                                <!-- Real picker input (invisible but active for binding) -->
+                                <mat-date-range-input [formGroup]="dateRangeGroup" [rangePicker]="picker" class="absolute opacity-0 pointer-events-none">
+                                  <input matStartDate formControlName="start" />
+                                  <input matEndDate formControlName="end" />
+                                </mat-date-range-input>
+
+                                <!-- The calendar -->
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                              </div>
+                            </div>
+
+<!--                            <div>-->
+<!--                                <label class="form-label font-medium text-slate-900 dark:text-white">Select Your Date:</label>-->
+<!--                                <div class="relative mt-2">-->
+<!--                                    <input name="name" type="date" id="job-keyword" class="w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 start" placeholder="Select Your Date">-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                            <div>-->
+<!--                                <label class="form-label font-medium text-slate-900 dark:text-white">Select Your Date:</label>-->
+<!--                                <div class="relative mt-2">-->
+<!--                                    <input name="name" type="date" id="job-keyword" class="w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 end" placeholder="Select Your Date">-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+                            <div>
+                                <label class="form-label font-medium text-slate-900 dark:text-white">No. of Person:</label>
+                                <div class="relative mt-2">
+                                    <i data-feather="users" class="size-[18px] absolute top-[10px] start-3"></i>
+                                    <select class="form-select w-full py-2 px-3 ps-10 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border border-gray-100 dark:border-gray-800 focus:ring-0">
+                                        <option disabled selected>No. of person</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="">
+                                <input type="submit" id="search-buy" name="search" class="py-1 px-5 h-10 inline-block tracking-wide align-middle duration-500 text-base text-center bg-red-500 text-white rounded-md w-full cursor-pointer" value="Search">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="relative">
+    <div class="absolute block w-full h-auto bottom-[25px] z-1 start-0">
+        <a [routerLink]="[]"><i class="mdi mdi-arrow-down absolute top-0 start-0 end-0 text-center inline-flex items-center justify-center rounded-full bg-white dark:bg-slate-900 size-12 mx-auto shadow-md dark:shadow-gray-800"></i></a>
+    </div>
+
+    <div class="shape absolute sm:-bottom-px -bottom-[2px] start-0 end-0 overflow-hidden text-white dark:text-slate-900">
+        <svg class="w-full h-auto scale-[2.0] origin-top" viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
+        </svg>
+    </div>
+</div>
+
+<section class="relative md:py-24 py-16">
+    <div class="container relative">
+        <div class="grid grid-cols-1 pb-8 text-center">
+            <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">Top Destinations</h3>
+            <p class="text-slate-400 max-w-xl mx-auto">Planning for a trip? We will organize your trip with the best places and within best budget!</p>
+        </div>
+
+        <div class="grid grid-cols-1 relative mt-4">
+            <div class="tiny-six-item">
+                <div *ngFor="let item of topDestination" class="tiny-slide">
+                    <div class="group text-center m-2">
+                        <div class="relative overflow-hidden rounded-full">
+                            <img [src]="item.image" class="w-full md:h-32 h-36 object-cover scale-125 group-hover:scale-100 duration-500 shadow dark:shadow-gray-800" alt="">
+                        </div>
+
+                        <div class="mt-2">
+                            <a [routerLink]="[]" class="text-lg font-medium hover:text-red-500 duration-500 ease-in-out">{{item.place}}</a>
+                            <p class="text-slate-400 text-sm duration-500">{{item.hotel}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container relative md:mt-24 mt-16">
+        <div class="grid grid-cols-1 pb-8 text-center">
+            <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">Tours Packages</h3>
+
+            <p class="text-slate-400 max-w-xl mx-auto">Planning for a trip? We will organize your trip with the best places and within best budget!</p>
+        </div>
+
+        <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 mt-6 gap-6">
+            <div *ngFor="let item of package | slice : 0 : 8" class="group rounded-md shadow dark:shadow-gray-700">
+                <app-grid-data [packageData]="item"></app-grid-data>
+            </div>
+        </div>
+
+        <div class="mt-6 text-center">
+            <a routerLink="/grid-right-sidebar" class="text-slate-400 hover:text-red-500 inline-block">See More Tours <i class="mdi mdi-arrow-right align-middle"></i></a>
+        </div>
+    </div>
+
+    <app-client></app-client>
+
+    <div class="container relative md:mt-24 mt-16">
+        <div class="grid grid-cols-1 pb-6 text-center">
+            <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">Frequently Asked Questions</h3>
+
+            <p class="text-slate-400 max-w-xl mx-auto">This is just a simple text made for this unique and awesome template, you can replace it with any text.</p>
+        </div>
+
+        <div class="relative grid md:grid-cols-12 grid-cols-1 items-center mt-6 gap-6">
+            <div class="md:col-span-6">
+                <img src="assets/images/bg/6.jpg" class="w-full h-[540px] object-cover rounded-md shadow dark:shadow-gray-800" alt="">
+            </div>
+
+            <div class="md:col-span-6">
+                <div>
+                    <div *ngFor="let item of faqData" class="relative shadow dark:shadow-gray-800 rounded-md overflow-hidden mt-4 first:mt-0">
+                        <h2 class="text-base font-semibold">
+                            <button type="button" class="flex justify-between items-center p-5 w-full font-medium text-start" [ngClass]="activeTab === item.id ? 'bg-gray-50 dark:bg-slate-800 text-red-500' : '' " (click)="onTabClick(item.id)">
+                                <span>{{item.title}}</span>
+                                <svg  class="size-4 shrink-0" [ngClass]="activeTab === item.id ? 'rotate-180' : '' " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </h2>
+                        <div [ngClass]="activeTab === item.id ? '' : 'hidden' ">
+                            <div class="p-5">
+                                <p class="text-slate-400 dark:text-gray-400">{{item.desc}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<app-footer></app-footer>
+<app-switcher></app-switcher>

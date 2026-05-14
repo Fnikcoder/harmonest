@@ -1,0 +1,564 @@
+[
+  {
+    "PK": "BOOKING#BK-2024-001",
+    "SK": "METADATA",
+    "bookingId": "BK-2024-001",
+    "userId": "user-john-doe-001",
+    "propertyGroupId": "pg-sunset-apartments",
+    "stay": {
+      "checkIn": "2024-07-15",
+      "checkOut": "2024-07-18",
+      "nights": 3,
+      "selectedModels": [
+        {
+          "modelId": "um-1br1b-city",
+          "modelName": "1 Room 1 Bed City Side",
+          "quantity": 1,
+          "guests": {
+            "adults": 2,
+            "children": 0
+          }
+        }
+      ],
+      "assignedUnits": [
+        {
+          "unitId": "unit-city-301",
+          "unitNumber": "301",
+          "unitName": "City View 301",
+          "modelId": "um-1br1b-city",
+          "modelName": "1 Room 1 Bed City Side",
+          "assignedAt": "2024-06-29T10:00:00Z"
+        }
+      ]
+    },
+    "primaryGuest": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@email.com",
+      "phone": "+1-619-555-0123",
+      "dateOfBirth": "1985-03-15",
+      "nationality": "US"
+    },
+    "additionalGuests": [
+      {
+        "firstName": "Jane",
+        "lastName": "Doe",
+        "age": 32,
+        "relationship": "spouse"
+      }
+    ],
+    "pricing": {
+      "unitTotal": 495,
+      "taxes": 49.5,
+      "fees": 25,
+      "discounts": 0,
+      "total": 569.5,
+      "currency": "USD",
+      "breakdown": [
+        {
+          "item": "City View Studio (3 nights)",
+          "amount": 495,
+          "type": "unit",
+          "description": "3 nights × $165/night"
+        },
+        {
+          "item": "Taxes & Fees",
+          "amount": 49.5,
+          "type": "tax",
+          "description": "10% occupancy tax"
+        },
+        {
+          "item": "Service Fee",
+          "amount": 25,
+          "type": "fee",
+          "description": "Booking service fee"
+        }
+      ],
+      "nightlyRates": [
+        {
+          "date": "2024-07-15",
+          "rate": 165,
+          "originalRate": 150,
+          "discountApplied": 0,
+          "reason": "Peak season rate"
+        },
+        {
+          "date": "2024-07-16",
+          "rate": 165,
+          "originalRate": 150,
+          "discountApplied": 0,
+          "reason": "Peak season rate"
+        },
+        {
+          "date": "2024-07-17",
+          "rate": 165,
+          "originalRate": 150,
+          "discountApplied": 0,
+          "reason": "Peak season rate"
+        }
+      ]
+    },
+    "status": "confirmed",
+    "paymentStatus": "paid",
+    "specialRequests": "High floor preferred, city view",
+    "tripReason": "leisure",
+    "accessibilityNeeds": [],
+    "checkIn": {
+      "status": "not_started",
+      "documentsVerified": false,
+      "accessCodeGenerated": false
+    },
+    "source": {
+      "channel": "direct",
+      "device": "web",
+      "campaign": "summer_promotion",
+      "referrer": "google"
+    },
+    "communications": [
+      {
+        "communicationId": "comm-001",
+        "type": "email",
+        "template": "booking_confirmation",
+        "sentAt": "2024-06-29T10:05:00Z",
+        "status": "delivered"
+      }
+    ],
+    "createdAt": "2024-06-29T10:00:00Z",
+    "updatedAt": "2024-06-29T10:05:00Z",
+    "confirmedAt": "2024-06-29T10:05:00Z",
+    "GSI1PK": "USER#user-john-doe-001",
+    "GSI1SK": "BOOKING#2024-06-29T10:00:00Z",
+    "GSI2PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI2SK": "BOOKING#2024-07-15",
+    "GSI3PK": "STATUS#confirmed",
+    "GSI3SK": "BOOKING#2024-06-29T10:00:00Z",
+    "GSI4PK": "CHECK_IN_DATE#2024-07-15",
+    "GSI4SK": "BOOKING#pg-sunset-apartments"
+  },
+  {
+    "PK": "BOOKING#BK-2024-002",
+    "SK": "METADATA",
+    "bookingId": "BK-2024-002",
+    "userId": "user-sarah-wilson-002",
+    "propertyGroupId": "pg-sunset-apartments",
+    "stay": {
+      "checkIn": "2024-07-20",
+      "checkOut": "2024-07-25",
+      "nights": 5,
+      "selectedModels": [
+        {
+          "modelId": "um-1br1b-mountain",
+          "modelName": "1 Room 1 Bed Mountain Side",
+          "quantity": 1,
+          "guests": {
+            "adults": 1,
+            "children": 0
+          }
+        }
+      ],
+      "assignedUnits": []
+    },
+    "primaryGuest": {
+      "firstName": "Sarah",
+      "lastName": "Wilson",
+      "email": "sarah.wilson@email.com",
+      "phone": "+1-858-555-0789",
+      "dateOfBirth": "1990-07-22",
+      "nationality": "US"
+    },
+    "pricing": {
+      "unitTotal": 975,
+      "taxes": 97.5,
+      "fees": 25,
+      "discounts": 97.5,
+      "total": 1000,
+      "currency": "USD",
+      "breakdown": [
+        {
+          "item": "Mountain View Studio (5 nights)",
+          "amount": 975,
+          "type": "unit",
+          "description": "5 nights × $195/night"
+        },
+        {
+          "item": "Taxes & Fees",
+          "amount": 97.5,
+          "type": "tax",
+          "description": "10% occupancy tax"
+        },
+        {
+          "item": "Service Fee",
+          "amount": 25,
+          "type": "fee",
+          "description": "Booking service fee"
+        },
+        {
+          "item": "Extended Stay Discount",
+          "amount": -97.5,
+          "type": "discount",
+          "description": "10% discount for 5+ nights"
+        }
+      ],
+      "nightlyRates": [
+        {
+          "date": "2024-07-20",
+          "rate": 195,
+          "originalRate": 180,
+          "reason": "Weekend premium"
+        },
+        {
+          "date": "2024-07-21",
+          "rate": 195,
+          "originalRate": 180,
+          "reason": "Weekend premium"
+        },
+        {
+          "date": "2024-07-22",
+          "rate": 195,
+          "originalRate": 180,
+          "reason": "Peak season"
+        },
+        {
+          "date": "2024-07-23",
+          "rate": 195,
+          "originalRate": 180,
+          "reason": "Peak season"
+        },
+        {
+          "date": "2024-07-24",
+          "rate": 195,
+          "originalRate": 180,
+          "reason": "Peak season"
+        }
+      ]
+    },
+    "status": "confirmed",
+    "paymentStatus": "paid",
+    "specialRequests": "Mountain view, quiet room",
+    "tripReason": "leisure",
+    "source": {
+      "channel": "direct",
+      "device": "mobile",
+      "campaign": "mobile_app"
+    },
+    "communications": [
+      {
+        "communicationId": "comm-002",
+        "type": "email",
+        "template": "booking_confirmation",
+        "sentAt": "2024-06-28T15:30:00Z",
+        "status": "delivered"
+      }
+    ],
+    "createdAt": "2024-06-28T15:25:00Z",
+    "updatedAt": "2024-06-28T15:35:00Z",
+    "confirmedAt": "2024-06-28T15:35:00Z",
+    "GSI1PK": "USER#user-sarah-wilson-002",
+    "GSI1SK": "BOOKING#2024-06-28T15:25:00Z",
+    "GSI2PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI2SK": "BOOKING#2024-07-20",
+    "GSI3PK": "STATUS#confirmed",
+    "GSI3SK": "BOOKING#2024-06-28T15:25:00Z",
+    "GSI4PK": "CHECK_IN_DATE#2024-07-20",
+    "GSI4SK": "BOOKING#pg-sunset-apartments"
+  },
+  {
+    "PK": "BOOKING#BK-2024-003",
+    "SK": "METADATA",
+    "bookingId": "BK-2024-003",
+    "userId": "user-john-doe-001",
+    "propertyGroupId": "pg-sunset-apartments",
+    "stay": {
+      "checkIn": "2024-08-10",
+      "checkOut": "2024-08-17",
+      "nights": 7,
+      "selectedModels": [
+        {
+          "modelId": "um-2br4b",
+          "modelName": "2 Rooms 4 Beds",
+          "quantity": 1,
+          "guests": {
+            "adults": 4,
+            "children": 2,
+            "childrenAges": [8, 12]
+          }
+        }
+      ],
+      "assignedUnits": []
+    },
+    "primaryGuest": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@email.com",
+      "phone": "+1-619-555-0123"
+    },
+    "additionalGuests": [
+      {
+        "firstName": "Jane",
+        "lastName": "Doe",
+        "relationship": "spouse"
+      },
+      {
+        "firstName": "Mike",
+        "lastName": "Johnson",
+        "relationship": "friend"
+      },
+      {
+        "firstName": "Lisa",
+        "lastName": "Johnson",
+        "relationship": "friend"
+      },
+      {
+        "firstName": "Emma",
+        "lastName": "Doe",
+        "age": 12,
+        "relationship": "daughter"
+      },
+      {
+        "firstName": "Alex",
+        "lastName": "Doe",
+        "age": 8,
+        "relationship": "son"
+      }
+    ],
+    "pricing": {
+      "unitTotal": 2240,
+      "taxes": 224,
+      "fees": 35,
+      "discounts": 336,
+      "total": 2163,
+      "currency": "USD",
+      "breakdown": [
+        {
+          "item": "Family Suite (7 nights)",
+          "amount": 2240,
+          "type": "unit",
+          "description": "7 nights × $320/night"
+        },
+        {
+          "item": "Taxes & Fees",
+          "amount": 224,
+          "type": "tax",
+          "description": "10% occupancy tax"
+        },
+        {
+          "item": "Service Fee",
+          "amount": 35,
+          "type": "fee",
+          "description": "Booking service fee"
+        },
+        {
+          "item": "Weekly Stay Discount",
+          "amount": -336,
+          "type": "discount",
+          "description": "15% discount for 7+ nights"
+        }
+      ],
+      "nightlyRates": [
+        {
+          "date": "2024-08-10",
+          "rate": 320,
+          "originalRate": 280,
+          "reason": "Peak season"
+        },
+        {
+          "date": "2024-08-11",
+          "rate": 320,
+          "originalRate": 280,
+          "reason": "Weekend premium"
+        },
+        {
+          "date": "2024-08-12",
+          "rate": 320,
+          "originalRate": 280,
+          "reason": "Peak season"
+        },
+        {
+          "date": "2024-08-13",
+          "rate": 320,
+          "originalRate": 280,
+          "reason": "Peak season"
+        },
+        {
+          "date": "2024-08-14",
+          "rate": 320,
+          "originalRate": 280,
+          "reason": "Peak season"
+        },
+        {
+          "date": "2024-08-15",
+          "rate": 320,
+          "originalRate": 280,
+          "reason": "Peak season"
+        },
+        {
+          "date": "2024-08-16",
+          "rate": 320,
+          "originalRate": 280,
+          "reason": "Peak season"
+        }
+      ]
+    },
+    "status": "pending",
+    "paymentStatus": "pending",
+    "specialRequests": "Family-friendly setup, extra towels, crib if available",
+    "tripReason": "leisure",
+    "source": {
+      "channel": "direct",
+      "device": "web"
+    },
+    "createdAt": "2024-06-29T16:00:00Z",
+    "updatedAt": "2024-06-29T16:00:00Z",
+    "GSI1PK": "USER#user-john-doe-001",
+    "GSI1SK": "BOOKING#2024-06-29T16:00:00Z",
+    "GSI2PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI2SK": "BOOKING#2024-08-10",
+    "GSI3PK": "STATUS#pending",
+    "GSI3SK": "BOOKING#2024-06-29T16:00:00Z",
+    "GSI4PK": "CHECK_IN_DATE#2024-08-10",
+    "GSI4SK": "BOOKING#pg-sunset-apartments"
+  },
+  {
+    "PK": "BOOKING#BK-2024-004",
+    "SK": "METADATA",
+    "bookingId": "BK-2024-004",
+    "userId": "user-sarah-wilson-002",
+    "propertyGroupId": "pg-downtown-suites",
+    "stay": {
+      "checkIn": "2024-07-05",
+      "checkOut": "2024-07-12",
+      "nights": 7,
+      "selectedModels": [
+        {
+          "modelId": "um-executive-suite",
+          "modelName": "Executive Suite",
+          "quantity": 1,
+          "guests": {
+            "adults": 1,
+            "children": 0
+          }
+        }
+      ],
+      "assignedUnits": [
+        {
+          "unitId": "unit-exec-1201",
+          "unitNumber": "1201",
+          "unitName": "Executive Suite 1201",
+          "modelId": "um-executive-suite",
+          "modelName": "Executive Suite",
+          "assignedAt": "2024-06-25T14:00:00Z"
+        }
+      ]
+    },
+    "primaryGuest": {
+      "firstName": "Sarah",
+      "lastName": "Wilson",
+      "email": "sarah.wilson@email.com",
+      "phone": "+1-858-555-0789"
+    },
+    "pricing": {
+      "unitTotal": 2660,
+      "taxes": 266,
+      "fees": 40,
+      "discounts": 266,
+      "total": 2700,
+      "currency": "USD",
+      "breakdown": [
+        {
+          "item": "Executive Suite (7 nights)",
+          "amount": 2660,
+          "type": "unit",
+          "description": "7 nights × $380/night"
+        },
+        {
+          "item": "Taxes & Fees",
+          "amount": 266,
+          "type": "tax",
+          "description": "10% city tax"
+        },
+        {
+          "item": "Resort Fee",
+          "amount": 40,
+          "type": "fee",
+          "description": "Daily resort fee"
+        },
+        {
+          "item": "Business Traveler Discount",
+          "amount": -266,
+          "type": "discount",
+          "description": "10% corporate rate"
+        }
+      ],
+      "nightlyRates": [
+        {
+          "date": "2024-07-05",
+          "rate": 380,
+          "originalRate": 350,
+          "reason": "Weekend premium"
+        },
+        {
+          "date": "2024-07-06",
+          "rate": 380,
+          "originalRate": 350,
+          "reason": "Weekend premium"
+        },
+        {
+          "date": "2024-07-07",
+          "rate": 380,
+          "originalRate": 350,
+          "reason": "Standard rate"
+        },
+        {
+          "date": "2024-07-08",
+          "rate": 380,
+          "originalRate": 350,
+          "reason": "Standard rate"
+        },
+        {
+          "date": "2024-07-09",
+          "rate": 380,
+          "originalRate": 350,
+          "reason": "Standard rate"
+        },
+        {
+          "date": "2024-07-10",
+          "rate": 380,
+          "originalRate": 350,
+          "reason": "Standard rate"
+        },
+        {
+          "date": "2024-07-11",
+          "rate": 380,
+          "originalRate": 350,
+          "reason": "Standard rate"
+        }
+      ]
+    },
+    "status": "checked_in",
+    "paymentStatus": "paid",
+    "tripReason": "business",
+    "checkIn": {
+      "status": "completed",
+      "startedAt": "2024-07-05T14:30:00Z",
+      "completedAt": "2024-07-05T15:00:00Z",
+      "documentsVerified": true,
+      "accessCodeGenerated": true,
+      "qrCodeId": "QR-2024-001"
+    },
+    "source": {
+      "channel": "direct",
+      "device": "mobile"
+    },
+    "createdAt": "2024-06-25T14:00:00Z",
+    "updatedAt": "2024-07-05T15:00:00Z",
+    "confirmedAt": "2024-06-25T14:05:00Z",
+    "GSI1PK": "USER#user-sarah-wilson-002",
+    "GSI1SK": "BOOKING#2024-06-25T14:00:00Z",
+    "GSI2PK": "PROPERTY_GROUP#pg-downtown-suites",
+    "GSI2SK": "BOOKING#2024-07-05",
+    "GSI3PK": "STATUS#checked_in",
+    "GSI3SK": "BOOKING#2024-06-25T14:00:00Z",
+    "GSI4PK": "CHECK_IN_DATE#2024-07-05",
+    "GSI4SK": "BOOKING#pg-downtown-suites"
+  }
+]

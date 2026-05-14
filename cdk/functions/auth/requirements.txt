@@ -1,0 +1,3 @@
+# Function-specific dependencies for auth
+# Note: PyJWT, cryptography, requests, boto3, botocore are provided by the common layer
+# No additional dependencies needed for this function

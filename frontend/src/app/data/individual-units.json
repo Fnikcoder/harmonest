@@ -1,0 +1,378 @@
+[
+  {
+    "PK": "UNIT_MODEL#um-1br1b-city",
+    "SK": "INDIVIDUAL_UNIT#unit-city-301",
+    "unitId": "unit-city-301",
+    "modelId": "um-1br1b-city",
+    "groupId": "pg-sunset-apartments",
+    "identity": {
+      "unitNumber": "301",
+      "unitName": "City View 301",
+      "floor": 3,
+      "building": "A"
+    },
+    "specifics": {
+      "exactView": "North City View",
+      "corner": false,
+      "condition": "excellent"
+    },
+    "smartLock": {
+      "lockId": "lock-yale-301",
+      "model": "Yale Assure SL",
+      "batteryLevel": 85,
+      "lastSync": "2024-06-29T14:00:00Z",
+      "accessCodes": {
+        "master": "123456",
+        "guest": "789012",
+        "maintenance": "345678"
+      }
+    },
+    "status": {
+      "availability": "available",
+      "currentBookingId": null
+    },
+    "restrictions": {
+      "minimumStay": 1,
+      "maximumStay": 30
+    },
+    "media": {
+      "images": [
+        {
+          "s3Key": "property-groups/pg-sunset-apartments/units/unit-city-301/images/current-1.jpg",
+          "s3Bucket": "harmonest-property-media",
+          "url": "https://cdn.harmonest.com/property-groups/pg-sunset-apartments/units/unit-city-301/images/current-1.jpg",
+          "alt": "Unit 301 current state",
+          "type": "current",
+          "order": 1,
+          "metadata": {
+            "size": 1024000,
+            "width": 1200,
+            "height": 800,
+            "format": "jpeg",
+            "uploadedAt": "2024-06-29T09:00:00Z"
+          }
+        }
+      ]
+    },
+    "maintenanceHistory": {
+      "lastCleaned": "2024-06-28T16:00:00Z",
+      "lastDeepCleaned": "2024-06-15T10:00:00Z",
+      "lastMaintenance": "2024-06-01T14:00:00Z",
+      "nextScheduledMaintenance": "2024-07-15T10:00:00Z",
+      "issues": []
+    },
+    "performance": {
+      "bookingHistory": [
+        {
+          "bookingId": "BK-2024-001",
+          "checkIn": "2024-06-15",
+          "checkOut": "2024-06-18",
+          "rateCharged": 165,
+          "guestRating": 5,
+          "revenue": 495
+        },
+        {
+          "bookingId": "BK-2024-002",
+          "checkIn": "2024-06-20",
+          "checkOut": "2024-06-25",
+          "rateCharged": 170,
+          "guestRating": 4,
+          "revenue": 850
+        }
+      ],
+      "last30Days": {
+        "occupancyRate": 0.8,
+        "averageRate": 167.5,
+        "totalRevenue": 3350,
+        "bookingsCount": 8
+      }
+    },
+    "createdAt": "2024-01-15T10:30:00Z",
+    "updatedAt": "2024-06-29T14:30:00Z",
+    "GSI1PK": "UNIT_MODEL#um-1br1b-city",
+    "GSI1SK": "UNIT#available#301",
+    "GSI2PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI2SK": "UNIT#available#unit-city-301",
+    "GSI3PK": "AVAILABILITY#available",
+    "GSI3SK": "UNIT#pg-sunset-apartments#um-1br1b-city#unit-city-301"
+  },
+  {
+    "PK": "UNIT_MODEL#um-1br1b-city",
+    "SK": "INDIVIDUAL_UNIT#unit-city-401",
+    "unitId": "unit-city-401",
+    "modelId": "um-1br1b-city",
+    "groupId": "pg-sunset-apartments",
+    "identity": {
+      "unitNumber": "401",
+      "unitName": "City View 401",
+      "floor": 4,
+      "building": "A"
+    },
+    "specifics": {
+      "exactView": "North City View",
+      "corner": false,
+      "condition": "excellent"
+    },
+    "smartLock": {
+      "lockId": "lock-yale-401",
+      "model": "Yale Assure SL",
+      "batteryLevel": 92,
+      "lastSync": "2024-06-29T14:00:00Z",
+      "accessCodes": {
+        "master": "234567",
+        "guest": "890123",
+        "maintenance": "456789"
+      }
+    },
+    "status": {
+      "availability": "occupied",
+      "currentBookingId": "BK-2024-015",
+      "occupancy": {
+        "checkIn": "2024-06-28",
+        "checkOut": "2024-07-02",
+        "guestCount": 2,
+        "rateCharged": 175
+      }
+    },
+    "restrictions": {
+      "minimumStay": 1,
+      "maximumStay": 30
+    },
+    "maintenanceHistory": {
+      "lastCleaned": "2024-06-27T16:00:00Z",
+      "lastDeepCleaned": "2024-06-10T10:00:00Z",
+      "lastMaintenance": "2024-05-15T14:00:00Z",
+      "issues": []
+    },
+    "performance": {
+      "bookingHistory": [
+        {
+          "bookingId": "BK-2024-010",
+          "checkIn": "2024-06-10",
+          "checkOut": "2024-06-13",
+          "rateCharged": 160,
+          "guestRating": 5,
+          "revenue": 480
+        }
+      ],
+      "last30Days": {
+        "occupancyRate": 0.85,
+        "averageRate": 168,
+        "totalRevenue": 3528,
+        "bookingsCount": 9
+      }
+    },
+    "createdAt": "2024-01-15T10:35:00Z",
+    "updatedAt": "2024-06-29T14:30:00Z",
+    "GSI1PK": "UNIT_MODEL#um-1br1b-city",
+    "GSI1SK": "UNIT#occupied#401",
+    "GSI2PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI2SK": "UNIT#occupied#unit-city-401",
+    "GSI3PK": "AVAILABILITY#occupied",
+    "GSI3SK": "UNIT#pg-sunset-apartments#um-1br1b-city#unit-city-401"
+  },
+  {
+    "PK": "UNIT_MODEL#um-1br1b-mountain",
+    "SK": "INDIVIDUAL_UNIT#unit-mountain-302",
+    "unitId": "unit-mountain-302",
+    "modelId": "um-1br1b-mountain",
+    "groupId": "pg-sunset-apartments",
+    "identity": {
+      "unitNumber": "302",
+      "unitName": "Mountain View 302",
+      "floor": 3,
+      "building": "A"
+    },
+    "specifics": {
+      "exactView": "East Mountain View",
+      "corner": false,
+      "condition": "excellent"
+    },
+    "smartLock": {
+      "lockId": "lock-yale-302",
+      "model": "Yale Assure SL",
+      "batteryLevel": 78,
+      "lastSync": "2024-06-29T14:00:00Z",
+      "accessCodes": {
+        "master": "345678",
+        "guest": "901234",
+        "maintenance": "567890"
+      }
+    },
+    "status": {
+      "availability": "available"
+    },
+    "restrictions": {
+      "minimumStay": 1,
+      "maximumStay": 30
+    },
+    "maintenanceHistory": {
+      "lastCleaned": "2024-06-29T10:00:00Z",
+      "lastDeepCleaned": "2024-06-20T10:00:00Z",
+      "lastMaintenance": "2024-06-05T14:00:00Z",
+      "issues": []
+    },
+    "performance": {
+      "bookingHistory": [
+        {
+          "bookingId": "BK-2024-005",
+          "checkIn": "2024-06-05",
+          "checkOut": "2024-06-08",
+          "rateCharged": 185,
+          "guestRating": 5,
+          "revenue": 555
+        }
+      ],
+      "last30Days": {
+        "occupancyRate": 0.75,
+        "averageRate": 190,
+        "totalRevenue": 3420,
+        "bookingsCount": 6
+      }
+    },
+    "createdAt": "2024-01-15T10:40:00Z",
+    "updatedAt": "2024-06-29T14:30:00Z",
+    "GSI1PK": "UNIT_MODEL#um-1br1b-mountain",
+    "GSI1SK": "UNIT#available#302",
+    "GSI2PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI2SK": "UNIT#available#unit-mountain-302",
+    "GSI3PK": "AVAILABILITY#available",
+    "GSI3SK": "UNIT#pg-sunset-apartments#um-1br1b-mountain#unit-mountain-302"
+  },
+  {
+    "PK": "UNIT_MODEL#um-2br4b",
+    "SK": "INDIVIDUAL_UNIT#unit-family-501",
+    "unitId": "unit-family-501",
+    "modelId": "um-2br4b",
+    "groupId": "pg-sunset-apartments",
+    "identity": {
+      "unitNumber": "501",
+      "unitName": "Family Suite 501",
+      "floor": 5,
+      "building": "A"
+    },
+    "specifics": {
+      "exactView": "North City and Mountain View",
+      "corner": true,
+      "condition": "excellent"
+    },
+    "smartLock": {
+      "lockId": "lock-yale-501",
+      "model": "Yale Assure SL",
+      "batteryLevel": 88,
+      "lastSync": "2024-06-29T14:00:00Z",
+      "accessCodes": {
+        "master": "456789",
+        "guest": "012345",
+        "maintenance": "678901"
+      }
+    },
+    "status": {
+      "availability": "available"
+    },
+    "restrictions": {
+      "minimumStay": 2,
+      "maximumStay": 30
+    },
+    "maintenanceHistory": {
+      "lastCleaned": "2024-06-29T12:00:00Z",
+      "lastDeepCleaned": "2024-06-25T10:00:00Z",
+      "lastMaintenance": "2024-06-10T14:00:00Z",
+      "issues": []
+    },
+    "performance": {
+      "bookingHistory": [
+        {
+          "bookingId": "BK-2024-008",
+          "checkIn": "2024-06-12",
+          "checkOut": "2024-06-16",
+          "rateCharged": 320,
+          "guestRating": 5,
+          "revenue": 1280
+        }
+      ],
+      "last30Days": {
+        "occupancyRate": 0.7,
+        "averageRate": 315,
+        "totalRevenue": 4410,
+        "bookingsCount": 4
+      }
+    },
+    "createdAt": "2024-01-15T10:45:00Z",
+    "updatedAt": "2024-06-29T14:30:00Z",
+    "GSI1PK": "UNIT_MODEL#um-2br4b",
+    "GSI1SK": "UNIT#available#501",
+    "GSI2PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI2SK": "UNIT#available#unit-family-501",
+    "GSI3PK": "AVAILABILITY#available",
+    "GSI3SK": "UNIT#pg-sunset-apartments#um-2br4b#unit-family-501"
+  },
+  {
+    "PK": "UNIT_MODEL#um-executive-suite",
+    "SK": "INDIVIDUAL_UNIT#unit-exec-1201",
+    "unitId": "unit-exec-1201",
+    "modelId": "um-executive-suite",
+    "groupId": "pg-downtown-suites",
+    "identity": {
+      "unitNumber": "1201",
+      "unitName": "Executive Suite 1201",
+      "floor": 12,
+      "building": "Main"
+    },
+    "specifics": {
+      "exactView": "Downtown Skyline",
+      "corner": true,
+      "condition": "excellent"
+    },
+    "smartLock": {
+      "lockId": "lock-august-1201",
+      "model": "August Smart Lock Pro",
+      "batteryLevel": 95,
+      "lastSync": "2024-06-29T14:00:00Z",
+      "accessCodes": {
+        "master": "567890",
+        "guest": "123456",
+        "maintenance": "789012"
+      }
+    },
+    "status": {
+      "availability": "available"
+    },
+    "restrictions": {
+      "minimumStay": 1,
+      "maximumStay": 90
+    },
+    "maintenanceHistory": {
+      "lastCleaned": "2024-06-29T14:00:00Z",
+      "lastDeepCleaned": "2024-06-28T10:00:00Z",
+      "lastMaintenance": "2024-06-15T14:00:00Z",
+      "issues": []
+    },
+    "performance": {
+      "bookingHistory": [
+        {
+          "bookingId": "BK-2024-020",
+          "checkIn": "2024-06-20",
+          "checkOut": "2024-06-25",
+          "rateCharged": 380,
+          "guestRating": 5,
+          "revenue": 1900
+        }
+      ],
+      "last30Days": {
+        "occupancyRate": 0.9,
+        "averageRate": 385,
+        "totalRevenue": 8085,
+        "bookingsCount": 7
+      }
+    },
+    "createdAt": "2024-02-01T09:30:00Z",
+    "updatedAt": "2024-06-29T15:00:00Z",
+    "GSI1PK": "UNIT_MODEL#um-executive-suite",
+    "GSI1SK": "UNIT#available#1201",
+    "GSI2PK": "PROPERTY_GROUP#pg-downtown-suites",
+    "GSI2SK": "UNIT#available#unit-exec-1201",
+    "GSI3PK": "AVAILABILITY#available",
+    "GSI3SK": "UNIT#pg-downtown-suites#um-executive-suite#unit-exec-1201"
+  }
+]

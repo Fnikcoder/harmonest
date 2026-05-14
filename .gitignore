@@ -1,0 +1,47 @@
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Nested Git archives (old per-folder repos; safe to delete locally)
+cdk/.git-nested-archive-cdk/
+frontend/.git-nested-archive-frontend/
+
+# Frontend (Angular)
+frontend/node_modules/
+frontend/dist/
+frontend/tmp/
+frontend/out-tsc/
+frontend/.angular/
+frontend/coverage/
+frontend/npm-debug.log*
+frontend/yarn-error.log*
+
+# CDK / Python
+cdk/cdk.out/
+cdk/.cdk.staging/
+cdk/**/__pycache__/
+cdk/**/.pytest_cache/
+cdk/.venv/
+cdk/**/*.egg-info/
+
+# IaC
+IaC/node_modules/
+IaC/cdk.out/
+IaC/.cdk.staging/
+
+# Backend (common patterns)
+backend/**/__pycache__/
+backend/.pytest_cache/
+backend/.venv/
+backend/node_modules/
+
+# Secrets and local env (never commit)
+.env
+.env.*
+!.env.example
+**/aws-credentials.json
+**/.aws/

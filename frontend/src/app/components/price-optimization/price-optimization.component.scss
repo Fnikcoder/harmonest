@@ -1,0 +1,322 @@
+.price-optimization-container {
+  max-width: 100%;
+
+  // Form styling
+  .form-section {
+    @apply mb-6;
+
+    h3 {
+      @apply text-lg font-semibold text-gray-900 dark:text-white mb-4;
+    }
+  }
+
+  // Input styling
+  input, select, textarea {
+    transition: all 0.2s ease-in-out;
+
+    &:focus {
+      @apply ring-2 ring-red-500 border-red-500;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+
+    &:disabled {
+      @apply bg-gray-100 dark:bg-gray-600 cursor-not-allowed;
+    }
+  }
+
+  // Button styling
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+
+    &.btn-primary {
+      @apply bg-harmonest-blue text-white hover:bg-harmonest-navy;
+
+      &:disabled {
+        @apply bg-gray-400 cursor-not-allowed;
+      }
+    }
+
+    &.btn-secondary {
+      @apply border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700;
+    }
+
+    &.btn-success {
+      @apply bg-green-500 text-white hover:bg-green-600;
+    }
+  }
+
+  // Results section
+  .results-section {
+    @apply mt-8;
+
+    .summary-card {
+      @apply bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6;
+
+      .summary-stat {
+        @apply text-center;
+
+        .stat-value {
+          @apply text-2xl font-bold mb-1;
+
+          &.positive {
+            @apply text-green-600;
+          }
+
+          &.negative {
+            @apply text-red-600;
+          }
+
+          &.neutral {
+            @apply text-blue-600;
+          }
+        }
+
+        .stat-label {
+          @apply text-sm text-gray-600 dark:text-gray-400;
+        }
+      }
+    }
+
+    .recommendations-card {
+      @apply bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 mb-6;
+
+      .recommendation-item {
+        @apply flex items-start space-x-3 mb-3 last:mb-0;
+
+        .recommendation-icon {
+          @apply w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0;
+        }
+
+        .recommendation-text {
+          @apply text-blue-800 dark:text-blue-200 text-sm;
+        }
+      }
+    }
+  }
+
+  // Price calendar table
+  .price-calendar {
+    .price-table {
+      @apply min-w-full divide-y divide-gray-200 dark:divide-gray-700;
+
+      thead {
+        @apply bg-gray-50 dark:bg-gray-700;
+
+        th {
+          @apply px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider;
+        }
+      }
+
+      tbody {
+        @apply bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700;
+
+        tr {
+          &:nth-child(even) {
+            @apply bg-gray-50 dark:bg-gray-700;
+          }
+
+          &:hover {
+            @apply bg-blue-50 dark:bg-blue-900/20;
+          }
+        }
+
+        td {
+          @apply px-6 py-4 whitespace-nowrap text-sm;
+
+          &.date-cell {
+            @apply font-medium text-gray-900 dark:text-white;
+          }
+
+          &.price-cell {
+            @apply font-mono;
+          }
+
+          &.change-cell {
+            .change-indicator {
+              @apply flex items-center;
+
+              .change-icon {
+                @apply w-4 h-4 mr-1;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Factor badges
+  .factor-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+
+    &.factor-weekend {
+      @apply bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300;
+    }
+
+    &.factor-holiday {
+      @apply bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300;
+    }
+
+    &.factor-event {
+      @apply bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300;
+    }
+
+    &.factor-seasonal {
+      @apply bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300;
+    }
+
+    &.factor-demand {
+      @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300;
+    }
+
+    &.factor-occupancy {
+      @apply bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300;
+    }
+
+    &.factor-weather {
+      @apply bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300;
+    }
+
+    &.factor-competition {
+      @apply bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300;
+    }
+  }
+
+  // Confidence indicators
+  .confidence-indicator {
+    &.confidence-very-high {
+      @apply text-green-600 font-semibold;
+    }
+
+    &.confidence-high {
+      @apply text-green-500;
+    }
+
+    &.confidence-medium {
+      @apply text-yellow-500;
+    }
+
+    &.confidence-low {
+      @apply text-orange-500;
+    }
+
+    &.confidence-very-low {
+      @apply text-red-500;
+    }
+  }
+
+  // Loading states
+  .loading-spinner {
+    @apply animate-spin rounded-full border-b-2 border-current;
+  }
+
+  // Error states
+  .error-message {
+    @apply bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4;
+
+    .error-content {
+      @apply flex items-center;
+
+      .error-icon {
+        @apply w-5 h-5 text-red-600 mr-2;
+      }
+
+      .error-text {
+        @apply text-red-800 dark:text-red-200;
+      }
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    .grid-responsive {
+      @apply grid-cols-1;
+    }
+
+    .price-calendar {
+      .price-table {
+        @apply text-xs;
+
+        th, td {
+          @apply px-3 py-2;
+        }
+      }
+    }
+
+    .summary-card {
+      .summary-stats {
+        @apply grid-cols-2;
+      }
+    }
+  }
+
+  @media (max-width: 640px) {
+    .action-buttons {
+      @apply flex-col space-y-2 space-x-0;
+
+      button {
+        @apply w-full;
+      }
+    }
+
+    .factor-badges {
+      .factor-badge {
+        @apply text-xs px-2 py-1;
+      }
+    }
+  }
+
+  // Animation classes
+  .fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .slide-up {
+    animation: slideUp 0.3s ease-in-out;
+  }
+}
+
+// Keyframe animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Dark mode specific adjustments
+@media (prefers-color-scheme: dark) {
+  .price-optimization-container {
+    .summary-card {
+      @apply from-blue-900/20 to-indigo-900/20;
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .price-optimization-container {
+    .action-buttons {
+      @apply hidden;
+    }
+
+    .price-calendar {
+      .price-table {
+        @apply text-xs;
+      }
+    }
+  }
+}

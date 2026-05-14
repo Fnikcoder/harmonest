@@ -1,0 +1,52 @@
+// Payment step specific styles
+
+.payment-method-card {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  &.selected {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+  }
+}
+
+.card-input {
+  transition: all 0.2s ease;
+  
+  &:focus {
+    transform: scale(1.02);
+  }
+}
+
+// Loading animation
+.processing-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Mobile-first responsive adjustments
+@media (max-width: 640px) {
+  .payment-methods {
+    .grid-cols-3 {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .card-details {
+    .grid-cols-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+}

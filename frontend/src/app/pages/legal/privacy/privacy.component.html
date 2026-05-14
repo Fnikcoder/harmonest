@@ -1,0 +1,253 @@
+<app-navbar [navClass]="'defaultscroll is-sticky'" [navLight]="false"></app-navbar>
+
+<section class="relative md:py-24 py-16">
+    <div class="container relative">
+        <div class="md:flex justify-center">
+            <div class="md:w-3/4">
+                <div class="p-6 bg-white dark:bg-slate-900 shadow-md dark:shadow-gray-700 rounded-md">
+                    <!-- Header -->
+                    <div class="text-center mb-8">
+                        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Privacy Policy (Datenschutzerklärung)</h1>
+                        <p class="text-gray-600 dark:text-gray-400">Last updated: {{ lastUpdated }}</p>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="prose prose-slate dark:prose-invert max-w-none">
+                        <h2>1. Introduction and Data Controller</h2>
+                        <p>
+                            This Privacy Policy explains how HarmoNest Group ("we", "us", "our") collects, uses, and protects your personal data
+                            in compliance with the EU General Data Protection Regulation (GDPR) and the German Federal Data Protection Act (BDSG).
+                        </p>
+                        <p><strong>Data Controller:</strong></p>
+                        <ul>
+                            <li>HarmoNest Group</li>
+                            <li>Bahnhof str 18, 41236 Mönchengladbach, Germany</li>
+                            <li>Email: support&#64;harmonest.de</li>
+                            <li>Phone: +49 176 8630 6753</li>
+                        </ul>
+
+                        <h2>2. Legal Basis for Data Processing</h2>
+                        <p>We process your personal data based on the following legal grounds under GDPR Article 6:</p>
+                        <ul>
+                            <li><strong>Contract Performance (Art. 6(1)(b) GDPR):</strong> Processing necessary to fulfill our contractual obligations for your accommodation booking</li>
+                            <li><strong>Legal Obligation (Art. 6(1)(c) GDPR):</strong> Compliance with German Federal Registration Act (BMG § 29) and tax laws</li>
+                            <li><strong>Legitimate Interest (Art. 6(1)(f) GDPR):</strong> Fraud prevention, security, and service improvement</li>
+                            <li><strong>Consent (Art. 6(1)(a) GDPR):</strong> Marketing communications (where applicable and with your explicit consent)</li>
+                        </ul>
+
+                        <h2>3. Information We Collect</h2>
+                        <p>We collect the following categories of personal data during the check-in and booking process:</p>
+
+                        <h3>3.1 Guest Check-In Data</h3>
+                        <ul>
+                            <li>First name and last name</li>
+                            <li>Email address (verified via 6-digit code)</li>
+                            <li>Phone number (optional)</li>
+                            <li>Government-issued identification document (passport or national ID card) - uploaded image</li>
+                            <li>Reservation/booking confirmation number</li>
+                        </ul>
+
+                        <h3>3.2 Booking Information</h3>
+                        <ul>
+                            <li>Reservation code</li>
+                            <li>Check-in and check-out dates</li>
+                            <li>Property/room details</li>
+                            <li>Number of guests</li>
+                            <li>Booking source (platform used for booking)</li>
+                        </ul>
+
+                        <h3>3.3 Technical Data</h3>
+                        <ul>
+                            <li>IP address</li>
+                            <li>Browser type and version</li>
+                            <li>Device information</li>
+                            <li>Access times and dates</li>
+                        </ul>
+
+                        <h2>4. How We Use Your Information</h2>
+                        <p>We process your personal data for the following purposes:</p>
+
+                        <h3>4.1 Service Provision and Contract Fulfillment</h3>
+                        <ul>
+                            <li>Processing and managing your accommodation bookings</li>
+                            <li>Facilitating online check-in and identity verification</li>
+                            <li>Generating access codes and QR codes for property access</li>
+                            <li>Communicating with you about your reservation</li>
+                            <li>Processing payments and issuing invoices</li>
+                        </ul>
+
+                        <h3>4.2 Legal Compliance</h3>
+                        <ul>
+                            <li>Guest registration and identity verification as required by German Federal Registration Act (BMG § 29)</li>
+                            <li>Tax reporting and tourism tax collection (where applicable)</li>
+                            <li>Responding to legal requests from authorities when required by law</li>
+                        </ul>
+
+                        <h3>4.3 Security and Fraud Prevention</h3>
+                        <ul>
+                            <li>Verifying guest identity through email verification and ID document upload</li>
+                            <li>Protecting our platform and users from security threats</li>
+                            <li>Preventing unauthorized access to properties</li>
+                        </ul>
+
+                        <h2>5. Data Sharing and Third-Party Processors</h2>
+                        <p>We may share your personal data with the following categories of recipients:</p>
+                        <ul>
+                            <li><strong>Property Owners:</strong> Limited information necessary to facilitate your stay</li>
+                            <li><strong>AWS (Amazon Web Services):</strong> Cloud hosting and data storage (GDPR-compliant EU servers)</li>
+                            <li><strong>Payment Processors:</strong> Stripe and PayPal for secure payment processing</li>
+                            <li><strong>Government Authorities:</strong> When required by German law (e.g., tax authorities, registration offices)</li>
+                            <li><strong>Legal Advisors:</strong> When necessary for legal compliance or dispute resolution</li>
+                        </ul>
+                        <p>
+                            All third-party processors are contractually bound to GDPR compliance and process data only according to our instructions.
+                        </p>
+
+                        <h2>6. Data Security Measures</h2>
+                        <p>
+                            We implement comprehensive technical and organizational measures to protect your personal data in accordance with
+                            GDPR Article 32:
+                        </p>
+                        <ul>
+                            <li>End-to-end encryption for data transmission (TLS/SSL)</li>
+                            <li>Encrypted storage of sensitive data at rest</li>
+                            <li>AWS Cognito for secure authentication and user management</li>
+                            <li>Role-based access control limiting data access to authorized personnel only</li>
+                            <li>Regular security audits and vulnerability assessments</li>
+                            <li>Secure backup procedures with encryption</li>
+                            <li>Employee training on data protection and confidentiality</li>
+                        </ul>
+
+                        <h2>7. Data Retention Periods</h2>
+                        <p>We retain your personal data only as long as necessary for the purposes outlined in this policy:</p>
+                        <ul>
+                            <li><strong>Check-In Data (Name, Email, Phone, ID Document):</strong> Retained as required by German law for guest registration and tax purposes (typically 6-12 months after check-out)</li>
+                            <li><strong>Booking and Payment Records:</strong> 10 years (as required by German commercial and tax law - HGB, AO)</li>
+                            <li><strong>Email Verification Codes:</strong> Deleted immediately after successful verification or after 24 hours if unused</li>
+                            <li><strong>Account Data:</strong> Until account deletion is requested (subject to legal retention requirements)</li>
+                            <li><strong>Technical Logs:</strong> 90 days for security purposes</li>
+                        </ul>
+                        <p>
+                            After the retention period expires, personal data is securely deleted or anonymized unless longer retention is
+                            required by law or for legal defense purposes.
+                        </p>
+
+                        <h2>8. Your Rights Under GDPR</h2>
+                        <p>As a data subject under GDPR, you have the following rights:</p>
+                        <ul>
+                            <li><strong>Right of Access (Art. 15 GDPR):</strong> Request a copy of your personal data we hold</li>
+                            <li><strong>Right to Rectification (Art. 16 GDPR):</strong> Correct inaccurate or incomplete personal data</li>
+                            <li><strong>Right to Erasure (Art. 17 GDPR):</strong> Request deletion of your personal data (subject to legal retention requirements)</li>
+                            <li><strong>Right to Restriction (Art. 18 GDPR):</strong> Limit how we use your personal data</li>
+                            <li><strong>Right to Data Portability (Art. 20 GDPR):</strong> Receive your data in a structured, machine-readable format</li>
+                            <li><strong>Right to Object (Art. 21 GDPR):</strong> Object to processing based on legitimate interests</li>
+                            <li><strong>Right to Withdraw Consent (Art. 7(3) GDPR):</strong> Withdraw consent for processing at any time</li>
+                            <li><strong>Right to Lodge a Complaint:</strong> File a complaint with your local data protection authority</li>
+                        </ul>
+                        <p>
+                            To exercise any of these rights, please contact us at support&#64;harmonest.de. We will respond to your request
+                            within one month as required by GDPR.
+                        </p>
+                        <p>
+                            <strong>German Data Protection Authority:</strong><br>
+                            Die Bundesbeauftragte für den Datenschutz und die Informationsfreiheit (BfDI)<br>
+                            Graurheindorfer Str. 153, 53117 Bonn, Germany
+                        </p>
+
+                        <h2>9. Cookies and Tracking Technologies</h2>
+                        <p>
+                            We use cookies and similar tracking technologies in accordance with GDPR and the German Telemedia Act (TMG).
+                            Cookies are small text files stored on your device that help us provide and improve our services.
+                        </p>
+
+                        <h3>9.1 Types of Cookies We Use</h3>
+                        <ul>
+                            <li><strong>Essential Cookies:</strong> Required for basic site functionality (authentication, security)</li>
+                            <li><strong>Functional Cookies:</strong> Remember your preferences and settings</li>
+                            <li><strong>Analytics Cookies:</strong> Help us understand how visitors use our site (only with consent)</li>
+                        </ul>
+                        <p>
+                            You can control cookies through your browser settings. However, disabling essential cookies may affect
+                            the functionality of our services. For analytics cookies, we obtain your explicit consent before use.
+                        </p>
+
+                        <h2>10. Third-Party Services and Data Processors</h2>
+                        <p>We use the following GDPR-compliant third-party services:</p>
+                        <ul>
+                            <li><strong>AWS (Amazon Web Services):</strong> Cloud hosting with EU data centers (Frankfurt region)</li>
+                            <li><strong>AWS Cognito:</strong> User authentication and identity management</li>
+                            <li><strong>Stripe:</strong> Payment processing (PCI-DSS compliant, GDPR-compliant)</li>
+                            <li><strong>PayPal:</strong> Alternative payment processing (GDPR-compliant)</li>
+                        </ul>
+                        <p>
+                            All third-party services are selected based on their GDPR compliance and data protection standards.
+                            We have Data Processing Agreements (DPAs) in place with all processors.
+                        </p>
+
+                        <h2>11. International Data Transfers</h2>
+                        <p>
+                            Your personal data is primarily stored and processed within the European Union (AWS Frankfurt region).
+                            If data is transferred outside the EU/EEA, we ensure appropriate safeguards are in place:
+                        </p>
+                        <ul>
+                            <li>EU Standard Contractual Clauses (SCCs)</li>
+                            <li>Adequacy decisions by the European Commission</li>
+                            <li>GDPR-compliant data processing agreements</li>
+                        </ul>
+
+                        <h2>12. Automated Decision-Making and Profiling</h2>
+                        <p>
+                            We do not use automated decision-making or profiling that produces legal effects or similarly significantly
+                            affects you, as defined in GDPR Article 22. Any automated processes (such as fraud detection) are subject
+                            to human review.
+                        </p>
+
+                        <h2>13. Children's Privacy</h2>
+                        <p>
+                            Our services are not intended for children under 18 years of age. We do not knowingly collect personal information
+                            from children under 18. If we become aware of such collection, we will delete the information promptly.
+                            Parents or guardians who believe we may have collected information from a child should contact us immediately.
+                        </p>
+
+                        <h2>14. Changes to This Privacy Policy</h2>
+                        <p>
+                            We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements.
+                            We will notify you of any material changes by:
+                        </p>
+                        <ul>
+                            <li>Posting the updated policy on this page with a new "Last updated" date</li>
+                            <li>Sending an email notification to registered users (for significant changes)</li>
+                            <li>Displaying a prominent notice on our website</li>
+                        </ul>
+                        <p>
+                            Continued use of our services after changes become effective constitutes acceptance of the updated policy.
+                        </p>
+
+                        <h2>15. Contact Information and Data Protection Officer</h2>
+                        <p>If you have any questions about this Privacy Policy or wish to exercise your rights, please contact us:</p>
+                        <ul>
+                            <li><strong>Email:</strong> support&#64;harmonest.de</li>
+                            <li><strong>Phone:</strong> +49 176 8630 6753</li>
+                            <li><strong>Address:</strong> HarmoNest Group, Bahnhof str 18, 41236 Mönchengladbach, Germany</li>
+                        </ul>
+                        <p>
+                            For data protection inquiries, you may also contact your local data protection supervisory authority.
+                        </p>
+
+                        <p class="mt-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg text-sm">
+                            <strong>Note:</strong> This Privacy Policy complies with the EU General Data Protection Regulation (GDPR),
+                            the German Federal Data Protection Act (BDSG), and the German Telemedia Act (TMG). We are committed to
+                            protecting your privacy and handling your personal data with the highest standards of care and security.
+                        </p>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<app-footer></app-footer>
+
+<app-back-to-home></app-back-to-home>

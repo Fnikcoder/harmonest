@@ -1,0 +1,80 @@
+<div class="relative md:-mt-48 -mt-32">
+    <div class="p-6 rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900">
+        <div class="profile-pic text-center">
+            <input id="pro-img" name="profile-image" type="file" class="hidden" onchange="loadFile(event)" />
+            <div>
+                <div class="relative size-28 mx-auto">
+                    <img [src]="'assets/images/client/16.jpg'" class="rounded-full shadow dark:shadow-gray-800 ring-4 ring-slate-50 dark:ring-slate-800" id="profile-image" alt="">
+                    <label class="absolute inset-0 cursor-pointer" for="pro-img"></label>
+                </div>
+
+                <div class="mt-4">
+                    <h5 class="text-lg font-semibold">
+                        {{ user?.firstName || 'User' }} {{ user?.lastName || '' }}
+                    </h5>
+                    <p class="text-slate-400">{{ user?.email || 'user@example.com' }}</p>
+                    <div *ngIf="isManagementUser" class="mt-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                            {{ user?.role?.replace('_', ' ') | titlecase }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-100 dark:border-gray-700">
+            <ul class="list-none sidebar-nav mb-0 pb-0" id="navmenu-nav">
+                <!-- Personal Account Section -->
+                <div [ngClass]="isManagementUser ? 'border-t border-gray-100 dark:border-gray-700 pt-4' : ''">
+                    <li class="navbar-item account-menu" [ngClass]="current === '/user-profile' ? 'active' : '' ">
+                        <a [routerLink]="'/user-profile'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+                            <span class="me-2 mb-0"><i data-feather="airplay" class="size-4"></i></span>
+                            <h6 class="mb-0 font-medium">Bookings</h6>
+                        </a>
+                    </li>
+                <li class="navbar-item account-menu" [ngClass]="current ===  '/user-billing' ? 'active' : '' ">
+                    <a routerLink="/user-billing" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+                        <span class="me-2 mb-0"><i data-feather="edit" class="size-4"></i></span>
+                        <h6 class="mb-0 font-medium">Billing Info</h6>
+                    </a>
+                </li>
+
+                <li class="navbar-item account-menu" [ngClass]="current === '/user-payment' ? 'active' : '' ">
+                    <a [routerLink]="'/user-payment'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+                        <span class="me-2 mb-0"><i data-feather="credit-card" class="size-4"></i></span>
+                        <h6 class="mb-0 font-medium">Payment</h6>
+                    </a>
+                </li>
+
+                <li class="navbar-item account-menu" [ngClass]="current === '/user-invoice' ? 'active' : '' ">
+                    <a [routerLink]="'/user-invoice'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+                        <span class="me-2 mb-0"><i data-feather="file-text" class="size-4"></i></span>
+                        <h6 class="mb-0 font-medium">Invoice</h6>
+                    </a>
+                </li>
+
+                <li class="navbar-item account-menu" [ngClass]="current === '/user-notification' ? 'active' : '' ">
+                    <a [routerLink]="'/user-notification'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+                        <span class="me-2 mb-0"><i data-feather="bell" class="size-4"></i></span>
+                        <h6 class="mb-0 font-medium">Notifications</h6>
+                    </a>
+                </li>
+
+                <li class="navbar-item account-menu" [ngClass]="current === '/user-setting' ? 'active' : '' ">
+                    <a [routerLink]="'/user-setting'" class="navbar-link text-slate-400 flex items-center py-2 rounded">
+                        <span class="me-2 mb-0"><i data-feather="settings" class="size-4"></i></span>
+                        <h6 class="mb-0 font-medium">Settings</h6>
+                    </a>
+                </li>
+
+                <li class="navbar-item account-menu">
+                    <button (click)="logout()" class="w-full navbar-link text-slate-400 flex items-center py-2 rounded hover:text-red-500">
+                        <span class="me-2 mb-0"><i data-feather="log-out" class="size-4"></i></span>
+                        <h6 class="mb-0 font-medium">Sign Out</h6>
+                    </button>
+                </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>

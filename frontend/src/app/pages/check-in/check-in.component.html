@@ -1,0 +1,323 @@
+<app-navbar [navClass]="'defaultscroll is-sticky'" [navLight]="false"></app-navbar>
+
+<section class="relative lg:pb-24 pb-16 md:mt-[84px] mt-[70px]">
+    <!-- Hero Section -->
+    <div class="md:container container-fluid relative">
+        <div class="relative overflow-hidden md:rounded-xl shadow-lg dark:shadow-gray-800 h-40 bg-gradient-to-r from-slate-50 to-gray-100 dark:from-slate-800 dark:to-slate-900 flex items-center justify-center">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-3">
+                    <i data-feather="arrow-left" class="w-5 h-5 text-gray-600 dark:text-gray-400 mr-3 cursor-pointer" onclick="history.back()"></i>
+                    <h1 class="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white">Online Check-In</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container relative mt-16">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Check-in Content -->
+                <div class="lg:col-span-2">
+                    <div class="p-6 md:p-8 rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900">
+
+
+                        <!-- Success Display -->
+                        <div *ngIf="submissionMessageType === 'success'" class="text-center space-y-4">
+                            <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto">
+                                <i data-feather="check-circle" class="w-8 h-8 text-green-600"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Check-In Complete!</h3>
+                            <div class="max-w-md mx-auto">
+                                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{{ submissionMessage }}</p>
+                            </div>
+
+                            <button
+                                (click)="resetCheckIn()"
+                                class="mt-6 py-2 px-6 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
+                                Start New Check-In
+                            </button>
+                        </div>
+
+                        <!-- Step 1: Reservation Validation -->
+                        <div *ngIf="currentStep === 1 && submissionMessageType !== 'success'">
+                            <div class="text-center mb-6">
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Verify Your Reservation</h3>
+                                <p class="text-gray-600 dark:text-gray-400">Enter first name and reservation code of the booking</p>
+                            </div>
+
+                            <form [formGroup]="validationForm" (ngSubmit)="validateReservation()" class="space-y-6">
+                              <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                  First Name *
+                                </label>
+                                <input
+                                  type="text"
+                                  formControlName="firstName"
+                                  placeholder="Your first name"
+                                  class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-harmonest-blue focus:border-harmonest-blue dark:bg-gray-800 dark:text-white">
+                              </div>
+                              <div>
+                                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                      Reservation Code *
+                                  </label>
+                                  <input
+                                      type="text"
+                                      formControlName="reservationCode"
+                                      placeholder="e.g., 608175568"
+                                      class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-harmonest-blue focus:border-harmonest-blue dark:bg-gray-800 dark:text-white">
+                              </div>
+                                <button
+                                    type="submit"
+                                    [disabled]="validationForm.invalid || isValidating"
+                                    class="w-full py-3 px-6 bg-harmonest-blue text-white rounded-lg hover:bg-harmonest-navy disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center font-corbel">
+                                    <div *ngIf="isValidating" class="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                                    <span>{{ isValidating ? 'Verifying...' : 'Verify Reservation' }}</span>
+                                </button>
+                            </form>
+
+                            <!-- Validation Message -->
+                            <div *ngIf="validationMessage" class="mt-6 p-4 border rounded-lg"
+                                 [class]="validationMessageType === 'success' ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-harmonest-blue text-harmonest-blue'">
+                                <p class="text-sm text-center">{{ validationMessage }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Complete Check-In -->
+                        <div *ngIf="currentStep === 2 && submissionMessageType !== 'success'">
+                            <div class="text-center mb-6">
+                              <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Complete Your Check-In</h3>
+                              <p class="text-gray-600 dark:text-gray-400">Provide main guest contact details with a valid ID card or passport</p>
+                            </div>
+
+                            <form [formGroup]="checkInForm" (ngSubmit)="submitCheckIn()" class="space-y-6">
+                                <!-- Guest Information -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            First Name *
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="firstName"
+                                            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-harmonest-blue focus:border-harmonest-blue dark:bg-gray-800 dark:text-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Last Name *
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="lastName"
+                                            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-harmonest-blue focus:border-harmonest-blue dark:bg-gray-800 dark:text-white">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Email Address *
+                                        </label>
+                                        <input
+                                            type="email"
+                                            formControlName="email"
+                                            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-harmonest-blue focus:border-harmonest-blue dark:bg-gray-800 dark:text-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Phone Number <span class="text-gray-500 text-sm">(Optional)</span>
+                                        </label>
+                                        <input
+                                            type="tel"
+                                            formControlName="phone"
+                                            placeholder="e.g., +49 176 47149968, 017647149968, 004917647149968"
+                                            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-harmonest-blue focus:border-harmonest-blue dark:bg-gray-800 dark:text-white">
+
+                                        <!-- Phone validation error -->
+                                        <div *ngIf="checkInForm.get('phone')?.invalid && checkInForm.get('phone')?.touched"
+                                             class="mt-2 text-sm text-harmonest-blue dark:text-harmonest-blue">
+                                            <div *ngIf="checkInForm.get('phone')?.errors?.['invalidPhone']">
+                                                {{ checkInForm.get('phone')?.errors?.['invalidPhone']?.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Email Verification -->
+                                <div class="mb-6">
+                                    <app-email-verification
+                                        [email]="checkInForm.get('email')?.value || ''"
+                                        [required]="true"
+                                        (verificationStatusChange)="onEmailVerificationStatusChange($event)"
+                                        (verifiedEmailChange)="onVerifiedEmailChange($event)">
+                                    </app-email-verification>
+                                </div>
+                                <!-- ID Document Scanning -->
+                                <div class="mb-6">
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                                        ID Document Type *
+                                    </label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                      <button
+                                        type="button"
+                                        (click)="onDocumentTypeChange('national_id')"
+                                        [class]="selectedDocumentType === 'national_id' ?
+                                                'bg-blue-50 dark:bg-harmonest-blue/20 border-harmonest-blue text-harmonest-blue dark:text-harmonest-blue' :
+                                                'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300'"
+                                        class="p-3 border-2 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2">
+                                        <i data-feather="credit-card" class="w-4 h-4"></i>
+                                        <span>National ID</span>
+                                      </button>
+                                        <button
+                                            type="button"
+                                            (click)="onDocumentTypeChange('passport')"
+                                            [class]="selectedDocumentType === 'passport' ?
+                                                'bg-blue-50 dark:bg-harmonest-blue/20 border-harmonest-blue text-harmonest-blue dark:text-harmonest-blue' :
+                                                'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300'"
+                                            class="p-3 border-2 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2">
+                                            <i data-feather="book" class="w-4 h-4"></i>
+                                            <span>Passport</span>
+                                        </button>
+
+                                    </div>
+                                </div>
+
+                                <!-- Image Preview -->
+                                <div *ngIf="uploadedIdFile" class="mb-6">
+                                    <div class="relative max-w-md mx-auto">
+                                        <img [src]="getImagePreview()" alt="ID Document Preview"
+                                             class="w-full rounded-lg border border-gray-300 dark:border-gray-600"
+                                             *ngIf="imagePreviewUrl; else placeholder"/>
+                                      <ng-template #placeholder>
+                                        <p>No document uploaded yet</p>
+                                      </ng-template>
+                                        <button
+                                            type="button"
+                                            (click)="removeUploadedImage()"
+                                            class="absolute top-2 right-2 bg-harmonest-blue text-white rounded-full p-1 hover:bg-harmonest-navy transition-colors">
+                                            <i data-feather="x" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                    <p class="text-center text-sm text-gray-600 dark:text-gray-400 mt-2">
+                                        {{ uploadedIdFile.name }} ({{ (uploadedIdFile.size / 1024 / 1024).toFixed(2) }}MB)
+                                    </p>
+                                </div>
+
+                                <!-- ID Scanner -->
+                                <div class="mb-6">
+                                    <app-id-scanner
+                                        [documentType]="selectedDocumentType"
+                                        (scanComplete)="onIdScanComplete($event)"
+                                        (scanError)="onIdScanError($event)">
+                                    </app-id-scanner>
+                                </div>
+
+                                <!-- AGB and Datenschutz -->
+                                <div class="space-y-3">
+                                    <label class="flex items-start space-x-3">
+                                        <input
+                                            type="checkbox"
+                                            formControlName="agbAccepted"
+                                            class="mt-1 w-4 h-4 text-harmonest-blue bg-white border-gray-400 rounded focus:ring-harmonest-blue dark:focus:ring-harmonest-blue dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 checked:bg-harmonest-blue checked:border-harmonest-blue dark:checked:bg-harmonest-blue dark:checked:border-harmonest-blue">
+                                        <span class="text-sm text-gray-700 dark:text-gray-300">
+                                            I accept the <a href="/terms" target="_blank" class="text-harmonest-blue hover:text-harmonest-navy underline">Terms and Conditions (AGB)</a>
+                                        </span>
+                                    </label>
+
+                                    <label class="flex items-start space-x-3">
+                                        <input
+                                            type="checkbox"
+                                            formControlName="privacyAccepted"
+                                            class="mt-1 w-4 h-4 text-harmonest-blue bg-white border-gray-400 rounded focus:ring-harmonest-blue dark:focus:ring-harmonest-blue dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 checked:bg-harmonest-blue checked:border-harmonest-blue dark:checked:bg-harmonest-blue dark:checked:border-harmonest-blue">
+                                        <span class="text-sm text-gray-700 dark:text-gray-300">
+                                            I accept the <a href="/privacy" target="_blank" class="text-harmonest-blue hover:text-harmonest-navy underline">Privacy Policy (Datenschutz)</a>
+                                        </span>
+                                    </label>
+                                </div>
+
+
+
+                                <!-- Navigation Buttons -->
+                                <div class="flex space-x-4">
+                                    <button
+                                        type="button"
+                                        (click)="previousStep()"
+                                        class="flex-1 py-3 px-6 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
+                                        Previous
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        [disabled]="!isStep2Valid() || isSubmittingCheckIn"
+                                        class="flex-1 py-3 px-6 bg-harmonest-blue text-white rounded-lg hover:bg-harmonest-navy disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center">
+                                        <div *ngIf="isSubmittingCheckIn" class="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                                        <span>{{ isSubmittingCheckIn ? 'Submitting...' : 'Complete Check-In' }}</span>
+                                    </button>
+                                </div>
+
+                                <!-- Submission Message -->
+                                <div *ngIf="submissionMessage" class="mt-6 p-4 border rounded-lg"
+                                     >
+                                    <p class="text-sm text-center">{{ submissionMessage }}</p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Check In Details</h3>
+
+                        <!-- Reservation Details -->
+                        <div *ngIf="reservationData" class="space-y-4">
+                            <!-- Reservation Code -->
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Reservation Code</span>
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">{{ reservationData.reservation.reservationCode }}</span>
+                            </div>
+
+                            <!-- Check-in Date -->
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Check-in</span>
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ formatCheckInTime(reservationData.reservation.checkInDate) }}
+                                </span>
+                            </div>
+
+                            <!-- Check-out Date -->
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Check-out</span>
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ formatCheckOutTime(reservationData.reservation.checkOutDate) }}
+                                </span>
+                            </div>
+
+                            <!-- Check-in Status -->
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Status</span>
+                                <span class="text-sm font-medium"
+                                      [class]="reservationData.checkin.status === 'completed' ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'">
+                                    {{ reservationData.checkin.status === 'completed' ? 'Completed' : 'Pending' }}
+                                </span>
+                            </div>
+
+                            <!-- Room Information -->
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Room</span>
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">{{ reservationData.reservation.roomName }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Placeholder when no reservation -->
+                        <div *ngIf="!reservationData" class="text-center py-8">
+                            <i data-feather="calendar" class="w-12 h-12 text-gray-400 mx-auto mb-4"></i>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm">Check in details will appear here after verification</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<app-footer></app-footer>
+<app-switcher></app-switcher>

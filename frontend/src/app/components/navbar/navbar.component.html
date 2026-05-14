@@ -1,0 +1,280 @@
+<nav id="topnav" class={{navClass}} [ngClass]="isSticky ? 'nav-sticky' : '' ">
+    <div class="container relative">
+<!--        <a *ngIf="navLight === true" class="logo" [routerLink]="'/'">-->
+<!--            <span class="inline-block dark:hidden">-->
+<!--                <img [src]="'assets/images/logo-dark.png'" class="h-7 l-dark" alt="">-->
+<!--                <img [src]="'assets/images/logo-light.png'" class="h-7 l-light" alt="">-->
+<!--            </span>-->
+<!--            <img [src]="'assets/images/logo-white.png'" class="hidden dark:inline-block" alt="">-->
+<!--        </a>-->
+
+<!--        <a *ngIf="navLight === false" class="logo" [routerLink]="'/'">-->
+<!--            <div>-->
+<!--                <img [src]="'assets/images/logo-dark.png'" class="h-7 inline-block dark:hidden" alt="">-->
+<!--                <img [src]="'assets/images/logo-white.png'" class="h-7 hidden dark:inline-block" alt="">-->
+<!--            </div>-->
+<!--        </a>-->
+      <a class="logo" [routerLink]="'/'">
+        <img src="assets/images/branding/HarmoNest-18.png"
+             class="inline-block dark:hidden harmonest-logo"
+             style="height: 3rem; width: auto;"
+             alt="HarmoNest">
+<!--        <img src="assets/images/branding/HarmoNest-16.png"-->
+<!--             class="hidden dark:inline-block harmonest-logo"-->
+<!--             style="height: 3rem; width: auto;"-->
+<!--             alt="HarmoNest">-->
+      </a>
+
+      <div class="menu-extras">
+            <div class="menu-item">
+                <a class="navbar-toggle" [routerLink]="[]" [ngClass]="toggleManu ? 'open' : '' " id="isToggle" (click)="toggleMenu()">
+                    <div class="lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <ul class="buy-button list-none mb-0">
+
+
+
+<!--            <li class="dropdown inline-block relative pe-1" (clickOutside)="closeSearchModal()">-->
+<!--                <ng-container *ngIf="navLight === true ; else elseTemplates">-->
+<!--                    <button (click)="searchModal()" class="align-middle inline-flex search-dropdown" type="button">-->
+<!--                        <i data-feather="search" class="size-5 dark-icon"></i>-->
+<!-- হতোতেi data-feather="search" class="size-5 white-icon text-white"></i>-->
+<!--                    </button>-->
+<!--                </ng-container>-->
+<!--                <ng-template #elseTemplates>-->
+<!--                    <button class="align-middle inline-flex" type="button" (click)="searchModal()">-->
+<!--                        <i data-feather="search" class="size-5"></i>-->
+<!--                    </button>-->
+<!--                </ng-template>-->
+<!--                <div class="absolute overflow-hidden end-0 m-0 mt-5 z-10 md:w-52 w-48 rounded-md bg-white dark:bg-slate-900 shadow dark:shadow-gray-800" [ngClass]="searchManu ? '' : 'hidden' ">-->
+<!--                    <div class="relative">-->
+<!--                        <i data-feather="search" class="size-4 absolute top-[9px] end-3"></i>-->
+<!--                        <input type="text" class="h-9 px-3 pe-10 w-full border-0 focus:ring-0 outline-none bg-white dark:bg-slate-900" name="s" id="searchItem" placeholder="Search...">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </li>-->
+
+
+            <!-- User Profile Dropdown - Blue Circle with Initials -->
+            <li *ngIf="isAuthenticated" class="dropdown inline-block relative ps-0.5" (clickOutside)="closeUserModal()">
+                <button class="items-center" type="button" (click)="userModal()">
+                    <!-- User Avatar - Red Circle with initials only -->
+                    <div class="size-8 inline-flex items-center justify-center tracking-wide align-middle duration-500 text-base text-center rounded-full border border-harmonest-blue bg-harmonest-blue text-white">
+                        <span class="text-sm font-medium">
+                            {{ (currentUser?.firstName?.charAt(0) || '') + (currentUser?.lastName?.charAt(0) || '') }}
+                        </span>
+                    </div>
+                </button>
+                <div class="absolute end-0 m-0 mt-4 z-10 w-56 rounded-md overflow-hidden bg-white dark:bg-slate-900 shadow dark:shadow-gray-800" [ngClass]="user ? '' : 'hidden' ">
+                    <div class="py-2">
+                        <!-- User Info Header -->
+                        <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center space-x-3">
+                                <div class="size-10 inline-flex items-center justify-center rounded-full border border-harmonest-blue bg-harmonest-blue text-white">
+                                    <span class="text-sm font-medium">
+                                        {{ (currentUser?.firstName?.charAt(0) || '') + (currentUser?.lastName?.charAt(0) || '') }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white">{{ currentUser?.firstName }} {{ currentUser?.lastName }}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 capitalize">{{ currentUser?.email?.replace('_', ' ') }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Management Panel - Only for management roles -->
+                        <a *ngIf="isAuthenticated" [routerLink]="'/management/dashboard'"
+                           class="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-harmonest-blue dark:hover:text-white">
+                            <i data-feather="settings" class="size-4 me-2"></i>Management Panel
+                        </a>
+
+                        <!-- KEEP: Basic Profile -->
+                        <a [routerLink]="'/user-profile'" class="flex hidden items-center font-medium py-2 px-4 dark:text-white/70 hover:text-harmonest-blue dark:hover:text-white">
+                            <i data-feather="user" class="size-4 me-2"></i>My Profile
+                        </a>
+
+                        <!-- DISABLED: User Account Menu Items -->
+                        <!--
+                        <a [routerLink]="'/user-billing'" class="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-red-500 dark:hover:text-white">
+                            <i data-feather="calendar" class="size-4 me-2"></i>My Bookings
+                        </a>
+                        <a [routerLink]="'/user-payment'" class="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-red-500 dark:hover:text-white">
+                            <i data-feather="credit-card" class="size-4 me-2"></i>Payments
+                        </a>
+                        <a [routerLink]="'/user-invoice'" class="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-red-500 dark:hover:text-white">
+                            <i data-feather="file-text" class="size-4 me-2"></i>Invoices
+                        </a>
+                        <a [routerLink]="'/user-social'" class="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-red-500 dark:hover:text-white">
+                            <i data-feather="heart" class="size-4 me-2"></i>Saved Properties
+                        </a>
+                        <a [routerLink]="'/user-notification'" class="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-red-500 dark:hover:text-white">
+                            <i data-feather="bell" class="size-4 me-2"></i>Notifications
+                        </a>
+                        <a [routerLink]="'/user-setting'" class="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-red-500 dark:hover:text-white">
+                            <i data-feather="settings" class="size-4 me-2"></i>Settings
+                        </a>
+                        -->
+
+                        <!-- Divider -->
+                        <div class="border-t border-gray-100 dark:border-gray-800 my-2"></div>
+
+                        <!-- Logout -->
+                        <button (click)="logout()" class="w-full flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-harmonest-blue dark:hover:text-white">
+                            <i data-feather="log-out" class="size-4 me-2"></i>Logout
+                        </button>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Login/Signup Buttons - Only for non-authenticated users -->
+<!--            <li *ngIf="!isAuthenticated" class="inline-block ps-0.5">-->
+<!--                <a [routerLink]="'/login'" class="btn btn-sm px-2 py-1 mx-1 bg-transparent border-red-600  hover:text-red-600 rounded-md">-->
+<!--                    Login-->
+<!--                </a>-->
+<!--                <a [routerLink]="'/signup'" class="btn btn-sm px-2 mx-1 bg-transparent border-red-600 hover:text-red-600 rounded-md">-->
+<!--                    Sign Up-->
+<!--                </a>-->
+<!--            </li>-->
+        </ul>
+
+        <div id="navigation" [ngClass]="toggleManu ? 'block' : 'none' ">
+            <ul class="navigation-menu justify-end " [ngClass]="navLight === true ? 'nav-light' : '' ">
+                <!-- KEEP: Online Check-In -->
+                <li [ngClass]="['/online-check-in', '/check-in'].includes(manu) ? 'active' : ''">
+                  <a [routerLink]="'/online-check-in'" class="sub-menu-item">
+                    Online Check-In
+                  </a>
+                </li>
+
+                <!-- Management Panel (Admin/Owner/Super Admin only) -->
+                <li *ngIf="isAuthenticated" [ngClass]="['/management'].includes(manu) ? 'active' : ''">
+                  <a [routerLink]="'/management'" class="sub-menu-item">
+                    Management
+                  </a>
+                </li>
+
+                <!-- DISABLED: Properties Menu -->
+                <!--
+                <li class="has-submenu parent-parent-menu-item" [ngClass]="['/listing-item' , '/grid-item' , '/grid' , '/grid-left-sidebar' , '/grid-right-sidebar' , '/list-item' , '/list', '/list-left-sidebar' , '/list-right-sidebar', '/location-detail-item' , '/location-detail-one' , '/location-detail-two'].includes(manu) ? 'active' : '' ">
+                    <a [routerLink]="[]" (click)="openManu('/listing-item')">Properties</a><span class="menu-arrow"></span>
+                    <ul class="submenu" [ngClass]="['/listing-item' , '/grid-item' , '/grid' , '/grid-left-sidebar' , '/grid-right-sidebar' , '/list-item' , '/list', '/list-left-sidebar' , '/list-right-sidebar', '/location-detail-item' , '/location-detail-one' , '/location-detail-two'].includes(subManu) ? 'open' : '' ">
+                        <li class="has-submenu parent-menu-item" [ngClass]="['/grid-item' , '/grid' , '/grid-left-sidebar' , '/grid-right-sidebar'].includes(manu) ? 'active' : '' ">
+                            <a [routerLink]="[]" (click)="openManu('/grid-item')">Browse Properties</a><span class="submenu-arrow"></span>
+                            <ul class="submenu" [ngClass]="['/grid-item' , '/grid' , '/grid-left-sidebar' , '/grid-right-sidebar'].includes(subManu) ? 'open' : '' ">
+                                <li [ngClass]="manu === '/grid' ? 'active' : '' "><a [routerLink]="'/grid'" class="sub-menu-item">All Properties</a></li>
+                                <li [ngClass]="manu === '/grid-left-sidebar' ? 'active' : '' "><a [routerLink]="'/grid-left-sidebar'" class="sub-menu-item">With Left Sidebar</a></li>
+                                <li [ngClass]="manu === '/grid-right-sidebar' ? 'active' : '' "><a [routerLink]="'/grid-right-sidebar'" class="sub-menu-item">With Right Sidebar</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="has-submenu parent-menu-item" [ngClass]="['/list-item' , '/list' , '/list-left-sidebar' , '/list-right-sidebar'].includes(manu) ? 'active' : '' ">
+                            <a [routerLink]="[]" (click)="openManu('/list-item')">List View</a><span class="submenu-arrow"></span>
+                            <ul class="submenu" [ngClass]="['/list-item' , '/list' , '/list-left-sidebar' , '/list-right-sidebar'].includes(subManu) ? 'open' : '' ">
+                                <li [ngClass]="manu === '/list' ? 'active' : '' "><a [routerLink]="'/list'" class="sub-menu-item">All Listings</a></li>
+                                <li [ngClass]="manu === '/list-left-sidebar' ? 'active' : '' "><a [routerLink]="'/list-left-sidebar'" class="sub-menu-item">With Left Sidebar</a></li>
+                                <li [ngClass]="manu === '/list-right-sidebar' ? 'active' : '' "><a [routerLink]="'/list-right-sidebar'" class="sub-menu-item">With Right Sidebar</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="has-submenu parent-menu-item" [ngClass]="['/location-detail-item' , '/location-detail-one', '/location-detail-two'].includes(manu) ? 'active' : '' ">
+                            <a [routerLink]="[]" (click)="openManu('/location-detail-item')">Property Details</a><span class="submenu-arrow"></span>
+                            <ul class="submenu" [ngClass]="['/location-detail-item' , '/location-detail-one', '/location-detail-two'].includes(subManu) ? 'open' : '' ">
+                                <li [ngClass]="manu === '/location-detail-one' ? 'active' : '' "><a [routerLink]="'/location-detail-one'" class="sub-menu-item">Standard View</a></li>
+                                <li [ngClass]="manu === '/location-detail-two' ? 'active' : '' "><a [routerLink]="'/location-detail-two'" class="sub-menu-item">Gallery View</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                -->
+
+                <!-- DISABLED: Blog Menu -->
+                <!--
+                <li class="has-submenu parent-menu-item" [ngClass]="['/blog-item' , '/blogs' , '/blog-standard' , '/blog-detail'].includes(manu) ? 'active' : '' ">
+                    <a [routerLink]="[]" (click)="openManu('/blog-item')">Blog</a><span class="menu-arrow"></span>
+                    <ul class="submenu" [ngClass]="['/blog-item' , '/blogs' , '/blog-standard' , '/blog-detail'].includes(subManu) ? 'open' : '' ">
+                        <li [ngClass]="manu === '/blogs' ? 'active' : '' "><a [routerLink]="'/blogs'" class="sub-menu-item">All Posts</a></li>
+                        <li [ngClass]="manu === '/blog-standard' ? 'active' : '' "><a [routerLink]="'/blog-standard'" class="sub-menu-item">Blog Standard</a></li>
+                        <li [ngClass]="manu === '/blog-detail' ? 'active' : '' "><a [routerLink]="'/blog-detail'" class="sub-menu-item">Blog Detail</a></li>
+                    </ul>
+                </li>
+                -->
+
+                <!-- DISABLED: Support & Information Menu -->
+                <!--
+                <li class="has-submenu parent-parent-menu-item" [ngClass]="['/contact-item' , '/contact' , '/aboutus' , '/helpcenter' , '/helpcenter-faqs' , '/helpcenter-guides' , '/helpcenter-support' , '/utility-item' , '/terms' , '/privacy'].includes(manu) ? 'active' : '' ">
+                    <a [routerLink]="[]" (click)="openManu('/contact-item')">Support & Info</a><span class="menu-arrow"></span>
+                    <ul class="submenu" [ngClass]="['/contact-item' , '/contact' , '/aboutus' , '/helpcenter' , '/helpcenter-faqs' , '/helpcenter-guides' , '/helpcenter-support' , '/utility-item' , '/terms' , '/privacy'].includes(subManu) ? 'open' : '' ">
+                        <li [ngClass]="manu === '/contact' ? 'active' : '' "><a [routerLink]="'/contact'" class="sub-menu-item">Contact Us</a></li>
+                        <li [ngClass]="manu === '/aboutus' ? 'active' : '' "><a [routerLink]="'/aboutus'" class="sub-menu-item">About Us</a></li>
+                        <li class="has-submenu parent-menu-item" [ngClass]="['/help-item' , '/helpcenter' , '/helpcenter-faqs' , '/helpcenter-guides' , '/helpcenter-support'].includes(manu) ? 'active' : '' ">
+                            <a [routerLink]="[]" (click)="openManu('/help-item')">Help Center</a><span class="submenu-arrow"></span>
+                            <ul class="submenu" [ngClass]="['/help-item' , '/helpcenter' , '/helpcenter-faqs' , '/helpcenter-guides' , '/helpcenter-support'].includes(subManu) ? 'open' : '' ">
+                                <li [ngClass]="manu === '/helpcenter' ? 'active' : '' "><a [routerLink]="'/helpcenter'" class="sub-menu-item">Overview</a></li>
+                                <li [ngClass]="manu === '/helpcenter-faqs' ? 'active' : '' "><a [routerLink]="'/helpcenter-faqs'" class="sub-menu-item">FAQs</a></li>
+                                <li [ngClass]="manu === '/helpcenter-guides' ? 'active' : '' "><a [routerLink]="'/helpcenter-guides'" class="sub-menu-item">Guides</a></li>
+                                <li [ngClass]="manu === '/helpcenter-support' ? 'active' : '' "><a [routerLink]="'/helpcenter-support'" class="sub-menu-item">Support</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-submenu parent-menu-item" [ngClass]="['/utility-item' , '/terms' , '/privacy'].includes(manu) ? 'active' : '' ">
+                            <a [routerLink]="[]" (click)="openManu('/utility-item')">Legal</a><span class="submenu-arrow"></span>
+                            <ul class="submenu" [ngClass]="['/utility-item' , '/terms' , '/privacy'].includes(subManu) ? 'open' : '' ">
+                                <li [ngClass]="manu === '/terms' ? 'active' : '' "><a [routerLink]="'/terms'" class="sub-menu-item">Terms of Service</a></li>
+                                <li [ngClass]="manu === '/privacy' ? 'active' : '' "><a [routerLink]="'/privacy'" class="sub-menu-item">Privacy Policy</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                -->
+
+                <!-- DISABLED: Auth Pages menu -->
+                <!--
+                <li *ngIf="!isAuthenticated" class="has-submenu parent-menu-item" [ngClass]="['/auth-item' , '/login' , '/signup' , '/forgot-password' , '/lock-screen'].includes(manu) ? 'active' : '' ">
+                    <a [routerLink]="[]" (click)="openManu('/auth-item')">Auth</a><span class="menu-arrow"></span>
+                    <ul class="submenu" [ngClass]="['/auth-item' , '/login' , '/signup' , '/forgot-password' , '/lock-screen'].includes(subManu) ? 'open' : '' ">
+                        <li><a [routerLink]="'/login'" class="sub-menu-item">Login</a></li>
+                        <li><a [routerLink]="'/signup'" class="sub-menu-item">Signup</a></li>
+                        <li><a [routerLink]="'/forgot-password'" class="sub-menu-item">Forgot Password</a></li>
+                        <li><a [routerLink]="'/lock-screen'" class="sub-menu-item">Lock Screen</a></li>
+                    </ul>
+                </li>
+                -->
+
+              <!-- DISABLED: Language switcher -->
+              <!--
+              <li class="has-submenu parent-menu-item">
+                <a href="javascript:void(0)">Language</a><span class="menu-arrow"></span>
+                <ul class="submenu open">
+                  <li [ngClass]="currentLang === 'en' ? 'active' : ''">
+                    <a href="javascript:void(0)" (click)="changeLang('en')" class="sub-menu-item">English</a>
+                  </li>
+                  <li [ngClass]="currentLang === 'de' ? 'active' : ''">
+                    <a href="javascript:void(0)" (click)="changeLang('de')" class="sub-menu-item">Deutsch</a>
+                  </li>
+                </ul>
+              </li>
+              -->
+
+              <!-- KEEP: Direct login link for non-authenticated users -->
+              <li *ngIf="!isAuthenticated">
+                <a [routerLink]="'/login'" class="sub-menu-item">
+                  Login
+                </a>
+              </li>
+<!--              <li *ngIf="!isAuthenticated">-->
+<!--                <a [routerLink]="'/signup'" class="sub-menu-item">-->
+<!--                  Sign Up-->
+<!--                </a>-->
+<!--              </li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+

@@ -1,0 +1,39 @@
+# Testing Dependencies for Multi-Tenant Hotel Management System
+
+# Core testing framework
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+pytest-asyncio==0.21.1
+pytest-html>=3.2.0
+pytest-xdist>=3.3.1
+
+# AWS mocking and testing
+moto==4.2.14
+boto3==1.34.0
+botocore==1.34.0
+
+# HTTP testing
+requests==2.31.0
+responses==0.24.1
+
+# JSON schema validation
+jsonschema>=4.17.0
+
+# Configuration management
+pyyaml>=6.0
+
+# Performance testing
+locust>=2.17.0
+
+# Test data generation
+faker>=19.0.0
+factory-boy>=3.3.0
+
+# Code quality
+flake8>=6.0.0
+black>=23.0.0
+isort>=5.12.0
+
+# Environment management
+python-dotenv>=1.0.0

@@ -1,0 +1,19 @@
+// Component-specific styles for booking step one
+// Using Tailwind classes in template, minimal custom SCSS needed
+
+.guest-selector {
+  .dropdown-content {
+    animation: fadeIn 0.2s ease-in-out;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

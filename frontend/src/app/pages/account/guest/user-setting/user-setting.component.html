@@ -1,0 +1,306 @@
+<app-navbar [navClass]="'defaultscroll is-sticky'" [navLight]="false"></app-navbar>
+
+<section class="relative lg:pb-24 pb-16 md:mt-[84px] mt-[70px]">
+    <div class="md:container container-fluid relative">
+        <div class="relative overflow-hidden md:rounded-md shadow dark:shadow-gray-800 h-52 bg-[url('../../assets/images/bg/cta.jpg')] bg-center bg-no-repeat bg-cover"></div>
+    </div>
+
+    <div class="container relative md:mt-24 mt-16">
+        <div class="md:flex">
+            <div class="lg:w-1/4 md:w-1/3 md:px-3">
+                <app-tab-account></app-tab-account>
+            </div>
+
+            <div class="lg:w-3/4 md:w-2/3 md:px-3 mt-6 md:mt-0">
+                <!-- Loading State -->
+                <div *ngIf="loading" class="text-center py-8">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-red-500 mx-auto"></div>
+                    <p class="text-slate-400 mt-2">Loading settings...</p>
+                </div>
+
+                <!-- Error State -->
+                <div *ngIf="error && !loading" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 mb-6">
+                    <p class="text-red-600 dark:text-red-400">{{ error }}</p>
+                </div>
+
+                <!-- Settings Content -->
+                <div *ngIf="!loading && !error">
+                    <!-- Personal Details -->
+                    <div class="p-6 rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900">
+                        <h5 class="text-lg font-semibold mb-4">Personal Details</h5>
+                        <form [formGroup]="profileForm" (ngSubmit)="onSaveProfile()">
+                            <div class="grid lg:grid-cols-2 grid-cols-1 gap-5">
+                                <div>
+                                    <label class="form-label font-medium">First Name <span class="text-red-600">*</span></label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="user" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="text"
+                                               formControlName="firstName"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300"
+                                               placeholder="First Name"
+                                               [class.border-red-500]="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched">
+                                    </div>
+                                    <p *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched"
+                                       class="text-red-500 text-sm mt-1">First name is required</p>
+                                </div>
+
+                                <div>
+                                    <label class="form-label font-medium">Last Name <span class="text-red-600">*</span></label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="user-check" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="text"
+                                               formControlName="lastName"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300"
+                                               placeholder="Last Name"
+                                               [class.border-red-500]="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched">
+                                    </div>
+                                    <p *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched"
+                                       class="text-red-500 text-sm mt-1">Last name is required</p>
+                                </div>
+
+                                <div>
+                                    <label class="form-label font-medium">Email Address <span class="text-red-600">*</span></label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="mail" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="email"
+                                               formControlName="email"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300"
+                                               placeholder="Email Address"
+                                               [class.border-red-500]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+                                    </div>
+                                    <p *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched"
+                                       class="text-red-500 text-sm mt-1">Valid email is required</p>
+                                </div>
+
+                                <div>
+                                    <label class="form-label font-medium">Phone Number</label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="phone" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="tel"
+                                               formControlName="phone"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300"
+                                               placeholder="Phone Number">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="form-label font-medium">Date of Birth</label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="calendar" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="date"
+                                               formControlName="dateOfBirth"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="form-label font-medium">Nationality</label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="flag" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="text"
+                                               formControlName="nationality"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300"
+                                               placeholder="Nationality">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="form-label font-medium">Preferred Language</label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="globe" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <select formControlName="preferredLanguage"
+                                                class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300">
+                                            <option value="en">English</option>
+                                            <option value="es">Spanish</option>
+                                            <option value="fr">French</option>
+                                            <option value="de">German</option>
+                                            <option value="it">Italian</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="form-label font-medium">Timezone</label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="clock" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <select formControlName="timezone"
+                                                class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300">
+                                            <option value="UTC">UTC</option>
+                                            <option value="America/New_York">Eastern Time</option>
+                                            <option value="America/Chicago">Central Time</option>
+                                            <option value="America/Denver">Mountain Time</option>
+                                            <option value="America/Los_Angeles">Pacific Time</option>
+                                            <option value="Europe/London">London</option>
+                                            <option value="Europe/Paris">Paris</option>
+                                            <option value="Asia/Tokyo">Tokyo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit"
+                                    [disabled]="profileForm.invalid || saving"
+                                    class="py-2 px-5 inline-block font-semibold tracking-wide align-middle duration-500 text-base text-center bg-red-500 hover:bg-red-600 text-white rounded-md mt-5 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <span *ngIf="saving" class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
+                                {{ saving ? 'Saving...' : 'Save Changes' }}
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Contact Information & Address -->
+                    <div class="p-6 rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900 mt-6">
+                        <h5 class="text-lg font-semibold mb-4">Address Information</h5>
+                        <form [formGroup]="contactForm" (ngSubmit)="onSaveContact()">
+                            <div class="grid lg:grid-cols-2 grid-cols-1 gap-5">
+                                <div class="lg:col-span-2">
+                                    <label class="form-label font-medium">Street Address</label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="map-pin" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="text"
+                                               formControlName="street"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300"
+                                               placeholder="Street Address">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="form-label font-medium">City</label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="map" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="text"
+                                               formControlName="city"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300"
+                                               placeholder="City">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="form-label font-medium">State/Province</label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="navigation" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="text"
+                                               formControlName="state"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300"
+                                               placeholder="State/Province">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="form-label font-medium">Country</label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="flag" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="text"
+                                               formControlName="country"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300"
+                                               placeholder="Country">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="form-label font-medium">ZIP/Postal Code</label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="hash" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="text"
+                                               formControlName="zipCode"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300"
+                                               placeholder="ZIP/Postal Code">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit"
+                                    [disabled]="saving"
+                                    class="py-2 px-5 inline-block font-semibold tracking-wide align-middle duration-500 text-base text-center bg-red-500 hover:bg-red-600 text-white rounded-md mt-5 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <span *ngIf="saving" class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
+                                {{ saving ? 'Saving...' : 'Save Address' }}
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Change Password -->
+                    <div class="p-6 rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900 mt-6">
+                        <h5 class="text-lg font-semibold mb-4">Change Password</h5>
+                        <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+                            <div class="grid grid-cols-1 gap-5">
+                                <div>
+                                    <label class="form-label font-medium">Current Password <span class="text-red-600">*</span></label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="key" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="password"
+                                               formControlName="currentPassword"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300"
+                                               placeholder="Current Password"
+                                               [class.border-red-500]="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched">
+                                    </div>
+                                    <p *ngIf="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched"
+                                       class="text-red-500 text-sm mt-1">Current password is required</p>
+                                </div>
+
+                                <div>
+                                    <label class="form-label font-medium">New Password <span class="text-red-600">*</span></label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="key" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="password"
+                                               formControlName="newPassword"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300"
+                                               placeholder="New Password"
+                                               [class.border-red-500]="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched">
+                                    </div>
+                                    <p *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched"
+                                       class="text-red-500 text-sm mt-1">Password must be at least 8 characters</p>
+                                </div>
+
+                                <div>
+                                    <label class="form-label font-medium">Confirm New Password <span class="text-red-600">*</span></label>
+                                    <div class="form-icon relative mt-2">
+                                        <i data-feather="key" class="size-4 absolute top-3 start-4 text-slate-400"></i>
+                                        <input type="password"
+                                               formControlName="confirmPassword"
+                                               class="ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 focus:border-red-300"
+                                               placeholder="Confirm New Password"
+                                               [class.border-red-500]="passwordForm.get('confirmPassword')?.invalid && passwordForm.get('confirmPassword')?.touched">
+                                    </div>
+                                    <p *ngIf="passwordForm.get('confirmPassword')?.errors?.['passwordMismatch'] && passwordForm.get('confirmPassword')?.touched"
+                                       class="text-red-500 text-sm mt-1">Passwords do not match</p>
+                                </div>
+                            </div>
+
+                            <button type="submit"
+                                    [disabled]="passwordForm.invalid || saving"
+                                    class="py-2 px-5 inline-block font-semibold tracking-wide align-middle duration-500 text-base text-center bg-red-500 hover:bg-red-600 text-white rounded-md mt-5 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <span *ngIf="saving" class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
+                                {{ saving ? 'Changing...' : 'Change Password' }}
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Delete Account -->
+                    <div class="p-6 rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900 mt-6">
+                        <h5 class="text-lg font-semibold mb-5 text-red-600">Delete Account</h5>
+
+                        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 mb-4">
+                            <div class="flex items-start">
+                                <i data-feather="alert-triangle" class="size-5 text-red-600 dark:text-red-400 mr-3 mt-0.5"></i>
+                                <div>
+                                    <h6 class="font-semibold text-red-900 dark:text-red-100 mb-1">Warning</h6>
+                                    <p class="text-red-700 dark:text-red-300 text-sm">
+                                        This action cannot be undone. All your data, bookings, and account information will be permanently deleted.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button (click)="onDeleteAccount()"
+                                class="py-2 px-5 inline-block font-semibold tracking-wide align-middle duration-500 text-base text-center bg-red-600 hover:bg-red-700 text-white rounded-md">
+                            Delete Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<app-footer></app-footer>
+<app-switcher></app-switcher>
+<app-footer></app-footer>
+<app-switcher></app-switcher>

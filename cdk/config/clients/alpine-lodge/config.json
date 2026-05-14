@@ -1,0 +1,88 @@
+{
+  "client": {
+    "name": "alpine-lodge",
+    "displayName": "Alpine Lodge Resort",
+    "description": "Luxury mountain resort with premium amenities",
+    "domains": {
+      "primary": "alpinelodge.com",
+      "www": "www.alpinelodge.com",
+      "dev": "dev.alpinelodge.com",
+      "api": "api.alpinelodge.com"
+    },
+    "email": {
+      "noreply": "noreply@alpinelodge.com",
+      "support": "support@alpinelodge.com",
+      "admin": "admin@alpinelodge.com",
+      "fromName": "Alpine Lodge Resort"
+    },
+    "aws": {
+      "profile": "alpine-lodge-admin",
+      "region": "us-west-2"
+    },
+    "features": {
+      "checkin": {
+        "enabled": true,
+        "deadlineHours": 24,
+        "qrCodeEnabled": true,
+        "documentUpload": {
+          "enabled": true,
+          "maxSizeMB": 15,
+          "allowedTypes": ["pdf", "jpg", "png", "doc", "docx"]
+        }
+      },
+      "reservations": {
+        "enabled": true,
+        "syncEnabled": true,
+        "syncIntervalMinutes": 15
+      },
+      "listings": {
+        "enabled": true,
+        "syncEnabled": true,
+        "publicListings": true
+      }
+    },
+    "integrations": {
+      "g4h": {
+        "origin": "https://app.guestyforhosts.com",
+        "appVersion": "6.x",
+        "platform": "browser--win32",
+        "deviceUuid": "ypa-uuid-alpine-lodge"
+      }
+    },
+    "branding": {
+      "primaryColor": "#2563eb",
+      "secondaryColor": "#64748b",
+      "accentColor": "#10b981",
+      "logo": "alpine-lodge-logo.png"
+    }
+  },
+  "environments": {
+    "prod": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 1024,
+          "timeout": 90
+        }
+      }
+    },
+    "staging": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 512,
+          "timeout": 60
+        }
+      }
+    },
+    "dev": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 256,
+          "timeout": 30
+        }
+      }
+    }
+  }
+}

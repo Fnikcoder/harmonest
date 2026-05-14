@@ -1,0 +1,387 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Payment Management</h1>
+      <p class="text-gray-600 dark:text-gray-400">Process payments, handle refunds, and manage payment methods</p>
+    </div>
+    <div class="flex space-x-3">
+      <button (click)="showLearning = !showLearning"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+        <i data-feather="book-open" class="mr-2"></i>
+        Learning Guide
+      </button>
+      <button (click)="showProcessPaymentModal = true"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+        <i data-feather="credit-card" class="mr-2"></i>
+        Process Payment
+      </button>
+    </div>
+  </div>
+
+  <!-- Learning Section -->
+  <div *ngIf="showLearning" class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+    <div class="flex items-start space-x-3">
+      <i data-feather="lightbulb" class="text-blue-600 dark:text-blue-400 mt-1"></i>
+      <div>
+        <h3 class="text-lg font-medium text-blue-900 dark:text-blue-100 mb-3">Payment Management Guide</h3>
+        <div class="space-y-3 text-sm text-blue-700 dark:text-blue-300">
+          <div>
+            <h4 class="font-medium mb-1">Payment Processing:</h4>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+              <li>Accept payments via Stripe and PayPal integration</li>
+              <li>Process refunds and partial refunds securely</li>
+              <li>Handle payment disputes and chargebacks</li>
+              <li>Set up automatic payment collection for bookings</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-medium mb-1">Best Practices:</h4>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+              <li>Always verify payment details before processing</li>
+              <li>Keep detailed records of all transactions</li>
+              <li>Set up fraud detection and prevention measures</li>
+              <li>Provide clear payment terms and policies to guests</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Payments</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.totalPayments }}</p>
+        </div>
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="credit-card" class="text-blue-600 dark:text-blue-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span class="text-green-600 dark:text-green-400 font-medium">+15%</span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">from last month</span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Successful</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.successfulPayments }}</p>
+        </div>
+        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="check-circle" class="text-green-600 dark:text-green-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span class="text-green-600 dark:text-green-400 font-medium">{{ stats.successRate }}%</span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">success rate</span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Failed Payments</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.failedPayments }}</p>
+        </div>
+        <div class="w-12 h-12 bg-red-100 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="x-circle" class="text-red-600 dark:text-red-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span class="text-red-600 dark:text-red-400 font-medium">{{ stats.failureRate }}%</span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">failure rate</span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Volume</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">€{{ stats.totalVolume | number:'1.0-0' }}</p>
+        </div>
+        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="trending-up" class="text-purple-600 dark:text-purple-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span class="text-green-600 dark:text-green-400 font-medium">+22%</span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">from last month</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Methods -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Payment Methods</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+              <i data-feather="credit-card" class="text-blue-600 dark:text-blue-400"></i>
+            </div>
+            <div>
+              <h3 class="font-medium text-gray-900 dark:text-white">Stripe</h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Credit/Debit Cards</p>
+            </div>
+          </div>
+          <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+            Active
+          </span>
+        </div>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span class="text-gray-600 dark:text-gray-400">Transactions</span>
+            <span class="font-medium">{{ paymentMethods.stripe.transactions }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600 dark:text-gray-400">Volume</span>
+            <span class="font-medium">€{{ paymentMethods.stripe.volume | number:'1.0-0' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center">
+              <i data-feather="dollar-sign" class="text-yellow-600 dark:text-yellow-400"></i>
+            </div>
+            <div>
+              <h3 class="font-medium text-gray-900 dark:text-white">PayPal</h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Digital Wallet</p>
+            </div>
+          </div>
+          <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+            Active
+          </span>
+        </div>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span class="text-gray-600 dark:text-gray-400">Transactions</span>
+            <span class="font-medium">{{ paymentMethods.paypal.transactions }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600 dark:text-gray-400">Volume</span>
+            <span class="font-medium">€{{ paymentMethods.paypal.volume | number:'1.0-0' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+              <i data-feather="smartphone" class="text-green-600 dark:text-green-400"></i>
+            </div>
+            <div>
+              <h3 class="font-medium text-gray-900 dark:text-white">Bank Transfer</h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Direct Transfer</p>
+            </div>
+          </div>
+          <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">
+            Pending
+          </span>
+        </div>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span class="text-gray-600 dark:text-gray-400">Transactions</span>
+            <span class="font-medium">{{ paymentMethods.bank.transactions }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600 dark:text-gray-400">Volume</span>
+            <span class="font-medium">€{{ paymentMethods.bank.volume | number:'1.0-0' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Transactions -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Transactions</h2>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead class="bg-gray-50 dark:bg-gray-700">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Transaction
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Customer
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Amount
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Method
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Status
+            </th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <tr *ngFor="let transaction of recentTransactions" class="hover:bg-gray-50 dark:hover:bg-gray-700">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div>
+                <div class="text-sm font-medium text-gray-900 dark:text-white">
+                  {{ transaction.id }}
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  {{ transaction.date | date:'short' }}
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm font-medium text-gray-900 dark:text-white">
+                {{ transaction.customerName }}
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm font-medium text-gray-900 dark:text-white">
+                €{{ transaction.amount | number:'1.2-2' }}
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <i [attr.data-feather]="getPaymentMethodIcon(transaction.method)" class="mr-2"></i>
+                <span class="text-sm text-gray-900 dark:text-white">{{ transaction.method }}</span>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                    [ngClass]="getTransactionStatusClass(transaction.status)">
+                {{ transaction.status | titlecase }}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <div class="flex items-center justify-end space-x-2">
+                <button (click)="viewTransaction(transaction)"
+                        class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
+                  <i data-feather="eye"></i>
+                </button>
+                <button *ngIf="transaction.status === 'completed'"
+                        (click)="refundTransaction(transaction)"
+                        class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300">
+                  <i data-feather="rotate-ccw"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <button (click)="exportTransactions()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="download" class="text-blue-600 dark:text-blue-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Export Data</span>
+      </button>
+
+      <button (click)="configurePaymentMethods()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="settings" class="text-green-600 dark:text-green-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Configure Methods</span>
+      </button>
+
+      <button (click)="viewReports()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="bar-chart-2" class="text-purple-600 dark:text-purple-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">View Reports</span>
+      </button>
+
+      <button (click)="manageRefunds()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="rotate-ccw" class="text-yellow-600 dark:text-yellow-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Manage Refunds</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Process Payment Modal -->
+<div *ngIf="showProcessPaymentModal"
+     class="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
+  <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Process Payment</h3>
+      <button (click)="showProcessPaymentModal = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+        <i data-feather="x"></i>
+      </button>
+    </div>
+
+    <form [formGroup]="paymentForm" (ngSubmit)="processPayment()">
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Email</label>
+          <input formControlName="customerEmail"
+                 type="email"
+                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Amount</label>
+          <input formControlName="amount"
+                 type="number"
+                 step="0.01"
+                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Payment Method</label>
+          <select formControlName="paymentMethod"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+            <option value="stripe">Stripe (Credit Card)</option>
+            <option value="paypal">PayPal</option>
+            <option value="bank">Bank Transfer</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+          <textarea formControlName="description"
+                    rows="3"
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white"></textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end space-x-3 mt-6">
+        <button type="button"
+                (click)="showProcessPaymentModal = false"
+                class="px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          Cancel
+        </button>
+        <button type="submit"
+                [disabled]="!paymentForm.valid"
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          Process Payment
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+// HarmoNest Logo Styling
+.harmonest-logo {
+  transition: all 0.3s ease;
+  filter: brightness(1);
+  height: 3rem !important;
+  width: auto !important;
+  max-height: none !important;
+  max-width: none !important;
+
+  &:hover {
+    filter: brightness(1.1);
+    transform: scale(1.05);
+  }
+}
+
+.logo {
+  display: flex !important;
+  align-items: center !important;
+  height: auto !important;
+  line-height: 1 !important;
+  padding: 0.5rem 0 !important;
+
+  .harmonest-logo {
+    height: 3rem !important;
+    width: auto !important;
+  }
+}
+
+// Override any conflicting navbar styles
+:host ::ng-deep {
+  #topnav .logo {
+    display: flex !important;
+    align-items: center !important;
+    height: auto !important;
+    line-height: 1 !important;
+    padding: 0.5rem 0 !important;
+    font-size: inherit !important;
+
+    .harmonest-logo {
+      height: 3rem !important;
+      width: auto !important;
+      max-height: none !important;
+      max-width: none !important;
+      display: inline-block !important;
+    }
+  }
+
+  // Override global logo styles
+  .logo {
+    line-height: 1 !important;
+    height: auto !important;
+
+    img.harmonest-logo {
+      height: 3rem !important;
+      width: auto !important;
+    }
+  }
+}

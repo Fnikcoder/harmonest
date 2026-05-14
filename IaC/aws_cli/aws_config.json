@@ -1,0 +1,13 @@
+{
+  "prod": {
+    "bucket": "harmonest.de",
+    "domain": "harmonest.de"
+  },
+  "dev": {
+    "bucket": "dev.harmonest.de",
+    "domain": "dev.harmonest.de",
+    "cloudfront_distribution_id": "E3GUI85JMV4H9S"
+  },
+  "region": "eu-central-1",
+  "aws_profile": "harmonestadmin"
+}

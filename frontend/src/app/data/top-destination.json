@@ -1,0 +1,50 @@
+[
+    {
+        "image":"assets/images/listing/1.jpg",
+        "place":"Rome, Italy",
+        "hotel":"Luxury Apartments",
+        "price": 150
+    },
+    {
+        "image":"assets/images/listing/2.jpg",
+        "place":"Singapore",
+        "hotel":"Modern Condos",
+        "price": 200
+    },
+    {
+        "image":"assets/images/listing/3.jpg",
+        "place":"Paris, France",
+        "hotel":"Charming Studios",
+        "price": 180
+    },
+    {
+        "image":"assets/images/listing/4.jpg",
+        "place":"Goa, India",
+        "hotel":"Beach Villas",
+        "price": 120
+    },
+    {
+        "image":"assets/images/listing/5.jpg",
+        "place":"Whistler, Canada",
+        "hotel":"Mountain Cabins",
+        "price": 250
+    },
+    {
+        "image":"assets/images/listing/6.jpg",
+        "place":"Kuala Lumpur, Malaysia",
+        "hotel":"City Apartments",
+        "price": 100
+    },
+    {
+        "image":"assets/images/listing/7.jpg",
+        "place":"Sydney, Australia",
+        "hotel":"Harbor Views",
+        "price": 220
+    },
+    {
+        "image":"assets/images/listing/8.jpg",
+        "place":"Virginia Beach",
+        "hotel":"Beach Houses",
+        "price": 170
+    }
+]

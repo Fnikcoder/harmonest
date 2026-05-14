@@ -1,0 +1,57 @@
+<app-navbar [navClass]="'defaultscroll is-sticky'" [navLight]="true"></app-navbar>
+
+<section class="relative table w-full py-36 bg-[url('/assets/images/bg/cta.jpg')] bg-center bg-no-repeat bg-cover">
+    <div class="absolute inset-0 bg-black opacity-80"></div>
+    <div class="container relative">
+        <div class="grid grid-cols-1 pb-8 text-center mt-10">
+            <h3 class="text-4xl leading-normal tracking-wider font-semibold text-white">Frequently Asked Questions</h3>
+        </div>
+    </div>
+    
+    <div class="absolute text-center z-10 bottom-5 start-0 end-0 mx-3">
+        <ul class="tracking-[0.5px] mb-0 inline-block">
+            <li class="inline-block uppercase text-[13px] font-bold duration-500 ease-in-out text-white/50 hover:text-white"><a routerLink="/">Travosy</a></li>
+            <li class="inline-block text-base text-white/50 mx-0.5 ltr:rotate-0 rtl:rotate-180"><i class="mdi mdi-chevron-right"></i></li>
+            <li class="inline-block uppercase text-[13px] font-bold duration-500 ease-in-out text-white/50 hover:text-white"><a routerLink="/helpcenter">Helpcenter</a></li>
+            <li class="inline-block text-base text-white/50 mx-0.5 ltr:rotate-0 rtl:rotate-180"><i class="mdi mdi-chevron-right"></i></li>
+            <li class="inline-block uppercase text-[13px] font-bold duration-500 ease-in-out text-white" aria-current="page">FAQs</li>
+        </ul>
+    </div>
+</section>
+
+<section class="relative md:py-24 py-16">
+    <div class="container relative">
+        <div class="grid grid-cols-1 gap-6">
+
+            <div class="md:w-3/4 w-full mx-auto">
+                <div id="tech">
+                    <h5 class="text-2xl font-semibold">Buying Product</h5>
+
+                    <app-faq-accordian></app-faq-accordian>
+                </div>
+
+                <div id="general" class="mt-8">
+                    <h5 class="text-2xl font-semibold">General Questions</h5>
+
+                    <app-faq-accordian></app-faq-accordian>
+                </div>
+
+                <div id="payment" class="mt-8">
+                    <h5 class="text-2xl font-semibold">Payments Questions</h5>
+
+                    <app-faq-accordian></app-faq-accordian>
+                </div>
+
+                <div id="support" class="mt-8">
+                    <h5 class="text-2xl font-semibold">Support Questions</h5>
+
+                    <app-faq-accordian></app-faq-accordian>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <app-get-in-touch></app-get-in-touch>
+</section>
+<app-footer></app-footer>
+<app-switcher></app-switcher>

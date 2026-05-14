@@ -1,0 +1,76 @@
+{
+  "client": {
+    "name": "budget-stay",
+    "displayName": "Budget Stay Hotels",
+    "description": "Affordable accommodation chain with essential amenities",
+    "domains": {
+      "primary": "budgetstay.com",
+      "www": "www.budgetstay.com",
+      "dev": "dev.budgetstay.com"
+    },
+    "email": {
+      "noreply": "noreply@budgetstay.com",
+      "support": "help@budgetstay.com",
+      "fromName": "Budget Stay Hotels"
+    },
+    "aws": {
+      "profile": "budget-stay-admin",
+      "region": "us-west-1"
+    },
+    "features": {
+      "checkin": {
+        "enabled": true,
+        "deadlineHours": 12,
+        "qrCodeEnabled": false,
+        "documentUpload": {
+          "enabled": false
+        }
+      },
+      "reservations": {
+        "enabled": true,
+        "syncEnabled": true,
+        "syncIntervalMinutes": 60
+      },
+      "listings": {
+        "enabled": true,
+        "syncEnabled": true,
+        "publicListings": false
+      }
+    },
+    "integrations": {
+      "g4h": {
+        "origin": "https://app.guestyforhosts.com",
+        "appVersion": "6.x",
+        "platform": "browser--win32",
+        "deviceUuid": "ypa-uuid-budget-stay"
+      }
+    },
+    "branding": {
+      "primaryColor": "#059669",
+      "secondaryColor": "#6b7280",
+      "accentColor": "#dc2626",
+      "logo": "budget-stay-logo.png",
+      "theme": "minimal"
+    }
+  },
+  "environments": {
+    "prod": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 256,
+          "timeout": 30
+        }
+      }
+    },
+    "dev": {
+      "enabled": true,
+      "scaling": {
+        "lambda": {
+          "memorySize": 128,
+          "timeout": 15
+        }
+      }
+    }
+  }
+}

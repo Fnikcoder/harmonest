@@ -1,0 +1,40 @@
+﻿{
+  "IdentityPoolId": "eu-central-1:434a4973-03f1-4074-929b-de185a7cd4ac",
+  "Roles": {
+    "authenticated": "arn:aws:iam::669597026882:role/HarmonestUserManagement-prod-GuestRole80ECD357-iuCpwg2lhr3D"
+  },
+  "RoleMappings": {
+    "cognito-idp.eu-central-1.amazonaws.com/eu-central-1_oOMDUFanW:4jm7vgta4tc7r5chltr4eb4kqj": {
+      "Type": "Rules",
+      "AmbiguousRoleResolution": "AuthenticatedRole",
+      "RulesConfiguration": {
+        "Rules": [
+          {
+            "Claim": "cognito:groups",
+            "MatchType": "Equals",
+            "Value": "owner",
+            "RoleARN": "arn:aws:iam::669597026882:role/HarmonestUserManagement-prod-OwnerRoleC3E83647-i59VC6hwXNIW"
+          },
+          {
+            "Claim": "cognito:groups",
+            "MatchType": "Equals",
+            "Value": "super_admin",
+            "RoleARN": "arn:aws:iam::669597026882:role/HarmonestUserManagement-prod-SuperAdminRole9B41299C-YOYWzQTs7hXh"
+          },
+          {
+            "Claim": "cognito:groups",
+            "MatchType": "Equals",
+            "Value": "admin",
+            "RoleARN": "arn:aws:iam::669597026882:role/HarmonestUserManagement-prod-AdminRole38563C57-AxYOlAve6SE7"
+          },
+          {
+            "Claim": "cognito:groups",
+            "MatchType": "Equals",
+            "Value": "support",
+            "RoleARN": "arn:aws:iam::669597026882:role/HarmonestUserManagement-prod-SupportRole68F72D2C-ZKpuzBo9qm8Q"
+          }
+        ]
+      }
+    }
+  }
+}

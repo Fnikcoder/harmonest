@@ -1,0 +1,53 @@
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+  }
+
+::ng-deep .custom-datepicker-field .mat-mdc-form-field-flex {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid #e5e7eb; // Tailwind gray-200
+  background-color: white;
+  height: 2.5rem;
+}
+
+.dark ::ng-deep .custom-datepicker-field .mat-mdc-form-field-flex {
+  background-color: #0f172a; // Tailwind dark slate
+  border-color: #1e293b;
+  color: #e2e8f0;
+}
+
+/* index-four.component.scss */
+
+::ng-deep .mat-calendar {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep .mat-calendar-body-cell {
+  font-size: 14px;
+  border-radius: 9999px;
+  transition: background-color 0.2s ease;
+}
+
+::ng-deep .mat-calendar-body-selected,
+::ng-deep .mat-calendar-body-range-start,
+::ng-deep .mat-calendar-body-range-end {
+  background-color: #ef4444 !important;
+  color: white !important;
+}
+
+::ng-deep .mat-calendar-body-in-range:not(.mat-calendar-body-start):not(.mat-calendar-body-end) {
+  background-color: rgba(239, 68, 68, 0.15);
+}
+
+/* Dark mode */
+.dark ::ng-deep .mat-calendar {
+  background-color: #1e293b;
+  color: #e2e8f0;
+}
+
+.dark ::ng-deep .mat-calendar-body-in-range {
+  background-color: rgba(239, 68, 68, 0.2);
+}
+

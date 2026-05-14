@@ -1,0 +1,127 @@
+<footer class="footer bg-dark-footer relative text-gray-200 dark:text-gray-200">
+  <div class="container relative">
+    <div class="grid grid-cols-12">
+      <div class="col-span-12">
+        <div class="py-[60px] px-0">
+          <div class="grid md:grid-cols-12 grid-cols-1 gap-6">
+            <div class="lg:col-span-3 md:col-span-12">
+              <a [routerLink]="'/'" class="focus:outline-none">
+                <img src="assets/images/branding/HarmoNest-18.png" class="w-36 harmonest-logo-footer" alt="HarmoNest">
+              </a>
+              <p class="mt-6 text-gray-300">Find your perfect short-term rental. From cozy apartments to luxury villas, we offer a wide range of properties for your stay.</p>
+              <!-- DISABLED: Social media icons -->
+              <!--
+              <ul class="list-none mt-6 space-x-1">
+                <li *ngFor="let item of social" class="inline">
+                  <a href={{item.link}} target="_blank" class="size-8 inline-flex items-center justify-center tracking-wide align-middle text-base border border-gray-800 dark:border-slate-800 rounded-md hover:bg-red-500 hover:text-white text-slate-300">
+                    <i [attr.data-feather]="item.icon" class="size-4 align-middle" title="Social"></i>
+                  </a>
+                </li>
+              </ul>
+              -->
+            </div>
+
+            <div class="lg:col-span-3 md:col-span-4">
+              <div class="lg:ms-8">
+                <h5 class="tracking-[1px] text-gray-100 font-semibold">Contact Us</h5>
+
+                <div class="flex mt-4">
+                  <i data-feather="map-pin" class="size-4 text-harmonest-blue me-2 mt-1"></i>
+                  <div class="">
+                    <h6 class="text-gray-300">
+                      HarmoNest Group<br>
+                      Bahnhof str 18<br>
+                      41236 Mönchengladbach, Germany
+                    </h6>
+                  </div>
+                </div>
+
+                <div class="flex mt-4">
+                  <i data-feather="mail" class="size-4 text-harmonest-blue me-2 mt-1"></i>
+                  <div class="">
+                    <a href="mailto:support@harmonest.de" class="text-slate-300 hover:text-slate-400 duration-500 ease-in-out">support&#64;harmonest.de</a>
+                  </div>
+                </div>
+
+                <div class="flex mt-4">
+                  <i data-feather="phone" class="size-4 text-harmonest-blue me-2 mt-1"></i>
+                  <div class="">
+                    <a href="tel:0049176863067530" class="text-slate-300 hover:text-slate-400 duration-500 ease-in-out">0049 176 8630 6753</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- DISABLED: Quick Links section -->
+            <!--
+            <div class="lg:col-span-3 md:col-span-4">
+              <div class="lg:ms-8">
+                <h5 class="tracking-[1px] text-gray-100 font-semibold">Quick Links</h5>
+                <ul class="list-none footer-list mt-6">
+                  <li class="mt-[10px] first:mt-0" *ngFor="let item of company">
+                    <a routerLink={{item.link}} class="text-gray-300 hover:text-gray-400 duration-500 ease-in-out">
+                      <i class="mdi mdi-chevron-right"></i> {{item.name}}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            -->
+
+            <!-- DISABLED: Stay Updated newsletter section -->
+            <!--
+            <div class="lg:col-span-3 md:col-span-4">
+              <h5 class="tracking-[1px] text-gray-100 font-semibold">Stay Updated</h5>
+              <p class="mt-6">Subscribe to our newsletter for exclusive deals and new property listings.</p>
+              <form>
+                <div class="grid grid-cols-1">
+                  <div class="my-3">
+                    <label class="form-label">Your email <span class="text-red-600">*</span></label>
+                    <div class="form-icon relative mt-2">
+                      <i data-feather="mail" class="size-4 absolute top-3 start-4"></i>
+                      <input type="email" class="ps-12 rounded w-full py-2 px-3 h-10 bg-gray-800 border-0 text-gray-100 focus:shadow-none focus:ring-0 placeholder:text-gray-200 outline-none" placeholder="Enter your email" name="email" required="">
+                    </div>
+                  </div>
+
+                  <button type="submit" id="submitsubscribe" name="send" class="py-2 px-5 inline-block font-semibold tracking-wide align-middle duration-500 text-base text-center bg-red-500 text-white rounded-md">Subscribe</button>
+                </div>
+              </form>
+            </div>
+            -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="py-[30px] px-0 border-t border-slate-800">
+    <div class="container relative">
+      <div class="grid grid-cols-1">
+        <!-- Legal Links -->
+        <div class="text-center mb-4">
+          <ul class="list-none inline-flex flex-wrap items-center justify-center gap-4 md:gap-6">
+            <li>
+              <a [routerLink]="'/terms'" class="text-gray-300 hover:text-harmonest-blue duration-300 ease-in-out text-sm md:text-base flex items-center gap-2">
+                <i data-feather="file-text" class="size-4 text-harmonest-blue"></i>
+                <span>Terms & Conditions</span>
+              </a>
+            </li>
+            <li class="text-gray-600">|</li>
+            <li>
+              <a [routerLink]="'/privacy'" class="text-gray-300 hover:text-harmonest-blue duration-300 ease-in-out text-sm md:text-base flex items-center gap-2">
+                <i data-feather="shield" class="size-4 text-harmonest-blue"></i>
+                <span>Privacy Policy</span>
+              </a>
+            </li>
+            <li class="text-gray-600">|</li>
+          </ul>
+        </div>
+
+        <!-- Copyright -->
+        <div class="text-center">
+          <p class="mb-0 text-gray-400 text-sm">© {{date}} HarmoNest. All rights reserved. | Regulated short-term rental service in Germany</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

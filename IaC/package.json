@@ -1,0 +1,44 @@
+{
+  "name": "harmonest-aws-cdk",
+  "version": "1.0.0",
+  "description": "AWS CDK Infrastructure for Harmonest Application",
+  "bin": {
+    "harmonest-cdk": "bin/harmonest-app.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "node -e \"console.log('No tests configured')\"",
+    "cdk": "cdk",
+    "deploy:dev": "cdk deploy --all --profile harmonestadmin --context environment=dev",
+    "deploy:prod": "cdk deploy --all --profile harmonestadmin --context environment=prod",
+    "destroy:dev": "cdk destroy --all --profile harmonestadmin --context environment=dev",
+    "destroy:prod": "cdk destroy --all --profile harmonestadmin --context environment=prod",
+    "diff:dev": "cdk diff --all --profile harmonestadmin --context environment=dev",
+    "diff:prod": "cdk diff --all --profile harmonestadmin --context environment=prod",
+    "synth": "cdk synth",
+    "bootstrap:dev": "cdk bootstrap --profile harmonestadmin --context environment=dev",
+    "bootstrap:prod": "cdk bootstrap --profile harmonestadmin --context environment=prod",
+    "cleanup:audit-first": "powershell -ExecutionPolicy Bypass -File ./scripts/audit/check-before-deletion.ps1",
+    "cleanup:backend": "powershell -ExecutionPolicy Bypass -File ./scripts/cleanup/delete-backend-services.ps1",
+    "cleanup:verify": "powershell -ExecutionPolicy Bypass -File ./scripts/audit/verify-frontend-only.ps1"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.8",
+    "aws-cdk": "2.178.2",
+    "typescript": "~5.6.2"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.167.1",
+    "constructs": "^10.0.0"
+  },
+  "keywords": [
+    "aws",
+    "cdk",
+    "infrastructure",
+    "harmonest",
+    "typescript"
+  ],
+  "author": "Harmonest Team",
+  "license": "MIT"
+}

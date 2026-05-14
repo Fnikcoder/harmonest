@@ -1,0 +1,170 @@
+<div *ngIf="isOpen" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black bg-opacity-50" (click)="close()">
+  <div class="bg-white dark:bg-slate-900 rounded-t-xl sm:rounded-xl shadow-2xl dark:shadow-gray-700 p-4 sm:p-6 w-full sm:max-w-md md:max-w-2xl lg:max-w-4xl sm:mx-4 max-h-[90vh] overflow-y-auto" (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-4 sm:mb-6">
+      <h3 class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">Select Dates</h3>
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          (click)="clearSelection()"
+          class="px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors touch-manipulation">
+          Clear
+        </button>
+        <button
+          type="button"
+          (click)="close()"
+          class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors touch-manipulation">
+          <i data-feather="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Selected Range Display -->
+<!--    <div *ngIf="selectedRange.start || selectedRange.end" class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">-->
+<!--      <div class="flex items-center justify-center text-sm">-->
+<!--        <div class="flex items-center gap-4">-->
+<!--          <div class="text-center">-->
+<!--            <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">Check-in</div>-->
+<!--            <div class="font-medium text-slate-900 dark:text-white">-->
+<!--              {{ selectedRange.start ? (selectedRange.start | date:'MMM dd, yyyy') : 'Select date' }}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <i data-feather="arrow-right" class="w-4 h-4 text-gray-400"></i>-->
+<!--          <div class="text-center">-->
+<!--            <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">Check-out</div>-->
+<!--            <div class="font-medium text-slate-900 dark:text-white">-->
+<!--              {{ selectedRange.end ? (selectedRange.end | date:'MMM dd, yyyy') : 'Select date' }}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+    <!-- Calendar Navigation -->
+    <div class="flex items-center justify-between mb-4 sm:mb-6">
+      <button
+        type="button"
+        (click)="previousMonth()"
+        class="p-3 sm:p-2 text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all touch-manipulation">
+        <i data-feather="chevron-left" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Mobile: Single month name, Desktop: Two month names -->
+      <div class="flex items-center gap-2 sm:gap-8">
+        <h4 class="text-base sm:text-lg font-medium text-slate-900 dark:text-white">{{ getMonthYear(firstMonth) }}</h4>
+        <h4 class="hidden md:block text-base sm:text-lg font-medium text-slate-900 dark:text-white">{{ getMonthYear(secondMonth) }}</h4>
+      </div>
+
+      <button
+        type="button"
+        (click)="nextMonth()"
+        class="p-3 sm:p-2 text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all touch-manipulation">
+        <i data-feather="chevron-right" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Calendar Grid - Mobile First: Single column, Desktop: Two columns -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+
+      <!-- First Month -->
+      <div class="calendar-month">
+        <!-- Day Headers -->
+        <div class="grid grid-cols-7 gap-1 mb-3">
+          <div *ngFor="let dayName of dayNames" class="text-center text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 py-2">
+            {{ dayName }}
+          </div>
+        </div>
+
+        <!-- Calendar Days -->
+        <div class="grid grid-cols-7 gap-1">
+          <div *ngFor="let day of firstMonthDays" class="relative h-12 w-12 sm:h-10 sm:w-10">
+            <button
+              *ngIf="!day.isEmpty"
+              type="button"
+              (click)="onDayClick(day)"
+              [disabled]="day.isDisabled"
+              class="w-full h-full text-sm rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 dark:focus:ring-offset-gray-900 touch-manipulation"
+              [ngClass]="{
+                'text-gray-400 dark:text-gray-600 cursor-not-allowed': day.isDisabled,
+                'text-gray-400 dark:text-gray-500': !day.isCurrentMonth && !day.isDisabled,
+                'text-slate-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700': day.isCurrentMonth && !day.isDisabled && !day.isSelected && !day.isInRange,
+                'bg-red-500 text-white': day.isRangeStart || day.isRangeEnd,
+                'bg-red-100 dark:bg-red-900/30 text-red-900 dark:text-red-100': day.isInRange,
+                'ring-2 ring-red-500 ring-offset-1 dark:ring-offset-gray-900': day.isToday && !day.isSelected,
+                'font-bold': day.isToday
+              }">
+              {{ day.date?.getDate() }}
+
+              <!-- Today indicator -->
+              <div *ngIf="day.isToday && !day.isSelected" class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-red-500 rounded-full"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Second Month - Hidden on mobile, shown on desktop -->
+      <div class="calendar-month hidden md:block">
+        <!-- Day Headers -->
+        <div class="grid grid-cols-7 gap-1 mb-3">
+          <div *ngFor="let dayName of dayNames" class="text-center text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 py-2">
+            {{ dayName }}
+          </div>
+        </div>
+
+        <!-- Calendar Days -->
+        <div class="grid grid-cols-7 gap-1">
+          <div *ngFor="let day of secondMonthDays" class="relative h-12 w-12 sm:h-10 sm:w-10">
+            <button
+              *ngIf="!day.isEmpty"
+              type="button"
+              (click)="onDayClick(day)"
+              [disabled]="day.isDisabled"
+              class="w-full h-full text-sm rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 dark:focus:ring-offset-gray-900 touch-manipulation"
+              [ngClass]="{
+                'text-gray-400 dark:text-gray-600 cursor-not-allowed': day.isDisabled,
+                'text-gray-400 dark:text-gray-500': !day.isCurrentMonth && !day.isDisabled,
+                'text-slate-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700': day.isCurrentMonth && !day.isDisabled && !day.isSelected && !day.isInRange,
+                'bg-red-500 text-white': day.isRangeStart || day.isRangeEnd,
+                'bg-red-100 dark:bg-red-900/30 text-red-900 dark:text-red-100': day.isInRange,
+                'ring-2 ring-red-500 ring-offset-1 dark:ring-offset-gray-900': day.isToday && !day.isSelected,
+                'font-bold': day.isToday
+              }">
+              {{ day.date?.getDate() }}
+
+              <!-- Today indicator -->
+              <div *ngIf="day.isToday && !day.isSelected" class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-red-500 rounded-full"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex flex-col sm:flex-row items-center justify-between mt-6 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700 gap-4 sm:gap-0">
+      <div class="text-sm text-gray-600 dark:text-gray-400 text-center sm:text-left">
+        <span *ngIf="!selectedRange.start">Select your check-in date</span>
+        <span *ngIf="selectedRange.start && !selectedRange.end">Select your check-out date</span>
+        <span *ngIf="selectedRange.start && selectedRange.end">
+          {{ (selectedRange.end.getTime() - selectedRange.start.getTime()) / (1000 * 60 * 60 * 24) }} night(s) selected
+        </span>
+      </div>
+
+      <div class="flex gap-3 w-full sm:w-auto">
+        <button
+          type="button"
+          (click)="close()"
+          class="flex-1 sm:flex-none px-4 py-3 sm:py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors touch-manipulation">
+          Cancel
+        </button>
+        <button
+          type="button"
+          (click)="close()"
+          [disabled]="!selectedRange.start || !selectedRange.end"
+          class="flex-1 sm:flex-none px-4 py-3 sm:py-2 text-sm bg-red-500 hover:bg-red-600 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors touch-manipulation">
+          Apply Dates
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

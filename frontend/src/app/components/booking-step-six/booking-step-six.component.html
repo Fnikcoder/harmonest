@@ -1,0 +1,197 @@
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow dark:shadow-gray-700 p-4 sm:p-6">
+  <!-- Success Header -->
+  <div class="text-center mb-8">
+    <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+      <i data-feather="check-circle" class="w-12 h-12 text-green-600 dark:text-green-400"></i>
+    </div>
+    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-2">Booking Confirmed!</h2>
+    <p class="text-slate-600 dark:text-slate-400 text-lg">Thank you for choosing Harmonest</p>
+  </div>
+
+  <!-- Confirmation Details -->
+  <div class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6 mb-8">
+    <div class="text-center mb-6">
+      <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Confirmation Number</h3>
+      <div class="inline-flex items-center px-4 py-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+        <span class="text-2xl font-mono font-bold text-green-600 dark:text-green-400 mr-3">{{ confirmationNumber }}</span>
+        <button
+          type="button"
+          (click)="onShareBooking()"
+          class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+          <i data-feather="copy" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Save this number for your records</p>
+    </div>
+
+    <!-- Quick Summary -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+      <div class="bg-white dark:bg-slate-800 rounded-lg p-4">
+        <i data-feather="calendar" class="w-6 h-6 text-blue-600 mx-auto mb-2"></i>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Check-in</p>
+        <p class="font-semibold text-slate-900 dark:text-white">{{ bookingData.dateRange?.start | date:'MMM dd, yyyy' }}</p>
+      </div>
+      <div class="bg-white dark:bg-slate-800 rounded-lg p-4">
+        <i data-feather="users" class="w-6 h-6 text-green-600 mx-auto mb-2"></i>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Guests</p>
+        <p class="font-semibold text-slate-900 dark:text-white">{{ totalGuests }} Guest{{ totalGuests > 1 ? 's' : '' }}</p>
+      </div>
+      <div class="bg-white dark:bg-slate-800 rounded-lg p-4">
+        <i data-feather="moon" class="w-6 h-6 text-purple-600 mx-auto mb-2"></i>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Nights</p>
+        <p class="font-semibold text-slate-900 dark:text-white">{{ nights }} Night{{ nights > 1 ? 's' : '' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- What's Next Section -->
+  <div class="mb-8">
+    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center">
+      <i data-feather="clock" class="w-5 h-5 mr-2 text-blue-600"></i>
+      What's Next?
+    </h3>
+
+    <div class="space-y-4">
+      <!-- Email Confirmation -->
+      <div class="flex items-start p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+        <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mr-4 mt-1">
+          <i data-feather="mail" class="w-4 h-4 text-blue-600"></i>
+        </div>
+        <div>
+          <h4 class="font-medium text-blue-900 dark:text-blue-200 mb-1">Confirmation Email Sent</h4>
+          <p class="text-sm text-blue-700 dark:text-blue-300">
+            A detailed confirmation has been sent to <strong>{{ bookingData.guestDetails?.email }}</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- Check-in Instructions -->
+      <div class="flex items-start p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+        <div class="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mr-4 mt-1">
+          <i data-feather="map-pin" class="w-4 h-4 text-green-600"></i>
+        </div>
+        <div>
+          <h4 class="font-medium text-green-900 dark:text-green-200 mb-1">Check-in Information</h4>
+          <p class="text-sm text-green-700 dark:text-green-300">
+            Check-in starts at 3:00 PM. Please bring a valid ID and your confirmation number.
+          </p>
+        </div>
+      </div>
+
+      <!-- Mobile Check-in -->
+      <div class="flex items-start p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg">
+        <div class="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mr-4 mt-1">
+          <i data-feather="smartphone" class="w-4 h-4 text-purple-600"></i>
+        </div>
+        <div>
+          <h4 class="font-medium text-purple-900 dark:text-purple-200 mb-1">Mobile Check-in Available</h4>
+          <p class="text-sm text-purple-700 dark:text-purple-300">
+            Skip the front desk! Use our mobile app for express check-in starting 24 hours before arrival.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Summary -->
+  <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-6 mb-8">
+    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center">
+      <i data-feather="file-text" class="w-5 h-5 mr-2 text-gray-600"></i>
+      Booking Summary
+    </h3>
+
+    <div class="space-y-3">
+      <!-- Guest Details -->
+      <div class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700">
+        <span class="text-gray-600 dark:text-gray-400">Guest Name</span>
+        <span class="font-medium text-slate-900 dark:text-white">
+          {{ bookingData.guestDetails?.firstName }} {{ bookingData.guestDetails?.lastName }}
+        </span>
+      </div>
+
+      <!-- Stay Dates -->
+      <div class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700">
+        <span class="text-gray-600 dark:text-gray-400">Stay Dates</span>
+        <span class="font-medium text-slate-900 dark:text-white">
+          {{ bookingData.dateRange?.start | date:'MMM dd' }} - {{ bookingData.dateRange?.end | date:'MMM dd, yyyy' }}
+        </span>
+      </div>
+
+      <!-- Rooms -->
+      <div class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700">
+        <span class="text-gray-600 dark:text-gray-400">Rooms</span>
+        <span class="font-medium text-slate-900 dark:text-white">{{ bookingData.guests?.rooms || 0 }} Room{{ (bookingData.guests?.rooms || 0) > 1 ? 's' : '' }}</span>
+      </div>
+
+      <!-- Total Amount -->
+      <div class="flex justify-between items-center py-2 pt-4">
+        <span class="text-lg font-semibold text-slate-900 dark:text-white">Total Paid</span>
+        <span class="text-xl font-bold text-green-600">${{ (bookingData.total || 0) | number:'1.2-2' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <button
+      type="button"
+      (click)="onDownloadConfirmation()"
+      class="flex items-center justify-center py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+      <i data-feather="download" class="w-4 h-4 mr-2"></i>
+      Download PDF
+    </button>
+
+    <button
+      type="button"
+      (click)="onViewBookingDetails()"
+      class="flex items-center justify-center py-3 px-4 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+      <i data-feather="eye" class="w-4 h-4 mr-2"></i>
+      View Details
+    </button>
+
+    <button
+      type="button"
+      (click)="onShareBooking()"
+      class="flex items-center justify-center py-3 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+      <i data-feather="share-2" class="w-4 h-4 mr-2"></i>
+      Share Booking
+    </button>
+
+    <button
+      type="button"
+      (click)="onContactSupport()"
+      class="flex items-center justify-center py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors">
+      <i data-feather="help-circle" class="w-4 h-4 mr-2"></i>
+      Get Help
+    </button>
+  </div>
+
+  <!-- Contact Information -->
+  <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 mb-8">
+    <h3 class="text-lg font-semibold text-yellow-900 dark:text-yellow-200 mb-3 flex items-center">
+      <i data-feather="phone" class="w-5 h-5 mr-2"></i>
+      Need Assistance?
+    </h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+      <div>
+        <p class="text-yellow-800 dark:text-yellow-300 mb-1"><strong>24/7 Support</strong></p>
+        <p class="text-yellow-700 dark:text-yellow-400">+1 (555) 123-4567</p>
+      </div>
+      <div>
+        <p class="text-yellow-800 dark:text-yellow-300 mb-1"><strong>Email Support</strong></p>
+        <p class="text-yellow-700 dark:text-yellow-400">{{"support@harmonest.com"}}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start New Booking -->
+  <div class="text-center">
+    <button
+      type="button"
+      (click)="onStartNewBooking()"
+      class="py-3 px-8 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors">
+      <i data-feather="plus" class="w-4 h-4 mr-2 inline"></i>
+      Book Another Stay
+    </button>
+  </div>
+</div>

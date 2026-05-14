@@ -1,0 +1,110 @@
+<div class="grid grid-cols-1">
+  <form
+    class="p-6 bg-white dark:bg-slate-900 rounded-xl shadow dark:shadow-gray-700"
+    [formGroup]="form"
+    (ngSubmit)="onSearch()"
+  >
+    <div class="registration-form text-dark text-start">
+      <div class="flex flex-col gap-4">
+
+        <!-- Date Range Picker -->
+        <div>
+          <label class="form-label font-medium text-slate-900 dark:text-white">Check-in / Check-out</label>
+          <div class="relative mt-2">
+            <i data-feather="calendar" class="size-[18px] absolute top-[10px] start-3 text-slate-500 cursor-pointer" (click)="openDatepicker()"></i>
+            <input
+              type="text"
+              readonly
+              class="w-full py-2 px-3 ps-10 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border border-gray-100 dark:border-gray-800 focus:ring-0 cursor-pointer"
+              (click)="openDatepicker()"
+              [value]="
+                dateRangeGroup.value.start && dateRangeGroup.value.end
+                  ? (dateRangeGroup.value.start | date: 'dd.MM.yy') +
+                    ' - ' +
+                    (dateRangeGroup.value.end | date: 'dd.MM.yy')
+                  : ''
+              "
+              placeholder="Select your stay dates"
+            />
+          </div>
+        </div>
+
+        <!-- Guest Selector -->
+        <div class="guest-selector relative text-slate-900 dark:text-white">
+          <label class="form-label font-medium">Guests & Rooms</label>
+          <div class="relative mt-2">
+            <i data-feather="users" class="size-[18px] absolute top-[10px] start-3"></i>
+            <div
+              class="w-full py-2 px-3 ps-10 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-md outline-none border border-gray-100 dark:border-gray-800 focus-within:ring-0 cursor-pointer"
+              (click)="showGuestDropdown = !showGuestDropdown"
+            >
+              {{ guests.adults + guests.children }} Guest{{ guests.adults + guests.children > 1 ? 's' : '' }}, {{ guests.rooms }} Room{{ guests.rooms > 1 ? 's' : '' }}
+            </div>
+
+            <div *ngIf="showGuestDropdown" class="absolute z-10 w-full mt-1 p-4 bg-white dark:bg-slate-800 rounded-lg shadow border border-gray-100 dark:border-gray-700">
+              <div class="flex justify-between items-center mb-4">
+                <span>Adults</span>
+                <div class="flex items-center gap-2">
+                  <button type="button" (click)="adjustGuests('adults', -1)" class="w-6 h-6 flex items-center justify-center rounded-full border">
+                    <i data-feather="minus" class="w-4 h-4"></i>
+                  </button>
+                  <span class="w-3 text-center">{{ guests.adults }}</span>
+                  <button type="button" (click)="adjustGuests('adults', 1)" class="w-6 h-6 flex items-center justify-center rounded-full border">
+                    <i data-feather="plus" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex justify-between items-center mb-4">
+                <span>Rooms</span>
+                <div class="flex items-center gap-2">
+                  <button type="button" (click)="adjustGuests('rooms', -1)" class="w-6 h-6 flex items-center justify-center rounded-full border">
+                    <i data-feather="minus" class="w-4 h-4"></i>
+                  </button>
+                  <span class="w-3 text-center">{{ guests.rooms }}</span>
+                  <button type="button" (click)="adjustGuests('rooms', 1)" class="w-6 h-6 flex items-center justify-center rounded-full border">
+                    <i data-feather="plus" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex justify-between items-start">
+                <div class="flex flex-col justify-between items-start">
+                  <span>Children</span>
+                  <span class="text-xs text-gray-400 dark:text-gray-300">(Ages 0–17)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button type="button" (click)="adjustGuests('children', -1)" class="w-6 h-6 flex items-center justify-center rounded-full border">
+                    <i data-feather="minus" class="w-4 h-4"></i>
+                  </button>
+                  <span class="w-3 text-center">{{ guests.children }}</span>
+                  <button type="button" (click)="adjustGuests('children', 1)" class="w-6 h-6 flex items-center justify-center rounded-full border">
+                    <i data-feather="plus" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Submit -->
+        <div>
+          <button
+            type="submit"
+            class="mt-4 py-2 px-5 h-10 inline-block tracking-wide align-middle duration-500 text-base text-center bg-red-500 hover:bg-red-600 text-white rounded-md w-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            [disabled]="!form.valid">
+            Book Now
+            <i data-feather="arrow-right" class="w-4 h-4 ml-2 inline"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- Custom Datepicker -->
+  <app-custom-datepicker
+    [isOpen]="showDatepicker"
+    [selectedRange]="{ start: dateRangeGroup.value.start, end: dateRangeGroup.value.end }"
+    (dateRangeSelected)="onDateRangeSelected($event)"
+    (closeCalendar)="closeDatepicker()">
+  </app-custom-datepicker>
+</div>

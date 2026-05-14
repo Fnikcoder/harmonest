@@ -1,0 +1,93 @@
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow dark:shadow-gray-700 p-4 sm:p-6 lg:sticky lg:top-20">
+  <h3 class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white mb-4 sm:mb-6">Booking Summary</h3>
+
+  <!-- Dates -->
+  <div *ngIf="bookingData.dateRange?.start && bookingData.dateRange?.end" class="mb-6">
+    <div class="flex items-center mb-2">
+      <i data-feather="calendar" class="w-4 h-4 text-red-500 mr-2"></i>
+      <span class="text-sm font-medium text-slate-900 dark:text-white">Stay Dates</span>
+    </div>
+    <div class="text-sm text-slate-600 dark:text-slate-400 ml-6">
+      <p>Check-in: {{ bookingData.dateRange?.start | date:'MMM dd, yyyy' }}</p>
+      <p>Check-out: {{ bookingData.dateRange?.end | date:'MMM dd, yyyy' }}</p>
+      <p class="font-medium">{{ nights }} night{{ nights > 1 ? 's' : '' }}</p>
+    </div>
+  </div>
+
+  <!-- Guests -->
+  <div *ngIf="bookingData.guests" class="mb-6">
+    <div class="flex items-center mb-2">
+      <i data-feather="users" class="w-4 h-4 text-red-500 mr-2"></i>
+      <span class="text-sm font-medium text-slate-900 dark:text-white">Guests</span>
+    </div>
+    <div class="text-sm text-slate-600 dark:text-slate-400 ml-6">
+      <p>{{ totalGuests }} Guest{{ totalGuests > 1 ? 's' : '' }}</p>
+      <p>{{ bookingData.guests.rooms }} Room{{ bookingData.guests.rooms > 1 ? 's' : '' }}</p>
+    </div>
+  </div>
+
+  <!-- Guest Details -->
+  <div *ngIf="bookingData.guestDetails?.firstName" class="mb-6">
+    <div class="flex items-center mb-2">
+      <i data-feather="user" class="w-4 h-4 text-red-500 mr-2"></i>
+      <span class="text-sm font-medium text-slate-900 dark:text-white">Guest Details</span>
+    </div>
+    <div class="text-sm text-slate-600 dark:text-slate-400 ml-6">
+      <p>{{ bookingData.guestDetails?.firstName }} {{ bookingData.guestDetails?.lastName }}</p>
+      <p>{{ bookingData.guestDetails?.email }}</p>
+    </div>
+  </div>
+
+  <!-- Selected Rooms -->
+  <div *ngIf="bookingData.selectedRooms && bookingData.selectedRooms.length > 0" class="mb-6">
+    <div class="flex items-center mb-2">
+      <i data-feather="home" class="w-4 h-4 text-red-500 mr-2"></i>
+      <span class="text-sm font-medium text-slate-900 dark:text-white">Accommodation</span>
+    </div>
+    <div class="ml-6">
+      <div *ngFor="let room of bookingData.selectedRooms" class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+        <p class="font-medium">{{ room.roomName }}</p>
+        <p>{{ room.quantity }} room{{ room.quantity > 1 ? 's' : '' }} × ${{ room.pricePerNight }}/night</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional Services -->
+  <div *ngIf="selectedServicesCount > 0" class="mb-6">
+    <div class="flex items-center mb-2">
+      <i data-feather="plus-circle" class="w-4 h-4 text-red-500 mr-2"></i>
+      <span class="text-sm font-medium text-slate-900 dark:text-white">Additional Services</span>
+    </div>
+    <div class="ml-6">
+      <div *ngFor="let service of bookingData.additionalServices" class="text-sm text-slate-600 dark:text-slate-400 mb-1">
+        <div *ngIf="service.selected">
+          <span>{{ service.name }} - ${{ service.price }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Price Breakdown -->
+  <div *ngIf="bookingData.subtotal && bookingData.subtotal > 0" class="border-t border-gray-200 dark:border-gray-700 pt-4">
+    <div class="space-y-2">
+      <div class="flex justify-between text-sm">
+        <span class="text-slate-600 dark:text-slate-400">Subtotal</span>
+        <span class="text-slate-900 dark:text-white">${{ bookingData.subtotal | number:'1.2-2' }}</span>
+      </div>
+      <div class="flex justify-between text-sm">
+        <span class="text-slate-600 dark:text-slate-400">Taxes & Fees</span>
+        <span class="text-slate-900 dark:text-white">${{ bookingData.taxes | number:'1.2-2' }}</span>
+      </div>
+      <div class="flex justify-between text-lg font-semibold border-t border-gray-200 dark:border-gray-700 pt-2">
+        <span class="text-slate-900 dark:text-white">Total</span>
+        <span class="text-red-500">${{ bookingData.total | number:'1.2-2' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!bookingData.dateRange?.start" class="text-center py-8">
+    <i data-feather="calendar" class="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4"></i>
+    <p class="text-gray-500 dark:text-gray-400">Start your booking to see summary</p>
+  </div>
+</div>

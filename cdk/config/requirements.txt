@@ -1,0 +1,2 @@
+# Configuration Management Dependencies
+jsonschema>=4.17.0

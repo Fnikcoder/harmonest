@@ -1,0 +1,174 @@
+[
+  {
+    "PK": "CHECKIN#CI-2024-001",
+    "SK": "METADATA",
+    "checkInId": "CI-2024-001",
+    "bookingId": "BK-2024-001",
+    "userId": "user-john-doe-001",
+    "unitId": "unit-city-301",
+    "propertyGroupId": "pg-sunset-apartments",
+    "checkInStatus": "completed",
+    "checkInTime": "2024-07-15T15:30:00Z",
+    "completedAt": "2024-07-15T15:45:00Z",
+    "idDocuments": [
+      {
+        "type": "passport",
+        "documentNumber": "US123456789",
+        "issuingCountry": "US",
+        "expiryDate": "2030-03-15",
+        "holderName": "John Doe",
+        "dateOfBirth": "1985-03-15",
+        "scannedAt": "2024-07-15T15:32:00Z",
+        "verified": true,
+        "s3Location": {
+          "bucket": "harmonest-documents",
+          "key": "checkins/CI-2024-001/passport-front.jpg",
+          "region": "us-west-2"
+        }
+      }
+    ],
+    "documentsVerified": true,
+    "tripReason": "private",
+    "qrCodeGenerated": true,
+    "qrCodeId": "QR-2024-002",
+    "qrCodeData": {
+      "code": "encrypted_access_code_001",
+      "expiresAt": "2024-07-18T11:00:00Z",
+      "lockCode": "789012",
+      "accessInstructions": "Use QR code at building entrance, then at unit door. Code expires at checkout time."
+    },
+    "additionalGuests": [
+      {
+        "name": "Jane Doe",
+        "idDocument": {
+          "type": "drivers_license",
+          "documentNumber": "CA987654321",
+          "issuingCountry": "US",
+          "expiryDate": "2028-08-20",
+          "holderName": "Jane Doe",
+          "dateOfBirth": "1987-08-20",
+          "scannedAt": "2024-07-15T15:35:00Z",
+          "verified": true,
+          "s3Location": {
+            "bucket": "harmonest-documents",
+            "key": "checkins/CI-2024-001/dl-jane-front.jpg",
+            "region": "us-west-2"
+          }
+        },
+        "verified": true
+      }
+    ],
+    "unitContext": {
+      "unitNumber": "301",
+      "unitName": "City View 301",
+      "modelId": "um-1br1b-city",
+      "modelName": "1 Room 1 Bed City Side",
+      "floor": "3"
+    },
+    "notes": "Guest requested early check-in, approved.",
+    "specialInstructions": "Building entrance code: 123456. Elevator access included.",
+    "status": "completed",
+    "createdAt": "2024-07-15T15:30:00Z",
+    "updatedAt": "2024-07-15T15:45:00Z",
+    "GSI1PK": "USER#user-john-doe-001",
+    "GSI1SK": "CHECKIN#2024-07-15T15:30:00Z",
+    "GSI2PK": "BOOKING#BK-2024-001",
+    "GSI2SK": "CHECKIN#2024-07-15T15:30:00Z",
+    "GSI3PK": "UNIT#unit-city-301",
+    "GSI3SK": "CHECKIN#2024-07-15T15:30:00Z",
+    "GSI4PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI4SK": "CHECKIN#2024-07-15T15:30:00Z"
+  },
+  {
+    "PK": "CHECKIN#CI-2024-002",
+    "SK": "METADATA",
+    "checkInId": "CI-2024-002",
+    "bookingId": "BK-2024-002",
+    "userId": "user-sarah-wilson-002",
+    "unitId": "unit-mountain-302",
+    "propertyGroupId": "pg-sunset-apartments",
+    "checkInStatus": "in_progress",
+    "checkInTime": "2024-07-20T14:00:00Z",
+    "idDocuments": [
+      {
+        "type": "passport",
+        "documentNumber": "US987654321",
+        "issuingCountry": "US",
+        "expiryDate": "2029-12-10",
+        "holderName": "Sarah Wilson",
+        "dateOfBirth": "1990-12-10",
+        "scannedAt": "2024-07-20T14:05:00Z",
+        "verified": true,
+        "s3Location": {
+          "bucket": "harmonest-documents",
+          "key": "checkins/CI-2024-002/passport-front.jpg",
+          "region": "us-west-2"
+        }
+      }
+    ],
+    "documentsVerified": true,
+    "tripReason": "business",
+    "qrCodeGenerated": true,
+    "qrCodeId": "QR-2024-003",
+    "qrCodeData": {
+      "code": "encrypted_access_code_002",
+      "expiresAt": "2024-07-25T11:00:00Z",
+      "lockCode": "901234",
+      "accessInstructions": "Use QR code at building entrance, then at unit door. Amenity access included."
+    },
+    "unitContext": {
+      "unitNumber": "302",
+      "unitName": "Mountain View 302",
+      "modelId": "um-1br1b-mountain",
+      "modelName": "1 Room 1 Bed Mountain Side",
+      "floor": "3"
+    },
+    "notes": "Business traveler, requested quiet room.",
+    "specialInstructions": "Gym and pool access included. Business center on 2nd floor.",
+    "status": "active",
+    "createdAt": "2024-07-20T14:00:00Z",
+    "updatedAt": "2024-07-20T14:10:00Z",
+    "GSI1PK": "USER#user-sarah-wilson-002",
+    "GSI1SK": "CHECKIN#2024-07-20T14:00:00Z",
+    "GSI2PK": "BOOKING#BK-2024-002",
+    "GSI2SK": "CHECKIN#2024-07-20T14:00:00Z",
+    "GSI3PK": "UNIT#unit-mountain-302",
+    "GSI3SK": "CHECKIN#2024-07-20T14:00:00Z",
+    "GSI4PK": "PROPERTY_GROUP#pg-sunset-apartments",
+    "GSI4SK": "CHECKIN#2024-07-20T14:00:00Z"
+  },
+  {
+    "PK": "CHECKIN#CI-2024-003",
+    "SK": "METADATA",
+    "checkInId": "CI-2024-003",
+    "bookingId": "BK-2024-004",
+    "userId": "user-sarah-wilson-002",
+    "unitId": "unit-exec-1201",
+    "propertyGroupId": "pg-downtown-suites",
+    "checkInStatus": "not_started",
+    "idDocuments": [],
+    "documentsVerified": false,
+    "tripReason": "business",
+    "qrCodeGenerated": false,
+    "unitContext": {
+      "unitNumber": "1201",
+      "unitName": "Executive Suite 1201",
+      "modelId": "um-exec-suite",
+      "modelName": "Executive Suite",
+      "floor": "12"
+    },
+    "notes": "VIP guest, premium check-in experience required.",
+    "specialInstructions": "Concierge service available. Executive lounge access included.",
+    "status": "active",
+    "createdAt": "2024-07-05T10:00:00Z",
+    "updatedAt": "2024-07-05T10:00:00Z",
+    "GSI1PK": "USER#user-sarah-wilson-002",
+    "GSI1SK": "CHECKIN#2024-07-05T10:00:00Z",
+    "GSI2PK": "BOOKING#BK-2024-004",
+    "GSI2SK": "CHECKIN#2024-07-05T10:00:00Z",
+    "GSI3PK": "UNIT#unit-exec-1201",
+    "GSI3SK": "CHECKIN#2024-07-05T10:00:00Z",
+    "GSI4PK": "PROPERTY_GROUP#pg-downtown-suites",
+    "GSI4SK": "CHECKIN#2024-07-05T10:00:00Z"
+  }
+]

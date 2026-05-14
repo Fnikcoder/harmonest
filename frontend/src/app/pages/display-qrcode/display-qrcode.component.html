@@ -1,0 +1,55 @@
+<app-navbar [navClass]="'defaultscroll is-sticky'" [navLight]="false"></app-navbar>
+
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-24">
+    <div class="max-w-md mx-auto px-4">
+        <!-- Valid QR Code Display -->
+        <div *ngIf="isValidQrCode" class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <!-- Header -->
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-feather="key" class="w-8 h-8 text-green-600"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Your Door Access Code</h1>
+                <p class="text-gray-600 dark:text-gray-400">Use this QR code to access your room</p>
+            </div>
+
+            <!-- QR Code Display -->
+            <div class="text-center mb-6">
+                <app-qr-code
+                    [qrCodeData]="qrCodeData"
+                    [size]="256"
+                    [filename]="'door-access-qr'"
+                    [emptyMessage]="'Invalid QR code data'">
+                </app-qr-code>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-4">Scan this code at your room door</p>
+            </div>
+
+            <!-- Instructions -->
+            <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                <h3 class="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">How to Use</h3>
+                <ul class="text-sm text-blue-700 dark:text-blue-300 space-y-1">
+                    <li>• Hold your phone near the door scanner</li>
+                    <li>• The door will unlock automatically</li>
+                    <li>• Keep this code saved for your entire stay</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Invalid QR Code -->
+        <div *ngIf="!isValidQrCode" class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center">
+            <div class="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-feather="x-circle" class="w-8 h-8 text-red-600"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Invalid QR Code</h1>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">The QR code link appears to be invalid or expired.</p>
+
+            <a href="/online-check-in"
+               class="inline-flex items-center py-3 px-6 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200">
+                <i data-feather="arrow-left" class="w-5 h-5 mr-2"></i>
+                Go to Check-In
+            </a>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
+<app-switcher></app-switcher>

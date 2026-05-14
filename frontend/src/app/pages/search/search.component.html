@@ -1,0 +1,40 @@
+<app-tagline></app-tagline>
+<app-navbar [navClass]="'defaultscroll is-sticky tagline-height'" [navLight]="true"></app-navbar>
+
+<section class="relative table w-full items-center py-36 bg-[url('/assets/images/bg/cta.jpg')] bg-top bg-no-repeat bg-cover">
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/80 to-slate-900"></div>
+  <div class="container relative">
+    <div class="grid grid-cols-1 pb-8 text-center mt-10">
+      <h3 class="text-4xl leading-normal tracking-wider font-semibold text-white">Find your Smart Cozy Stay ;)</h3>
+    </div>
+  </div>
+  <div class="absolute text-center z-10 bottom-5 start-0 end-0 mx-3">
+    <ul class="tracking-[0.5px] mb-0 inline-block">
+      <li class="inline-block  text-[13px] font-bold duration-500 ease-in-out text-white/50 hover:text-white"><a [routerLink]="'/'">HarmoNest</a></li>
+      <li class="inline-block text-base text-white/50 mx-0.5 ltr:rotate-0 rtl:rotate-180"><i class="mdi mdi-chevron-right"></i></li>
+      <li class="inline-block  text-[13px] font-bold duration-500 ease-in-out text-white" aria-current="page">Search</li>
+    </ul>
+  </div>
+</section>
+<section class="py-16 container mx-auto px-4">
+  <h2 class="text-2xl font-semibold mb-6">
+    Search Results in {{ location || 'your selected destination' }}
+  </h2>
+
+  <div *ngIf="filteredPackages.length; else noResults">
+    <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
+      <div *ngFor="let item of filteredPackages" class="group rounded-md shadow dark:shadow-gray-700">
+        <app-grid-data [packageData]="item"
+                       [searchParams]="queryParams"
+        ></app-grid-data>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noResults>
+    <p class="text-center text-gray-500">No results found for your search criteria.</p>
+  </ng-template>
+</section>
+
+<app-footer></app-footer>
+<app-switcher></app-switcher>

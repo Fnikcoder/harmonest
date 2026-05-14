@@ -1,0 +1,123 @@
+<section class="relative table w-full py-32 lg:py-36 bg-gray-50 dark:bg-slate-800">
+    <div class="container relative">
+        <div class="grid grid-cols-1">
+            <div class="relative overflow-hidden rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900">
+                <div class="grid md:grid-cols-2 grid-cols-1 items-center">
+                    <div class="relative md:shrink-0">
+                        <img class="lg:h-full h-full w-full object-cover md:h-[34rem]" src="assets/images/listing/1.jpg" alt="Email Verification">
+                    </div>
+
+                    <div class="p-8 lg:px-20">
+                        <div class="text-center">
+                            <a [routerLink]="'/'">
+                                <img src="assets/images/logo-dark.png" class="mx-auto h-7 block dark:hidden" alt="">
+                                <img src="assets/images/logo-light.png" class="mx-auto h-7 hidden dark:block" alt="">
+                            </a>
+                        </div>
+
+                        <form class="text-start lg:py-20 py-8" [formGroup]="verificationForm" (ngSubmit)="verifyCode()">
+                            <h5 class="font-semibold text-xl text-center mb-6">Verify Your Email</h5>
+
+                            <!-- Email Display -->
+                            <div class="mb-6 text-center">
+                                <p class="text-slate-400 text-sm">
+                                    We've sent a 6-digit verification code to:
+                                </p>
+                                <p class="font-semibold text-slate-700 dark:text-slate-300 mt-1">{{ email }}</p>
+                            </div>
+
+                            <!-- Success Message -->
+                            <div *ngIf="successMessage" class="mb-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md">
+                                <div class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    <p class="text-green-600 dark:text-green-400 text-sm">{{ successMessage }}</p>
+                                </div>
+                            </div>
+
+                            <!-- Error Message -->
+                            <div *ngIf="error" class="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+                                <div class="flex items-start">
+                                    <i class="fas fa-exclamation-triangle text-red-500 mt-0.5 mr-2"></i>
+                                    <p class="text-red-600 dark:text-red-400 text-sm">{{ error }}</p>
+                                </div>
+                            </div>
+
+                            <!-- Verification Code Input -->
+                            <div class="grid grid-cols-1">
+                                <div class="mb-4">
+                                    <label class="font-medium" for="verificationCode">Verification Code:</label>
+                                    <input
+                                        id="verificationCode"
+                                        type="text"
+                                        formControlName="verificationCode"
+                                        class="form-input mt-3 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-200 focus:border-red-500 dark:border-gray-800 dark:focus:border-red-500 focus:ring-0 text-center text-lg font-mono tracking-widest"
+                                        placeholder="000000"
+                                        maxlength="6"
+                                        autocomplete="one-time-code"
+                                        [class.border-red-500]="verificationForm.get('verificationCode')?.invalid && verificationForm.get('verificationCode')?.touched">
+                                </div>
+
+                                <!-- Validation Error -->
+                                <div *ngIf="verificationForm.get('verificationCode')?.invalid && verificationForm.get('verificationCode')?.touched"
+                                     class="text-red-500 text-sm mb-4">
+                                    <span *ngIf="verificationForm.get('verificationCode')?.errors?.['required']">
+                                        Verification code is required
+                                    </span>
+                                    <span *ngIf="verificationForm.get('verificationCode')?.errors?.['pattern']">
+                                        Please enter a valid 6-digit code
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="mb-4">
+                                <button
+                                    type="submit"
+                                    [disabled]="loading || verificationForm.invalid"
+                                    class="py-2 px-5 w-full inline-block tracking-wide align-middle duration-500 text-base text-center bg-red-500 text-white rounded-md hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                                    <span *ngIf="!loading">Verify Email</span>
+                                    <span *ngIf="loading">
+                                        <i class="fas fa-spinner fa-spin mr-2"></i>
+                                        Verifying...
+                                    </span>
+                                </button>
+                            </div>
+
+                            <!-- Resend Code -->
+                            <div class="text-center">
+                                <p class="text-slate-400 mb-0 text-sm">
+                                    Didn't receive the code?
+                                    <button
+                                        type="button"
+                                        (click)="resendCode()"
+                                        [disabled]="resendCooldown > 0 || resendingCode"
+                                        class="text-red-500 font-medium hover:text-red-600 disabled:opacity-50 disabled:cursor-not-allowed ml-1">
+                                        <span *ngIf="!resendingCode && resendCooldown === 0">Resend Code</span>
+                                        <span *ngIf="resendingCode">Sending...</span>
+                                        <span *ngIf="resendCooldown > 0">Resend in {{ resendCooldown }}s</span>
+                                    </button>
+                                </p>
+                            </div>
+
+                            <!-- Back to Login -->
+                            <div class="text-center mt-6">
+                                <p class="text-slate-400 mb-0 text-sm">
+                                    Want to use a different email?
+                                    <a [routerLink]="'/login'" class="text-red-500 font-medium hover:text-red-600 ml-1">
+                                        Back to Sign In
+                                    </a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Home Component -->
+    <app-back-to-home></app-back-to-home>
+
+    <!-- Theme Switcher -->
+    <app-switcher></app-switcher>
+</section>

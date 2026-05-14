@@ -1,0 +1,158 @@
+<app-navbar [navClass]="'defaultscroll is-sticky'" [navLight]="false"></app-navbar>
+
+<section class="relative lg:pb-24 pb-16 md:mt-[84px] mt-[70px]">
+    <div class="md:container container-fluid relative">
+        <div class="relative overflow-hidden md:rounded-md shadow dark:shadow-gray-800 h-52 bg-[url('/assets/images/bg/cta.jpg')] bg-center bg-no-repeat bg-cover"></div>
+    </div>
+
+    <div class="container relative md:mt-24 mt-16">
+        <div class="md:flex">
+            <div class="lg:w-1/4 md:w-1/3 md:px-3">
+                <app-tab-account></app-tab-account>
+            </div>
+            <div class="lg:w-3/4 md:w-2/3 md:px-3 mt-6 md:mt-0">
+                <!-- Loading State -->
+                <div *ngIf="loading" class="text-center py-8">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-red-500 mx-auto"></div>
+                    <p class="text-slate-400 mt-2">Loading billing information...</p>
+                </div>
+
+                <!-- Error State -->
+                <div *ngIf="error && !loading" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 mb-6">
+                    <p class="text-red-600 dark:text-red-400">{{ error }}</p>
+                </div>
+
+                <!-- Billing Content -->
+                <div *ngIf="!loading && !error" class="p-6 rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900">
+                    <h6 class="text-slate-400 mb-0">The following addresses will be used on the checkout page by default.</h6>
+
+                    <div class="grid lg:grid-cols-2 grid-cols-1 gap-6 mt-6">
+                        <!-- Billing Address -->
+                        <div class="">
+                            <div class="flex items-center mb-4 justify-between">
+                                <h5 class="text-xl font-medium">Billing Address:</h5>
+                                <a routerLink="/account/settings" class="text-red-500 text-lg hover:text-red-600">
+                                    <i data-feather="edit" class="size-4"></i>
+                                </a>
+                            </div>
+                            <div class="pt-4 border-t border-gray-100 dark:border-gray-700">
+                                <p class="text-lg font-medium mb-2">{{ getUserFullName() }}</p>
+
+                                <ul class="list-none">
+                                    <li class="flex" *ngIf="hasAddress(); else noAddress">
+                                        <i data-feather="map-pin" class="size-4 me-2 mt-1 text-slate-400"></i>
+                                        <p class="text-slate-400">{{ getFormattedAddress() }}</p>
+                                    </li>
+                                    <ng-template #noAddress>
+                                        <li class="flex">
+                                            <i data-feather="map-pin" class="size-4 me-2 mt-1 text-slate-400"></i>
+                                            <p class="text-slate-400">No billing address provided</p>
+                                        </li>
+                                    </ng-template>
+
+                                    <li class="flex mt-1" *ngIf="currentUser?.phone">
+                                        <i data-feather="phone" class="size-4 me-2 mt-1 text-slate-400"></i>
+                                        <p class="text-slate-400">{{ currentUser?.phone }}</p>
+                                    </li>
+
+                                    <li class="flex mt-1" *ngIf="currentUser?.email">
+                                        <i data-feather="mail" class="size-4 me-2 mt-1 text-slate-400"></i>
+                                        <p class="text-slate-400">{{ currentUser?.email }}</p>
+                                    </li>
+                                </ul>
+
+                                <div *ngIf="!hasAddress()" class="mt-4">
+                                    <a routerLink="/account/settings" class="inline-block px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors text-sm">
+                                        Add Billing Address
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Address (Same as Billing for accommodation bookings) -->
+                        <div class="">
+                            <div class="flex items-center mb-4 justify-between">
+                                <h5 class="text-xl font-medium">Contact Information:</h5>
+                                <a routerLink="/account/settings" class="text-red-500 text-lg hover:text-red-600">
+                                    <i data-feather="edit" class="size-4"></i>
+                                </a>
+                            </div>
+                            <div class="pt-4 border-t border-gray-100 dark:border-gray-700">
+                                <p class="text-lg font-medium mb-2">{{ getUserFullName() }}</p>
+
+                                <ul class="list-none">
+                                    <li class="flex" *ngIf="currentUser?.email">
+                                        <i data-feather="mail" class="size-4 me-2 mt-1 text-slate-400"></i>
+                                        <p class="text-slate-400">{{ currentUser?.email }}</p>
+                                    </li>
+
+                                    <li class="flex mt-1" *ngIf="currentUser?.phone">
+                                        <i data-feather="phone" class="size-4 me-2 mt-1 text-slate-400"></i>
+                                        <p class="text-slate-400">{{ currentUser?.phone }}</p>
+                                    </li>
+
+                                    <li class="flex mt-1" *ngIf="currentUser?.preferredLanguage">
+                                        <i data-feather="globe" class="size-4 me-2 mt-1 text-slate-400"></i>
+                                        <p class="text-slate-400">Language: {{ currentUser?.preferredLanguage | uppercase }}</p>
+                                    </li>
+
+                                    <li class="flex mt-1" *ngIf="currentUser?.currency">
+                                        <i data-feather="dollar-sign" class="size-4 me-2 mt-1 text-slate-400"></i>
+                                        <p class="text-slate-400">Currency: {{ currentUser?.currency }}</p>
+                                    </li>
+                                </ul>
+
+                                <!-- Verification Status -->
+                                <div class="mt-4 space-y-2">
+                                    <div class="flex items-center">
+                                        <i data-feather="check-circle"
+                                           class="size-4 me-2"
+                                           [ngClass]="currentUser?.emailVerified ? 'text-green-500' : 'text-slate-400'"></i>
+                                        <span class="text-sm"
+                                              [ngClass]="currentUser?.emailVerified ? 'text-green-600 dark:text-green-400' : 'text-slate-400'">
+                                            Email {{ currentUser?.emailVerified ? 'Verified' : 'Not Verified' }}
+                                        </span>
+                                    </div>
+
+                                    <div class="flex items-center" *ngIf="currentUser?.phone">
+                                        <i data-feather="check-circle"
+                                           class="size-4 me-2"
+                                           [ngClass]="currentUser?.phoneVerified ? 'text-green-500' : 'text-slate-400'"></i>
+                                        <span class="text-sm"
+                                              [ngClass]="currentUser?.phoneVerified ? 'text-green-600 dark:text-green-400' : 'text-slate-400'">
+                                            Phone {{ currentUser?.phoneVerified ? 'Verified' : 'Not Verified' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Information -->
+                    <div class="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700">
+                        <h6 class="text-lg font-semibold mb-4">Account Information</h6>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h6 class="font-medium mb-2">Account Status</h6>
+                                <p class="text-sm text-slate-400">
+                                    Status: <span class="capitalize text-green-600 dark:text-green-400">{{ currentUser?.status || 'Active' }}</span>
+                                </p>
+                                <p class="text-sm text-slate-400 mt-1">
+                                    Member since: {{ (currentUser?.createdAt | date:'mediumDate') || 'N/A' }}
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<app-footer></app-footer>
+<app-switcher></app-switcher>
+
+<app-footer></app-footer>
+<app-switcher></app-switcher>
+

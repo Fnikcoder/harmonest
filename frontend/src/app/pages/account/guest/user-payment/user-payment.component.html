@@ -1,0 +1,192 @@
+<app-navbar [navClass]="'defaultscroll is-sticky'" [navLight]="false"></app-navbar>
+
+<section class="relative lg:pb-24 pb-16 md:mt-[84px] mt-[70px]">
+    <div class="md:container container-fluid relative">
+        <div class="relative overflow-hidden md:rounded-md shadow dark:shadow-gray-800 h-52 bg-[url('/assets/images/bg/cta.jpg')] bg-center bg-no-repeat bg-cover"></div>
+    </div>
+
+    <div class="container relative md:mt-24 mt-16">
+        <div class="md:flex">
+            <div class="lg:w-1/4 md:w-1/3 md:px-3">
+                <app-tab-account></app-tab-account>
+            </div>
+
+            <div class="lg:w-3/4 md:w-2/3 md:px-3 mt-6 md:mt-0">
+                <!-- Loading State -->
+                <div *ngIf="loading" class="text-center py-8">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-red-500 mx-auto"></div>
+                    <p class="text-slate-400 mt-2">Loading payment methods...</p>
+                </div>
+
+                <!-- Error State -->
+                <div *ngIf="error && !loading" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 mb-6">
+                    <p class="text-red-600 dark:text-red-400">{{ error }}</p>
+                </div>
+
+                <!-- Payment Methods Content -->
+                <div *ngIf="!loading && !error" class="rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900">
+                    <div class="p-6 border-b border-gray-100 dark:border-gray-700">
+                        <h5 class="text-xl font-semibold">Payment Methods</h5>
+                        <p class="text-slate-400 mt-2">Primary payment method is used by default</p>
+                    </div>
+
+                    <div class="px-6">
+                        <ul>
+                            <!-- User Payment Methods -->
+                            <li *ngFor="let method of currentUser?.paymentMethods"
+                                class="flex justify-between items-center py-6 border-t border-gray-100 dark:border-gray-700 first:border-t-0">
+                                <div class="flex items-center">
+                                    <img [src]="getPaymentMethodImage(method.card?.brand || method.type)"
+                                         class="rounded shadow dark:shadow-gray-800 w-12"
+                                         [alt]="getPaymentMethodName(method)">
+
+                                    <div class="ms-3">
+                                        <div class="flex items-center">
+                                            <p class="font-semibold">{{ getPaymentMethodName(method) }}</p>
+                                            <span *ngIf="method.isDefault"
+                                                  class="ml-2 px-2 py-1 text-xs bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full">
+                                                Default
+                                            </span>
+                                        </div>
+                                        <p class="text-slate-400 text-sm">{{ getExpiryDate(method) }}</p>
+                                        <p class="text-slate-400 text-xs" *ngIf="method.lastUsed">
+                                            Last used: {{ formatDate(method.lastUsed) }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center space-x-2">
+                                    <button *ngIf="!method.isDefault"
+                                            class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+                                        Set as Default
+                                    </button>
+                                    <button (click)="removePaymentMethod(method.methodId)"
+                                            class="size-8 inline-flex items-center justify-center tracking-wide align-middle duration-500 text-base text-center bg-red-600/5 hover:bg-red-600 text-red-600 hover:text-white rounded-full">
+                                        <i data-feather="trash-2" class="size-4"></i>
+                                    </button>
+                                </div>
+                            </li>
+
+                            <!-- No Payment Methods Message -->
+                            <li *ngIf="!currentUser?.paymentMethods || currentUser?.paymentMethods?.length === 0"
+                                class="py-8 text-center border-t border-gray-100 dark:border-gray-700 first:border-t-0">
+                                <i data-feather="credit-card" class="size-12 text-slate-300 mx-auto mb-4"></i>
+                                <p class="text-slate-400 mb-4">No payment methods added yet</p>
+                                <p class="text-slate-500 text-sm">Add a payment method to make bookings easier</p>
+                            </li>
+
+                            <!-- Add Payment Method Button -->
+                            <li class="py-6 border-t border-gray-100 dark:border-gray-700">
+                                <button (click)="showModal()"
+                                        class="py-2 px-5 inline-block font-semibold tracking-wide align-middle duration-500 text-base text-center bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors">
+                                    Add Payment Method
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Payment Security Info -->
+                    <div class="px-6 pb-6">
+                        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-4">
+                            <div class="flex items-start">
+                                <i data-feather="shield" class="size-5 text-blue-600 dark:text-blue-400 mr-3 mt-0.5"></i>
+                                <div>
+                                    <h6 class="font-semibold text-blue-900 dark:text-blue-100 mb-1">Secure Payment Processing</h6>
+                                    <p class="text-blue-700 dark:text-blue-300 text-sm">
+                                        Your payment information is encrypted and securely stored. We use industry-standard security measures to protect your data.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<app-footer></app-footer>
+<app-switcher></app-switcher>
+
+<app-footer></app-footer>
+<app-switcher></app-switcher>
+
+<div [ngClass]="isOpen ? 'block' : 'hidden' " class="rounded-md shadow dark:shadow-gray-800 bg-slate-900/75 text-slate-900 dark:text-white fixed w-full h-screen top-0 left-0 bottom-0 right-0 flex items-center justify-center z-999">
+    <div class="relative w-full h-auto max-w-md inline-block bg-white dark:bg-slate-900">
+        <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+            <h3 class="font-bold text-lg">Add Payment Method</h3>
+            <form>
+                <button class="size-6 flex justify-center items-center shadow dark:shadow-gray-800 rounded-md btn-ghost" (click)="showModal()">
+                    <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="size-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </form>
+        </div>
+        <div class="p-6 text-center">
+            <form>
+                <div class="grid md:grid-cols-12 grid-cols-1 gap-4">
+                    <div class="md:col-span-12">
+                        <div class="text-start">
+                            <label for="name" class="font-semibold">Your Name :</label>
+                            <input name="name" id="name" type="text" class="mt-2 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" required="" placeholder="Name :"/>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-6">
+                        <div class="text-start">
+                            <label for="ex_month" class="form-label font-medium">Month :</label>
+                            <select id="ex_month" class="form-select form-input mt-2 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0">
+                                <option>Jan</option>
+                                <option>Feb</option>
+                                <option>Mar</option>
+                                <option>Apr</option>
+                                <option>May</option>
+                                <option>June</option>
+                                <option>July</option>
+                                <option>Aug</option>
+                                <option>Sep</option>
+                                <option>Oct</option>
+                                <option>Nov</option>
+                                <option>Dec</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-6">
+                        <div class="text-start">
+                            <label for="ex_year" class="form-label font-medium">Year :</label>
+                            <select id="ex_year" class="form-select form-input mt-2 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0">
+                                <option>2022</option>
+                                <option>2023</option>
+                                <option>2024</option>
+                                <option>2025</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-6">
+                        <div class="text-start">
+                            <label for="name" class="font-semibold">Card no. :</label>
+                            <input name="number" id="card_number" type="number" class="mt-2 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" required="" placeholder="number :"/>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-6">
+                        <div class="text-start">
+                            <label for="name" class="font-semibold">CVV :</label>
+                            <input name="number" id="cvv_number" type="number" class="mt-2 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" required="" placeholder="number :"/>
+                        </div>
+                    </div>
+                    <div class="md:col-span-12">
+                        <div class="text-start">
+                            <label for="card_names" class="form-label font-medium">Cards :</label>
+                            <select id="card_names" class="form-select form-input mt-2 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0">
+                                <option>Visa</option>
+                                <option>Ame. Express</option>
+                                <option>Master</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" id="submit" name="send" class="py-2 px-5 font-semibold tracking-wide align-middle duration-500 text-base text-center bg-orange-500 text-white rounded-md justify-center flex items-center">Add Card</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

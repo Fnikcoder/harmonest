@@ -1,0 +1,364 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Billing Management</h1>
+      <p class="text-gray-600 dark:text-gray-400">Manage invoices, billing cycles, and financial transactions</p>
+    </div>
+    <div class="flex space-x-3">
+      <button (click)="showLearning = !showLearning"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+        <i data-feather="book-open" class="mr-2"></i>
+        Learning Guide
+      </button>
+      <button (click)="showCreateInvoiceModal = true"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+        <i data-feather="plus" class="mr-2"></i>
+        Create Invoice
+      </button>
+    </div>
+  </div>
+
+  <!-- Learning Section -->
+  <div *ngIf="showLearning" class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+    <div class="flex items-start space-x-3">
+      <i data-feather="lightbulb" class="text-blue-600 dark:text-blue-400 mt-1"></i>
+      <div>
+        <h3 class="text-lg font-medium text-blue-900 dark:text-blue-100 mb-3">Billing Management Guide</h3>
+        <div class="space-y-3 text-sm text-blue-700 dark:text-blue-300">
+          <div>
+            <h4 class="font-medium mb-1">Invoice Management:</h4>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+              <li>Create and send invoices automatically for bookings</li>
+              <li>Track payment status and send reminders</li>
+              <li>Handle partial payments and refunds</li>
+              <li>Generate recurring invoices for long-term stays</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-medium mb-1">Best Practices:</h4>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+              <li>Set up automatic invoice generation for confirmed bookings</li>
+              <li>Configure payment terms and late fees</li>
+              <li>Use professional invoice templates with your branding</li>
+              <li>Keep detailed records for tax and accounting purposes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Overview -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Invoices</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.totalInvoices }}</p>
+        </div>
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="file-text" class="text-blue-600 dark:text-blue-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span class="text-green-600 dark:text-green-400 font-medium">+12%</span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">from last month</span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Paid Invoices</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.paidInvoices }}</p>
+        </div>
+        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="check-circle" class="text-green-600 dark:text-green-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span class="text-green-600 dark:text-green-400 font-medium">{{ stats.paymentRate }}%</span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">payment rate</span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Outstanding</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">€{{ stats.outstandingAmount | number:'1.0-0' }}</p>
+        </div>
+        <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="clock" class="text-yellow-600 dark:text-yellow-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span class="text-red-600 dark:text-red-400 font-medium">{{ stats.overdueInvoices }}</span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">overdue</span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Monthly Revenue</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">€{{ stats.monthlyRevenue | number:'1.0-0' }}</p>
+        </div>
+        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
+          <i data-feather="trending-up" class="text-purple-600 dark:text-purple-400"></i>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center text-sm">
+        <span class="text-green-600 dark:text-green-400 font-medium">+8%</span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">from last month</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search</label>
+        <input [(ngModel)]="searchTerm"
+               (input)="filterInvoices()"
+               type="text"
+               placeholder="Search invoices..."
+               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status</label>
+        <select [(ngModel)]="selectedStatus"
+                (change)="filterInvoices()"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          <option value="">All Status</option>
+          <option value="draft">Draft</option>
+          <option value="sent">Sent</option>
+          <option value="paid">Paid</option>
+          <option value="overdue">Overdue</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date Range</label>
+        <select [(ngModel)]="selectedDateRange"
+                (change)="filterInvoices()"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          <option value="">All Time</option>
+          <option value="today">Today</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+          <option value="quarter">This Quarter</option>
+        </select>
+      </div>
+      <div class="flex items-end">
+        <button (click)="clearFilters()"
+                class="w-full px-4 py-2 text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          Clear Filters
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invoices Table -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead class="bg-gray-50 dark:bg-gray-700">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Invoice
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Customer
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Amount
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Status
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Due Date
+            </th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <tr *ngFor="let invoice of filteredInvoices" class="hover:bg-gray-50 dark:hover:bg-gray-700">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div>
+                <div class="text-sm font-medium text-gray-900 dark:text-white">
+                  #{{ invoice.number }}
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  {{ invoice.createdAt | date:'short' }}
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div>
+                <div class="text-sm font-medium text-gray-900 dark:text-white">
+                  {{ invoice.customerName }}
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  {{ invoice.customerEmail }}
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm font-medium text-gray-900 dark:text-white">
+                €{{ invoice.amount | number:'1.2-2' }}
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                    [ngClass]="getStatusBadgeClass(invoice.status)">
+                {{ invoice.status | titlecase }}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+              {{ invoice.dueDate | date:'short' }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <div class="flex items-center justify-end space-x-2">
+                <button (click)="viewInvoice(invoice)"
+                        class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
+                  <i data-feather="eye"></i>
+                </button>
+                <button (click)="editInvoice(invoice)"
+                        class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                  <i data-feather="edit"></i>
+                </button>
+                <button (click)="sendInvoice(invoice)"
+                        class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300">
+                  <i data-feather="send"></i>
+                </button>
+                <button (click)="deleteInvoice(invoice)"
+                        class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                  <i data-feather="trash-2"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredInvoices.length === 0" class="text-center py-12">
+      <i data-feather="file-text" class="text-gray-400 text-4xl mb-4"></i>
+      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No invoices found</h3>
+      <p class="text-gray-500 dark:text-gray-400">Try adjusting your search or filter criteria.</p>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <button (click)="exportInvoices()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="download" class="text-blue-600 dark:text-blue-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Export Invoices</span>
+      </button>
+
+      <button (click)="sendReminders()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="bell" class="text-yellow-600 dark:text-yellow-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Send Reminders</span>
+      </button>
+
+      <button (click)="generateReport()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="bar-chart-2" class="text-green-600 dark:text-green-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Generate Report</span>
+      </button>
+
+      <button (click)="configureSettings()"
+              class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center mb-2">
+          <i data-feather="settings" class="text-purple-600 dark:text-purple-400"></i>
+        </div>
+        <span class="text-sm font-medium text-gray-900 dark:text-white text-center">Settings</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Create Invoice Modal -->
+<div *ngIf="showCreateInvoiceModal"
+     class="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
+  <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Create New Invoice</h3>
+      <button (click)="showCreateInvoiceModal = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+        <i data-feather="x"></i>
+      </button>
+    </div>
+
+    <form [formGroup]="invoiceForm" (ngSubmit)="createInvoice()">
+      <div class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Name</label>
+            <input formControlName="customerName"
+                   type="text"
+                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Email</label>
+            <input formControlName="customerEmail"
+                   type="email"
+                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Amount</label>
+            <input formControlName="amount"
+                   type="number"
+                   step="0.01"
+                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Due Date</label>
+            <input formControlName="dueDate"
+                   type="date"
+                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+          <textarea formControlName="description"
+                    rows="3"
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white"></textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end space-x-3 mt-6">
+        <button type="button"
+                (click)="showCreateInvoiceModal = false"
+                class="px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          Cancel
+        </button>
+        <button type="submit"
+                [disabled]="!invoiceForm.valid"
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          Create Invoice
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
