@@ -20,7 +20,9 @@ def get(pk: str, sk: str) -> Dict[str, Any] | None:
 
 def put(item: Dict[str, Any]):
     item.setdefault("updatedAt", now_ms())
-    TABLE.put_item(Item=item)
+    # Top-level NULL breaks GSIs keyed on STRING attributes (e.g. reservationCode).
+    payload = {k: v for k, v in item.items() if v is not None}
+    TABLE.put_item(Item=payload)
 
 def put_if_changed(pk: str, sk: str, body: Dict[str, Any], hash_fields: list[str]) -> bool:
     """Compute hash from subset, write only if changed. Returns True if written."""

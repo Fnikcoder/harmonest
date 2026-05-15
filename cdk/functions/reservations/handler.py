@@ -81,6 +81,11 @@ def _project_reservation(
 
     reservation = create_reservation_from_g4h(merged_raw, existing_custom_fields)
 
+    if existing_reservation and not reservation.get("reservationCode"):
+        prev_code = existing_reservation.get("reservationCode")
+        if prev_code:
+            reservation["reservationCode"] = prev_code
+
     if existing_last_custom_update:
         reservation["lastCustomUpdate"] = existing_last_custom_update
 
@@ -103,6 +108,13 @@ def _update_reservation_preserving_door_access(
 
 
 def handler(event, context):
+    if os.getenv("RESERVATIONS_SYNC_ENABLED", "true").lower() not in ("1", "true", "yes"):
+        return {
+            "success": True,
+            "skipped": True,
+            "reason": "RESERVATIONS_SYNC_ENABLED is false",
+        }
+
     s, user_id = get_client()
     all_rows: List[Dict[str, Any]] = []
     app_rows: List[Dict[str, Any]] = []

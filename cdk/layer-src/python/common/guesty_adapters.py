@@ -93,7 +93,10 @@ def merge_legacy_raw_for_update(old: Optional[Dict[str, Any]], new: Dict[str, An
     if not old:
         return dict(new)
     out = dict(old)
-    out.update(new)
+    for key, value in new.items():
+        # Do not let sparse API rows clear fields (e.g. reservationCode) with null.
+        if value is not None:
+            out[key] = value
     return out
 
 

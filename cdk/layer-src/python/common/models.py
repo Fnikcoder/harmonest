@@ -14,12 +14,22 @@ def now_ms() -> int:
     return int(time.time() * 1000)
 
 
+def reservation_code_for_item(raw_data: Dict[str, Any]) -> Optional[str]:
+    """Non-empty reservation code for DynamoDB, or None to omit (sparse GSI key)."""
+    code = raw_data.get("reservationCode")
+    if code is None:
+        return None
+    text = str(code).strip()
+    return text if text else None
+
+
 def convert_to_decimal(obj: Any) -> Any:
     """Convert float values to Decimal for DynamoDB compatibility."""
     if isinstance(obj, float):
         return Decimal(str(obj))
     elif isinstance(obj, dict):
-        return {k: convert_to_decimal(v) for k, v in obj.items()}
+        # DynamoDB PutItem rejects empty-string attribute names at any map depth.
+        return {k: convert_to_decimal(v) for k, v in obj.items() if k != ""}
     elif isinstance(obj, list):
         return [convert_to_decimal(item) for item in obj]
     else:
@@ -194,7 +204,9 @@ def create_reservation_from_g4h(raw_data: Dict[str, Any], existing_custom_fields
             }
         }
     
-    return {
+    reservation_code = reservation_code_for_item(raw_data)
+
+    item = {
         "PK": f"RESERVATION#{raw_data['reservationId']}",
         "SK": "META",
         
@@ -202,7 +214,6 @@ def create_reservation_from_g4h(raw_data: Dict[str, Any], existing_custom_fields
         "reservationId": raw_data.get("reservationId"),
         "roomId": raw_data.get("roomId"),
         "sourceId": raw_data.get("sourceId"),
-        "reservationCode": raw_data.get("reservationCode"),
 
         # Booking source identification
         "bookingSource": booking_source["source"],
@@ -264,6 +275,10 @@ def create_reservation_from_g4h(raw_data: Dict[str, Any], existing_custom_fields
         "rawData": raw_data,
         "rawDataHash": str(hash(str(sorted(raw_data.items()))))
     }
+    # ReservationCodeIndex requires STRING; omit attribute when missing (sparse GSI).
+    if reservation_code is not None:
+        item["reservationCode"] = reservation_code
+    return item
 
 
 def create_listing_from_g4h(raw_data: Dict[str, Any], existing_custom_fields: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:

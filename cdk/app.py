@@ -159,7 +159,7 @@ access_notification.add_dependency(secrets)
 
 public_listings.add_dependency(core)
 public_listings.add_dependency(layer)
-public_listings.add_dependency(api)
+api.add_dependency(public_listings)
 
 user_management.add_dependency(core)
 user_management.add_dependency(layer)

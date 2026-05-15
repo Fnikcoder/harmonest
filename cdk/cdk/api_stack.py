@@ -1,5 +1,6 @@
 from aws_cdk import (
-    Stack, Duration,
+    Stack,
+    Duration,
     aws_apigateway as apigw,
     aws_ssm as ssm,
     aws_logs as logs,
@@ -126,6 +127,24 @@ class ApiStack(Stack):
             parameter_name=f"/{client_name}/{env_name}/api/publicListingsSearchResourceId",
             string_value=public_listings_search_resource.resource_id,
         )
+
+        # Public listings Lambda (deploy PublicListings stack first; stable function name)
+        public_listings_fn_arn = (
+            f"arn:aws:lambda:{self.region}:{self.account}:function:"
+            f"{client_name}-{env_name}-lambda_public_listings"
+        )
+        public_listings_fn = _lambda.Function.from_function_arn(
+            self,
+            "PublicListingsLambda",
+            public_listings_fn_arn,
+        )
+        public_listings_integration = apigw.LambdaIntegration(
+            public_listings_fn,
+            proxy=True,
+        )
+        public_listings_resource.add_method("GET", public_listings_integration)
+        public_listing_resource.add_method("GET", public_listings_integration)
+        public_listings_search_resource.add_method("POST", public_listings_integration)
 
         # Wire admin resend-door-access endpoint to access notification Lambda
         access_fn_arn = f"arn:aws:lambda:{self.region}:{self.account}:function:harmonest-{env_name}-lambda_access_notification"
