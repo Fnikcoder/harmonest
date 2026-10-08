@@ -1,0 +1,630 @@
+{
+  "info": {
+    "_postman_id": "6da98909-1fcd-4b84-9c1c-1c1bdccc5f38",
+    "name": "Guesty OAuth + API Workflow (Clean Architecture)",
+    "description": "Cleaned collection optimized for AI agents (Cursor/Cline/Copilot).\n\nWorkflow:\n1. Login -> sessionToken\n2. Generate PKCE values\n3. OAuth Authorize -> authCode\n4. Exchange Token -> accessToken + idToken\n5. Authenticated API calls\n\nStandards:\n- Minimal example responses\n- Explicit variable flow\n- Normalized request naming\n- Data model oriented examples\n- Removed noisy headers/cookies\n- Responses reduced to schema-focused payloads",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "username",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "issuer",
+      "value": "https://login.guesty.com/oauth2/aus2jlqfuwAsNNp3D5d7",
+      "type": "string"
+    },
+    {
+      "key": "clientId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "redirectUri",
+      "value": "https://app.guesty.com/auth/login/callback",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1 - Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\",\n  \"options\": {\n    \"warnBeforePasswordExpired\": true,\n    \"multiOptionalFactorEnroll\": false\n  }\n}"
+        },
+        "url": {
+          "raw": "https://login.guesty.com/api/v1/authn",
+          "protocol": "https",
+          "host": [
+            "login",
+            "guesty",
+            "com"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "authn"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const json = pm.response.json();",
+              "",
+              "pm.environment.set('sessionToken', json.sessionToken);",
+              "pm.environment.set('sessionExpiresAt', json.expiresAt);",
+              "pm.environment.set('userId', json._embedded.user.id);",
+              "pm.environment.set('userLogin', json._embedded.user.profile.login);",
+              "pm.environment.set('firstName', json._embedded.user.profile.firstName);",
+              "pm.environment.set('lastName', json._embedded.user.profile.lastName);",
+              "",
+              "console.log('Session Token Saved');",
+              "console.log(json);"
+            ]
+          }
+        }
+      ],
+      "response": [
+        {
+          "name": "1 - Login Example",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"SUCCESS\",\n  \"sessionToken\": \"<SESSION_TOKEN>\",\n  \"expiresAt\": \"2026-05-14T12:57:58.000Z\",\n  \"user\": {\n    \"id\": \"<USER_ID>\",\n    \"email\": \"user@example.com\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "2 - Generate PKCE",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://postman-echo.com/get",
+          "protocol": "https",
+          "host": [
+            "postman-echo",
+            "com"
+          ],
+          "path": [
+            "get"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "function randomString(length) {",
+              "  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';",
+              "  let result = '';",
+              "  for (let i = 0; i < length; i++) {",
+              "    result += chars.charAt(Math.floor(Math.random() * chars.length));",
+              "  }",
+              "  return result;",
+              "}",
+              "",
+              "const verifier = randomString(96);",
+              "",
+              "pm.environment.set('codeVerifier', verifier);",
+              "",
+              "const state = randomString(24);",
+              "const nonce = randomString(24);",
+              "",
+              "pm.environment.set('state', state);",
+              "pm.environment.set('nonce', nonce);",
+              "",
+              "const challenge = CryptoJS.enc.Base64.stringify(CryptoJS.SHA256(verifier))",
+              "  .replace(/\\+/g, '-')",
+              "  .replace(/\\//g, '_')",
+              "  .replace(/=+$/, '');",
+              "",
+              "pm.environment.set('codeChallenge', challenge);",
+              "",
+              "console.log('PKCE Generated');"
+            ]
+          }
+        }
+      ],
+      "response": [
+        {
+          "name": "2 - Generate PKCE Example",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "body": "{\n  \"generated\": {\n    \"codeVerifier\": \"<CODE_VERIFIER>\",\n    \"codeChallenge\": \"<CODE_CHALLENGE>\",\n    \"state\": \"<STATE>\",\n    \"nonce\": \"<NONCE>\"\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "3 - OAuth Authorize",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{issuer}}/v1/authorize?client_id={{clientId}}&response_type=code&response_mode=query&scope=openid profile email&redirect_uri={{redirectUri}}&state={{state}}&nonce={{nonce}}&code_challenge={{codeChallenge}}&code_challenge_method=S256&sessionToken={{sessionToken}}",
+          "host": [
+            "{{issuer}}"
+          ],
+          "path": [
+            "v1",
+            "authorize"
+          ],
+          "query": [
+            {
+              "key": "client_id",
+              "value": "{{clientId}}"
+            },
+            {
+              "key": "response_type",
+              "value": "code"
+            },
+            {
+              "key": "response_mode",
+              "value": "query"
+            },
+            {
+              "key": "scope",
+              "value": "openid profile email"
+            },
+            {
+              "key": "redirect_uri",
+              "value": "{{redirectUri}}"
+            },
+            {
+              "key": "state",
+              "value": "{{state}}"
+            },
+            {
+              "key": "nonce",
+              "value": "{{nonce}}"
+            },
+            {
+              "key": "code_challenge",
+              "value": "{{codeChallenge}}"
+            },
+            {
+              "key": "code_challenge_method",
+              "value": "S256"
+            },
+            {
+              "key": "sessionToken",
+              "value": "{{sessionToken}}"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const location = pm.response.headers.get('Location');",
+              "",
+              "console.log('Redirect URL:', location);",
+              "",
+              "if (location) {",
+              "  const match = location.match(/[?&]code=([^&]+)/);",
+              "",
+              "  if (match && match[1]) {",
+              "    pm.environment.set('authCode', decodeURIComponent(match[1]));",
+              "    console.log('Authorization Code Saved');",
+              "  }",
+              "}"
+            ]
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "followRedirects": false
+      },
+      "response": [
+        {
+          "name": "3 - OAuth Authorize Example",
+          "status": "Found",
+          "code": 302,
+          "header": [],
+          "body": "{\n  \"redirectUrl\": \"https://app.guesty.com/auth/login/callback?code=<AUTH_CODE>&state=<STATE>\",\n  \"authCode\": \"<AUTH_CODE>\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "4 - Exchange Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "client_id",
+              "value": "{{clientId}}"
+            },
+            {
+              "key": "redirect_uri",
+              "value": "{{redirectUri}}"
+            },
+            {
+              "key": "grant_type",
+              "value": "authorization_code"
+            },
+            {
+              "key": "code_verifier",
+              "value": "{{codeVerifier}}"
+            },
+            {
+              "key": "code",
+              "value": "{{authCode}}"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{issuer}}/v1/token",
+          "host": [
+            "{{issuer}}"
+          ],
+          "path": [
+            "v1",
+            "token"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const json = pm.response.json();",
+              "",
+              "pm.environment.set('accessToken', json.access_token);",
+              "pm.environment.set('idToken', json.id_token);",
+              "pm.environment.set('refreshToken', json.refresh_token || '');",
+              "pm.environment.set('tokenType', json.token_type);",
+              "pm.environment.set('expiresIn', json.expires_in);",
+              "",
+              "console.log('Access Token Saved');",
+              "console.log(json);"
+            ]
+          }
+        }
+      ],
+      "response": [
+        {
+          "name": "4 - Exchange Token Example",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 86400,\n  \"access_token\": \"<ACCESS_TOKEN>\",\n  \"id_token\": \"<ID_TOKEN>\",\n  \"scope\": \"openid profile email\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "5 - Get Listings",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "x-agni-version",
+            "value": "2"
+          }
+        ],
+        "url": {
+          "raw": "https://app.guesty.com/api/listings-fe/listings?limit=50&skip=0",
+          "protocol": "https",
+          "host": [
+            "app",
+            "guesty",
+            "com"
+          ],
+          "path": [
+            "api",
+            "listings-fe",
+            "listings"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "50"
+            },
+            {
+              "key": "skip",
+              "value": "0"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "5 - Get Listings Example",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "body": "{\n  \"results\": [\n    {\n      \"_id\": \"<LISTING_ID>\",\n      \"title\": \"Sample Apartment\",\n      \"nickname\": \"APT-1\",\n      \"address\": {\n        \"full\": \"Sample Address, Germany\"\n      },\n      \"picture\": {\n        \"thumbnail\": \"https://assets.guesty.com/...\"\n      }\n    }\n  ],\n  \"count\": 1\n}"
+        }
+      ]
+    },
+    {
+      "name": "6 - Get Reservations",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "x-agni-version",
+            "value": "2"
+          }
+        ],
+        "url": {
+          "raw": "https://app.guesty.com/api/reservations-reports?smartView=true&columns=checkIn+checkOut+confirmationCode+listing+guest+status+source+guest.email+guestsCount+money.hostPayout+money.totalPaid&filters=%7B%22localTime.checkOutWithPlannedDeparture%22:%7B%22%40in_future%22:true%7D,%22status%22:%7B%22%40in%22:[%22confirmed%22]%7D%7D&skip=0&limit=50&sort=checkIn&lang=en-US&timezone=Europe%2FBerlin",
+          "protocol": "https",
+          "host": [
+            "app",
+            "guesty",
+            "com"
+          ],
+          "path": [
+            "api",
+            "reservations-reports"
+          ],
+          "query": [
+            {
+              "key": "smartView",
+              "value": "true"
+            },
+            {
+              "key": "columns",
+              "value": "checkIn+checkOut+confirmationCode+listing+guest+status+source+guest.email+guestsCount+money.hostPayout+money.totalPaid"
+            },
+            {
+              "key": "filters",
+              "value": "%7B%22localTime.checkOutWithPlannedDeparture%22:%7B%22%40in_future%22:true%7D,%22status%22:%7B%22%40in%22:[%22confirmed%22]%7D%7D"
+            },
+            {
+              "key": "skip",
+              "value": "0"
+            },
+            {
+              "key": "limit",
+              "value": "50"
+            },
+            {
+              "key": "sort",
+              "value": "checkIn"
+            },
+            {
+              "key": "lang",
+              "value": "en-US"
+            },
+            {
+              "key": "timezone",
+              "value": "Europe%2FBerlin"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "6 - Get Reservations Example",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "body": "{\n  \"data\": [\n    {\n      \"_id\": \"<RESERVATION_ID>\",\n      \"listingId\": \"<LISTING_ID>\",\n      \"confirmationCode\": \"ABC123\",\n      \"guest\": {\n        \"name\": \"John Guest\",\n        \"email\": \"guest@example.com\"\n      },\n      \"status\": \"confirmed\",\n      \"checkIn\": \"2026-05-15 02:00 PM\",\n      \"checkOut\": \"2026-05-16 11:00 AM\",\n      \"guestsCount\": 2,\n      \"money\": {\n        \"hostPayout\": {\n          \"value\": 120.5,\n          \"currency\": \"EUR\"\n        },\n        \"totalPaid\": {\n          \"value\": 150,\n          \"currency\": \"EUR\"\n        }\n      }\n    }\n  ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "7 - Get Single Reservation",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "x-agni-version",
+            "value": "2"
+          }
+        ],
+        "url": {
+          "raw": "https://app.guesty.com/api/reservations-fegw/reservations/{{reservationId}}?newResponse=true",
+          "protocol": "https",
+          "host": [
+            "app",
+            "guesty",
+            "com"
+          ],
+          "path": [
+            "api",
+            "reservations-fegw",
+            "reservations",
+            "{{reservationId}}"
+          ],
+          "query": [
+            {
+              "key": "newResponse",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "7 - Get Single Reservation Example",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "body": "{}"
+        }
+      ]
+    },
+    {
+      "name": "8 - Account Verification Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "url": {
+          "raw": "https://app.guesty.com/api/accounts-verification/accounts/account-verification/status",
+          "protocol": "https",
+          "host": [
+            "app",
+            "guesty",
+            "com"
+          ],
+          "path": [
+            "api",
+            "accounts-verification",
+            "accounts",
+            "account-verification",
+            "status"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "8 - Account Verification Status Example",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "body": "{}"
+        }
+      ]
+    },
+    {
+      "name": "9 - Billing Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "url": {
+          "raw": "https://app.guesty.com/api/billing-hub-api/account/status",
+          "protocol": "https",
+          "host": [
+            "app",
+            "guesty",
+            "com"
+          ],
+          "path": [
+            "api",
+            "billing-hub-api",
+            "account",
+            "status"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "9 - Billing Status Example",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "body": "{}"
+        }
+      ]
+    }
+  ]
+}

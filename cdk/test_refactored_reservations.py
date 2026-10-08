@@ -49,7 +49,7 @@ def test_reservation_structure():
         
         from functions.reservations.handler import _project_reservation
         
-        result = _project_reservation(mock_raw_data)
+        result = _project_reservation(legacy_raw=mock_raw_data)
         
         # Check structure
         assert result["reservationId"] == "test-reservation-123"
@@ -137,7 +137,7 @@ def test_custom_fields_preservation():
         
         from functions.reservations.handler import _project_reservation
         
-        result = _project_reservation(mock_raw_data)
+        result = _project_reservation(legacy_raw=mock_raw_data)
         
         # Check that G4H data was updated
         assert result["price"] == 175.0

@@ -2,8 +2,7 @@
 
 from typing import Dict, Any, Optional, List
 from common.config import get_email_template_vars
-from datetime import datetime, timezone
-from zoneinfo import ZoneInfo
+from common.guesty_dates import ms_to_guesty_display
 
 class UnifiedNotificationTemplateManager:
     def __init__(self):
@@ -14,9 +13,7 @@ class UnifiedNotificationTemplateManager:
         self.vars.setdefault("support_email", "support@harmonest.de")
 
     def _fmt_ts_ms(self, ts_ms: int, tz_name: str = "Europe/Berlin") -> str:
-        dt_utc = datetime.fromtimestamp(int(ts_ms) / 1000, tz=timezone.utc)
-        dt_loc = dt_utc.astimezone(ZoneInfo(tz_name))
-        return dt_loc.strftime("%Y-%m-%d %H:%M")
+        return ms_to_guesty_display(ts_ms, tz_name, use_12h=False) or ""
 
     def create_door_access_email_template(
         self,

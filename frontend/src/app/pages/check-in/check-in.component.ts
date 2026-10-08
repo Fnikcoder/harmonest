@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil, switchMap } from 'rxjs/operators';
 import feather from 'feather-icons';
@@ -22,6 +22,7 @@ import { EmailVerificationService } from '../../services/email-verification.serv
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    RouterLink,
     NavbarComponent,
     FooterComponent,
     SwitcherComponent,

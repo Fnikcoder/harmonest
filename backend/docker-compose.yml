@@ -5,7 +5,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongodb_data:/data/db
+      - harmonest-mongo-data:/data/db
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
@@ -19,23 +19,17 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      # Guesty: set real credentials in .env or override here
-      HARMONEST_GUESTY_STUB_MODE: "true"
-      SPRING_MAIL_HOST: mailhog
-      SPRING_MAIL_PORT: 1025
+      MONGODB_URI: mongodb://mongodb:27017/harmonest
+      JWT_SECRET: local-dev-secret-change-me-32chars-min
+      CORS_ALLOWED_ORIGINS: http://localhost:4200
+      GUESTY_CLIENT_ID: ${GUESTY_CLIENT_ID:-}
+      GUESTY_CLIENT_SECRET: ${GUESTY_CLIENT_SECRET:-}
     depends_on:
       mongodb:
         condition: service_healthy
-      mailhog:
-        condition: service_started
-
-  # Local SMTP catcher — open http://localhost:8025 to read emails
-  mailhog:
-    image: mailhog/mailhog:v1.0.1
-    container_name: harmonest-mailhog
-    ports:
-      - "1025:1025"
-      - "8025:8025"
+    volumes:
+      - harmonest-uploads:/app/data/uploads
 
 volumes:
-  mongodb_data:
+  harmonest-mongo-data:
+  harmonest-uploads:

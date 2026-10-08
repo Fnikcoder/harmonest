@@ -113,7 +113,6 @@ class ListingsStack(Stack):
         if "listings" in features:
             listings = features["listings"]
             env_vars["LISTINGS_SYNC_ENABLED"] = str(listings.get("syncEnabled", True)).lower()
-            env_vars["PUBLIC_LISTINGS_ENABLED"] = str(listings.get("publicListings", False)).lower()
 
         # Client identification
         env_vars["CLIENT_NAME"] = client["name"]

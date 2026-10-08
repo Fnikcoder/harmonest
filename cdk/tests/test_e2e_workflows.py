@@ -239,8 +239,8 @@ class TestCompleteCheckinWorkflow:
 class TestListingsSyncWorkflow:
     """Test listings synchronization workflow"""
     
-    def test_listings_sync_and_public_api(self, test_environment, mock_aws_services):
-        """Test complete listings sync and public API workflow"""
+    def test_listings_sync(self, test_environment, mock_aws_services):
+        """Test listings sync workflow"""
         client = test_environment.config["client"]
         
         # Check if listings sync is enabled
@@ -252,7 +252,6 @@ class TestListingsSyncWorkflow:
             "APP_TABLE": f"{client['name']}-test-main",
             "CLIENT_NAME": client["name"],
             "LISTINGS_SYNC_ENABLED": "true",
-            "PUBLIC_LISTINGS_ENABLED": str(client.get("features", {}).get("listings", {}).get("publicListings", False)).lower()
         }
         
         # Create test table
@@ -302,36 +301,6 @@ class TestListingsSyncWorkflow:
                 
                 # Verify sync completed
                 assert response["statusCode"] == 200
-            
-            # Step 2: Test public listings API
-            from functions.listings.public_api_handler import handler as public_handler
-            
-            # Add listings metadata to table
-            table.put_item(Item={
-                "pk": "LISTINGS",
-                "sk": "METADATA",
-                "totalGroups": 2,
-                "totalRooms": 3,
-                "success": True,
-                "updatedAt": "2024-01-01T00:00:00Z"
-            })
-            
-            # Test public listings endpoint
-            public_event = {
-                "httpMethod": "GET",
-                "path": "/public/listings",
-                "headers": {},
-                "queryStringParameters": None
-            }
-            
-            response = public_handler(public_event, {})
-            assert response["statusCode"] == 200
-            
-            body = json.loads(response["body"])
-            assert body["client"] == client["name"]
-            assert body["dataSource"] == f"{client['name']}_api"
-            assert body["totalGroups"] == 2
-            assert body["totalRooms"] == 3
 
 
 @pytest.mark.e2e

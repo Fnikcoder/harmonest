@@ -1,18 +1,14 @@
 from typing import Dict, Any, List, Tuple
 from decimal import Decimal
-import json
 import os
-import urllib.parse
 
 from common.g4h import get_client, refresh_on_auth_error
-from common.ddb import get, put, put_if_changed, now_ms
+from common.ddb import get, put_if_changed, now_ms
 from common.models import create_listing_from_g4h, convert_to_decimal
-from common.guesty_adapters import (
-    use_guesty_app_api,
-    app_json_headers,
+from common.guesty_adapters import use_guesty_app_api, merge_legacy_raw_for_update
+from common.guesty_listings_v2 import (
+    fetch_all_listings,
     listing_v2_to_legacy_room_shape,
-    merge_legacy_raw_for_update,
-    G4H_APP_BASE,
 )
 from common.guesty_schema import (
     SOURCE_LEGACY_G4H,
@@ -21,27 +17,24 @@ from common.guesty_schema import (
     merge_guesty_for_update,
     resolve_listing_guesty_from_item,
 )
-import boto3
 
-BASE = "https://api.guestyforhosts.com"
-URL = f"{BASE}/rooms/v2/getGroupedRoomsWithChannelDetails"
+LEGACY_BASE = "https://api.guestyforhosts.com"
+LEGACY_URL = f"{LEGACY_BASE}/rooms/v2/getGroupedRoomsWithChannelDetails"
 
 
 def _convert_floats_to_decimal(obj):
-    """Recursively convert float values to Decimal for DynamoDB compatibility"""
     if isinstance(obj, float):
         return Decimal(str(obj))
-    elif isinstance(obj, dict):
+    if isinstance(obj, dict):
         return {k: _convert_floats_to_decimal(v) for k, v in obj.items()}
-    elif isinstance(obj, list):
+    if isinstance(obj, list):
         return [_convert_floats_to_decimal(item) for item in obj]
-    else:
-        return obj
+    return obj
 
 
 def _fetch_legacy(session, user_id) -> Dict[str, Any]:
     def _call():
-        return session.post(URL, json={"userId": user_id}, timeout=45)
+        return session.post(LEGACY_URL, json={"userId": user_id}, timeout=45)
 
     r = refresh_on_auth_error(_call)
     r.raise_for_status()
@@ -51,50 +44,7 @@ def _fetch_legacy(session, user_id) -> Dict[str, Any]:
     return js
 
 
-def _fetch_app_listings(session) -> Dict[str, Any]:
-    """GET /api/v2/listings with pagination (Guesty app API)."""
-    fields = os.getenv(
-        "G4H_LISTINGS_V2_FIELDS",
-        "title+nickname+picture.thumbnail+address.full",
-    )
-    limit = int(os.getenv("G4H_LISTINGS_V2_LIMIT", "50"))
-    all_results: List[Dict[str, Any]] = []
-    skip = 0
-    last_js: Dict[str, Any] = {}
-    while True:
-        params = {
-            "listed": "true",
-            "fields": fields,
-            "skip": str(skip),
-            "limit": str(limit),
-            "q": "",
-        }
-        url = f"{G4H_APP_BASE}/api/v2/listings?{urllib.parse.urlencode(params)}"
-
-        def _call():
-            h = {**dict(session.headers), **app_json_headers()}
-            return session.get(url, headers=h, timeout=60)
-
-        r = refresh_on_auth_error(_call)
-        r.raise_for_status()
-        js = r.json()
-        last_js = js
-        batch = js.get("results") or []
-        all_results.extend(batch)
-        total = int(js.get("count") or len(all_results))
-        skip += len(batch)
-        if not batch or skip >= total or skip > 5000:
-            break
-    return {
-        "success": True,
-        "results": all_results,
-        "count": len(all_results),
-        "_meta": last_js,
-    }
-
-
-def _process_groups(js: Dict[str, Any]) -> List[Dict[str, Any]]:
-    """Process grouped rooms and return both groups and individual rooms with group context"""
+def _process_groups(js: Dict[str, Any]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     groups = []
     rooms_with_context = []
 
@@ -117,27 +67,35 @@ def _process_groups(js: Dict[str, Any]) -> List[Dict[str, Any]]:
     return groups, rooms_with_context
 
 
-def _process_app_listings(js: Dict[str, Any]) -> Tuple[List, List]:
-    """v2 listings: no groups; one synthetic 'room' per listing with attached __v2_doc."""
-    groups: List[Dict[str, Any]] = []
-    rooms_with_context: List[Dict[str, Any]] = []
-    for doc in js.get("results", []):
+def _listings_from_v2_results(results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    rooms: List[Dict[str, Any]] = []
+    for doc in results:
         legacy = listing_v2_to_legacy_room_shape(doc)
         legacy["__v2_doc"] = doc
         legacy["groupContext"] = {}
-        rooms_with_context.append(legacy)
-    return groups, rooms_with_context
+        rooms.append(legacy)
+    return rooms
+
+
+def _seed_custom_fields_address(
+    custom_fields: Dict[str, Any], address_full: str | None
+) -> Dict[str, Any]:
+    if not address_full:
+        return custom_fields
+    cf = dict(custom_fields or {})
+    if not str(cf.get("address") or "").strip():
+        cf["address"] = address_full
+    return cf
 
 
 def _project_listing(raw: Dict[str, Any]) -> Dict[str, Any]:
-    """Project room data into comprehensive listing format using helper function"""
     raw = dict(raw)
     v2_doc = raw.pop("__v2_doc", None)
 
     room_id = raw.get("roomId")
+    existing_listing = None
     existing_custom_fields = None
     existing_last_custom_update = None
-    existing_listing = None
     if room_id:
         existing_listing = get(f"LISTING#{room_id}", "META")
         if existing_listing:
@@ -154,6 +112,11 @@ def _project_listing(raw: Dict[str, Any]) -> Dict[str, Any]:
             raw,
         )
         merged_guesty = None
+
+    existing_custom_fields = _seed_custom_fields_address(
+        existing_custom_fields or {},
+        merged_raw.get("addressFull"),
+    )
 
     guesty_listing_meta = merged_raw.get("guestyListing") or {}
     rac = merged_raw.get("roomApiConnection") or {}
@@ -246,40 +209,40 @@ def _project_listing(raw: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def _project_group(group_data: Dict[str, Any]) -> Dict[str, Any]:
-    """Project group data into storage format"""
-    group_model = {
-        "type": "group",
-        "groupId": group_data.get("groupId"),
-        "userId": group_data.get("userId"),
-        "groupName": group_data.get("groupName"),
-        "groupColor": group_data.get("groupColor"),
-        "roomCount": group_data.get("roomCount"),
-        "deleted": group_data.get("deleted", False),
-        "sourceUpdatedAt": now_ms(),
-        "updatedAt": now_ms(),
-    }
-
-    return _convert_floats_to_decimal(group_model)
+    return _convert_floats_to_decimal(
+        {
+            "type": "group",
+            "groupId": group_data.get("groupId"),
+            "userId": group_data.get("userId"),
+            "groupName": group_data.get("groupName"),
+            "groupColor": group_data.get("groupColor"),
+            "roomCount": group_data.get("roomCount"),
+            "deleted": group_data.get("deleted", False),
+            "sourceUpdatedAt": now_ms(),
+            "updatedAt": now_ms(),
+        }
+    )
 
 
 def handler(event, context):
-    s, user_id = get_client()
+    session, user_id = get_client()
 
     if use_guesty_app_api():
-        js = _fetch_app_listings(s)
-        groups, rooms_with_context = _process_app_listings(js)
+        results, summary = fetch_all_listings(session)
+        rooms_with_context = _listings_from_v2_results(results)
+        groups: List[Dict[str, Any]] = []
         api_metadata = {
             "type": "api_response",
             "apiTier": "guesty_app",
             "success": True,
-            "totalListings": js.get("count"),
-            "totalGroups": len(groups),
+            "totalListings": summary.get("count", len(results)),
+            "totalGroups": 0,
             "totalRooms": len(rooms_with_context),
             "sourceUpdatedAt": now_ms(),
             "updatedAt": now_ms(),
         }
     else:
-        js = _fetch_legacy(s, user_id)
+        js = _fetch_legacy(session, user_id)
         groups, rooms_with_context = _process_groups(js)
         api_metadata = {
             "type": "api_response",
@@ -307,28 +270,27 @@ def handler(event, context):
         gid = group_model["groupId"]
         if not gid:
             continue
-        changed = put_if_changed(
+        if put_if_changed(
             pk=f"GROUP#{gid}",
             sk="META",
             body=group_model,
             hash_fields=["groupId", "groupName", "groupColor", "roomCount", "deleted"],
-        )
-        if changed:
+        ):
             groups_written += 1
 
     listings_written = 0
+    hash_fields = ["guestyHash"] if use_guesty_app_api() else ["rawDataHash"]
     for raw in rooms_with_context:
         listing_model = _project_listing(raw)
         rid = listing_model["roomId"]
         if not rid:
             continue
-        changed = put_if_changed(
+        if put_if_changed(
             pk=f"LISTING#{rid}",
             sk="META",
             body=convert_to_decimal(listing_model),
-            hash_fields=["guestyHash"] if use_guesty_app_api() else ["rawDataHash"],
-        )
-        if changed:
+            hash_fields=hash_fields,
+        ):
             listings_written += 1
 
     return {
@@ -336,6 +298,7 @@ def handler(event, context):
         "apiTier": "guesty_app" if use_guesty_app_api() else "legacy",
         "totalGroups": len(groups),
         "totalRooms": len(rooms_with_context),
+        "totalListings": api_metadata.get("totalListings"),
         "groupsWritten": groups_written,
         "listingsWritten": listings_written,
     }

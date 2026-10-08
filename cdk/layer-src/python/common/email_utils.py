@@ -210,42 +210,19 @@ def create_checkin_completion_email(reservation_data: Dict[str, Any], checkin_da
     info_to_guest = custom_fields.get('info4guest', 'No additional information available')
     responsible_person = custom_fields.get('responsiblePerson', 'Support team')
 
-    # Format dates - get from reservation detail
-    checkin_date = reservation_detail.get('checkInDate')
-    checkout_date = reservation_detail.get('checkOutDate')
+    from common.guesty_dates import format_stay_for_email
 
-    print(f"DEBUG: checkin_date = {checkin_date} (type: {type(checkin_date)})")
-    print(f"DEBUG: checkout_date = {checkout_date} (type: {type(checkout_date)})")
-
-    if checkin_date:
-        try:
-            # Convert timestamp to readable date (handle Decimal from DynamoDB)
-            from decimal import Decimal
-            if isinstance(checkin_date, (int, float, Decimal)):
-                timestamp = float(checkin_date) / 1000
-                checkin_date_str = datetime.fromtimestamp(timestamp).strftime('%B %d, %Y')
-            else:
-                checkin_date_str = str(checkin_date)
-        except Exception as e:
-            print(f"Error formatting checkin date {checkin_date}: {str(e)}")
-            checkin_date_str = 'Date not available'
-    else:
-        checkin_date_str = 'Date not available'
-
-    if checkout_date:
-        try:
-            # Convert timestamp to readable date (handle Decimal from DynamoDB)
-            from decimal import Decimal
-            if isinstance(checkout_date, (int, float, Decimal)):
-                timestamp = float(checkout_date) / 1000
-                checkout_date_str = datetime.fromtimestamp(timestamp).strftime('%B %d, %Y')
-            else:
-                checkout_date_str = str(checkout_date)
-        except Exception as e:
-            print(f"Error formatting checkout date {checkout_date}: {str(e)}")
-            checkout_date_str = 'Date not available'
-    else:
-        checkout_date_str = 'Date not available'
+    tz_name = str(reservation_detail.get("timezone") or "Europe/Berlin")
+    checkin_date_str = format_stay_for_email(
+        reservation_detail.get("checkInDisplay"),
+        reservation_detail.get("checkInDate") or reservation_detail.get("checkInDateWithTime"),
+        tz_name,
+    )
+    checkout_date_str = format_stay_for_email(
+        reservation_detail.get("checkOutDisplay"),
+        reservation_detail.get("checkOutDate") or reservation_detail.get("checkOutDateWithTime"),
+        tz_name,
+    )
     
     # Get door access information
     doors_list = custom_fields.get('doors', [])

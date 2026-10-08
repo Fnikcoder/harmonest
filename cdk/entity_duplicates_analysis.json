@@ -1,0 +1,10 @@
+{
+  "table": "harmonest-main",
+  "listingsCount": 3,
+  "listings": [
+    {
+      "roomId": "6a045defe8e8730011e03839",
+      "roomAlias": "HN1",
+      "roomName": "HarmoNest apartments and suites1",
+      "guestySource": "listings-v2",
+      "guestySchemaVersion": 

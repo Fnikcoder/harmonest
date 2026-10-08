@@ -1,0 +1,44 @@
+{
+  "count": 3,
+  "results": [
+    {
+      "_id": "6a045def77b4d200132ba6a8",
+      "tags": [],
+      "title": "HarmoNest Apartments and suites",
+      "address": {
+        "full": "Giesenkirchener Straße 126, Mönchengladbach, Nordrhein-Westfalen 41238, Germany"
+      },
+      "accountId": "698c634f8462114283f39c55",
+      "nickname": "HN2",
+      "picture": {
+        "thumbnail": "https://assets.guesty.com/image/upload/t_default_thumb/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ"
+      }
+    },
+    {
+      "_id": "6a045defe8e8730011e03839",
+      "tags": [],
+      "title": "HarmoNest apartments and suites1",
+      "address": {
+        "full": "Giesenkirchener Straße 126, Mönchengladbach, Nordrhein-Westfalen 41238, Germany"
+      },
+      "accountId": "698c634f8462114283f39c55",
+      "nickname": "HN1",
+      "picture": {
+        "thumbnail": "https://assets.guesty.com/image/upload/t_default_thumb/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv"
+      }
+    },
+    {
+      "_id": "6a045def154b72000f1d251a",
+      "tags": [],
+      "title": "cosy two bedroom apartment(75m2)",
+      "address": {
+        "full": "Giesenkirchener Straße 126, Mönchengladbach, Nordrhein-Westfalen 41238, Germany"
+      },
+      "accountId": "698c634f8462114283f39c55",
+      "nickname": "Hippo",
+      "picture": {
+        "thumbnail": "https://assets.guesty.com/image/upload/t_default_thumb/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5"
+      }
+    }
+  ]
+}

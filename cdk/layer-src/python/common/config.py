@@ -48,7 +48,6 @@ class ClientConfig:
                 },
                 "listings": {
                     "syncEnabled": os.getenv("LISTINGS_SYNC_ENABLED", "true").lower() == "true",
-                    "publicListings": os.getenv("PUBLIC_LISTINGS_ENABLED", "false").lower() == "true",
                 },
             },
             "g4h": {

@@ -201,65 +201,6 @@ class TestEmailIntegration:
 
 
 @pytest.mark.integration
-class TestListingsIntegration:
-    """Integration tests for listings functionality"""
-    
-    def test_public_listings_api_metadata(self, test_environment, mock_aws_services):
-        """Test that public listings API returns client-specific metadata"""
-        client = test_environment.config["client"]
-        
-        env_vars = {
-            "APP_TABLE": f"{client['name']}-test-main",
-            "CLIENT_NAME": client["name"]
-        }
-        
-        # Create test table
-        table = mock_aws_services["dynamodb"].create_table(
-            TableName=env_vars["APP_TABLE"],
-            KeySchema=[
-                {"AttributeName": "pk", "KeyType": "HASH"},
-                {"AttributeName": "sk", "KeyType": "RANGE"}
-            ],
-            AttributeDefinitions=[
-                {"AttributeName": "pk", "AttributeType": "S"},
-                {"AttributeName": "sk", "AttributeType": "S"}
-            ],
-            BillingMode="PAY_PER_REQUEST"
-        )
-        
-        # Add listings metadata
-        table.put_item(Item={
-            "pk": "LISTINGS",
-            "sk": "METADATA",
-            "totalGroups": 5,
-            "totalRooms": 15,
-            "success": True,
-            "updatedAt": "2024-01-01T00:00:00Z"
-        })
-        
-        with patch.dict("os.environ", env_vars):
-            from functions.listings.public_api_handler import handler
-            
-            # Mock API Gateway event
-            event = {
-                "httpMethod": "GET",
-                "path": "/public/listings",
-                "headers": {},
-                "queryStringParameters": None
-            }
-            
-            response = handler(event, {})
-            
-            assert response["statusCode"] == 200
-            body = json.loads(response["body"])
-            
-            # Check client-specific metadata
-            assert body["client"] == client["name"]
-            assert body["dataSource"] == f"{client['name']}_api"
-            assert "version" in body
-
-
-@pytest.mark.integration
 @pytest.mark.slow
 class TestDeploymentIntegration:
     """Integration tests for deployment functionality"""

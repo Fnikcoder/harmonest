@@ -13,13 +13,16 @@ import os
 import urllib.parse
 from typing import Dict, Any, Optional, List
 from common.ddb import get, put, now_ms
-from common.g4h import get_client, refresh_on_auth_error
-from common.guesty_adapters import (
-    use_guesty_app_api,
-    normalize_fegw_detail_response,
-    G4H_APP_BASE,
-    app_json_headers,
-    merge_legacy_raw_for_update,
+from common.g4h import get_client
+from common.guesty_adapters import merge_legacy_raw_for_update
+from common.guesty_reservations_fegw import (
+    apply_fegw_to_meta_item,
+    is_reservation_canceled_flat,
+)
+from common.guesty_reservation_refresh import (
+    fetch_latest_reservation_status,
+    reservation_row_to_flat,
+    should_skip_guesty_refresh,
 )
 from common.config import get_client_config
 from common.models import convert_to_decimal, get_booking_source_display_name, create_reservation_from_g4h
@@ -28,10 +31,6 @@ from email_service import send_door_access_email, create_qr_attachment
 from sms_service_simple import send_combined_access_sms
 from datetime import datetime, time, timezone
 from zoneinfo import ZoneInfo
-
-# Constants
-BASE = "https://api.guestyforhosts.com"
-GET_RESERVATION_DETAIL_URL = f"{BASE}/getReservationDetailById"
 
 # Environment variables
 ENVIRONMENT = os.environ.get("ENVIRONMENT", "prod")
@@ -117,40 +116,6 @@ def _create_response(status_code: int, success: bool, message: str, data: Option
     return response
 
 
-def _fetch_latest_reservation_status(session, user_id: str, reservation_id: str) -> Dict[str, Any]:
-    """Fetch latest reservation status from Guesty (legacy POST or app GET fegw)."""
-    if use_guesty_app_api():
-        rid = urllib.parse.quote(reservation_id, safe="")
-        url = f"{G4H_APP_BASE}/api/reservations-fegw/reservations/{rid}?newResponse=true"
-
-        def _call():
-            h = {**dict(session.headers), **app_json_headers()}
-            return session.get(url, headers=h, timeout=45)
-
-        r = refresh_on_auth_error(_call)
-        r.raise_for_status()
-        return normalize_fegw_detail_response(r.json())
-
-    payload = {
-        "guestyId": False,
-        "reservationId": reservation_id,
-        "userId": user_id,
-        "version": 3,
-    }
-
-    def _call():
-        return session.post(GET_RESERVATION_DETAIL_URL, json=payload, timeout=45)
-
-    r = refresh_on_auth_error(_call)
-    r.raise_for_status()
-    js = r.json()
-
-    if not js.get("success"):
-        raise RuntimeError(f"Guesty API failure: {js}")
-
-    return js
-
-
 def _step1_sync_reservation_from_guesty(reservation_id: str) -> Dict[str, Any]:
     """
     STEP 1: Check latest reservation status on Guesty and update our DB
@@ -158,16 +123,6 @@ def _step1_sync_reservation_from_guesty(reservation_id: str) -> Dict[str, Any]:
     Returns: {"success": bool, "reservation": dict, "response": dict}
     """
     try:
-        # Get Guesty session
-        session, user_id = get_client()
-
-        # Fetch latest data from Guesty
-        latest_data = _fetch_latest_reservation_status(session, user_id, reservation_id)
-        reservation_detail = latest_data.get("reservation", {}).get("reservation", {})
-        app_raw = latest_data.get("_guestyApp")
-        status = reservation_detail.get("status")
-        is_deleted = reservation_detail.get("isDeleted", 0)
-
         existing_reservation = get(f"RESERVATION#{reservation_id}", "META")
         if not existing_reservation:
             return {
@@ -180,46 +135,58 @@ def _step1_sync_reservation_from_guesty(reservation_id: str) -> Dict[str, Any]:
                 ),
             }
 
-        existing_custom_fields = existing_reservation.get("customFields", {})
-
-        merged = merge_legacy_raw_for_update(
-            existing_reservation.get("rawData"),
-            reservation_detail,
-        )
-        updated_reservation = create_reservation_from_g4h(merged, existing_custom_fields)
-
-        if app_raw is not None:
-            from common.guesty_schema import (
-                SOURCE_RESERVATIONS_FEGW,
-                apply_guesty_envelope,
-                denormalize_reservation_flat,
-                merge_guesty_for_update,
-                resolve_reservation_guesty_from_item,
+        if should_skip_guesty_refresh(existing_reservation):
+            print(
+                f"STEP 1: Skipping Guesty refresh for legacy reservation {reservation_id}"
             )
+            updated_reservation = existing_reservation
+            flat = reservation_row_to_flat(existing_reservation)
+        else:
+            session, user_id = get_client()
+            try:
+                latest_data = fetch_latest_reservation_status(
+                    session, user_id, reservation_id
+                )
+                reservation_detail = latest_data.get("reservation", {}).get(
+                    "reservation", {}
+                )
+                app_raw = latest_data.get("_guestyApp")
 
-            prev_guesty, _ = resolve_reservation_guesty_from_item(updated_reservation)
-            merged_guesty = merge_guesty_for_update(prev_guesty, app_raw)
-            flat = denormalize_reservation_flat(merged_guesty, SOURCE_RESERVATIONS_FEGW)
-            for key, value in flat.items():
-                if key not in ("customFields", "PK", "SK") and value is not None:
-                    updated_reservation[key] = value
-            code = flat.get("reservationCode")
-            if code:
-                updated_reservation["reservationCode"] = str(code).strip()
-            apply_guesty_envelope(updated_reservation, merged_guesty, SOURCE_RESERVATIONS_FEGW)
-            updated_reservation.pop("rawData", None)
+                if app_raw is not None:
+                    updated_reservation, flat = apply_fegw_to_meta_item(
+                        existing_reservation, app_raw
+                    )
+                else:
+                    existing_custom_fields = existing_reservation.get("customFields", {})
+                    merged = merge_legacy_raw_for_update(
+                        existing_reservation.get("rawData"),
+                        reservation_detail,
+                    )
+                    updated_reservation = create_reservation_from_g4h(
+                        merged, existing_custom_fields
+                    )
+                    flat = reservation_detail
 
-        updated_reservation["lastCustomUpdate"] = existing_reservation.get("lastCustomUpdate")
-        updated_reservation["guestyStatus"] = status
-        updated_reservation["lastGuestySync"] = now_ms()
+                updated_reservation["lastCustomUpdate"] = existing_reservation.get(
+                    "lastCustomUpdate"
+                )
+                put(convert_to_decimal(updated_reservation))
 
-        put(convert_to_decimal(updated_reservation))
+                guesty_status = flat.get("guestyStatus") or flat.get("status")
+                is_deleted = flat.get("isDeleted", 0)
+                print(
+                    f"Reservation {reservation_id} synced from Guesty "
+                    f"(guestyStatus: {guesty_status}, isDeleted: {is_deleted}) "
+                    f"- customFields preserved"
+                )
+            except Exception as exc:
+                print(
+                    f"Guesty sync failed for {reservation_id}, using DB snapshot: {exc}"
+                )
+                updated_reservation = existing_reservation
+                flat = reservation_row_to_flat(existing_reservation)
 
-        print(
-            f"Reservation {reservation_id} synced from Guesty (status: {status}, isDeleted: {is_deleted}) - customFields preserved"
-        )
-
-        if status == 0 or is_deleted == 1:
+        if is_reservation_canceled_flat(flat):
             return {
                 "success": False,
                 "reservation": updated_reservation,

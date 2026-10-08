@@ -17,25 +17,21 @@
         <div class="max-w-6xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Main Check-in Content -->
-                <div class="lg:col-span-2">
+                <div [ngClass]="submissionMessageType === 'success' ? 'lg:col-span-3' : 'lg:col-span-2'">
                     <div class="p-6 md:p-8 rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900">
 
 
                         <!-- Success Display -->
-                        <div *ngIf="submissionMessageType === 'success'" class="text-center space-y-4">
+                        <div *ngIf="submissionMessageType === 'success'" class="text-center space-y-6 py-8">
                             <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto">
                                 <i data-feather="check-circle" class="w-8 h-8 text-green-600"></i>
                             </div>
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Check-In Complete!</h3>
-                            <div class="max-w-md mx-auto">
-                                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{{ submissionMessage }}</p>
-                            </div>
-
-                            <button
-                                (click)="resetCheckIn()"
-                                class="mt-6 py-2 px-6 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
-                                Start New Check-In
-                            </button>
+                            <a
+                                routerLink="/"
+                                class="inline-block py-3 px-8 bg-harmonest-blue text-white rounded-lg hover:bg-harmonest-navy transition-colors duration-200 font-corbel">
+                                Go to Home Page
+                            </a>
                         </div>
 
                         <!-- Step 1: Reservation Validation -->
@@ -264,7 +260,7 @@
                 </div>
 
                 <!-- Sidebar -->
-                <div class="lg:col-span-1">
+                <div class="lg:col-span-1" *ngIf="submissionMessageType !== 'success'">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Check In Details</h3>
 

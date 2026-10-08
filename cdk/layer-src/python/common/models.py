@@ -113,8 +113,10 @@ def identify_booking_source(raw_data: Dict[str, Any]) -> Dict[str, Any]:
             result["sourceDetails"]["codePattern"] = "Airbnb pattern detected"
             return result
 
-        # Booking.com codes often contain "BDC" or are purely numeric
-        if "BDC" in code_upper or (code_upper.isdigit() and len(code_upper) >= 8):
+        # Booking.com codes often start with "BC-" or contain "BDC"
+        if code_upper.startswith("BC-") or "BDC" in code_upper or (
+            code_upper.isdigit() and len(code_upper) >= 8
+        ):
             result["source"] = "booking_com"
             result["sourceDetails"]["platform"] = "Booking.com"
             result["sourceDetails"]["codePattern"] = "Booking.com pattern detected"
@@ -164,6 +166,16 @@ def create_reservation_from_g4h(raw_data: Dict[str, Any], existing_custom_fields
     if raw_data.get("porterReservationPrice"):
         porter_price = Decimal(str(raw_data["porterReservationPrice"]))
 
+    host_payout = None
+    if raw_data.get("hostPayout") is not None:
+        host_payout = Decimal(str(raw_data["hostPayout"]))
+    elif price is not None:
+        host_payout = price
+
+    total_paid = None
+    if raw_data.get("totalPaid") is not None:
+        total_paid = Decimal(str(raw_data["totalPaid"]))
+
     # Identify booking source
     booking_source = identify_booking_source(raw_data)
     
@@ -210,10 +222,14 @@ def create_reservation_from_g4h(raw_data: Dict[str, Any], existing_custom_fields
         "PK": f"RESERVATION#{raw_data['reservationId']}",
         "SK": "META",
         
-        # G4H reservation data - using exact field names
+        # Guesty / G4H reservation data - denormalized top-level fields
         "reservationId": raw_data.get("reservationId"),
+        "accountId": raw_data.get("accountId"),
         "roomId": raw_data.get("roomId"),
         "sourceId": raw_data.get("sourceId"),
+        "guestyStatus": raw_data.get("guestyStatus"),
+        "platform": raw_data.get("platform"),
+        "timezone": raw_data.get("timezone"),
 
         # Booking source identification
         "bookingSource": booking_source["source"],
@@ -235,6 +251,7 @@ def create_reservation_from_g4h(raw_data: Dict[str, Any], existing_custom_fields
         "nights": raw_data.get("nights"),
         
         # Occupancy
+        "guestsCount": raw_data.get("guestsCount"),
         "numOfAdults": raw_data.get("numOfAdults"),
         "numOfKids": raw_data.get("numOfKids"),
         "numOfInfants": raw_data.get("numOfInfants"),
@@ -242,6 +259,8 @@ def create_reservation_from_g4h(raw_data: Dict[str, Any], existing_custom_fields
         # Financial
         "currency": raw_data.get("currency", "EUR"),
         "price": price,
+        "hostPayout": host_payout,
+        "totalPaid": total_paid,
         "porterReservationPrice": porter_price,
         
         # Status and flags
@@ -252,6 +271,9 @@ def create_reservation_from_g4h(raw_data: Dict[str, Any], existing_custom_fields
         # Property information
         "roomAlias": raw_data.get("roomAlias"),
         "roomName": raw_data.get("roomName"),
+        "listingImage": raw_data.get("listingImage"),
+        "checkInDisplay": raw_data.get("checkInDisplay"),
+        "checkOutDisplay": raw_data.get("checkOutDisplay"),
         
         # Additional information
         "note": raw_data.get("note"),
@@ -310,7 +332,11 @@ def create_listing_from_g4h(raw_data: Dict[str, Any], existing_custom_fields: Op
         
         "city": raw_data.get("city"),
         "country": raw_data.get("country"),
+        "addressFull": raw_data.get("addressFull"),
+        "listingImage": raw_data.get("listingImage"),
         "timezone": raw_data.get("timezone"),
+        "ownerId": raw_data.get("ownerId"),
+        "location": raw_data.get("location"),
         
         "isActive": raw_data.get("isActive", True),
         "isDeleted": raw_data.get("isDeleted", 0),

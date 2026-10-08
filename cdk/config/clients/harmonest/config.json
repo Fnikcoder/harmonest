@@ -69,8 +69,7 @@
         "syncIntervalMinutes": 30
       },
       "listings": {
-        "syncEnabled": true,
-        "publicListings": false
+        "syncEnabled": true
       }
     }
   },

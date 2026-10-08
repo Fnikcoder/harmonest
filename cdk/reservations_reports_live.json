@@ -1,0 +1,221 @@
+{
+  "fetchedAt": "2026-05-16T06:21:36.335435+00:00",
+  "summary": {
+    "count": 44,
+    "total": 44,
+    "pagesProcessed": 1,
+    "hasAnyReservationReportsInTotal": true
+  },
+  "sampleRaw": [
+    {
+      "_id": "6a071c3eeb2d98001126f019",
+      "accountId": "698c634f8462114283f39c55",
+      "status": {
+        "children": "confirmed"
+      },
+      "timezone": {
+        "children": "Europe/Berlin"
+      },
+      "listingId": {
+        "children": "6a045def77b4d200132ba6a8"
+      },
+      "checkIn": {
+        "value": "2026-05-15 02:00 PM"
+      },
+      "checkOut": {
+        "value": "2026-05-16 11:00 AM"
+      },
+      "confirmationCode": {
+        "children": "BC-vg2PxkDRV"
+      },
+      "listing": {
+        "name": "HN2 / HarmoNest Apartments and suites",
+        "img": "https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ",
+        "withAvatar": true
+      },
+      "guest": {
+        "name": "Oliver Müschen",
+        "withAvatar": false
+      },
+      "source": {
+        "children": "Booking.com"
+      },
+      "guest.email": {
+        "children": "omusch.735532@guest.booking.com"
+      },
+      "guestsCount": {
+        "children": 2
+      },
+      "money.hostPayout": {
+        "value": 63.36,
+        "currency": "EUR"
+      },
+      "money.totalPaid": {
+        "value": 0,
+        "currency": "EUR"
+      }
+    },
+    {
+      "_id": "6a04612c5060810014426b3a",
+      "accountId": "698c634f8462114283f39c55",
+      "status": {
+        "children": "confirmed"
+      },
+      "timezone": {
+        "children": "Europe/Berlin"
+      },
+      "listingId": {
+        "children": "6a045defe8e8730011e03839"
+      },
+      "checkIn": {
+        "value": "2026-05-15 02:00 PM"
+      },
+      "checkOut": {
+        "value": "2026-05-16 11:00 AM"
+      },
+      "confirmationCode": {
+        "children": "BC-C06DB5D82"
+      },
+      "listing": {
+        "name": "HN1 / HarmoNest apartments and suites1",
+        "img": "https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv",
+        "withAvatar": true
+      },
+      "guest": {
+        "name": "Thomas Balz",
+        "withAvatar": false
+      },
+      "source": {
+        "children": "Booking.com"
+      },
+      "guest.email": {
+        "children": "tbalz.565417@guest.booking.com"
+      },
+      "guestsCount": {
+        "children": 2
+      },
+      "money.hostPayout": {
+        "value": 58.3,
+        "currency": "EUR"
+      },
+      "money.totalPaid": {
+        "value": 0,
+        "currency": "EUR"
+      }
+    },
+    {
+      "_id": "6a045e477e62890014977346",
+      "accountId": "698c634f8462114283f39c55",
+      "status": {
+        "children": "confirmed"
+      },
+      "timezone": {
+        "children": "Europe/Berlin"
+      },
+      "listingId": {
+        "children": "6a045def154b72000f1d251a"
+      },
+      "checkIn": {
+        "value": "2026-05-15 02:00 PM"
+      },
+      "checkOut": {
+        "value": "2026-05-17 11:00 AM"
+      },
+      "confirmationCode": {
+        "children": "HMZ9FANJPK"
+      },
+      "listing": {
+        "name": "Hippo / cosy two bedroom apartment(75m2)",
+        "img": "https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5",
+        "withAvatar": true
+      },
+      "guest": {
+        "name": "Marcel Plüschke",
+        "withAvatar": false
+      },
+      "source": {
+        "children": "airbnb2"
+      },
+      "guest.email": {},
+      "guestsCount": {
+        "children": 5
+      },
+      "money.hostPayout": {
+        "value": 315.86,
+        "currency": "EUR"
+      },
+      "money.totalPaid": {
+        "value": 0,
+        "currency": "EUR"
+      }
+    }
+  ],
+  "sampleParsed": [
+    {
+      "reservationId": "6a071c3eeb2d98001126f019",
+      "accountId": "698c634f8462114283f39c55",
+      "listingId": "6a045def77b4d200132ba6a8",
+      "timezone": "Europe/Berlin",
+      "confirmationCode": "BC-vg2PxkDRV",
+      "checkInDisplay": "2026-05-15 02:00 PM",
+      "checkOutDisplay": "2026-05-16 11:00 AM",
+      "guestName": "Oliver",
+      "guestSurname": "Müschen",
+      "guestFullName": "Oliver Müschen",
+      "email": "omusch.735532@guest.booking.com",
+      "guestsCount": 2,
+      "hostPayout": 63.36,
+      "totalPaid": 0.0,
+      "currency": "EUR",
+      "guestyStatus": "confirmed",
+      "platform": "Booking.com",
+      "source": "Booking.com",
+      "listingName": "HN2 / HarmoNest Apartments and suites",
+      "listingImage": "https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def77b4d200132ba6a8/191f7c0c-0a62-4f-BZHYJ"
+    },
+    {
+      "reservationId": "6a04612c5060810014426b3a",
+      "accountId": "698c634f8462114283f39c55",
+      "listingId": "6a045defe8e8730011e03839",
+      "timezone": "Europe/Berlin",
+      "confirmationCode": "BC-C06DB5D82",
+      "checkInDisplay": "2026-05-15 02:00 PM",
+      "checkOutDisplay": "2026-05-16 11:00 AM",
+      "guestName": "Thomas",
+      "guestSurname": "Balz",
+      "guestFullName": "Thomas Balz",
+      "email": "tbalz.565417@guest.booking.com",
+      "guestsCount": 2,
+      "hostPayout": 58.3,
+      "totalPaid": 0.0,
+      "currency": "EUR",
+      "guestyStatus": "confirmed",
+      "platform": "Booking.com",
+      "source": "Booking.com",
+      "listingName": "HN1 / HarmoNest apartments and suites1",
+      "listingImage": "https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045defe8e8730011e03839/b6bf645e-fc5d-48-H6XRv"
+    },
+    {
+      "reservationId": "6a045e477e62890014977346",
+      "accountId": "698c634f8462114283f39c55",
+      "listingId": "6a045def154b72000f1d251a",
+      "timezone": "Europe/Berlin",
+      "confirmationCode": "HMZ9FANJPK",
+      "checkInDisplay": "2026-05-15 02:00 PM",
+      "checkOutDisplay": "2026-05-17 11:00 AM",
+      "guestName": "Marcel",
+      "guestSurname": "Plüschke",
+      "guestFullName": "Marcel Plüschke",
+      "email": "",
+      "guestsCount": 5,
+      "hostPayout": 315.86,
+      "totalPaid": 0.0,
+      "currency": "EUR",
+      "guestyStatus": "confirmed",
+      "platform": "airbnb2",
+      "source": "airbnb2",
+      "listingName": "Hippo / cosy two bedroom apartment(75m2)",
+      "listingImage": "https://assets.guesty.com/image/upload/listing_images_s3/production/property-photos/37fa84d3573ad4c7c04274df0de630876ad3c6d358c4ddc1/6a045def154b72000f1d251a/7a23b22e-a062-4d-uzKf5"
+    }
+  ]
+}

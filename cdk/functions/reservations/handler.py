@@ -1,16 +1,12 @@
 from typing import Dict, Any, List, Optional
+
 import os
-import urllib.parse
 
 from common.g4h import get_client, refresh_on_auth_error
 from common.ddb import put_if_changed, now_ms, get
 from common.models import create_reservation_from_g4h, convert_to_decimal
-from common.guesty_adapters import (
-    use_guesty_app_api,
-    app_json_headers,
-    merge_legacy_raw_for_update,
-    G4H_APP_BASE,
-)
+from common.guesty_adapters import use_guesty_app_api, merge_legacy_raw_for_update
+from common.guesty_reservations_reports import fetch_all_report_rows
 from common.guesty_schema import (
     SOURCE_LEGACY_G4H,
     SOURCE_RESERVATIONS_REPORTS,
@@ -20,80 +16,87 @@ from common.guesty_schema import (
     resolve_reservation_guesty_from_item,
 )
 
-BASE = "https://api.guestyforhosts.com"
-URL = f"{BASE}/reservations/recent"
-
-_DEFAULT_RES_COLUMNS = (
-    "checkIn+checkOut+confirmationCode+listing+guest+status+source+"
-    "guest.email+guestsCount+money.hostPayout+money.totalPaid"
-)
-_DEFAULT_RES_FILTERS = '{"localTime.checkOutWithPlannedDeparture":{"@in_future":true},"status":{"@in":["confirmed"]}}'
+LEGACY_BASE = "https://api.guestyforhosts.com"
+LEGACY_URL = f"{LEGACY_BASE}/reservations/recent"
 
 
-def _fetch_legacy(session, user_id, page) -> Dict[str, Any]:
+def _fetch_legacy_page(session, user_id: str, page: int) -> Dict[str, Any]:
     def _call():
-        return session.post(URL, json={"userId": user_id, "page": page}, timeout=45)
+        return session.post(LEGACY_URL, json={"userId": user_id, "page": page}, timeout=45)
 
-    r = refresh_on_auth_error(_call)
-    r.raise_for_status()
-    js = r.json()
-    if not js.get("success"):
-        raise RuntimeError(f"Reservations API failure: {js}")
-    return js
+    response = refresh_on_auth_error(_call)
+    response.raise_for_status()
+    payload = response.json()
+    if not payload.get("success"):
+        raise RuntimeError(f"Legacy reservations API failure: {payload}")
+    return payload
 
 
-def _fetch_app_reservations_page(session, skip: int, limit: int) -> Dict[str, Any]:
-    columns = os.getenv("G4H_RES_REPORTS_COLUMNS", _DEFAULT_RES_COLUMNS)
-    filters = os.getenv("G4H_RES_REPORTS_FILTERS", _DEFAULT_RES_FILTERS)
-    tz = os.getenv("G4H_RES_REPORTS_TIMEZONE", "Europe/Berlin")
-    params = {
-        "smartView": "true",
-        "columns": columns,
-        "filters": filters,
-        "skip": str(skip),
-        "limit": str(limit),
-        "sort": "checkIn",
-        "lang": "en-US",
-        "timezone": tz,
+def _fetch_legacy_rows(session, user_id: str) -> tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    all_rows: List[Dict[str, Any]] = []
+    page = 0
+    last_response: Optional[Dict[str, Any]] = None
+    seven_days_ago_ms = now_ms() - (7 * 24 * 60 * 60 * 1000)
+
+    while True:
+        payload = _fetch_legacy_page(session, user_id, page)
+        last_response = payload
+        batch = payload.get("reservationList") or []
+        if not batch:
+            break
+
+        oldest_update = None
+        for reservation in batch:
+            last_update = reservation.get("lastUpdateDate")
+            if last_update and (oldest_update is None or last_update < oldest_update):
+                oldest_update = last_update
+
+        all_rows.extend(batch)
+
+        if oldest_update and oldest_update < seven_days_ago_ms:
+            break
+
+        page += 1
+        if page >= 20:
+            break
+
+    return all_rows, {
+        "total": len(all_rows),
+        "pagesProcessed": page,
+        "lastResponse": last_response,
     }
-    url = f"{G4H_APP_BASE}/api/reservations-reports?{urllib.parse.urlencode(params)}"
-
-    def _call():
-        h = {**dict(session.headers), **app_json_headers()}
-        return session.get(url, headers=h, timeout=60)
-
-    r = refresh_on_auth_error(_call)
-    r.raise_for_status()
-    return r.json()
 
 
 def _project_reservation(
-    raw: Dict[str, Any],
-    app_source_row: Optional[Dict[str, Any]] = None,
+    report_row: Optional[Dict[str, Any]] = None,
+    legacy_raw: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
-    """Build reservation META item (Guesty v2 envelope when using app API)."""
-    reservation_id = raw.get("reservationId") or (
-        app_source_row.get("_id") if app_source_row else None
-    )
+    """Build reservation META from reservations-reports row or legacy G4H payload."""
+    reservation_id = None
+    if report_row:
+        reservation_id = report_row.get("_id")
+    elif legacy_raw:
+        reservation_id = legacy_raw.get("reservationId")
+
+    existing_reservation = None
     existing_custom_fields = None
     existing_last_custom_update = None
-    existing_reservation = None
     if reservation_id:
         existing_reservation = get(f"RESERVATION#{reservation_id}", "META")
         if existing_reservation:
             existing_custom_fields = existing_reservation.get("customFields", {})
             existing_last_custom_update = existing_reservation.get("lastCustomUpdate")
 
-    if app_source_row is not None:
+    if report_row is not None:
         prev_guesty, _ = resolve_reservation_guesty_from_item(existing_reservation or {})
-        merged_guesty = merge_guesty_for_update(prev_guesty, app_source_row)
+        merged_guesty = merge_guesty_for_update(prev_guesty, report_row)
         flat = denormalize_reservation_flat(merged_guesty, SOURCE_RESERVATIONS_REPORTS)
         reservation = create_reservation_from_g4h(flat, existing_custom_fields)
         apply_guesty_envelope(reservation, merged_guesty, SOURCE_RESERVATIONS_REPORTS)
     else:
         merged_raw = merge_legacy_raw_for_update(
             existing_reservation.get("rawData") if existing_reservation else None,
-            raw,
+            legacy_raw or {},
         )
         reservation = create_reservation_from_g4h(merged_raw, existing_custom_fields)
         apply_guesty_envelope(reservation, dict(merged_raw), SOURCE_LEGACY_G4H)
@@ -109,16 +112,40 @@ def _project_reservation(
     return reservation
 
 
-def _update_reservation_preserving_door_access(
-    reservation_id: str, new_reservation: Dict[str, Any], hash_fields: List[str]
-) -> bool:
-    changed = put_if_changed(
-        pk=f"RESERVATION#{reservation_id}",
-        sk="META",
-        body=convert_to_decimal(new_reservation),
-        hash_fields=hash_fields,
+def _persist_sync_metadata(
+    *,
+    api_tier: str,
+    total_reservations: int,
+    pages_processed: int,
+    last_response: Optional[Dict[str, Any]],
+    reports_summary: Optional[Dict[str, Any]] = None,
+) -> None:
+    body: Dict[str, Any] = {
+        "type": "api_response",
+        "apiTier": api_tier,
+        "success": True,
+        "totalReservations": total_reservations,
+        "pagesProcessed": pages_processed,
+        "sourceUpdatedAt": now_ms(),
+        "updatedAt": now_ms(),
+    }
+    if api_tier == "legacy" and last_response:
+        body["success"] = bool(last_response.get("success"))
+        body["errorCode"] = last_response.get("errorCode", -1)
+        body["errorMessage"] = last_response.get("errorMessage", "")
+        body["message"] = last_response.get("message", "")
+    if reports_summary:
+        body["reportsTotal"] = reports_summary.get("total")
+        body["hasAnyReservationReportsInTotal"] = reports_summary.get(
+            "hasAnyReservationReportsInTotal"
+        )
+
+    put_if_changed(
+        pk="API_RESPONSE#SYNC_RESERVATION",
+        sk="METADATA",
+        body=body,
+        hash_fields=["success", "totalReservations", "pagesProcessed"],
     )
-    return changed
 
 
 def handler(event, context):
@@ -129,95 +156,75 @@ def handler(event, context):
             "reason": "RESERVATIONS_SYNC_ENABLED is false",
         }
 
-    s, user_id = get_client()
-    all_rows: List[Dict[str, Any]] = []
-    app_rows: List[Dict[str, Any]] = []
-    page = 0
-    last_response = None
-    seven_days_ago_ms = now_ms() - (7 * 24 * 60 * 60 * 1000)
+    session, user_id = get_client()
+    report_rows: List[Dict[str, Any]] = []
+    legacy_rows: List[Dict[str, Any]] = []
+    reports_summary: Optional[Dict[str, Any]] = None
+    legacy_summary: Optional[Dict[str, Any]] = None
 
     if use_guesty_app_api():
-        skip = 0
-        limit = int(os.getenv("G4H_RES_REPORTS_LIMIT", "50"))
-        total = None
-        while True:
-            js = _fetch_app_reservations_page(s, skip, limit)
-            last_response = js
-            batch = js.get("data") or []
-            if not batch:
-                break
-            for row in batch:
-                all_rows.append({"reservationId": row.get("_id")})
-                app_rows.append(row)
-            total = int(js.get("total") or len(all_rows))
-            skip += len(batch)
-            if skip >= total or skip > 10000:
-                break
-        page = skip // max(limit, 1)
+        report_rows, reports_summary = fetch_all_report_rows(session)
+        api_tier = "guesty_app"
+        hash_fields = ["guestyHash"]
     else:
-        while True:
-            js = _fetch_legacy(s, user_id, page)
-            if not js:
-                break
-            last_response = js
+        legacy_rows, legacy_summary = _fetch_legacy_rows(session, user_id)
+        api_tier = "legacy"
+        hash_fields = ["rawDataHash"]
 
-            reservations = js.get("reservationList", [])
-            if not reservations:
-                break
+    total = len(report_rows) if use_guesty_app_api() else len(legacy_rows)
+    pages_processed = (
+        int(reports_summary["pagesProcessed"])
+        if reports_summary
+        else int(legacy_summary["pagesProcessed"]) if legacy_summary else 0
+    )
+    last_response = (
+        reports_summary.get("lastResponse") if reports_summary else legacy_summary.get("lastResponse")
+        if legacy_summary
+        else None
+    )
 
-            oldest_update = None
-            for reservation in reservations:
-                last_update = reservation.get("lastUpdateDate")
-                if last_update and (oldest_update is None or last_update < oldest_update):
-                    oldest_update = last_update
-
-            all_rows.extend(reservations)
-
-            if oldest_update and oldest_update < seven_days_ago_ms:
-                break
-
-            page += 1
-            if page >= 20:
-                break
-
-    api_metadata = {
-        "type": "api_response",
-        "apiTier": "guesty_app" if use_guesty_app_api() else "legacy",
-        "success": last_response.get("success") if last_response and not use_guesty_app_api() else True,
-        "errorCode": last_response.get("errorCode") if last_response else -1,
-        "errorMessage": last_response.get("errorMessage") if last_response else "",
-        "message": last_response.get("message") if last_response else "",
-        "totalReservations": len(all_rows),
-        "pagesProcessed": page,
-        "sourceUpdatedAt": now_ms(),
-        "updatedAt": now_ms(),
-    }
-
-    put_if_changed(
-        pk="API_RESPONSE#SYNC_RESERVATION",
-        sk="METADATA",
-        body=api_metadata,
-        hash_fields=["success", "totalReservations", "pagesProcessed"],
+    _persist_sync_metadata(
+        api_tier=api_tier,
+        total_reservations=total,
+        pages_processed=pages_processed,
+        last_response=last_response,
+        reports_summary=reports_summary,
     )
 
     reservations_written = 0
-    hash_fields = ["guestyHash"] if use_guesty_app_api() else ["rawDataHash"]
 
-    for i, raw in enumerate(all_rows):
-        app_row = app_rows[i] if use_guesty_app_api() and i < len(app_rows) else None
-        reservation_model = _project_reservation(raw, app_source_row=app_row)
-        rid = reservation_model["reservationId"]
-        if not rid:
-            continue
-
-        changed = _update_reservation_preserving_door_access(rid, reservation_model, hash_fields)
-        if changed:
-            reservations_written += 1
+    if use_guesty_app_api():
+        for row in report_rows:
+            reservation_model = _project_reservation(report_row=row)
+            rid = reservation_model.get("reservationId")
+            if not rid:
+                continue
+            if put_if_changed(
+                pk=f"RESERVATION#{rid}",
+                sk="META",
+                body=convert_to_decimal(reservation_model),
+                hash_fields=hash_fields,
+            ):
+                reservations_written += 1
+    else:
+        for legacy_raw in legacy_rows:
+            reservation_model = _project_reservation(legacy_raw=legacy_raw)
+            rid = reservation_model.get("reservationId")
+            if not rid:
+                continue
+            if put_if_changed(
+                pk=f"RESERVATION#{rid}",
+                sk="META",
+                body=convert_to_decimal(reservation_model),
+                hash_fields=hash_fields,
+            ):
+                reservations_written += 1
 
     return {
         "success": True,
-        "apiTier": "guesty_app" if use_guesty_app_api() else "legacy",
-        "totalReservations": len(all_rows),
+        "apiTier": api_tier,
+        "totalReservations": total,
         "reservationsWritten": reservations_written,
-        "pagesProcessed": page,
+        "pagesProcessed": pages_processed,
+        "reportsTotal": reports_summary.get("total") if reports_summary else None,
     }

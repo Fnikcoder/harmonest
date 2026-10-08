@@ -77,14 +77,6 @@ class ApiStack(Stack):
         admin_resource = api.root.add_resource("admin")
         resend_door_access_resource = admin_resource.add_resource("resend-door-access")
 
-        # Create /public resource for public endpoints
-        public_resource = api.root.add_resource("public")
-
-        # Create /public/listings resource for public listings access
-        public_listings_resource = public_resource.add_resource("listings")
-        public_listing_resource = public_listings_resource.add_resource("{listingId}")
-        public_listings_search_resource = public_listings_resource.add_resource("search")
-
         # Publish API information for other stacks
         ssm.StringParameter(
             self, "ApiGatewayId",
@@ -110,42 +102,6 @@ class ApiStack(Stack):
             string_value=checkin_resource.resource_id,
         )
 
-        ssm.StringParameter(
-            self, "PublicListingsResourceId",
-            parameter_name=f"/{client_name}/{env_name}/api/publicListingsResourceId",
-            string_value=public_listings_resource.resource_id,
-        )
-
-        ssm.StringParameter(
-            self, "PublicListingResourceId",
-            parameter_name=f"/{client_name}/{env_name}/api/publicListingResourceId",
-            string_value=public_listing_resource.resource_id,
-        )
-
-        ssm.StringParameter(
-            self, "PublicListingsSearchResourceId",
-            parameter_name=f"/{client_name}/{env_name}/api/publicListingsSearchResourceId",
-            string_value=public_listings_search_resource.resource_id,
-        )
-
-        # Public listings Lambda (deploy PublicListings stack first; stable function name)
-        public_listings_fn_arn = (
-            f"arn:aws:lambda:{self.region}:{self.account}:function:"
-            f"{client_name}-{env_name}-lambda_public_listings"
-        )
-        public_listings_fn = _lambda.Function.from_function_arn(
-            self,
-            "PublicListingsLambda",
-            public_listings_fn_arn,
-        )
-        public_listings_integration = apigw.LambdaIntegration(
-            public_listings_fn,
-            proxy=True,
-        )
-        public_listings_resource.add_method("GET", public_listings_integration)
-        public_listing_resource.add_method("GET", public_listings_integration)
-        public_listings_search_resource.add_method("POST", public_listings_integration)
-
         # Wire admin resend-door-access endpoint to access notification Lambda
         access_fn_arn = f"arn:aws:lambda:{self.region}:{self.account}:function:harmonest-{env_name}-lambda_access_notification"
         access_fn = _lambda.Function.from_function_arn(
@@ -167,10 +123,6 @@ class ApiStack(Stack):
         # Store references for other stacks
         self.api = api
         self.checkin_resource = checkin_resource
-        self.public_resource = public_resource
-        self.public_listings_resource = public_listings_resource
-        self.public_listing_resource = public_listing_resource
-        self.public_listings_search_resource = public_listings_search_resource
 
     def _get_cors_origins(self, config: dict) -> list:
         """Generate CORS origins from client configuration"""

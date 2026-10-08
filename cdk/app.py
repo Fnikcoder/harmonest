@@ -17,7 +17,6 @@ from cdk.secrets_stack import SecretsStack
 from cdk.s3_stack import S3Stack
 from cdk.api_stack import ApiStack
 from cdk.checkin_stack import CheckinStack
-from cdk.public_listings_stack import PublicListingsStack
 from cdk.user_management_stack import UserManagementStack
 from cdk.access_notification_stack import AccessNotificationStack
 from cdk.email_verification_stack import EmailVerificationStack
@@ -116,12 +115,6 @@ access_notification = AccessNotificationStack(
     config=config,
 )
 
-public_listings = PublicListingsStack(
-    app,
-    helper.get_stack_name(client_name, env_name, "PublicListings"),
-    env=env,
-    config=config,
-)
 user_management = UserManagementStack(app, f"HarmonestUserManagement-{env_name}", env=env, env_name=env_name)
 
 email_verification = EmailVerificationStack(
@@ -156,10 +149,6 @@ checkin.add_dependency(api)
 access_notification.add_dependency(core)
 access_notification.add_dependency(layer)
 access_notification.add_dependency(secrets)
-
-public_listings.add_dependency(core)
-public_listings.add_dependency(layer)
-api.add_dependency(public_listings)
 
 user_management.add_dependency(core)
 user_management.add_dependency(layer)

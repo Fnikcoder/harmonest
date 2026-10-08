@@ -29,7 +29,7 @@ import boto3
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "layer-src", "python"))
 
-from common.guesty_adapters import G4H_APP_BASE, app_json_headers
+from common.guesty_reservations_fegw import fetch_fegw_reservation
 from common.guesty_schema import (
     SOURCE_RESERVATIONS_FEGW,
     migrate_listing_item_to_v2,
@@ -74,20 +74,10 @@ def _configure_guesty_env(client: str, env: str, region: str, table_name: str) -
 
 
 def _fetch_fegw_detail(session, reservation_id: str) -> Optional[Dict[str, Any]]:
-    url = (
-        f"{G4H_APP_BASE}/api/reservations-fegw/reservations/{reservation_id}"
-        "?newResponse=true"
-    )
-
-    def _call():
-        headers = {**dict(session.headers), **app_json_headers()}
-        return session.get(url, headers=headers, timeout=60)
-
-    resp = refresh_on_auth_error(_call)
-    resp.raise_for_status()
-    body = resp.json()
-    inner = body.get("reservation")
-    return inner if isinstance(inner, dict) else None
+    try:
+        return fetch_fegw_reservation(session, reservation_id)
+    except Exception:
+        return None
 
 
 def main() -> int:

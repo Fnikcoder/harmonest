@@ -1,0 +1,7 @@
+/*
+ * Gradle settings for the Harmonest backend.
+ *
+ * Single-module layout for now. If we later split sync workers or a separate
+ * notification service, each module would be included here.
+ */
+rootProject.name = 'harmonest-backend'

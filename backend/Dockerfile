@@ -1,26 +1,24 @@
-# ---- Build stage ------------------------------------------------------------
-FROM maven:3.9.9-eclipse-temurin-21 AS build
+# Multi-stage build: compile with Gradle, run a minimal JRE image.
+
+FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /app
 
-COPY pom.xml .
-# Cache dependencies before copying sources
-RUN mvn -q -DskipTests dependency:go-offline
+COPY gradlew settings.gradle build.gradle gradle.properties ./
+COPY gradle ./gradle
+RUN chmod +x gradlew && ./gradlew dependencies --no-daemon || true
 
 COPY src ./src
-RUN mvn -q -DskipTests package
+RUN ./gradlew bootJar --no-daemon -x test
 
-# ---- Runtime stage ----------------------------------------------------------
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
 RUN addgroup -S harmonest && adduser -S harmonest -G harmonest
 USER harmonest
 
-COPY --from=build /app/target/harmonest-backend-*.jar app.jar
+COPY --from=build /app/build/libs/harmonest-backend.jar ./app.jar
 
+ENV SPRING_PROFILES_ACTIVE=docker
 EXPOSE 8080
-
-HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-  CMD wget -qO- http://localhost:8080/actuator/health || exit 1
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

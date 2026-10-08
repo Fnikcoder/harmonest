@@ -1,8 +1,10 @@
+# Activated when running inside Docker Compose (SPRING_PROFILES_ACTIVE=docker).
+
 spring:
   data:
     mongodb:
-      uri: mongodb://mongodb:27017/harmonest
+      uri: ${MONGODB_URI}
 
-harmonest:
-  guesty:
-    stub-mode: ${HARMONEST_GUESTY_STUB_MODE:true}
+logging:
+  level:
+    de.harmonest: INFO

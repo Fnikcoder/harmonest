@@ -11,13 +11,12 @@ import boto3
 from botocore.exceptions import ClientError, ParamValidationError
 from boto3.dynamodb.conditions import Key, Attr
 from typing import Dict, Any, Optional
-from common.g4h import get_client, refresh_on_auth_error
-from common.guesty_adapters import (
-    use_guesty_app_api,
-    normalize_fegw_detail_response,
-    G4H_APP_BASE,
-    app_json_headers,
-    merge_legacy_raw_for_update,
+from common.g4h import get_client
+from common.guesty_adapters import merge_legacy_raw_for_update
+from common.guesty_reservations_fegw import apply_fegw_to_meta_item
+from common.guesty_reservation_refresh import (
+    pick_best_reservation_row,
+    refresh_reservation_for_checkin,
 )
 from common.ddb import get, put, now_ms, TABLE
 from common.config import get_client_config, is_feature_enabled
@@ -30,9 +29,6 @@ from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
 
 
-# Constants
-BASE = "https://api.guestyforhosts.com"
-GET_RESERVATION_DETAIL_URL = f"{BASE}/getReservationDetailById"
 BUCKET_NAME = os.environ["STORAGE_BUCKET"]
 s3_client = boto3.client("s3")
 scheduler_client = boto3.client("scheduler")
@@ -85,31 +81,12 @@ def _validate_phone(phone: str) -> bool:
     return re.match(pattern, cleaned) is not None
 
 
-def _get_default_checkin_time(checkin_date_ms: int) -> int:
-    """
-    Convert check-in date to 14:00 Germany time if no time is specified or time is 00:00
-    Germany is UTC+1 (CET) or UTC+2 (CEST)
-    """
-    import datetime
+def _get_default_checkin_time(checkin_date_ms: int, tz_name: str = "Europe/Berlin") -> int:
+    """Apply 14:00 listing-local default when legacy rows have date-only (midnight)."""
+    from common.guesty_dates import normalize_checkin_ms
 
-    # Convert milliseconds to datetime
-    checkin_dt = datetime.datetime.fromtimestamp(checkin_date_ms / 1000, tz=datetime.timezone.utc)
-
-    # Check if time is 00:00 (midnight) - indicating no specific time was set
-    if checkin_dt.hour == 0 and checkin_dt.minute == 0:
-        # Set to 14:00 Germany time
-        # Germany is UTC+1 in winter, UTC+2 in summer
-        # For simplicity, we'll use UTC+1 (CET) and adjust if needed
-        germany_tz = datetime.timezone(datetime.timedelta(hours=1))
-
-        # Create new datetime with 14:00 Germany time
-        germany_dt = checkin_dt.replace(hour=13, minute=0, second=0, microsecond=0)  # 13:00 UTC = 14:00 CET
-
-        # Convert back to milliseconds
-        return int(germany_dt.timestamp() * 1000)
-
-    # Return original time if it's not 00:00
-    return checkin_date_ms
+    normalized = normalize_checkin_ms(checkin_date_ms, tz_name)
+    return normalized if normalized is not None else checkin_date_ms
 
 
 def _validate_image_file(file_data: bytes) -> bool:
@@ -150,12 +127,12 @@ def _get_reservation_by_code(reservation_code: str) -> Optional[Dict[str, Any]]:
         resp = TABLE.query(
             IndexName="ReservationCodeIndex",
             KeyConditionExpression=Key("reservationCode").eq(reservation_code),
-            Limit=1
+            Limit=5,
         )
         items = resp.get("Items", [])
         if items:
-            print(f"Found by ReservationCodeIndex: {reservation_code}")
-            return items[0]
+            print(f"Found by ReservationCodeIndex: {reservation_code} ({len(items)} hit(s))")
+            return pick_best_reservation_row(items)
     except Exception as e:
         print(f"GSI query failed: {e}. Will try scan.")
 
@@ -190,40 +167,6 @@ def _get_reservation_by_code(reservation_code: str) -> Optional[Dict[str, Any]]:
 
 
 
-def _fetch_latest_reservation_status(session, user_id: str, reservation_id: str) -> Dict[str, Any]:
-    """Fetch latest reservation status from Guesty (legacy POST or app GET fegw)."""
-    if use_guesty_app_api():
-        rid = urllib.parse.quote(reservation_id, safe="")
-        url = f"{G4H_APP_BASE}/api/reservations-fegw/reservations/{rid}?newResponse=true"
-
-        def _call():
-            h = {**dict(session.headers), **app_json_headers()}
-            return session.get(url, headers=h, timeout=45)
-
-        r = refresh_on_auth_error(_call)
-        r.raise_for_status()
-        return normalize_fegw_detail_response(r.json())
-
-    payload = {
-        "guestyId": False,
-        "reservationId": reservation_id,
-        "userId": user_id,
-        "version": 3,
-    }
-
-    def _call():
-        return session.post(GET_RESERVATION_DETAIL_URL, json=payload, timeout=45)
-
-    r = refresh_on_auth_error(_call)
-    r.raise_for_status()
-    js = r.json()
-
-    if not js.get("success"):
-        raise RuntimeError(f"G4H API failure: {js}")
-
-    return js
-
-
 def _update_reservation_in_db(reservation_data: Dict[str, Any]) -> None:
     """
     Update reservation data in DynamoDB using centralized model
@@ -248,45 +191,27 @@ def _update_reservation_in_db(reservation_data: Dict[str, Any]) -> None:
 
     from common.models import create_reservation_from_g4h
 
-    merged = merge_legacy_raw_for_update(
-        existing_reservation.get("rawData") if existing_reservation else None,
-        reservation,
-    )
-    updated_reservation = create_reservation_from_g4h(merged, existing_custom_fields)
-
     app_raw = reservation_data.get("_guestyApp")
-    if app_raw is not None:
-        from common.guesty_schema import (
-            SOURCE_RESERVATIONS_FEGW,
-            apply_guesty_envelope,
-            denormalize_reservation_flat,
-            merge_guesty_for_update,
-            resolve_reservation_guesty_from_item,
+    if app_raw is not None and existing_reservation:
+        updated_reservation, flat = apply_fegw_to_meta_item(existing_reservation, app_raw)
+    else:
+        merged = merge_legacy_raw_for_update(
+            existing_reservation.get("rawData") if existing_reservation else None,
+            reservation,
         )
-
-        prev_guesty, _ = resolve_reservation_guesty_from_item(updated_reservation)
-        merged_guesty = merge_guesty_for_update(prev_guesty, app_raw)
-        flat = denormalize_reservation_flat(merged_guesty, SOURCE_RESERVATIONS_FEGW)
-        for key, value in flat.items():
-            if key not in ("customFields", "PK", "SK") and value is not None:
-                updated_reservation[key] = value
-        code = flat.get("reservationCode")
-        if code:
-            updated_reservation["reservationCode"] = str(code).strip()
-        apply_guesty_envelope(updated_reservation, merged_guesty, SOURCE_RESERVATIONS_FEGW)
-        updated_reservation.pop("rawData", None)
+        updated_reservation = create_reservation_from_g4h(merged, existing_custom_fields)
+        flat = reservation
 
     if existing_last_custom_update:
         updated_reservation["lastCustomUpdate"] = existing_last_custom_update
 
-    updated_reservation["lastGuestySync"] = now_ms()
-
-    # Use centralized conversion for DynamoDB compatibility
     put(convert_to_decimal(updated_reservation))
 
-    status = reservation.get("status")
-    is_deleted = reservation.get("isDeleted", 0)
-    print(f"Reservation {reservation_id} updated in DB (status: {status}, isDeleted: {is_deleted})")
+    print(
+        f"Reservation {reservation_id} updated in DB "
+        f"(guestyStatus: {flat.get('guestyStatus')}, status: {flat.get('status')}, "
+        f"isDeleted: {flat.get('isDeleted', 0)})"
+    )
 
 
 def _download_and_encode_document(s3_key: str) -> Optional[str]:
@@ -456,10 +381,10 @@ def _schedule_access_notification_trigger(reservation_id: str, checkin_time_ms: 
     trigger_utc = trigger_local.astimezone(timezone.utc)
     trigger_time_ms = int(trigger_utc.timestamp() * 1000)
 
-    # If already past (inside 24h or late creation), schedule for 10 minutes from now
+    # If already past (inside 24h or late creation), schedule for 1 minute from now
     if trigger_time_ms <= current_time_ms:
-        trigger_time_ms = current_time_ms + 5 * 60 * 1000
-        print(f"Check-in within 24h (or trigger past). Scheduling in 5 minutes for {reservation_id}.")
+        trigger_time_ms = current_time_ms + 1 * 60 * 1000
+        print(f"Check-in within 24h (or trigger past). Scheduling in 1 minute for {reservation_id}.")
     else:
         print(f"Scheduling access notification for {reservation_id} at local 14:00 day-before (Berlin).")
 
@@ -638,20 +563,21 @@ def validate_reservation(event: Dict[str, Any]) -> Dict[str, Any]:
                 error_code=ERROR_INTERNAL_ERROR
             )
 
-        # Fetch latest guest name from G4H, then validate hint before writing to DB
+        # Refresh from Guesty when possible (skip legacy UUID rows); validate guest name
         session, user_id = get_client()
-        latest_data = _fetch_latest_reservation_status(session, user_id, reservation_id)
-        reservation_detail = latest_data.get("reservation", {}).get("reservation", {}) or {}
-        name_src = reservation_detail if _guest_name_row_has_parts(reservation_detail) else reservation
+        reservation_detail, latest_data = refresh_reservation_for_checkin(
+            session, user_id, reservation
+        )
 
-        if not _guest_hint_matches_reservation(guest_name_hint, name_src):
+        if not _guest_hint_matches_reservation(guest_name_hint, reservation_detail):
             return _create_response(
                 400, False,
                 "Guest name does not match reservation",
                 error_code=ERROR_INVALID_GUEST_NAME
             )
 
-        _update_reservation_in_db(latest_data)
+        if latest_data:
+            _update_reservation_in_db(latest_data)
 
         # Check reservation status
         status = reservation_detail.get("status")
@@ -676,7 +602,10 @@ def validate_reservation(event: Dict[str, Any]) -> Dict[str, Any]:
             # Convert Decimal to int if needed (DynamoDB returns Decimal objects)
             if isinstance(checkin_time, Decimal):
                 checkin_time = int(checkin_time)
-            checkin_time = _get_default_checkin_time(checkin_time)
+            checkin_time = _get_default_checkin_time(
+                checkin_time,
+                str(reservation_detail.get("timezone") or "Europe/Berlin"),
+            )
 
         # Get existing check-in record if any
         checkin_record = _get_checkin_record(reservation_id)
@@ -828,7 +757,10 @@ def submit_checkin(event: Dict[str, Any]) -> Dict[str, Any]:
             # Convert Decimal to int if needed (DynamoDB returns Decimal objects)
             if isinstance(checkin_time, Decimal):
                 checkin_time = int(checkin_time)
-            checkin_time = _get_default_checkin_time(checkin_time)
+            checkin_time = _get_default_checkin_time(
+                checkin_time,
+                str(reservation.get("timezone") or "Europe/Berlin"),
+            )
 
         # Check if updates are still allowed (configurable hours before check-in)
         # Only apply deadline check for completed check-ins
