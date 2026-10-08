@@ -14,6 +14,13 @@ from common.guesty_adapters import (
     merge_legacy_raw_for_update,
     G4H_APP_BASE,
 )
+from common.guesty_schema import (
+    SOURCE_LEGACY_G4H,
+    SOURCE_LISTINGS_V2,
+    apply_guesty_envelope,
+    merge_guesty_for_update,
+    resolve_listing_guesty_from_item,
+)
 import boto3
 
 BASE = "https://api.guestyforhosts.com"
@@ -137,12 +144,18 @@ def _project_listing(raw: Dict[str, Any]) -> Dict[str, Any]:
             existing_custom_fields = existing_listing.get("customFields", {})
             existing_last_custom_update = existing_listing.get("lastCustomUpdate")
 
-    merged_raw = merge_legacy_raw_for_update(
-        existing_listing.get("rawData") if existing_listing else None,
-        raw,
-    )
+    if v2_doc is not None:
+        prev_guesty, _ = resolve_listing_guesty_from_item(existing_listing or {})
+        merged_guesty = merge_guesty_for_update(prev_guesty, v2_doc)
+        merged_raw = listing_v2_to_legacy_room_shape(merged_guesty)
+    else:
+        merged_raw = merge_legacy_raw_for_update(
+            existing_listing.get("rawData") if existing_listing else None,
+            raw,
+        )
+        merged_guesty = None
 
-    guesty = merged_raw.get("guestyListing") or {}
+    guesty_listing_meta = merged_raw.get("guestyListing") or {}
     rac = merged_raw.get("roomApiConnection") or {}
     links = merged_raw.get("links") or []
     booking_hotel = merged_raw.get("bookingUserHotel") or {}
@@ -156,7 +169,7 @@ def _project_listing(raw: Dict[str, Any]) -> Dict[str, Any]:
 
     channels = {
         "airbnb": {
-            "listingId": guesty.get("airbnbListingId") or rac.get("platformListingId"),
+            "listingId": guesty_listing_meta.get("airbnbListingId") or rac.get("platformListingId"),
             "status": rac.get("status"),
             "platformStatus": rac.get("platformStatus"),
             "syncLevel": rac.get("syncLevel"),
@@ -209,7 +222,7 @@ def _project_listing(raw: Dict[str, Any]) -> Dict[str, Any]:
             "ownerId": merged_raw.get("ownerId"),
             "location": merged_raw.get("location"),
             "group": group_context,
-            "guesty": guesty,
+            "guestyListing": guesty_listing_meta,
             "roomApiConnection": rac,
             "primaryHost": primary_host,
             "airbnbHosts": airbnb_hosts,
@@ -224,8 +237,10 @@ def _project_listing(raw: Dict[str, Any]) -> Dict[str, Any]:
         }
     )
 
-    if v2_doc is not None:
-        listing["rawDataGuestyApp"] = v2_doc
+    if merged_guesty is not None:
+        apply_guesty_envelope(listing, merged_guesty, SOURCE_LISTINGS_V2)
+    else:
+        apply_guesty_envelope(listing, merged_raw, SOURCE_LEGACY_G4H)
 
     return listing
 
@@ -311,7 +326,7 @@ def handler(event, context):
             pk=f"LISTING#{rid}",
             sk="META",
             body=convert_to_decimal(listing_model),
-            hash_fields=["rawDataHash"],
+            hash_fields=["guestyHash"] if use_guesty_app_api() else ["rawDataHash"],
         )
         if changed:
             listings_written += 1

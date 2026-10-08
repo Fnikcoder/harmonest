@@ -8,9 +8,16 @@ from common.models import create_reservation_from_g4h, convert_to_decimal
 from common.guesty_adapters import (
     use_guesty_app_api,
     app_json_headers,
-    reservations_report_row_to_legacy_flat,
     merge_legacy_raw_for_update,
     G4H_APP_BASE,
+)
+from common.guesty_schema import (
+    SOURCE_LEGACY_G4H,
+    SOURCE_RESERVATIONS_REPORTS,
+    apply_guesty_envelope,
+    denormalize_reservation_flat,
+    merge_guesty_for_update,
+    resolve_reservation_guesty_from_item,
 )
 
 BASE = "https://api.guestyforhosts.com"
@@ -64,7 +71,10 @@ def _project_reservation(
     raw: Dict[str, Any],
     app_source_row: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
-    reservation_id = raw.get("reservationId")
+    """Build reservation META item (Guesty v2 envelope when using app API)."""
+    reservation_id = raw.get("reservationId") or (
+        app_source_row.get("_id") if app_source_row else None
+    )
     existing_custom_fields = None
     existing_last_custom_update = None
     existing_reservation = None
@@ -74,12 +84,19 @@ def _project_reservation(
             existing_custom_fields = existing_reservation.get("customFields", {})
             existing_last_custom_update = existing_reservation.get("lastCustomUpdate")
 
-    merged_raw = merge_legacy_raw_for_update(
-        existing_reservation.get("rawData") if existing_reservation else None,
-        raw,
-    )
-
-    reservation = create_reservation_from_g4h(merged_raw, existing_custom_fields)
+    if app_source_row is not None:
+        prev_guesty, _ = resolve_reservation_guesty_from_item(existing_reservation or {})
+        merged_guesty = merge_guesty_for_update(prev_guesty, app_source_row)
+        flat = denormalize_reservation_flat(merged_guesty, SOURCE_RESERVATIONS_REPORTS)
+        reservation = create_reservation_from_g4h(flat, existing_custom_fields)
+        apply_guesty_envelope(reservation, merged_guesty, SOURCE_RESERVATIONS_REPORTS)
+    else:
+        merged_raw = merge_legacy_raw_for_update(
+            existing_reservation.get("rawData") if existing_reservation else None,
+            raw,
+        )
+        reservation = create_reservation_from_g4h(merged_raw, existing_custom_fields)
+        apply_guesty_envelope(reservation, dict(merged_raw), SOURCE_LEGACY_G4H)
 
     if existing_reservation and not reservation.get("reservationCode"):
         prev_code = existing_reservation.get("reservationCode")
@@ -88,9 +105,6 @@ def _project_reservation(
 
     if existing_last_custom_update:
         reservation["lastCustomUpdate"] = existing_last_custom_update
-
-    if app_source_row is not None:
-        reservation["rawDataGuestyApp"] = app_source_row
 
     return reservation
 
@@ -133,8 +147,7 @@ def handler(event, context):
             if not batch:
                 break
             for row in batch:
-                flat = reservations_report_row_to_legacy_flat(row)
-                all_rows.append(flat)
+                all_rows.append({"reservationId": row.get("_id")})
                 app_rows.append(row)
             total = int(js.get("total") or len(all_rows))
             skip += len(batch)
@@ -188,7 +201,7 @@ def handler(event, context):
     )
 
     reservations_written = 0
-    hash_fields = ["rawDataHash"]
+    hash_fields = ["guestyHash"] if use_guesty_app_api() else ["rawDataHash"]
 
     for i, raw in enumerate(all_rows):
         app_row = app_rows[i] if use_guesty_app_api() and i < len(app_rows) else None

@@ -189,7 +189,25 @@ def _step1_sync_reservation_from_guesty(reservation_id: str) -> Dict[str, Any]:
         updated_reservation = create_reservation_from_g4h(merged, existing_custom_fields)
 
         if app_raw is not None:
-            updated_reservation["rawDataGuestyApp"] = app_raw
+            from common.guesty_schema import (
+                SOURCE_RESERVATIONS_FEGW,
+                apply_guesty_envelope,
+                denormalize_reservation_flat,
+                merge_guesty_for_update,
+                resolve_reservation_guesty_from_item,
+            )
+
+            prev_guesty, _ = resolve_reservation_guesty_from_item(updated_reservation)
+            merged_guesty = merge_guesty_for_update(prev_guesty, app_raw)
+            flat = denormalize_reservation_flat(merged_guesty, SOURCE_RESERVATIONS_FEGW)
+            for key, value in flat.items():
+                if key not in ("customFields", "PK", "SK") and value is not None:
+                    updated_reservation[key] = value
+            code = flat.get("reservationCode")
+            if code:
+                updated_reservation["reservationCode"] = str(code).strip()
+            apply_guesty_envelope(updated_reservation, merged_guesty, SOURCE_RESERVATIONS_FEGW)
+            updated_reservation.pop("rawData", None)
 
         updated_reservation["lastCustomUpdate"] = existing_reservation.get("lastCustomUpdate")
         updated_reservation["guestyStatus"] = status

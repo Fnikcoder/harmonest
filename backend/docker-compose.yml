@@ -1,0 +1,41 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: harmonest-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: harmonest-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      # Guesty: set real credentials in .env or override here
+      HARMONEST_GUESTY_STUB_MODE: "true"
+      SPRING_MAIL_HOST: mailhog
+      SPRING_MAIL_PORT: 1025
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
+
+  # Local SMTP catcher — open http://localhost:8025 to read emails
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    container_name: harmonest-mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  mongodb_data:

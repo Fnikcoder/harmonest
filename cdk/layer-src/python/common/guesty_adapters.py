@@ -1,6 +1,9 @@
 """
-Map Guesty app.guesty.com API shapes to the legacy Harmonest / Guesty-for-hosts flat dicts
-stored in `rawData`, while preserving full app payloads in `rawDataGuestyApp`.
+Map Guesty app.guesty.com API shapes to denormalized flat fields for DynamoDB META items.
+
+Native payloads are stored on `guesty` (see common.guesty_schema). Adapters here convert
+listings v2, reservations-reports rows, and reservations-fegw detail into legacy-shaped
+dicts for create_*_from_g4h and check-in flows.
 
 Used when G4H_AUTH_MODE=okta (Bearer + app APIs). Legacy auth keeps old handlers without these paths.
 """

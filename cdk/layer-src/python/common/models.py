@@ -271,9 +271,9 @@ def create_reservation_from_g4h(raw_data: Dict[str, Any], existing_custom_fields
         "lastGuestySync": now_ms(),
         "lastCustomUpdate": None,  # Will be set from existing data
         
-        # Raw data preservation
+        # Legacy raw snapshot (v1); v2 items use guesty + guestyHash on the envelope instead.
         "rawData": raw_data,
-        "rawDataHash": str(hash(str(sorted(raw_data.items()))))
+        "rawDataHash": str(hash(str(sorted(raw_data.items())))),
     }
     # ReservationCodeIndex requires STRING; omit attribute when missing (sparse GSI).
     if reservation_code is not None:

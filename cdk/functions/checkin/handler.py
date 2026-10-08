@@ -256,7 +256,25 @@ def _update_reservation_in_db(reservation_data: Dict[str, Any]) -> None:
 
     app_raw = reservation_data.get("_guestyApp")
     if app_raw is not None:
-        updated_reservation["rawDataGuestyApp"] = app_raw
+        from common.guesty_schema import (
+            SOURCE_RESERVATIONS_FEGW,
+            apply_guesty_envelope,
+            denormalize_reservation_flat,
+            merge_guesty_for_update,
+            resolve_reservation_guesty_from_item,
+        )
+
+        prev_guesty, _ = resolve_reservation_guesty_from_item(updated_reservation)
+        merged_guesty = merge_guesty_for_update(prev_guesty, app_raw)
+        flat = denormalize_reservation_flat(merged_guesty, SOURCE_RESERVATIONS_FEGW)
+        for key, value in flat.items():
+            if key not in ("customFields", "PK", "SK") and value is not None:
+                updated_reservation[key] = value
+        code = flat.get("reservationCode")
+        if code:
+            updated_reservation["reservationCode"] = str(code).strip()
+        apply_guesty_envelope(updated_reservation, merged_guesty, SOURCE_RESERVATIONS_FEGW)
+        updated_reservation.pop("rawData", None)
 
     if existing_last_custom_update:
         updated_reservation["lastCustomUpdate"] = existing_last_custom_update

@@ -1,0 +1,57 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: harmonest-backend
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/harmonest
+  mail:
+    host: ${SPRING_MAIL_HOST:localhost}
+    port: ${SPRING_MAIL_PORT:1025}
+    username: ${SPRING_MAIL_USERNAME:}
+    password: ${SPRING_MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: ${SPRING_MAIL_SMTP_AUTH:false}
+          starttls:
+            enable: ${SPRING_MAIL_SMTP_STARTTLS:false}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+harmonest:
+  client:
+    name: harmonest
+    display-name: HarmoNest
+    primary-domain: harmonest.de
+    from-email: noreply@harmonest.com
+    from-name: HarmoNest
+    support-email: support@harmonest.com
+  features:
+    checkin-enabled: true
+    listings-sync-enabled: true
+    reservations-sync-enabled: true
+  sync:
+    listings-cron: "0 */15 * * * *"
+    reservations-cron: "0 */30 * * * *"
+  notification:
+    dispatch-cron: "0 * * * * *"
+    default-checkin-hour: 14
+    default-checkout-hour: 11
+    zone-id: Europe/Berlin
+  guesty:
+    stub-mode: true
+    base-url: https://app.guesty.com
+    listings-path: /api/v2/listings
+    reservations-path: /api/reservations-reports
+    reservation-detail-path: /api/reservations-fegw/reservations/{id}
+    bearer-token: ${HARMONEST_GUESTY_BEARER_TOKEN:}
+    page-size: 100
