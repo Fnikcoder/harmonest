@@ -47,7 +47,7 @@ import { AccessDoorsComponent } from './pages/access-doors/access-doors.componen
 
 
 export const routes: Routes = [
-    // KEEP: Main homepage
+    // KEEP: Main homepage (cinematic property hero + online check-in CTA)
     {path:'', component:IndexOneComponent},
 
     // DISABLED: Alternative homepage layouts

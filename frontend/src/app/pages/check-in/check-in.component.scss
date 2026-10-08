@@ -1,3 +1,15 @@
+:host {
+  display: block;
+  font-family: Sora, "Corbel", "Segoe UI", sans-serif;
+}
+
+:host ::ng-deep h1,
+:host ::ng-deep h2,
+:host ::ng-deep h3,
+:host ::ng-deep h4 {
+  font-family: "Fraunces", "Faculty Glyphic", Georgia, serif;
+}
+
 // Check-in specific styles
 .check-in-container {
   min-height: 600px;

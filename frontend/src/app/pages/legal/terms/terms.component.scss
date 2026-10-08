@@ -1,17 +1,35 @@
+:host {
+  display: block;
+  font-family: Sora, "Corbel", "Segoe UI", sans-serif;
+}
+
+:host ::ng-deep h1,
+:host ::ng-deep h2,
+:host ::ng-deep h3,
+:host ::ng-deep h4 {
+  font-family: "Fraunces", "Faculty Glyphic", Georgia, serif;
+}
+
 .prose {
   h2 {
-    @apply text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4 first:mt-0;
+    @apply text-xl text-gray-900 dark:text-white mt-8 mb-4 first:mt-0;
+    font-family: "Fraunces", "Faculty Glyphic", Georgia, serif;
+    font-weight: 500;
   }
-  
+
   p {
     @apply text-gray-700 dark:text-gray-300 mb-4 leading-relaxed;
+    font-family: Sora, "Corbel", "Segoe UI", sans-serif;
+    font-weight: 300;
   }
-  
+
   ul {
     @apply list-disc list-inside mb-4 space-y-2;
-    
+
     li {
       @apply text-gray-700 dark:text-gray-300;
+      font-family: Sora, "Corbel", "Segoe UI", sans-serif;
+      font-weight: 300;
     }
   }
 }

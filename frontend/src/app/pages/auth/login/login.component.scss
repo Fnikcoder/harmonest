@@ -1,0 +1,51 @@
+:host {
+  display: block;
+  font-family: Sora, "Corbel", "Segoe UI", sans-serif;
+}
+
+:host ::ng-deep h5,
+:host ::ng-deep h1,
+:host ::ng-deep h2,
+:host ::ng-deep h3 {
+  font-family: "Fraunces", "Faculty Glyphic", Georgia, serif;
+}
+
+.login-page {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  padding: 5rem 0;
+  overflow: hidden;
+}
+
+.login-page__bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/images/property-showcase/entrance.png');
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.04);
+}
+
+.login-page__veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg, rgba(10, 9, 8, 0.72) 0%, rgba(28, 57, 187, 0.45) 55%, rgba(10, 9, 8, 0.7) 100%);
+}
+
+.login-page__card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 1.75rem;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 24px 60px rgba(10, 9, 8, 0.28);
+}
+
+.dark .login-page__card {
+  background: rgba(15, 23, 42, 0.94);
+}

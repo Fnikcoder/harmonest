@@ -1,11 +1,11 @@
-<section class="md:h-screen py-36 flex items-center relative overflow-hidden zoom-image">
-    <div class="absolute inset-0 image-wrap z-1 bg-[url('/assets/images/bg/6.jpg')] bg-no-repeat bg-center bg-cover"></div>
-    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black z-2" id="particles-snow"></div>
+<section class="login-page">
+    <div class="login-page__bg" aria-hidden="true"></div>
+    <div class="login-page__veil" aria-hidden="true"></div>
     <div class="container relative z-3">
         <div class="flex justify-center">
-            <div class="max-w-[400px] w-full m-auto p-6 bg-white dark:bg-slate-900 shadow-md dark:shadow-gray-700 rounded-md">
-                <a [routerLink]="'/'"><img [src]="'assets/images/branding/HarmoNest-18.png'" class="mx-auto" alt=""></a>
-                <h5 class="my-6 text-xl font-semibold">Login</h5>
+            <div class="login-page__card">
+                <a [routerLink]="'/'"><img [src]="'assets/images/branding/HarmoNest-18.png'" class="mx-auto" alt="HarmoNest"></a>
+                <h5 class="my-6 text-2xl font-medium text-center">Login</h5>
 
                 <!-- Error Message -->
                 <div *ngIf="error" class="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">

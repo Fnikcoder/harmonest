@@ -30,6 +30,8 @@ module.exports = {
             'corbel': ['"Corbel", "Segoe UI", sans-serif'],
             'dm_mono': ['"DM Mono", "Courier New", monospace'],
             'faculty_glyphic': ['"Faculty Glyphic", serif'],
+            'display': ['"Fraunces", "Faculty Glyphic", Georgia, serif'],
+            'sora': ['Sora, "Corbel", "Segoe UI", sans-serif'],
         },
 
 

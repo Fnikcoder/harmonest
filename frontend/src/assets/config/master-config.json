@@ -202,9 +202,9 @@
       "hero": {
         "title": "Welcome to HarmoNest",
         "subtitle": "Experience premium accommodations with seamless digital check-in",
-        "backgroundImage": "/assets/images/hero-bg.jpg",
-        "ctaText": "Book Your Stay",
-        "ctaLink": "/booking"
+        "backgroundImage": "/assets/images/property-showcase/entrance.png",
+        "ctaText": "Online Check-In",
+        "ctaLink": "/online-check-in"
       }
     },
     "localization": {

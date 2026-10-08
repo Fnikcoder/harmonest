@@ -153,6 +153,18 @@
                   </a>
                 </li>
 
+                <!-- KEEP: Legal -->
+                <li [ngClass]="manu === '/terms' ? 'active' : ''">
+                  <a [routerLink]="'/terms'" class="sub-menu-item">
+                    Terms
+                  </a>
+                </li>
+                <li [ngClass]="manu === '/privacy' ? 'active' : ''">
+                  <a [routerLink]="'/privacy'" class="sub-menu-item">
+                    Privacy
+                  </a>
+                </li>
+
                 <!-- Management Panel (Admin/Owner/Super Admin only) -->
                 <li *ngIf="isAuthenticated" [ngClass]="['/management'].includes(manu) ? 'active' : ''">
                   <a [routerLink]="'/management'" class="sub-menu-item">

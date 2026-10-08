@@ -25,9 +25,18 @@ html {
 html, body { height: 100%; }
 body {
   margin: 0;
-  font-family: var(--font-primary, "Corbel", "Segoe UI", sans-serif);
+  font-family: Sora, var(--font-primary, "Corbel", "Segoe UI", sans-serif);
   background-color: var(--color-background, #ffffff);
   color: var(--color-text-primary, #1d1d1b);
+}
+
+h1, h2, h3, h4, h5, h6,
+.font-display {
+  font-family: "Fraunces", "Faculty Glyphic", Georgia, serif;
+}
+
+.font-sora {
+  font-family: Sora, "Corbel", "Segoe UI", sans-serif;
 }
 
 /* Importing Bootstrap SCSS file. */
